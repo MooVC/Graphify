@@ -1,0 +1,31 @@
+﻿namespace Graphify.SequenceEqualityComparerGeneratorTests;
+
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Testing;
+using Graphify.Snippets.Declarations;
+
+public sealed class WhenExecuted
+{
+    private static readonly Type[] _generators =
+    [
+        typeof(HashCodeGenerator),
+        typeof(SequenceEqualityComparerGenerator),
+    ];
+
+    [Theory]
+    [Frameworks]
+    public async Task GivenAnAssemblyThenTheClassIsGenerated(ReferenceAssemblies assemblies, LanguageVersion language)
+    {
+        // Arrange
+        var test = new GeneratorTest<SequenceEqualityComparerGenerator>(assemblies, language, generators: _generators);
+
+        Internal.HashCode.IsExpectedIn(test.TestState);
+        Internal.SequenceEqualityComparer.IsExpectedIn(test.TestState);
+
+        // Act
+        Func<Task> act = () => test.RunAsync();
+
+        // Assert
+        await act.ShouldNotThrowAsync();
+    }
+}

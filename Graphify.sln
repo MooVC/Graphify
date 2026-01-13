@@ -1,0 +1,111 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11222.15 d18.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Actions", "Actions", "{0D4D9A28-3FD6-4824-8E13-E96B8706D5D5}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\cd.yml = .github\workflows\cd.yml
+		.github\workflows\ci.yml = .github\workflows\ci.yml
+		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzers", "Analyzers", "{69C42B00-41DB-42A0-8DD7-ED9D56C008DF}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		analyzers\code.ruleset = analyzers\code.ruleset
+		analyzers\tests.ruleset = analyzers\tests.ruleset
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{789EE2EF-BD9C-425D-8A88-E4E833E8A99B}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+		build\Libraries.props = build\Libraries.props
+		build\Roslyn.props = build\Roslyn.props
+		build\Tests.props = build\Tests.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{3F85F26E-E1E6-4DFE-A4F8-C71ADCB466F0}"
+	ProjectSection(SolutionItems) = preProject
+		AGENTS.md = AGENTS.md
+		CHANGELOG.md = CHANGELOG.md
+		.github\CODE_OF_CONDUCT.md = .github\CODE_OF_CONDUCT.md
+		.github\CONTRIBUTING.md = .github\CONTRIBUTING.md
+		LICENSE = LICENSE
+		README.md = README.md
+		.github\SECURITY.md = .github\SECURITY.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{A16330F6-615C-4E10-975E-C840D716A264}"
+	ProjectSection(SolutionItems) = preProject
+		.github\ISSUE_TEMPLATE\bug_report.md = .github\ISSUE_TEMPLATE\bug_report.md
+		.github\ISSUE_TEMPLATE\feature_request.md = .github\ISSUE_TEMPLATE\feature_request.md
+		.github\pull_request_template.md = .github\pull_request_template.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Configuration", "Configuration", "{30F119A1-6E73-4B71-89AF-18E2834E1A59}"
+	ProjectSection(SolutionItems) = preProject
+		.filenesting.json = .filenesting.json
+		.gitignore = .gitignore
+		.runsettings = .runsettings
+		codecov.yml = codecov.yml
+		.github\CODEOWNERS = .github\CODEOWNERS
+		nuget.config = nuget.config
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Rules", "Rules", "{DF5E2435-C5BD-47B6-A6F6-7F31BB639562}"
+	ProjectSection(SolutionItems) = preProject
+		docs\rules\MONFY01.md = docs\rules\MONFY01.md
+		docs\rules\MONFY02.md = docs\rules\MONFY02.md
+		docs\rules\MONFY03.md = docs\rules\MONFY03.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Code", "Code", "{1084FFCE-133D-4FEE-894B-4E55AC4D1606}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F0EC512E-011B-4DBD-9B74-AD1C8BAE0B7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graphify", "src\Graphify\Graphify.csproj", "{09BB4BC0-9580-12AA-6B73-606D99CC2FAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graphify.Console", "src\Graphify.Console\Graphify.Console.csproj", "{5B598FB3-9F0B-7AB2-F9A0-9C96A9A73FD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graphify.Console.Tests", "src\Graphify.Console.Tests\Graphify.Console.Tests.csproj", "{65CBC32D-16EF-9F49-369E-E2E56E7ECE01}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graphify.Tests", "src\Graphify.Tests\Graphify.Tests.csproj", "{60CDB5F7-A429-7B1C-E549-313FE096B2DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{09BB4BC0-9580-12AA-6B73-606D99CC2FAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09BB4BC0-9580-12AA-6B73-606D99CC2FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09BB4BC0-9580-12AA-6B73-606D99CC2FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09BB4BC0-9580-12AA-6B73-606D99CC2FAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B598FB3-9F0B-7AB2-F9A0-9C96A9A73FD4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B598FB3-9F0B-7AB2-F9A0-9C96A9A73FD4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B598FB3-9F0B-7AB2-F9A0-9C96A9A73FD4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B598FB3-9F0B-7AB2-F9A0-9C96A9A73FD4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65CBC32D-16EF-9F49-369E-E2E56E7ECE01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65CBC32D-16EF-9F49-369E-E2E56E7ECE01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65CBC32D-16EF-9F49-369E-E2E56E7ECE01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65CBC32D-16EF-9F49-369E-E2E56E7ECE01}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60CDB5F7-A429-7B1C-E549-313FE096B2DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60CDB5F7-A429-7B1C-E549-313FE096B2DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60CDB5F7-A429-7B1C-E549-313FE096B2DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60CDB5F7-A429-7B1C-E549-313FE096B2DD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{09BB4BC0-9580-12AA-6B73-606D99CC2FAE} = {1084FFCE-133D-4FEE-894B-4E55AC4D1606}
+		{5B598FB3-9F0B-7AB2-F9A0-9C96A9A73FD4} = {F0EC512E-011B-4DBD-9B74-AD1C8BAE0B7E}
+		{65CBC32D-16EF-9F49-369E-E2E56E7ECE01} = {F0EC512E-011B-4DBD-9B74-AD1C8BAE0B7E}
+		{60CDB5F7-A429-7B1C-E549-313FE096B2DD} = {F0EC512E-011B-4DBD-9B74-AD1C8BAE0B7E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F57E527B-EE0A-4B33-9C12-9539A89AEC0C}
+	EndGlobalSection
+EndGlobal

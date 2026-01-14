@@ -17,12 +17,13 @@ This repository hosts **Graphify**, a .NET source generator and analyzers soluti
 
 The project enforces strong C# coding conventions through `.editorconfig`, [StyleCop Analyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers), and [SonarAnalyzer for C#](https://github.com/SonarSource/sonar-dotnet). Key points from the [Contributing guide](.github/CONTRIBUTING.md):
 
-- Prefer **file-scoped namespaces**.
+- Prefer **block-scoped namespaces**.
 - Follow Microsoft naming guidelines (PascalCase for types and members, camelCase for locals/parameters, prefix interfaces with `I`).
 - Seal classes when extension is not intended.
 - Use discards (`_`) for unused values.
 - Organize extension methods so each file is named `{TypeName}Extensions.{MethodName}.cs`.
 - Use resource files for all user-facing strings with names `{TypeName}.Resources.{locale}.resx` and keys formatted as `{Context}{Subject}{Purpose}`.
+- Avoid placing a newline character at the end of files.
 - Avoid `#region` pragmas.
 - Avoid abrieviations in names, except for well-known acronyms (e.g., `Http`, `Xml`).
 - Avoid single-letter names, even for loop variables.

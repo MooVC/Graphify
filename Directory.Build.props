@@ -2,7 +2,7 @@
   <PropertyGroup>
     <AnalysisMode>Recommended</AnalysisMode>
     <Authors>Paul Martins</Authors>
-    <Copyright>Paul Martins © 2025-$([System.DateTime]::Now.Year)</Copyright>
+    <Copyright>Paul Martins © 2026-$([System.DateTime]::Now.Year)</Copyright>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>latest</LangVersion>

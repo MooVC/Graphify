@@ -1,5 +1,5 @@
 <!-- omit in toc -->
-# Contributing to Monify
+# Contributing to Graphify
 
 First off, thanks for taking the time to contribute! ❤️
 
@@ -28,11 +28,11 @@ All types of contributions are encouraged and valued. See the [Table of Contents
 
 > If you want to ask a question, we assume that you have read the available [Documentation](README.md).
 
-Before you ask a question, it is best to search for existing [Issues](https://github.com/MooVC/Monify/issues) that might help you. In case you have found a suitable issue and still need clarification, you can write your question in this issue. It is also advisable to search the internet for answers first.
+Before you ask a question, it is best to search for existing [Issues](https://github.com/MooVC/Graphify/issues) that might help you. In case you have found a suitable issue and still need clarification, you can write your question in this issue. It is also advisable to search the internet for answers first.
 
 If you then still feel the need to ask a question and need clarification, we recommend the following:
 
-- Open an [Issue](https://github.com/MooVC/Monify/issues/new).
+- Open an [Issue](https://github.com/MooVC/Graphify/issues/new).
 - Provide as much context as you can about what you're running into.
 - Provide project and platform versions, depending on what seems relevant.
 
@@ -52,7 +52,7 @@ A good bug report shouldn't leave others needing to chase you up for more inform
 
 - Make sure that you are using the latest version.
 - Determine if your bug is really a bug and not an error on your side e.g. using incompatible environment components/versions (Make sure that you have read the [documentation](README.md). If you are looking for support, you might want to check [this section](#i-have-a-question)).
-- To see if other users have experienced (and potentially already solved) the same issue you are having, check if there is not already a bug report existing for your bug or error in the [bug tracker](https://github.com/MooVC/Monify/issues?q=label%3Abug).
+- To see if other users have experienced (and potentially already solved) the same issue you are having, check if there is not already a bug report existing for your bug or error in the [bug tracker](https://github.com/MooVC/Graphify/issues?q=label%3Abug).
 - Also make sure to search the internet (including Stack Overflow) to see if users outside of the GitHub community have discussed the issue.
 - Collect information about the bug:
   - Stack trace (Traceback)
@@ -64,11 +64,11 @@ A good bug report shouldn't leave others needing to chase you up for more inform
 <!-- omit in toc -->
 #### How Do I Submit a Good Bug Report?
 
-> You must never report security related issues, vulnerabilities or bugs including sensitive information to the issue tracker, or elsewhere in public. Instead sensitive bugs must be reported [here](https://github.com/MooVC/Monify/security).
+> You must never report security related issues, vulnerabilities or bugs including sensitive information to the issue tracker, or elsewhere in public. Instead sensitive bugs must be reported [here](https://github.com/MooVC/Graphify/security).
 
 We use GitHub issues to track bugs and errors. If you run into an issue with the project:
 
-- Open an [Issue](https://github.com/MooVC/Monify/issues/new). (Since we can't be sure at this point whether it is a bug or not, we ask you not to talk about a bug yet and not to label the issue.)
+- Open an [Issue](https://github.com/MooVC/Graphify/issues/new). (Since we can't be sure at this point whether it is a bug or not, we ask you not to talk about a bug yet and not to label the issue.)
 - Explain the behavior you would expect and the actual behavior.
 - Please provide as much context as possible and describe the *reproduction steps* that someone else can follow to recreate the issue on their own. This usually includes your code. For good bug reports you should isolate the problem and create a reduced test case.
 - Provide the information you collected in the previous section.
@@ -81,32 +81,32 @@ Once it's filed:
 
 ### Suggesting Enhancements
 
-This section guides you through submitting an enhancement suggestion for Monify, **including completely new features and minor improvements to existing functionality**. Following these guidelines will help maintainers and the community to understand your suggestion and find related suggestions.
+This section guides you through submitting an enhancement suggestion for Graphify, **including completely new features and minor improvements to existing functionality**. Following these guidelines will help maintainers and the community to understand your suggestion and find related suggestions.
 
 <!-- omit in toc -->
 #### Before Submitting an Enhancement
 
 - Make sure that you are using the latest version.
-- Read the [documentation](https://github.com/MooVC/Monify/blob/master/README.md) carefully and find out if the functionality is already covered, maybe by an individual configuration.
-- Perform a [search](https://github.com/MooVC/Monify/issues) to see if the enhancement has already been suggested. If it has, add a comment to the existing issue instead of opening a new one.
+- Read the [documentation](https://github.com/MooVC/Graphify/blob/master/README.md) carefully and find out if the functionality is already covered, maybe by an individual configuration.
+- Perform a [search](https://github.com/MooVC/Graphify/issues) to see if the enhancement has already been suggested. If it has, add a comment to the existing issue instead of opening a new one.
 - Find out whether your idea fits with the scope and aims of the project. It's up to you to make a strong case to convince the project's developers of the merits of this feature. Keep in mind that we want features that will be useful to the majority of our users and not just a small subset. If you're just targeting a minority of users, consider writing an add-on/plugin library.
 
 <!-- omit in toc -->
 #### How Do I Submit a Good Enhancement Suggestion?
 
-Enhancement suggestions are tracked as [GitHub issues](https://github.com/MooVC/Monify/issues).
+Enhancement suggestions are tracked as [GitHub issues](https://github.com/MooVC/Graphify/issues).
 
 - Use a **clear and descriptive title** for the issue to identify the suggestion.
 - Provide a **step-by-step description of the suggested enhancement** in as many details as possible.
 - **Describe the current behavior** and **explain which behavior you expected to see instead** and why. At this point you can also tell which alternatives do not work for you.
 - You may want to **include screenshots and animated GIFs** which help you demonstrate the steps or point out the part which the suggestion is related to. You can use [this tool](https://www.cockos.com/licecap/) to record GIFs on macOS and Windows, and [this tool](https://github.com/colinkeenan/silentcast) or [this tool](https://github.com/GNOME/byzanz) on Linux.
-- **Explain why this enhancement would be useful** to most Monify users. You may also want to point out the other projects that solved it better and which could serve as inspiration.
+- **Explain why this enhancement would be useful** to most Graphify users. You may also want to point out the other projects that solved it better and which could serve as inspiration.
 
 ### Your First Code Contribution
 
 #### 1. Fork the Repository
 
-- Visit the Monify GitHub repository.
+- Visit the Graphify GitHub repository.
 - Click on the "Fork" button to create your own copy of the repository.
 
 #### 2. Clone the Repository
@@ -114,8 +114,8 @@ Enhancement suggestions are tracked as [GitHub issues](https://github.com/MooVC/
 Clone your forked repository to your local machine using the following command:
 
 ```shell
-git clone https://github.com/your-username/Monify.git
-cd Monify
+git clone https://github.com/your-username/Graphify.git
+cd Graphify
 ```
 
 Replace `your-username` with your GitHub username.
@@ -124,13 +124,13 @@ Replace `your-username` with your GitHub username.
 
 Ensure you have the following installed:
 
-- **.NET SDK**: Monify is built on .NET, so you'll need the .NET SDK installed. You can download it from the [official .NET website](https://dotnet.microsoft.com/download).
+- **.NET SDK**: Graphify is built on .NET, so you'll need the .NET SDK installed. You can download it from the [official .NET website](https://dotnet.microsoft.com/download).
 - **IDE**: We recommend using Visual Studio or Visual Studio Code for development. Ensure that your IDE is set up to work with .NET projects.
-- **Roslyn Analyzer SDK**: Since Monify is a Roslyn Source Generator, you may need the Roslyn Analyzer SDK for testing and debugging source generators.
+- **Roslyn Analyzer SDK**: Since Graphify is a Roslyn Source Generator, you may need the Roslyn Analyzer SDK for testing and debugging source generators.
 
 #### 4. Install Dependencies
 
-Navigate to the Monify directory and restore the necessary NuGet packages:
+Navigate to the Graphify directory and restore the necessary NuGet packages:
 
 ```shell
 dotnet restore
@@ -183,27 +183,27 @@ All tests should pass if the setup is correct.
 
 #### 9. Create a Pull Request
 
-- Go to the Monify repository on GitHub.
+- Go to the Graphify repository on GitHub.
 - You should see an option to create a pull request from your recently pushed branch.
 - Provide a descriptive title and include any necessary details about your contribution.
 - Submit the pull request for review.
 
 ### Improving The Documentation
 
-Contributions to the documentation are crucial in making Monify more accessible and useful to everyone. While the [README.md](README.md) provides basic usage examples, there is significant potential for improvement.
+Contributions to the documentation are crucial in making Graphify more accessible and useful to everyone. While the [README.md](README.md) provides basic usage examples, there is significant potential for improvement.
 
 All public and internal methods in the code are commented to aid in the extension and maintenance of the library. However, a dedicated contributor's guide would be a valuable addition to help new contributors navigate the project more effectively.
 
 ## Styleguides
 
-To ensure consistency and maintainability across the Monify codebase, we follow a set of style guidelines based on the [Microsoft .NET Code Conventions](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions). Adhering to these guidelines is essential when contributing to the project. The [.editorconfig](https://github.com/MooVC/Monify/blob/master/.editorconfig), along with the [StyleCop.Analyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers) and [SonarAnalyzer.CSharp](https://www.nuget.org/packages/SonarAnalyzer.CSharp) have been configured to aid constributors in adherence. Please review all feedback provided by them, including the suggestions. Below are some of the key points:
+To ensure consistency and maintainability across the Graphify codebase, we follow a set of style guidelines based on the [Microsoft .NET Code Conventions](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions). Adhering to these guidelines is essential when contributing to the project. The [.editorconfig](https://github.com/MooVC/Graphify/blob/master/.editorconfig), along with the [StyleCop.Analyzers](https://github.com/DotNetAnalyzers/StyleCopAnalyzers) and [SonarAnalyzer.CSharp](https://www.nuget.org/packages/SonarAnalyzer.CSharp) have been configured to aid constributors in adherence. Please review all feedback provided by them, including the suggestions. Below are some of the key points:
 
 ### 1. C# Coding Conventions
 
 - **File-Scoped Namespaces**: Use file-scoped namespaces to reduce indentation and improve readability.
 
   ```csharp
-  namespace Monify;
+  namespace Graphify;
   ```
 
 - **Naming Conventions**:
@@ -289,7 +289,7 @@ To ensure consistency and maintainability across the Monify codebase, we follow 
   - Maintain a consistent code layout with proper spacing, alignment.
   - Never  use of regions.
   
-By following these style guidelines, we ensure that the Monify codebase remains clean, consistent, and easy to maintain. Contributions that align with these practices are more likely to be accepted and integrated into the project.
+By following these style guidelines, we ensure that the Graphify codebase remains clean, consistent, and easy to maintain. Contributions that align with these practices are more likely to be accepted and integrated into the project.
 
 <!-- omit in toc -->
 ## Attribution

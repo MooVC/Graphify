@@ -26,4 +26,4 @@ Please provide any additional comments, questions, or concerns regarding this PR
 
 ---
 
-Thank you for your contribution to Monify!
+Thank you for your contribution to Graphify!

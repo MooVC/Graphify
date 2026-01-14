@@ -1,7 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Description>Graphify, a .NET Roslyn source generator, automates the creation of strongly-typed wrappers around single values, improving semantic clarity, type safety, and maintainability.</Description>
-    <LangVersion>11.0</LangVersion>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <Description>Graphify, a .NET Roslyn source generator, allows for the efficient navigation of a class hierarchy, without the use of reflection.</Description>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <LangVersion>7.3</LangVersion>
+    <Nullable>disable</Nullable>
+    <Version>1.0.0-unstable</Version>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <!--<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludeReferenceDependencies</TargetsForTfmSpecificContentInPackage>-->
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Valuify">
@@ -15,6 +21,21 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AttributeAnalyzer.Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="AttributeGenerator.Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>AttributeGenerator.Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="IgnoreAttributeGenerator.Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IgnoreAttributeGenerator.Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="TypeGenerator.Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>TypeGenerator.Resources.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Collections.Immutable" />
@@ -22,5 +43,20 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AttributeAnalyzer.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="AttributeGenerator.Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AttributeGenerator.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="IgnoreAttributeGenerator.Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IgnoreAttributeGenerator.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="TypeGenerator.Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TypeGenerator.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Strategies\" />
   </ItemGroup>
 </Project>

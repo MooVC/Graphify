@@ -15,7 +15,7 @@ env:
   configuration: 'Release'
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
   PACKAGE_ID: 'Monify'
-  solution: 'Monify.sln'
+  solution: 'Graphify.slnx'
 
 permissions:
   packages: write

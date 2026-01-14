@@ -17,7 +17,7 @@ on:
 env:
   configuration: 'Debug'
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
-  solution: 'Monify.sln'
+  solution: 'Graphify.slnx'
 
 permissions:
   contents: read

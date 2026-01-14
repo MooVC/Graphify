@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading;
     using Graphify.Model;
+    using Graphify.Strategies;
     using Graphify.Syntax;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -19,6 +20,7 @@
     {
         private static readonly IStrategy[] _strategies = new IStrategy[]
         {
+            new ClassStrategy(),
         };
 
         /// <inheritdoc/>

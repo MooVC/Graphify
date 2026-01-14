@@ -31,6 +31,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>IgnoreAttributeGenerator.Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Strategies\ClassStrategy.Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ClassStrategy.Resources.resx</DependentUpon>
+    </Compile>
     <Compile Update="TypeGenerator.Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -51,12 +56,13 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>IgnoreAttributeGenerator.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Strategies\ClassStrategy.Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ClassStrategy.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="TypeGenerator.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>TypeGenerator.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Strategies\" />
   </ItemGroup>
 </Project>

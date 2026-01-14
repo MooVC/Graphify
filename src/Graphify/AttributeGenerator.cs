@@ -22,7 +22,8 @@
         {
             context.RegisterSourceOutput(context.ParseOptionsProvider, (production, options) =>
             {
-                var text = SourceText.From(Content, Encoding.UTF8);
+                string code = string.Format(Content, Name);
+                var text = SourceText.From(code, Encoding.UTF8);
 
                 production.AddSource($"{Name}Attribute.g.cs", text);
             });

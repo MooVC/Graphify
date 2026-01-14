@@ -1,6 +1,8 @@
 ﻿namespace Graphify.Semantics
 {
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
+    using System.Collections.Immutable;
     using System.Linq;
     using Graphify.Model;
     using Microsoft.CodeAnalysis;
@@ -10,42 +12,54 @@
     /// </summary>
     internal static partial class INamedTypeSymbolExtensions
     {
-        private static IEnumerable<Property> GetAllProperties(this INamedTypeSymbol @class)
+        private static readonly ConcurrentDictionary<string, ImmutableArray<Property>> _cache
+            = new ConcurrentDictionary<string, ImmutableArray<Property>>();
+
+        private static ImmutableArray<Property> GetAllProperties(this INamedTypeSymbol @class)
         {
-            bool IsEnumerable(INamedTypeSymbol @interface)
-            {
-                return @interface.OriginalDefinition.SpecialType == SpecialType.System_Collections_Generic_IEnumerable_T
-                    || @interface.SpecialType == SpecialType.System_Collections_IEnumerable;
-            }
-
-            bool IsSequence(ITypeSymbol type)
-            {
-                return type.SpecialType != SpecialType.System_String && (type is IArrayTypeSymbol || type.AllInterfaces.Any(IsEnumerable));
-            }
-
             INamedTypeSymbol current = @class;
+            var all = new List<Property>();
 
             do
             {
-                IEnumerable<IPropertySymbol> properties = current
-                    .GetMembers()
-                    .OfType<IPropertySymbol>()
-                    .Where(property => !property.IsStatic && property.ExplicitInterfaceImplementations.Length == 0);
+                ImmutableArray<Property> properties = current.TryGetAllPropertiesFromCache();
 
-                foreach (IPropertySymbol property in properties)
+                foreach (Property property in properties)
                 {
-                    yield return new Property
-                    {
-                        IsIgnored = property.HasIgnore(),
-                        IsSequence = IsSequence(property.Type),
-                        Name = property.Name,
-                        Type = property.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                    };
+                    property.Properties = TryGetAllPropertiesFromCache(property.Symbol);
                 }
+
+                all.AddRange(properties);
 
                 current = current.BaseType;
             }
             while (current is object);
+
+            return all.ToImmutableArray();
+        }
+
+        private static ImmutableArray<Property> TryGetAllPropertiesFromCache(this ITypeSymbol type)
+        {
+            string key = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+
+            ImmutableArray<Property> GetProperties()
+            {
+                return type
+                    .GetMembers()
+                    .OfType<IPropertySymbol>()
+                    .Where(property => !property.IsStatic && property.ExplicitInterfaceImplementations.Length == 0)
+                    .Select(property => new Property
+                    {
+                        IsIgnored = property.HasIgnore(),
+                        IsSequence = property.Type.IsSequence(),
+                        Name = property.Name,
+                        Symbol = property.Type,
+                        Type = key,
+                    })
+                    .ToImmutableArray();
+            }
+
+            return _cache.GetOrAdd(key, _ => GetProperties());
         }
     }
 }

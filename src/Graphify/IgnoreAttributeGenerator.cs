@@ -30,7 +30,8 @@
 
         private static void Generate(IncrementalGeneratorPostInitializationContext context)
         {
-            var text = SourceText.From(Content, Encoding.UTF8);
+            string code = string.Format(Content, Name);
+            var text = SourceText.From(code, Encoding.UTF8);
 
             context.AddSource(Hint, text);
         }

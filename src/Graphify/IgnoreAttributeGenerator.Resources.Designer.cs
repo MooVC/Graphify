@@ -67,7 +67,7 @@ namespace Graphify {
         ///    using System.Diagnostics.CodeAnalysis;
         ///
         ///    [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-        ///    internal sealed class IgnoreAttribute
+        ///    public sealed class IgnoreAttribute
         ///        : Attribute
         ///    {
         ///    }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Graphify {
+namespace Graphify.Strategies {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Graphify {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class AttributeGenerator_Resources {
+    internal class ClassStrategy_Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal AttributeGenerator_Resources() {
+        internal ClassStrategy_Resources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Graphify {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.AttributeGenerator.Resources", typeof(AttributeGenerator_Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.Strategies.ClassStrategy.Resources", typeof(ClassStrategy_Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,21 +61,52 @@ namespace Graphify {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to namespace Graphify
+        ///   Looks up a localized string similar to namespace {0}
         ///{
-        ///    using System;
-        ///    using System.Diagnostics.CodeAnalysis;
-        ///
-        ///    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false, AllowMultiple = false)]
-        ///    public sealed class {0}Attribute
-        ///        : Attribute
+        ///    public sealed class {1}
         ///    {
+        ///        internal {1}({2} root, {3}{4} value)
+        ///        {{5}
+        ///            Root = root;
+        ///            Value = value;
+        ///        }
+        ///
+        ///        public {3} Root { get; private set; }
+        ///        {6}
+        ///        public {4} Value { get; private set; }
         ///    }
         ///}.
         /// </summary>
-        internal static string Content {
+        internal static string GenerateClassesContent {
             get {
-                return ResourceManager.GetString("Content", resourceCulture);
+                return ResourceManager.GetString("GenerateClassesContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} {1}, .
+        /// </summary>
+        internal static string GeneratePropertyContentArgument {
+            get {
+                return ResourceManager.GetString("GeneratePropertyContentArgument", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to             {0} = {1};.
+        /// </summary>
+        internal static string GeneratePropertyContentAssignment {
+            get {
+                return ResourceManager.GetString("GeneratePropertyContentAssignment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to         public {0} {1} { get; private set; };.
+        /// </summary>
+        internal static string GeneratePropertyContentDeclaration {
+            get {
+                return ResourceManager.GetString("GeneratePropertyContentDeclaration", resourceCulture);
             }
         }
     }

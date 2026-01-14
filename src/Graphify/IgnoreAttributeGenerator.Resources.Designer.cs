@@ -62,16 +62,16 @@ namespace Graphify {
         
         /// <summary>
         ///   Looks up a localized string similar to namespace Graphify
-        ///{
+        ///{{
         ///    using System;
         ///    using System.Diagnostics.CodeAnalysis;
         ///
         ///    [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
         ///    public sealed class IgnoreAttribute
         ///        : Attribute
-        ///    {
-        ///    }
-        ///}.
+        ///    {{
+        ///    }}
+        ///}}.
         /// </summary>
         internal static string Content {
             get {

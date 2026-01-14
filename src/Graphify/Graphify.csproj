@@ -21,10 +21,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>AttributeAnalyzer.Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="AttributeGenerator.Resources.Designer.cs">
+    <Compile Update="GraphifyAttributeGenerator.Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>AttributeGenerator.Resources.resx</DependentUpon>
+      <DependentUpon>GraphifyAttributeGenerator.Resources.resx</DependentUpon>
     </Compile>
     <Compile Update="IgnoreAttributeGenerator.Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -48,9 +48,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>AttributeAnalyzer.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="AttributeGenerator.Resources.resx">
+    <EmbeddedResource Update="GraphifyAttributeGenerator.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>AttributeGenerator.Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>GraphifyAttributeGenerator.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="IgnoreAttributeGenerator.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

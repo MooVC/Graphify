@@ -62,20 +62,20 @@ namespace Graphify.Strategies {
         
         /// <summary>
         ///   Looks up a localized string similar to namespace {0}
-        ///{
+        ///{{
         ///    public sealed class {1}
-        ///    {
+        ///    {{
         ///        internal {1}({2} root, {3}{4} value)
-        ///        {{5}
+        ///        {{{5}
         ///            Root = root;
         ///            Value = value;
-        ///        }
+        ///        }}
         ///
-        ///        public {3} Root { get; private set; }
+        ///        public {3} Root {{ get; private set; }}
         ///        {6}
-        ///        public {4} Value { get; private set; }
-        ///    }
-        ///}.
+        ///        public {4} Value {{ get; private set; }}
+        ///    }}
+        ///}}.
         /// </summary>
         internal static string GenerateClassesContent {
             get {
@@ -102,7 +102,7 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to         public {0} {1} { get; private set; };.
+        ///   Looks up a localized string similar to         public {0} {1} {{ get; private set; }};.
         /// </summary>
         internal static string GeneratePropertyContentDeclaration {
             get {

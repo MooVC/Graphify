@@ -2,7 +2,7 @@
 {
     using Microsoft.CodeAnalysis;
 
-    using static Graphify.AttributeGenerator;
+    using static Graphify.GraphifyAttributeGenerator;
 
     /// <summary>
     /// Provides extensions relating to <see cref="INamedTypeSymbol"/>.

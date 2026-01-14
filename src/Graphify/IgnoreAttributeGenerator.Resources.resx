@@ -119,15 +119,15 @@
   </resheader>
   <data name="Content" xml:space="preserve">
     <value>namespace Graphify
-{
+{{
     using System;
     using System.Diagnostics.CodeAnalysis;
 
     [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
     public sealed class IgnoreAttribute
         : Attribute
-    {
-    }
-}</value>
+    {{
+    }}
+}}</value>
   </data>
 </root>

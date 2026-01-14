@@ -18,7 +18,7 @@
         /// </returns>
         public static bool IsGraphify(this ISymbol subject)
         {
-            return subject.IsAttribute(AttributeGenerator.Name);
+            return subject.IsAttribute(GraphifyAttributeGenerator.Name);
         }
     }
 }

@@ -119,15 +119,21 @@
   </resheader>
   <data name="Content" xml:space="preserve">
     <value>namespace Graphify
-{
+{{
     using System;
     using System.Diagnostics.CodeAnalysis;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false, AllowMultiple = false)]
     public sealed class {0}Attribute
         : Attribute
-    {
-    }
-}</value>
+    {{
+        public {0}Attribute()
+        {{
+            Depth = 255;
+        }}
+
+        public byte Depth {{ get; set; }}
+    }}
+}}</value>
   </data>
 </root>

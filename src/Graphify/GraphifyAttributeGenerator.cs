@@ -3,13 +3,13 @@
     using System.Text;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.Text;
-    using static Graphify.AttributeGenerator_Resources;
+    using static Graphify.GraphifyAttributeGenerator_Resources;
 
     /// <summary>
     /// Generates the Graphify attribute, used to denote when a type should serve as a wrapper for a single value.
     /// </summary>
     [Generator(LanguageNames.CSharp)]
-    public sealed class AttributeGenerator
+    public sealed class GraphifyAttributeGenerator
         : IIncrementalGenerator
     {
         /// <summary>

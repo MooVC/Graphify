@@ -29,10 +29,10 @@
         {
             var reader = new StringReader(input);
             var builder = new StringBuilder();
-            string line;
+            string line = reader.ReadLine();
             int offset = 0;
 
-            while ((line = reader.ReadLine()) is object)
+            while (line is object)
             {
                 if (++offset > skip && !string.IsNullOrWhiteSpace(line))
                 {
@@ -41,6 +41,7 @@
 
                 builder = builder.Append(line);
                 builder = builder.AppendLine();
+                line = reader.ReadLine();
             }
 
             return builder

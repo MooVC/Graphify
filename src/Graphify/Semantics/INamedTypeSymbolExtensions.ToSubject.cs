@@ -39,10 +39,13 @@
 
             return new Subject
             {
+                Declaration = subject.GetDeclaration(),
                 Name = subject.Name,
                 Namespace = @namespace,
                 Nesting = nesting,
+                Properties = subject.GetProperties(),
                 Qualification = subject.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
+                Type = subject.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
             };
         }
     }

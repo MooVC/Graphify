@@ -62,9 +62,9 @@ namespace Graphify {
         
         /// <summary>
         ///   Looks up a localized string similar to {0} {1}
-        ///{
+        ///{{
         ///    {2}
-        ///}.
+        ///}}.
         /// </summary>
         internal static string NestContent {
             get {
@@ -94,9 +94,9 @@ namespace Graphify {
         
         /// <summary>
         ///   Looks up a localized string similar to namespace {0}
-        ///{
+        ///{{
         ///    {1}
-        ///}.
+        ///}}.
         /// </summary>
         internal static string WrapNamespace {
             get {

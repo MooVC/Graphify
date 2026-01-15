@@ -119,9 +119,9 @@
   </resheader>
   <data name="NestContent" xml:space="preserve">
     <value>{0} {1}
-{
+{{
     {2}
-}</value>
+}}</value>
   </data>
   <data name="WrapContent" xml:space="preserve">
     <value>using System;
@@ -139,8 +139,8 @@ using System.Collections.Generic;
   </data>
   <data name="WrapNamespace" xml:space="preserve">
     <value>namespace {0}
-{
+{{
     {1}
-}</value>
+}}</value>
   </data>
 </root>

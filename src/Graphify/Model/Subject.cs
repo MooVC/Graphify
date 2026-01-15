@@ -11,6 +11,14 @@
     internal sealed partial class Subject
     {
         /// <summary>
+        /// Gets or sets the kind associated with the type, be it a class, record etc.
+        /// </summary>
+        /// <value>
+        /// The kind associated with the type, be it a class, record etc.
+        /// </value>
+        public string Declaration { get; set; } = string.Empty;
+
+        /// <summary>
         /// Gets a value indicating whether or not the subject belongs to the global namespace.
         /// </summary>
         /// <value>
@@ -57,5 +65,13 @@
         /// The qualified name of the subject, which includes any generic arguments.
         /// </value>
         public string Qualification { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the fully qualified name of the property type.
+        /// </summary>
+        /// <value>
+        /// The fully qualified name of the property type.
+        /// </value>
+        public string Type { get; set; } = string.Empty;
     }
 }

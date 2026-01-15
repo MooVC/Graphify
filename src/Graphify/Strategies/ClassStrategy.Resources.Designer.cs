@@ -61,20 +61,17 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to namespace {0}
+        ///   Looks up a localized string similar to public sealed partial class {1}
         ///{{
-        ///    public sealed class {1}
-        ///    {{
-        ///        internal {1}({2} root, {3}{4} value)
-        ///        {{{5}
-        ///            Root = root;
-        ///            Value = value;
-        ///        }}
-        ///
-        ///        public {3} Root {{ get; private set; }}
-        ///        {6}
-        ///        public {4} Value {{ get; private set; }}
+        ///    internal {1}({2} root, {3}{4} value)
+        ///    {{{5}
+        ///        Root = root;
+        ///        Value = value;
         ///    }}
+        ///
+        ///    public {2} Root {{ get; private set; }}
+        ///{6}
+        ///    public {4} Value {{ get; private set; }}
         ///}}.
         /// </summary>
         internal static string GenerateClassesContent {
@@ -93,7 +90,7 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to             {0} = {1};.
+        ///   Looks up a localized string similar to         {0} = {1};.
         /// </summary>
         internal static string GeneratePropertyContentAssignment {
             get {
@@ -102,11 +99,23 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to         public {0} {1} {{ get; private set; }};.
+        ///   Looks up a localized string similar to     public {0} {1} {{ get; private set; }}.
         /// </summary>
         internal static string GeneratePropertyContentDeclaration {
             get {
                 return ResourceManager.GetString("GeneratePropertyContentDeclaration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to partial class {0}
+        ///{{
+        ///    {1}
+        ///}}.
+        /// </summary>
+        internal static string GenerateWrapperDeclarationsContent {
+            get {
+                return ResourceManager.GetString("GenerateWrapperDeclarationsContent", resourceCulture);
             }
         }
     }

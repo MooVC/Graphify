@@ -102,6 +102,9 @@
 
         private static string Nest(string code, Subject subject)
         {
+            code = string.Format(NestContent, "public static", "partial class Graph", code.Indent());
+            code = string.Format(NestContent, subject.Declaration, subject.Qualification, code.Indent());
+
             foreach (Nesting parent in subject.Nesting.Reverse())
             {
                 code = code.Indent();

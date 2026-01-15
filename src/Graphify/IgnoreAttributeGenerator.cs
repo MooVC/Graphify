@@ -3,7 +3,6 @@
     using System.Text;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.Text;
-    using static Graphify.IgnoreAttributeGenerator_Resources;
 
     /// <summary>
     /// Generates the Ignore attribute, used to denote when a property of a class should be ignored.
@@ -22,6 +21,14 @@
         /// </summary>
         internal const string Name = "Ignore";
 
+        /// <summary>
+        /// Gets the generated content as a formatted string for use by the ignore attribute generator.
+        /// </summary>
+        /// <value>
+        /// The generated content as a formatted string for use by the ignore attribute generator.
+        /// </value>
+        internal static string Content { get; } = string.Format(IgnoreAttributeGenerator_Resources.Content, Name);
+
         /// <inheritdoc/>
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
@@ -30,8 +37,7 @@
 
         private static void Generate(IncrementalGeneratorPostInitializationContext context)
         {
-            string code = string.Format(Content, Name);
-            var text = SourceText.From(code, Encoding.UTF8);
+            var text = SourceText.From(Content, Encoding.UTF8);
 
             context.AddSource(Hint, text);
         }

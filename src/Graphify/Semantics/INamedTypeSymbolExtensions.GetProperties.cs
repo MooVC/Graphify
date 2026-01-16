@@ -56,7 +56,9 @@
                 return type
                     .GetMembers()
                     .OfType<IPropertySymbol>()
-                    .Where(property => !(property.IsStatic || property.IsIndexer) && property.ExplicitInterfaceImplementations.Length == 0)
+                    .Where(property => !(property.IsStatic || property.IsIndexer)
+                                    && property.ExplicitInterfaceImplementations.Length == 0
+                                    && !property.Type.Equals(type, SymbolEqualityComparer.Default))
                     .Select(property => property.ToProperty())
                     .ToImmutableArray();
             }

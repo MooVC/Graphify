@@ -29,16 +29,17 @@
             return GenerateClasses(string.Empty, Array.Empty<Predecessor>(), subject.Properties, subject, 0);
         }
 
-        private static Predecessor[] AppendCurrentForNextTier(Predecessor[] preceding, int tier, Predecessor predecessor)
+        private static Predecessor[] AppendCurrentForNextTier(Predecessor[] preceding, int tier, params Predecessor[] predecessors)
         {
-            Predecessor[] pool = ArrayPool<Predecessor>.Shared.Rent(tier);
+            int length = tier + predecessors.Length - 1;
+            Predecessor[] pool = ArrayPool<Predecessor>.Shared.Rent(length);
 
             if (tier > 1)
             {
                 Array.Copy(preceding, pool, tier - 1);
             }
 
-            pool[tier - 1] = predecessor;
+            Array.Copy(predecessors, 0, pool, tier - 1, predecessors.Length);
 
             return pool;
         }
@@ -63,7 +64,7 @@
 
                 if (property.IsSequence)
                 {
-                    succeeding = GenerateClassForElement(assignments, body, property.Element, next, parameters, preceding, subject, tier, wrapper);
+                    succeeding = GenerateClassForElement(assignments, body, property.Element, next, parameters, preceding, property, subject, tier, wrapper);
                 }
 
                 succeeding = succeeding.Concat(GenerateClassesForProperty(next, preceding, property, subject, tier));
@@ -112,6 +113,7 @@
             string @namespace,
             string parameters,
             Predecessor[] preceding,
+            Property property,
             Subject subject,
             int tier,
             string wrapper)
@@ -133,9 +135,9 @@
 
             try
             {
-                pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(element));
+                pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
 
-                foreach (Source source in GenerateClasses(next, pool, element.Properties, subject, tier))
+                foreach (Source source in GenerateClasses(next, pool, element.Properties, subject, tier + 1))
                 {
                     yield return source;
                 }

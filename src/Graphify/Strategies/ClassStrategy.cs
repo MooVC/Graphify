@@ -252,10 +252,13 @@
 
             string previous = Declaration;
 
-            for (int index = tier - 2; index >= 0; index--)
+            int tiers = tier - 2;
+
+            for (int index = tiers; index >= 0; index--)
             {
                 Predecessor predecessor = preceding[index];
 
+                previous = previous.Indent();
                 previous = string.Format(GenerateWrapperDeclarationsContent, predecessor.Name, previous);
             }
 

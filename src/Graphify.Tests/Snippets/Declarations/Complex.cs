@@ -13,6 +13,7 @@ internal static partial class Complex
         [
             Expected.Age,
             Expected.Children,
+            Expected.ChildrenChild,
             Expected.ChildrenChildAge,
             Expected.ChildrenChildName,
             Expected.ChildrenChildNameLength,

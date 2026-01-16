@@ -30,6 +30,11 @@
         /// </returns>
         public static string Indent(this string input, int skip = 1, int times = 1, string whitespace = Default)
         {
+            if (times <= 0)
+            {
+                return input;
+            }
+
             if (times > 1)
             {
                 whitespace = GenerateWhitespace(times, whitespace);

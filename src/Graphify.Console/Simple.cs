@@ -1,4 +1,4 @@
-﻿namespace Graphify.Testing;
+﻿namespace Graphify.Console;
 
 /// <summary>
 /// Represents a simple entity with a name, age, and species information.

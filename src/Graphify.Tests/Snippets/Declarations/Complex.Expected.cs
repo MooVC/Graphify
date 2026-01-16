@@ -43,7 +43,7 @@ internal static partial class Complex
 
         public static readonly Generated Children = new(
             """
-                namespace Graphify.Console
+                namespace Graphify.Testing
                 {
                     using System;
                     using System.Collections.Generic;
@@ -58,15 +58,15 @@ internal static partial class Complex
                         {
                             public sealed partial class Children
                             {
-                                internal Children(global::Graphify.Console.Complex root, global::Graphify.Console.Child[] value)
+                                internal Children(global::Graphify.Testing.Complex root, global::Graphify.Testing.Child[] value)
                                 {
                                     Root = root;
                                     Value = value;
                                 }
 
-                                public global::Graphify.Console.Complex Root { get; private set; }
+                                public global::Graphify.Testing.Complex Root { get; private set; }
 
-                                public global::Graphify.Console.Child[] Value { get; private set; }
+                                public global::Graphify.Testing.Child[] Value { get; private set; }
                             }
                         }
                     }
@@ -80,7 +80,7 @@ internal static partial class Complex
 
         public static readonly Generated ChildrenChild = new(
             """
-                namespace Graphify.Console
+                namespace Graphify.Testing
                 {
                     using System;
                     using System.Collections.Generic;
@@ -93,23 +93,20 @@ internal static partial class Complex
                     {
                         public static partial class Graph
                         {
-                            partial class Children
+                            public sealed partial class Child
                             {
-                                public sealed partial class Child
+                                internal Child(int index, global::Graphify.Testing.Complex root, global::Graphify.Testing.Child value)
                                 {
-                                    internal Child(int index, global::Graphify.Console.Complex root, global::Graphify.Console.Child value)
-                                    {
-                                        Index = index;
-                                        Root = root;
-                                        Value = value;
-                                    }
-                
-                                    public int Index { get; private set; }
-                
-                                    public global::Graphify.Console.Complex Root { get; private set; }
-                
-                                    public global::Graphify.Console.Child Value { get; private set; }
+                                    Index = index;
+                                    Root = root;
+                                    Value = value;
                                 }
+
+                                public int Index { get; private set; }
+
+                                public global::Graphify.Testing.Complex Root { get; private set; }
+
+                                public global::Graphify.Testing.Child Value { get; private set; }
                             }
                         }
                     }
@@ -123,7 +120,7 @@ internal static partial class Complex
 
         public static readonly Generated ChildrenChildAge = new(
             """
-                namespace Graphify.Console
+                namespace Graphify.Testing
                 {
                     using System;
                     using System.Collections.Generic;
@@ -142,17 +139,20 @@ internal static partial class Complex
                                 {
                                     public sealed partial class Age
                                     {
-                                        internal Age(global::Graphify.Console.Complex root, global::Graphify.Console.Child child, int value)
+                                        internal Age(global::Graphify.Testing.Complex root, global::Graphify.Testing.Child[] children, global::Graphify.Testing.Child child, int value)
                                         {
+                                            Children = children;
                                             Child = child;
 
                                             Root = root;
                                             Value = value;
                                         }
 
-                                        public global::Graphify.Console.Complex Root { get; private set; }
+                                        public global::Graphify.Testing.Complex Root { get; private set; }
 
-                                        public global::Graphify.Console.Child Child { get; private set; }
+                                        public global::Graphify.Testing.Child[] Children { get; private set; }
+
+                                        public global::Graphify.Testing.Child Child { get; private set; }
 
                                         public int Value { get; private set; }
                                     }
@@ -170,7 +170,7 @@ internal static partial class Complex
 
         public static readonly Generated ChildrenChildName = new(
             """
-                namespace Graphify.Console
+                namespace Graphify.Testing
                 {
                     using System;
                     using System.Collections.Generic;
@@ -189,17 +189,20 @@ internal static partial class Complex
                                 {
                                     public sealed partial class Name
                                     {
-                                        internal Name(global::Graphify.Console.Complex root, global::Graphify.Console.Child child, string value)
+                                        internal Name(global::Graphify.Testing.Complex root, global::Graphify.Testing.Child[] children, global::Graphify.Testing.Child child, string value)
                                         {
+                                            Children = children;
                                             Child = child;
 
                                             Root = root;
                                             Value = value;
                                         }
 
-                                        public global::Graphify.Console.Complex Root { get; private set; }
+                                        public global::Graphify.Testing.Complex Root { get; private set; }
 
-                                        public global::Graphify.Console.Child Child { get; private set; }
+                                        public global::Graphify.Testing.Child[] Children { get; private set; }
+
+                                        public global::Graphify.Testing.Child Child { get; private set; }
 
                                         public string Value { get; private set; }
                                     }
@@ -217,7 +220,7 @@ internal static partial class Complex
 
         public static readonly Generated ChildrenChildNameLength = new(
             """
-                namespace Graphify.Console
+                namespace Graphify.Testing
                 {
                     using System;
                     using System.Collections.Generic;
@@ -238,8 +241,9 @@ internal static partial class Complex
                                     {
                                         public sealed partial class Length
                                         {
-                                            internal Length(global::Graphify.Console.Complex root, global::Graphify.Console.Child child, string name, int value)
+                                            internal Length(global::Graphify.Testing.Complex root, global::Graphify.Testing.Child[] children, global::Graphify.Testing.Child child, string name, int value)
                                             {
+                                                Children = children;
                                                 Child = child;
                                                 Name = name;
 
@@ -247,9 +251,11 @@ internal static partial class Complex
                                                 Value = value;
                                             }
 
-                                            public global::Graphify.Console.Complex Root { get; private set; }
+                                            public global::Graphify.Testing.Complex Root { get; private set; }
 
-                                            public global::Graphify.Console.Child Child { get; private set; }
+                                            public global::Graphify.Testing.Child[] Children { get; private set; }
+
+                                            public global::Graphify.Testing.Child Child { get; private set; }
 
                                             public string Name { get; private set; }
 

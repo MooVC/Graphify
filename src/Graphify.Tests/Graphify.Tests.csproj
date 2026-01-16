@@ -14,7 +14,4 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" PrivateAssets="all" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Snippets\" />
-  </ItemGroup>
 </Project>

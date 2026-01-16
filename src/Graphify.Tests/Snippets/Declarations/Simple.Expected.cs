@@ -15,7 +15,7 @@ internal static partial class Simple
                     #nullable disable
                     #endif
 
-                    sealed partial class Simple
+                    partial class Simple
                     {
                         public static partial class Graph
                         {
@@ -52,7 +52,7 @@ internal static partial class Simple
                     #nullable disable
                     #endif
 
-                    sealed partial class Simple
+                    partial class Simple
                     {
                         public static partial class Graph
                         {
@@ -89,7 +89,7 @@ internal static partial class Simple
                     #nullable disable
                     #endif
 
-                    sealed partial class Simple
+                    partial class Simple
                     {
                         public static partial class Graph
                         {
@@ -126,7 +126,7 @@ internal static partial class Simple
                     #nullable disable
                     #endif
 
-                    sealed partial class Simple
+                    partial class Simple
                     {
                         public static partial class Graph
                         {

@@ -4,6 +4,7 @@
     using System.Buffers;
     using System.Collections.Generic;
     using System.Collections.Immutable;
+    using System.Linq;
     using System.Text;
     using Graphify.Model;
     using static Graphify.Strategies.ClassStrategy_Resources;
@@ -28,7 +29,7 @@
             return GenerateClasses(string.Empty, Array.Empty<Predecessor>(), subject.Properties, subject, 0);
         }
 
-        private static Predecessor[] AppendCurrentPropertyForNextTier(Predecessor[] preceding, int tier, Predecessor predecessor)
+        private static Predecessor[] AppendCurrentForNextTier(Predecessor[] preceding, int tier, Predecessor predecessor)
         {
             Predecessor[] pool = ArrayPool<Predecessor>.Shared.Rent(tier);
 
@@ -58,12 +59,14 @@
             {
                 yield return GenerateClassForProperty(assignments, body, @namespace, parameters, property, subject, tier, wrapper, out string next);
 
+                IEnumerable<Source> succeeding = Enumerable.Empty<Source>();
+
                 if (property.IsSequence)
                 {
-                    yield return GenerateClassForElement(assignments, body, next, parameters, property.Element, subject, tier, wrapper);
+                    succeeding = GenerateClassForElement(assignments, body, property.Element, next, parameters, preceding, subject, tier, wrapper);
                 }
 
-                IEnumerable<Source> succeeding = GenerateClassesForProperty(next, preceding, property, subject, tier);
+                succeeding = succeeding.Concat(GenerateClassesForProperty(next, preceding, property, subject, tier));
 
                 foreach (Source source in succeeding)
                 {
@@ -102,17 +105,18 @@
             return new Source(code, next);
         }
 
-        private static Source GenerateClassForElement(
+        private static IEnumerable<Source> GenerateClassForElement(
             string assignments,
             string body,
+            Element element,
             string @namespace,
             string parameters,
-            Element element,
+            Predecessor[] preceding,
             Subject subject,
             int tier,
             string wrapper)
         {
-            return GenerateClass(
+            yield return GenerateClass(
                 assignments,
                 body,
                 element.Name,
@@ -123,7 +127,23 @@
                 tier,
                 element.Type,
                 wrapper,
-                out _);
+                out string next);
+
+            Predecessor[] pool = default;
+
+            try
+            {
+                pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(element));
+
+                foreach (Source source in GenerateClasses(next, pool, element.Properties, subject, tier))
+                {
+                    yield return source;
+                }
+            }
+            finally
+            {
+                ArrayPool<Predecessor>.Shared.Return(pool);
+            }
         }
 
         private static Source GenerateClassForProperty(
@@ -162,7 +182,7 @@
 
             try
             {
-                pool = AppendCurrentPropertyForNextTier(preceding, tier, Predecessor.From(property));
+                pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property));
 
                 foreach (Source succeeding in GenerateClasses(@namespace, pool, property.Properties, subject, tier))
                 {

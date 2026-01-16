@@ -13,18 +13,12 @@
         /// <param name="subject">
         /// The symbol for the type to be checked for Graphify support.
         /// </param>
-        /// <param name="isNesting">
-        /// A value indicating whether the <paramref name="subject"/> represents the nesting type.
-        /// </param>
         /// <returns>
         /// <see langword="true"/> if the type is annotated and partial, otherwise <see langword="false"/>.
         /// </returns>
-        /// <remarks>
-        /// When <paramref name="isNesting"/> is <see langword="true"/>, the <see langword="sealed"/> keyword will be omitted.
-        /// </remarks>
-        public static string GetDeclaration(this INamedTypeSymbol subject, bool isNesting = false)
+        public static string GetDeclaration(this INamedTypeSymbol subject)
         {
-            string prefix = subject.IdentifyPrefix(isNesting);
+            string prefix = subject.IdentifyPrefix();
             string type = subject.IdentifyType();
 
             return string
@@ -32,7 +26,7 @@
                 .TrimStart();
         }
 
-        private static string IdentifyPrefix(this INamedTypeSymbol symbol, bool isNesting)
+        private static string IdentifyPrefix(this INamedTypeSymbol symbol)
         {
             string @ref = symbol.IsRefLikeType
                 ? "ref"
@@ -42,12 +36,8 @@
                 ? "readonly"
                 : string.Empty;
 
-            string @sealed = symbol.TypeKind == TypeKind.Class && !isNesting
-                ? "sealed"
-                : string.Empty;
-
             return string
-                .Join(" ", @readonly, @ref, @sealed)
+                .Join(" ", @readonly, @ref)
                 .Trim();
         }
 

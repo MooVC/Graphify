@@ -5,16 +5,9 @@ using System.Collections.Immutable;
 [Graphify]
 internal sealed partial class Complex
 {
-    public string Age { get; set; } = string.Empty;
+    public int Age { get; set; }
 
-    public ImmutableArray<Child> Children { get; set; } = ImmutableArray<Child>.Empty;
+    public Child[] Children { get; set; } = Array.Empty<Child>();
 
     public string Name { get; set; } = string.Empty;
-
-    public sealed partial class Child
-    {
-        public int Age { get; set; }
-
-        public string Name { get; set; } = string.Empty;
-    }
 }

@@ -1,0 +1,243 @@
+﻿namespace Graphify.Strategies
+{
+    using System;
+    using System.Buffers;
+    using System.Collections.Generic;
+    using System.Collections.Immutable;
+    using System.Text;
+    using Graphify.Model;
+    using static Graphify.Strategies.ClassStrategy_Resources;
+
+    /// <summary>
+    /// Provides a strategy for generating classes that match each tier within the hierarchy that involve a sequence.
+    /// </summary>
+    internal sealed class ClassStrategy
+        : IStrategy
+    {
+        private const string Declaration = "__DECLARATION__";
+
+        /// <summary>
+        /// Generates a collection of source code representations for the specified subject and its properties.
+        /// </summary>
+        /// <param name="subject">The subject for which to generate source code. Cannot be <see langword="null"/>.</param>
+        /// <returns>
+        /// An enumerable collection of <see cref="Source"/> objects representing the generated source code for the subject and its properties.
+        /// </returns>
+        public IEnumerable<Source> GenerateClassesForSucceedng(Subject subject)
+        {
+            return GenerateClasses(string.Empty, Array.Empty<Predecessor>(), subject.Properties, subject, 0);
+        }
+
+        private static Predecessor[] AppendCurrentPropertyForNextTier(Predecessor[] preceding, int tier, Predecessor predecessor)
+        {
+            Predecessor[] pool = ArrayPool<Predecessor>.Shared.Rent(tier);
+
+            if (tier > 1)
+            {
+                Array.Copy(preceding, pool, tier - 1);
+            }
+
+            pool[tier - 1] = predecessor;
+
+            return pool;
+        }
+
+        private static IEnumerable<Source> GenerateClasses(
+            string @namespace,
+            Predecessor[] preceding,
+            ImmutableArray<Property> properties,
+            Subject subject,
+            int tier)
+        {
+            tier++;
+
+            string body = GeneratePropertyContent(preceding, tier, out string assignments, out string parameters);
+            string wrapper = GenerateWrapperDeclarations(preceding, tier);
+
+            foreach (Property property in properties)
+            {
+                yield return GenerateClassForProperty(assignments, body, @namespace, parameters, property, subject, tier, wrapper, out string next);
+
+                if (property.IsSequence)
+                {
+                    yield return GenerateClassForElement(assignments, body, next, parameters, property.Element, subject, tier, wrapper);
+                }
+
+                IEnumerable<Source> succeeding = GenerateClassesForProperty(next, preceding, property, subject, tier);
+
+                foreach (Source source in succeeding)
+                {
+                    yield return source;
+                }
+            }
+        }
+
+        private static Source GenerateClass(
+            string assignments,
+            string body,
+            string name,
+            string @namespace,
+            string parameters,
+            Subject subject,
+            string template,
+            int tier,
+            string type,
+            string wrapper,
+            out string next)
+        {
+            string code = string.Format(
+                template,
+                @namespace,
+                name,
+                subject.Type,
+                parameters,
+                type,
+                assignments,
+                body);
+
+            code = ApplyWrapper(code, wrapper, tier);
+
+            next = $"{@namespace}.{name}";
+
+            return new Source(code, next);
+        }
+
+        private static Source GenerateClassForElement(
+            string assignments,
+            string body,
+            string @namespace,
+            string parameters,
+            Element element,
+            Subject subject,
+            int tier,
+            string wrapper)
+        {
+            return GenerateClass(
+                assignments,
+                body,
+                element.Name,
+                @namespace,
+                parameters,
+                subject,
+                GenerateClassForElementContent,
+                tier,
+                element.Type,
+                wrapper,
+                out _);
+        }
+
+        private static Source GenerateClassForProperty(
+            string assignments,
+            string body,
+            string @namespace,
+            string parameters,
+            Property property,
+            Subject subject,
+            int tier,
+            string wrapper,
+            out string next)
+        {
+            return GenerateClass(
+                assignments,
+                body,
+                property.Name,
+                @namespace,
+                parameters,
+                subject,
+                GenerateClassForPropertyContent,
+                tier,
+                property.Type,
+                wrapper,
+                out next);
+        }
+
+        private static IEnumerable<Source> GenerateClassesForProperty(
+            string @namespace,
+            Predecessor[] preceding,
+            Property property,
+            Subject subject,
+            int tier)
+        {
+            Predecessor[] pool = default;
+
+            try
+            {
+                pool = AppendCurrentPropertyForNextTier(preceding, tier, Predecessor.From(property));
+
+                foreach (Source succeeding in GenerateClasses(@namespace, pool, property.Properties, subject, tier))
+                {
+                    yield return succeeding;
+                }
+            }
+            finally
+            {
+                ArrayPool<Predecessor>.Shared.Return(pool);
+            }
+        }
+
+        private static string ApplyWrapper(string code, string wrapper, int tier)
+        {
+            if (tier == 1)
+            {
+                return code;
+            }
+
+            code = code.Indent(times: tier - 1);
+
+            return wrapper.Replace(Declaration, code);
+        }
+
+        private static string GeneratePropertyContent(Predecessor[] preceding, int tier, out string assignments, out string parameters)
+        {
+            if (tier == 1)
+            {
+                assignments = string.Empty;
+                parameters = string.Empty;
+
+                return string.Empty;
+            }
+
+            var arguments = new StringBuilder();
+            var constructor = new StringBuilder();
+            var declarations = new StringBuilder();
+
+            _ = constructor.AppendLine();
+
+            for (int index = 0; index < (tier - 1); index++)
+            {
+                Predecessor predecessor = preceding[index];
+
+                _ = arguments.Append(string.Format(GeneratePropertyContentArgument, predecessor.Type, predecessor.Name.ToLowerInvariant()));
+                _ = constructor.AppendLine(string.Format(GeneratePropertyContentAssignment, predecessor.Name, predecessor.Name.ToLowerInvariant()));
+
+                _ = declarations
+                    .AppendLine()
+                    .AppendLine(string.Format(GeneratePropertyContentDeclaration, predecessor.Type, predecessor.Name));
+            }
+
+            assignments = constructor.ToString();
+            parameters = arguments.ToString();
+
+            return declarations.ToString();
+        }
+
+        private static string GenerateWrapperDeclarations(Predecessor[] preceding, int tier)
+        {
+            if (tier == 1)
+            {
+                return string.Empty;
+            }
+
+            string previous = Declaration;
+
+            for (int index = tier - 2; index >= 0; index--)
+            {
+                Predecessor predecessor = preceding[index];
+
+                previous = string.Format(GenerateWrapperDeclarationsContent, predecessor.Name, previous);
+            }
+
+            return previous;
+        }
+    }
+}

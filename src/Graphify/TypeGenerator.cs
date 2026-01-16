@@ -20,7 +20,7 @@
     {
         private static readonly IStrategy[] _strategies = new IStrategy[]
         {
-            new PropertyStrategy(),
+            new ClassStrategy(),
         };
 
         /// <inheritdoc/>

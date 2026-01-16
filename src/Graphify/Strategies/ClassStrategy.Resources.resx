@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GenerateClassesContent" xml:space="preserve">
+  <data name="GenerateClassForPropertyContent" xml:space="preserve">
     <value>public sealed partial class {1}
 {{
     internal {1}({2} root, {3}{4} value)
@@ -144,6 +144,23 @@
     <value>partial class {0}
 {{
     {1}
+}}</value>
+  </data>
+  <data name="GenerateClassForElementContent" xml:space="preserve">
+    <value>public sealed partial class {1}
+{{
+    internal {1}(int index, {2} root, {3}{4} value)
+    {{{5}
+        Index = index;
+        Root = root;
+        Value = value;
+    }}
+
+    public int Index {{ get; private set; }}
+
+    public {2} Root {{ get; private set; }}
+{6}
+    public {4} Value {{ get; private set; }}
 }}</value>
   </data>
 </root>

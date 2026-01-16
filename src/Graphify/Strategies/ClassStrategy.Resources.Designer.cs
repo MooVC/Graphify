@@ -22,14 +22,14 @@ namespace Graphify.Strategies {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PropertyStrategy_Resources {
+    internal class ClassStrategy_Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal PropertyStrategy_Resources() {
+        internal ClassStrategy_Resources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Graphify.Strategies {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.Strategies.PropertyStrategy.Resources", typeof(PropertyStrategy_Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.Strategies.ClassStrategy.Resources", typeof(ClassStrategy_Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,6 +63,29 @@ namespace Graphify.Strategies {
         /// <summary>
         ///   Looks up a localized string similar to public sealed partial class {1}
         ///{{
+        ///    internal {1}(int index, {2} root, {3}{4} value)
+        ///    {{{5}
+        ///        Index = index;
+        ///        Root = root;
+        ///        Value = value;
+        ///    }}
+        ///
+        ///    public int Index {{ get; private set; }}
+        ///
+        ///    public {2} Root {{ get; private set; }}
+        ///{6}
+        ///    public {4} Value {{ get; private set; }}
+        ///}}.
+        /// </summary>
+        internal static string GenerateClassForElementContent {
+            get {
+                return ResourceManager.GetString("GenerateClassForElementContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to public sealed partial class {1}
+        ///{{
         ///    internal {1}({2} root, {3}{4} value)
         ///    {{{5}
         ///        Root = root;
@@ -74,9 +97,9 @@ namespace Graphify.Strategies {
         ///    public {4} Value {{ get; private set; }}
         ///}}.
         /// </summary>
-        internal static string GenerateClassesContent {
+        internal static string GenerateClassForPropertyContent {
             get {
-                return ResourceManager.GetString("GenerateClassesContent", resourceCulture);
+                return ResourceManager.GetString("GenerateClassForPropertyContent", resourceCulture);
             }
         }
         

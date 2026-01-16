@@ -57,14 +57,7 @@
                     .GetMembers()
                     .OfType<IPropertySymbol>()
                     .Where(property => !(property.IsStatic || property.IsIndexer) && property.ExplicitInterfaceImplementations.Length == 0)
-                    .Select(property => new Property
-                    {
-                        IsIgnored = property.HasIgnore(),
-                        IsSequence = property.Type.IsSequence(),
-                        Name = property.Name,
-                        Symbol = property.Type,
-                        Type = property.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
-                    })
+                    .Select(property => property.ToProperty())
                     .ToImmutableArray();
             }
 

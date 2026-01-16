@@ -20,7 +20,7 @@
     {
         private static readonly IStrategy[] _strategies = new IStrategy[]
         {
-            new ClassStrategy(),
+            new PropertyStrategy(),
         };
 
         /// <inheritdoc/>
@@ -51,7 +51,7 @@
 
             foreach (IStrategy strategy in _strategies)
             {
-                IEnumerable<Source> sources = strategy.Generate(subject);
+                IEnumerable<Source> sources = strategy.GenerateClassesForSucceedng(subject);
 
                 foreach (Source source in sources)
                 {

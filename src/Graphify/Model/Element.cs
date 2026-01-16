@@ -5,36 +5,12 @@
     using Valuify;
 
     /// <summary>
-    /// The definition of the <see cref="Property"/> type, which is used to capture information relating to a property that
+    /// The definition of the <see cref="Element"/> type, which is used to capture information relating to a Element that
     /// forms part of the equality calculation for the type.
     /// </summary>
     [Valuify]
-    internal sealed partial class Property
+    internal sealed partial class Element
     {
-        /// <summary>
-        /// Gets or sets the element type when the property is a collection.
-        /// </summary>
-        /// <value>
-        /// The element type when the property is a collection.
-        /// </value>
-        public Element Element { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether or not the property is marked as ignored.
-        /// </summary>
-        /// <value>
-        /// The value indicating whether or not the property is marked as ignored.
-        /// </value>
-        public bool IsIgnored { get; set; }
-
-        /// <summary>
-        /// Gets a value indicating whether or not the type associated with the property is deemed to be a sequence.
-        /// </summary>
-        /// <value>
-        /// The value indicating whether or not the type associated with the property is deemed to be a sequence.
-        /// </value>
-        public bool IsSequence => Element is object;
-
         /// <summary>
         /// Gets or sets the name of the property.
         /// </summary>

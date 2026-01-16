@@ -6,12 +6,12 @@
     using System.Collections.Immutable;
     using System.Text;
     using Graphify.Model;
-    using static Graphify.Strategies.ClassStrategy_Resources;
+    using static Graphify.Strategies.PropertyStrategy_Resources;
 
     /// <summary>
     /// Provides a strategy for generating classes that match each tier within the hierarchy.
     /// </summary>
-    internal sealed class ClassStrategy
+    internal sealed class PropertyStrategy
         : IStrategy
     {
         private const string Declaration = "__DECLARATION__";
@@ -23,7 +23,7 @@
         /// <returns>
         /// An enumerable collection of <see cref="Source"/> objects representing the generated source code for the subject and its properties.
         /// </returns>
-        public IEnumerable<Source> Generate(Subject subject)
+        public IEnumerable<Source> GenerateClassesForSucceedng(Subject subject)
         {
             return GenerateClasses(string.Empty, Array.Empty<Property>(), subject.Properties, subject, 0);
         }
@@ -72,21 +72,36 @@
 
                 yield return new Source(code, next);
 
-                Property[] pool = default;
+                IEnumerable<Source> succeeding = GenerateClassesForProperty(next, preceding, property, subject, tier);
 
-                try
+                foreach (Source source in succeeding)
                 {
-                    pool = AppendCurrentPropertyForNextTier(preceding, tier, property);
+                    yield return source;
+                }
+            }
+        }
 
-                    foreach (Source succeeding in GenerateClasses(next, pool, property.Properties, subject, tier))
-                    {
-                        yield return succeeding;
-                    }
-                }
-                finally
+        private static IEnumerable<Source> GenerateClassesForProperty(
+            string @namespace,
+            Property[] preceding,
+            Property property,
+            Subject subject,
+            int tier)
+        {
+            Property[] pool = default;
+
+            try
+            {
+                pool = AppendCurrentPropertyForNextTier(preceding, tier, property);
+
+                foreach (Source succeeding in GenerateClasses(@namespace, pool, property.Properties, subject, tier))
                 {
-                    ArrayPool<Property>.Shared.Return(pool);
+                    yield return succeeding;
                 }
+            }
+            finally
+            {
+                ArrayPool<Property>.Shared.Return(pool);
             }
         }
 

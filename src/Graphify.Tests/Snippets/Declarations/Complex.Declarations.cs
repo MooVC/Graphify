@@ -78,7 +78,7 @@ internal static partial class Complex
                 {
                     public int Age { get; set; }
 
-                    public string Name { get; set; } = string.Empty;
+                    public string Name { get; set; }
                 }
 
                 [Graphify]

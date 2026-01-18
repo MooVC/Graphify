@@ -1,6 +1,6 @@
 ﻿namespace Graphify.Snippets.Declarations;
 
-public static class Attributes
+public static class Boilerplate
 {
     public static readonly Generated Graphify = new(
         GraphifyAttributeGenerator.Content,
@@ -11,4 +11,9 @@ public static class Attributes
         IgnoreAttributeGenerator.Content,
         $"{IgnoreAttributeGenerator.Name}Attribute",
         typeof(IgnoreAttributeGenerator));
+
+    public static readonly Generated Visitor = new(
+        VisitorContractGenerator.Content,
+        VisitorContractGenerator.Name,
+        typeof(VisitorContractGenerator));
 }

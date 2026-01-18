@@ -12,6 +12,7 @@ public sealed class WhenExecuted
         typeof(GraphifyAttributeGenerator),
         typeof(IgnoreAttributeGenerator),
         typeof(TypeGenerator),
+        typeof(VisitorContractGenerator),
     ];
 
     [Theory]
@@ -21,10 +22,10 @@ public sealed class WhenExecuted
         // Arrange
         var test = new GeneratorTest<TypeGenerator>(assembly, language, _generators);
 
-        Attributes.Graphify.IsExpectedIn(test.TestState);
-        Attributes.Ignore.IsExpectedIn(test.TestState);
-
+        Boilerplate.Graphify.IsExpectedIn(test.TestState);
+        Boilerplate.Ignore.IsExpectedIn(test.TestState);
         expectations.IsDeclaredIn(test.TestState);
+        Boilerplate.Visitor.IsExpectedIn(test.TestState);
 
         // Act
         Func<Task> act = () => test.RunAsync();

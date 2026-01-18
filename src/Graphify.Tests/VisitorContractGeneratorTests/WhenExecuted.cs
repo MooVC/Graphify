@@ -1,4 +1,4 @@
-﻿namespace Graphify.GraphifyAttributeGeneratorTests;
+﻿namespace Graphify.VisitorContractGeneratorTests;
 
 using Graphify.Snippets.Declarations;
 using Microsoft.CodeAnalysis.CSharp;
@@ -11,9 +11,9 @@ public sealed class WhenExecuted
     public async Task GivenAnAssemblyThenTheAttributeIsGenerated(ReferenceAssemblies assemblies, LanguageVersion language)
     {
         // Arrange
-        var test = new GeneratorTest<GraphifyAttributeGenerator>(assemblies, language);
+        var test = new GeneratorTest<VisitorContractGenerator>(assemblies, language);
 
-        Boilerplate.Graphify.IsExpectedIn(test.TestState);
+        Boilerplate.Visitor.IsExpectedIn(test.TestState);
 
         // Act
         Func<Task> act = () => test.RunAsync();

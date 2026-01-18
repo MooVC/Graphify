@@ -26,6 +26,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>GraphifyAttributeGenerator.Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="VisitorContractGenerator.Resources.Designer.cs">
+      <DependentUpon>VisitorContractGenerator.Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="IgnoreAttributeGenerator.Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -56,6 +61,10 @@
     <EmbeddedResource Update="GraphifyAttributeGenerator.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>GraphifyAttributeGenerator.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="VisitorContractGenerator.Resources.resx">
+      <LastGenOutput>VisitorContractGenerator.Resources.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="IgnoreAttributeGenerator.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

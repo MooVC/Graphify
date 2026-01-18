@@ -15,6 +15,7 @@ internal static partial class Simple
             Expected.IsAdult,
             Expected.Name,
             Expected.NameLength,
+            Expected.Contract,
         ],
         nameof(Simple));
 }

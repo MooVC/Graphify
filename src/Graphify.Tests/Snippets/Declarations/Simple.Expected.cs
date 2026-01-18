@@ -41,6 +41,29 @@ internal static partial class Simple
                 """,
             "Graphify.Testing.Simple.Age");
 
+        public static readonly Generated Contract = new(
+            """
+                namespace Graphify.Testing
+                {
+                    using System;
+                    using System.Collections.Generic;
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    #nullable disable
+                    #endif
+
+                    public interface ISimpleNavigator
+                    {
+                        global::System.Threading.Tasks.Task Navigate(Simple simple, global::System.Threading.CancellationToken cancellationToken);
+                    }
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    #nullable restore
+                    #endif
+                }
+                """,
+            "Graphify.Testing.ISimpleNavigator");
+
         public static readonly Generated IsAdult = new(
             """
                 namespace Graphify.Testing

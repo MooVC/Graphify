@@ -24,9 +24,9 @@
         /// <returns>
         /// An enumerable collection of <see cref="Source"/> objects representing the generated source code for the subject and its properties.
         /// </returns>
-        public IEnumerable<Source> GenerateClassesForSucceedng(Subject subject)
+        public IEnumerable<Source> Generate(Subject subject)
         {
-            return GenerateClasses(string.Empty, Array.Empty<Predecessor>(), subject.Properties, subject, 0);
+            return GenerateClasses(subject.Name, Array.Empty<Predecessor>(), subject.Properties, subject, 0);
         }
 
         private static Predecessor[] AppendCurrentForNextTier(Predecessor[] preceding, int tier, params Predecessor[] predecessors)
@@ -100,6 +100,8 @@
                 body);
 
             code = ApplyWrapper(code, wrapper, tier);
+            code = string.Format(GenerateClassNest, "public static", "partial class Graph", code.Indent());
+            code = string.Format(GenerateClassNest, subject.Declaration, subject.Qualification, code.Indent());
 
             next = $"{@namespace}.{name}";
 

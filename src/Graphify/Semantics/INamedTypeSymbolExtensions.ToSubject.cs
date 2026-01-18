@@ -39,7 +39,9 @@
 
             return new Subject
             {
+                Accessibility = subject.DeclaredAccessibility,
                 Declaration = subject.GetDeclaration(),
+                HasContract = subject.HasContract(),
                 Name = subject.Name,
                 Namespace = @namespace,
                 Nesting = nesting,

@@ -19,6 +19,7 @@ internal static partial class Complex
             Expected.ChildrenChildNameLength,
             Expected.Name,
             Expected.NameLength,
+            Expected.Contract,
         ],
         nameof(Complex));
 }

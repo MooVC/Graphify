@@ -274,6 +274,29 @@ internal static partial class Complex
                 """,
             "Graphify.Testing.Complex.Children.Child.Name.Length");
 
+        public static readonly Generated Contract = new(
+            """
+                namespace Graphify.Testing
+                {
+                    using System;
+                    using System.Collections.Generic;
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    #nullable disable
+                    #endif
+
+                    public interface IComplexNavigator
+                    {
+                        global::System.Threading.Tasks.Task Navigate(Complex complex, global::System.Threading.CancellationToken cancellationToken);
+                    }
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    #nullable restore
+                    #endif
+                }
+                """,
+            "Graphify.Testing.IComplexNavigator");
+
         public static readonly Generated Name = new(
             """
                 namespace Graphify.Testing

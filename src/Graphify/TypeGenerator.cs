@@ -21,6 +21,7 @@
         private static readonly IStrategy[] _strategies = new IStrategy[]
         {
             new ClassStrategy(),
+            new ContractStrategy(),
         };
 
         /// <inheritdoc/>
@@ -51,7 +52,7 @@
 
             foreach (IStrategy strategy in _strategies)
             {
-                IEnumerable<Source> sources = strategy.GenerateClassesForSucceedng(subject);
+                IEnumerable<Source> sources = strategy.Generate(subject);
 
                 foreach (Source source in sources)
                 {
@@ -71,18 +72,19 @@
         {
             string name = subject.Nesting
                 .Select(parent => parent.Name)
-                .Concat(new[] { subject.Name })
                 .Aggregate(
                     string.Empty,
                     (current, next) => string.IsNullOrEmpty(current)
                         ? next
                         : $"{current}.{next}");
 
-            string separator = source.Hint.StartsWith(".")
+            name = $"{subject.Namespace}.{name}";
+
+            string separator = name.EndsWith(".")
                 ? string.Empty
                 : ".";
 
-            return $"{subject.Namespace}.{name}{separator}{source.Hint}.g.cs";
+            return $"{name}{separator}{source.Hint}.g.cs";
         }
 
         private static bool IsMatch(SyntaxNode node, CancellationToken cancellationToken)
@@ -102,9 +104,6 @@
 
         private static string Nest(string code, Subject subject)
         {
-            code = string.Format(NestContent, "public static", "partial class Graph", code.Indent());
-            code = string.Format(NestContent, subject.Declaration, subject.Qualification, code.Indent());
-
             foreach (Nesting parent in subject.Nesting.Reverse())
             {
                 code = code.Indent();

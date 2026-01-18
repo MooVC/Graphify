@@ -104,6 +104,18 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} {1}
+        ///{{
+        ///    {2}
+        ///}}.
+        /// </summary>
+        internal static string GenerateClassNest {
+            get {
+                return ResourceManager.GetString("GenerateClassNest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} {1}, .
         /// </summary>
         internal static string GeneratePropertyContentArgument {

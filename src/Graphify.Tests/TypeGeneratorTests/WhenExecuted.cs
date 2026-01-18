@@ -21,10 +21,10 @@ public sealed class WhenExecuted
         // Arrange
         var test = new GeneratorTest<TypeGenerator>(assembly, language, _generators);
 
-        expectations.IsDeclaredIn(test.TestState);
-
         Attributes.Graphify.IsExpectedIn(test.TestState);
         Attributes.Ignore.IsExpectedIn(test.TestState);
+
+        expectations.IsDeclaredIn(test.TestState);
 
         // Act
         Func<Task> act = () => test.RunAsync();

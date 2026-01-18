@@ -4,8 +4,8 @@ Graphify, a .NET Roslyn source generator, automates the creation of strongly-typ
 
 ## Requirements
 
-- C# v2.0 or later.
-- Visual Studio 2022 v17.4 or later, or any compatible IDE that supports Roslyn source generators.
+- C# v5.0 or later.
+- Visual Studio 2022 v17.0 or later, or any compatible IDE that supports Roslyn source generators.
 
 ## Installation
 

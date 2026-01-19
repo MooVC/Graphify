@@ -18,13 +18,16 @@
         /// <param name="nesting">
         /// The declaration syntax for the parents of the <paramref name="syntax"/>.
         /// </param>
+        /// <param name="registration">
+        /// The symbol representing the registration contract from Microsoft.Extensions.DependencyInjection. Can be <see langword="null"/>.
+        /// </param>
         /// <returns>
         /// An instance of <see cref="Subject"/> containing the required semantics.
         /// </returns>
         /// <remarks>
         /// If the declaration associated with the type cannot be determined, the method will return <see langword="null" />.
         /// </remarks>
-        public static Subject ToSubject(this INamedTypeSymbol subject, ImmutableArray<Nesting> nesting)
+        public static Subject ToSubject(this INamedTypeSymbol subject, ImmutableArray<Nesting> nesting, INamedTypeSymbol registration)
         {
             string @namespace = subject.ContainingNamespace.IsGlobalNamespace
                ? string.Empty
@@ -40,8 +43,10 @@
             return new Subject
             {
                 Accessibility = subject.DeclaredAccessibility,
+                CanRegister = registration is object,
                 Declaration = subject.GetDeclaration(),
                 HasContract = subject.HasContract(),
+                HasRegistration = subject.HasRegistration(),
                 Name = subject.Name,
                 Namespace = @namespace,
                 Nesting = nesting,

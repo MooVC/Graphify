@@ -26,6 +26,9 @@
         /// <param name="compilation">
         /// Information relating to the compilation, used to obtain the semantic model for <paramref name="syntax"/>.
         /// </param>
+        /// <param name="registration">
+        /// The symbol representing the registration contract from Microsoft.Extensions.DependencyInjection. Can be <see langword="null"/>.
+        /// </param>
         /// <param name="cancellationToken">
         /// A <see cref="CancellationToken" /> that can be used to cancel the operation.
         /// </param>
@@ -33,7 +36,11 @@
         /// When the <paramref name="syntax"/> is annotated with the Graphify attribute and it, and its parents are marked as partial,
         /// the required semantics mapped from <paramref name="syntax"/> using <paramref name="compilation"/>, otherwise <see langword="null"/>.
         /// </returns>
-        public static Subject ToSubject(this TypeDeclarationSyntax syntax, Compilation compilation, CancellationToken cancellationToken)
+        public static Subject ToSubject(
+            this TypeDeclarationSyntax syntax,
+            Compilation compilation,
+            INamedTypeSymbol registration,
+            CancellationToken cancellationToken)
         {
             var nesting = new Stack<Nesting>();
 
@@ -50,7 +57,7 @@
                 return default;
             }
 
-            return type.ToSubject(ImmutableArray.ToImmutableArray(nesting));
+            return type.ToSubject(ImmutableArray.ToImmutableArray(nesting), registration);
         }
     }
 }

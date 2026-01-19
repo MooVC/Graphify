@@ -13,7 +13,7 @@
         /// <summary>
         /// Generates a standardized navigator interface name for the specified subject.
         /// </summary>
-        /// <param name="subject">The name of the subject for which to generate the navigator interface name. Cannot be null.</param>
+        /// <param name="subject">The name of the subject for which to generate the navigator interface name. Cannot be <see langword="null"/>.</param>
         /// <returns>A string representing the navigator interface name in the format "I{subject}Navigator".</returns>
         public static string GetName(string subject)
         {

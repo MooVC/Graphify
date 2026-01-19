@@ -22,8 +22,9 @@
 
         private static readonly IStrategy[] _strategies = new IStrategy[]
         {
-            new ModelStrategy(),
             new ContractStrategy(),
+            new ImplementationStrategy(),
+            new ModelStrategy(),
             new RegistrationStrategy(),
         };
 

@@ -120,14 +120,93 @@
   <data name="Content" xml:space="preserve">
     <value>namespace Graphify
 {{
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Threading;
     using System.Threading.Tasks;
+    using Graphify;
 
-    public interface INavigator&lt;in T&gt;
+    public abstract class Navigator&lt;T&gt;
+        : INavigator&lt;T&gt;
         where T : class
     {{
-        IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;(T instance, CancellationToken cancellationToken);
+        private readonly IServiceProvider _provider;
+    
+        protected Navigator(IServiceProvider provider)
+        {{
+            if (ReferenceEquals(provider, null))
+            {{
+                throw new ArgumentNullException("provider");
+            }}
+            
+            _provider = provider;
+        }}
+    
+        public abstract IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;(T instance, CancellationToken cancellationToken);
+
+        protected async IAsyncEnumerable&lt;TResult&gt; Concat&lt;TResult&gt;(
+            IAsyncEnumerable&lt;TResult&gt; first,
+            IAsyncEnumerable&lt;TResult&gt; second,
+            [EnumeratorCancellation] CancellationToken cancellationToken)
+        {{
+            if (!ReferenceEquals(first, null))
+            {{
+                var results = first
+                    .WithCancellation(cancellationToken)
+                    .ConfigureAwait(false);
+                
+                await foreach (var result in results)
+                {{
+                    yield return result;
+                }}
+            }}
+            
+            if (!ReferenceEquals(second, null))
+            {{
+                var results = second
+                    .WithCancellation(cancellationToken)
+                    .ConfigureAwait(false);
+                
+                await foreach (var result in results)
+                {{
+                    yield return result;
+                }}
+            }}
+        }}
+        
+        protected async IAsyncEnumerable&lt;TResult&gt; Empty&lt;TResult&gt;()
+        {{
+            yield break;
+        }}
+
+        protected bool HasObservers&lt;TInstance, TResult&gt;(out IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt; observers)
+            where TInstance : class
+        {{
+            observers = (IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt;)_provider.GetService(typeof(IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt;));
+
+            return ReferenceEquals(observers, null) || !observers.Any();
+        }}
+        
+        protected async IAsyncEnumerable&lt;TResult&gt; Invoke&lt;TInstance, TResult&gt;(
+            TInstance instance,
+            IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt; observers,
+            [EnumeratorCancellation] CancellationToken cancellationToken)
+            where TInstance : class
+        {{
+            foreach (var observer in observers)
+            {{
+                var results = observer
+                    .Observe(instance, cancellationToken)
+                    .ConfigureAwait(false);
+                
+                await foreach (var result in results)
+                {{
+                    yield return result;
+                }}
+            }}
+        }}
     }}
 }}</value>
   </data>

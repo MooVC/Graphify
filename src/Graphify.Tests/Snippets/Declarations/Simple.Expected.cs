@@ -212,6 +212,6 @@ internal static partial class Simple
                     #endif
                 }
                 """,
-            "Graphify.Testing.SimpleNavigator");
+            "Graphify.Testing.ServiceCollectionExtensions.AddSimpleNavigator");
     }
 }

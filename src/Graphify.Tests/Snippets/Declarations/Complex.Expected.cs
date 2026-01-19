@@ -408,6 +408,6 @@ internal static partial class Complex
                     #endif
                 }
                 """,
-            "Graphify.Testing.ComplexNavigator");
+            "Graphify.Testing.ServiceCollectionExtensions.AddComplexNavigator");
     }
 }

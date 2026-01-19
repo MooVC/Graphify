@@ -117,56 +117,75 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GenerateClassForPropertyContent" xml:space="preserve">
-    <value>public sealed partial class {1}
+  <data name="GenerateContentForPropertyContent" xml:space="preserve">
+    <value>private async global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({0} root, {1}{2} value, [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken)
 {{
-    internal {1}({2} root, {3}{4} value)
-    {{{5}
-        Root = root;
-        Value = value;
+    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
+
+    if (HasObservers(out global::System.Collections.Generic.IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt; observers)
+    {{
+        var instance = new {3}(root, {4}value);
+        
+        var results = observer
+            .Observe&lt;{3}, TResult&gt;(instance, cancellationToken)
+            .ConfigureAwait(false);
     }}
 
-    public {2} Root {{ get; private set; }}
-{6}
-    public {4} Value {{ get; private set; }}
+    {5}
+
+    await foreach (var result in results)
+    {{
+        yield return result;
+    }}
 }}</value>
   </data>
-  <data name="GeneratePropertyContentArgument" xml:space="preserve">
-    <value>{0} {1}, </value>
-  </data>
-  <data name="GeneratePropertyContentAssignment" xml:space="preserve">
-    <value>        {0}</value>
-  </data>
-  <data name="GeneratePropertyContentDeclaration" xml:space="preserve">
-    <value>    public {0} {1} {{ get; private set; }}</value>
-  </data>
-  <data name="GenerateWrapperDeclarationsContent" xml:space="preserve">
-    <value>partial class {0}
+  <data name="GenerateContentForElementContent" xml:space="preserve">
+    <value>private async global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({0} root, {1}{2} value, [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken)
 {{
-    {1}
-}}</value>
-  </data>
-  <data name="GenerateClassForElementContent" xml:space="preserve">
-    <value>public sealed partial class {1}
-{{
-    internal {1}(int index, {2} root, {3}{4} value)
-    {{{5}
-        Index = index;
-        Root = root;
-        Value = value;
+    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
+
+    if (HasObservers(out global::System.Collections.Generic.IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt; observers)
+    {{
+        var instance = new {3}(root, {4}value);
+        
+        var results = observer
+            .Observe&lt;{3}, TResult&gt;(instance, cancellationToken)
+            .ConfigureAwait(false);
     }}
 
-    public int Index {{ get; private set; }}
+    int index = 0;
 
-    public {2} Root {{ get; private set; }}
-{6}
-    public {4} Value {{ get; private set; }}
+    foreach (var element in value.{6})
+    {{
+        {5}
+        index++;
+    }}
+
+    await foreach (var result in results)
+    {{
+        yield return result;
+    }}
 }}</value>
   </data>
-  <data name="GenerateClassNest" xml:space="preserve">
+  <data name="GenerateContentNest" xml:space="preserve">
     <value>internal sealed partial class {0}
 {{
-    {1}
+    {2}
+}}</value>
+  </data>
+  <data name="GenerateContent" xml:space="preserve">
+    <value>internal sealed partial class {0}
+    : {1},
+      global::Graphify.Navigator&lt;{2}&gt;
+{{
+    public override IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({2} instance, CancellationToken cancellationToken)
+    {{
+        var results = Empty&lt;TResult&gt;();
+        
+        {3}
+        
+        return results;
+    }}
 }}</value>
   </data>
 </root>

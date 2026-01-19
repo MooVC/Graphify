@@ -61,96 +61,69 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to public sealed partial class {1}
+        ///   Looks up a localized string similar to internal sealed partial class {0}
+        ///    : {1},
+        ///      global::Graphify.Navigator&lt;{2}&gt;
         ///{{
-        ///    internal {1}(int index, {2} root, {3}{4} value)
-        ///    {{{5}
-        ///        Index = index;
-        ///        Root = root;
-        ///        Value = value;
+        ///    public override IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({2} instance, CancellationToken cancellationToken)
+        ///    {{
+        ///        var results = Empty&lt;TResult&gt;();
+        ///        
+        ///        {3}
+        ///        
+        ///        return results;
         ///    }}
-        ///
-        ///    public int Index {{ get; private set; }}
-        ///
-        ///    public {2} Root {{ get; private set; }}
-        ///{6}
-        ///    public {4} Value {{ get; private set; }}
         ///}}.
         /// </summary>
-        internal static string GenerateClassForElementContent {
+        internal static string GenerateContent {
             get {
-                return ResourceManager.GetString("GenerateClassForElementContent", resourceCulture);
+                return ResourceManager.GetString("GenerateContent", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to public sealed partial class {1}
+        ///   Looks up a localized string similar to private async global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({0} root, {1}{2} value, [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken)
         ///{{
-        ///    internal {1}({2} root, {3}{4} value)
-        ///    {{{5}
-        ///        Root = root;
-        ///        Value = value;
-        ///    }}
+        ///    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
         ///
-        ///    public {2} Root {{ get; private set; }}
-        ///{6}
-        ///    public {4} Value {{ get; private set; }}
-        ///}}.
+        ///    if (HasObservers(out global::System.Collections.Generic.IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt; observers)
+        ///    {{
+        ///        var instance = new {3}(root, {4}value);
+        ///        
+        ///        var results [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string GenerateClassForPropertyContent {
+        internal static string GenerateContentForElementContent {
             get {
-                return ResourceManager.GetString("GenerateClassForPropertyContent", resourceCulture);
+                return ResourceManager.GetString("GenerateContentForElementContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to private async global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({0} root, {1}{2} value, [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken)
+        ///{{
+        ///    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
+        ///
+        ///    if (HasObservers(out global::System.Collections.Generic.IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt; observers)
+        ///    {{
+        ///        var instance = new {3}(root, {4}value);
+        ///        
+        ///        var results [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string GenerateContentForPropertyContent {
+            get {
+                return ResourceManager.GetString("GenerateContentForPropertyContent", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to internal sealed partial class {0}
         ///{{
-        ///    {1}
+        ///    {2}
         ///}}.
         /// </summary>
-        internal static string GenerateClassNest {
+        internal static string GenerateContentNest {
             get {
-                return ResourceManager.GetString("GenerateClassNest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} {1}, .
-        /// </summary>
-        internal static string GeneratePropertyContentArgument {
-            get {
-                return ResourceManager.GetString("GeneratePropertyContentArgument", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to         {0}.
-        /// </summary>
-        internal static string GeneratePropertyContentAssignment {
-            get {
-                return ResourceManager.GetString("GeneratePropertyContentAssignment", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to     public {0} {1} {{ get; private set; }}.
-        /// </summary>
-        internal static string GeneratePropertyContentDeclaration {
-            get {
-                return ResourceManager.GetString("GeneratePropertyContentDeclaration", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to partial class {0}
-        ///{{
-        ///    {1}
-        ///}}.
-        /// </summary>
-        internal static string GenerateWrapperDeclarationsContent {
-            get {
-                return ResourceManager.GetString("GenerateWrapperDeclarationsContent", resourceCulture);
+                return ResourceManager.GetString("GenerateContentNest", resourceCulture);
             }
         }
     }

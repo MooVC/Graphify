@@ -26,6 +26,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>GraphifyAttributeGenerator.Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="NavigatorContractGenerator.Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>NavigatorContractGenerator.Resources.resx</DependentUpon>
+    </Compile>
     <Compile Update="Strategies\ImplementationStrategy.Resources.Designer.cs">
       <DependentUpon>ImplementationStrategy.Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -36,8 +41,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>RegistrationStrategy.Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="NavigatorContractGenerator.Resources.Designer.cs">
-      <DependentUpon>NavigatorContractGenerator.Resources.resx</DependentUpon>
+    <Compile Update="NavigatorGenerator.Resources.Designer.cs">
+      <DependentUpon>NavigatorGenerator.Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
@@ -77,6 +82,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>GraphifyAttributeGenerator.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="NavigatorContractGenerator.Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>NavigatorContractGenerator.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Strategies\ImplementationStrategy.Resources.resx">
       <LastGenOutput>ImplementationStrategy.Resources.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
@@ -85,8 +94,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>RegistrationStrategy.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="NavigatorContractGenerator.Resources.resx">
-      <LastGenOutput>NavigatorContractGenerator.Resources.Designer.cs</LastGenOutput>
+    <EmbeddedResource Update="NavigatorGenerator.Resources.resx">
+      <LastGenOutput>NavigatorGenerator.Resources.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="VisitorContractGenerator.Resources.resx">

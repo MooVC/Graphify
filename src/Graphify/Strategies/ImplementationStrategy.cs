@@ -6,7 +6,7 @@
     using System.Collections.Immutable;
     using System.Linq;
     using Graphify.Model;
-    using static Graphify.Strategies.ModelStrategy_Resources;
+    using static Graphify.Strategies.ImplementationStrategy_Resources;
 
     /// <summary>
     /// Provides a strategy for generating contents that match each tier within the hierarchy that involve a sequence.
@@ -14,6 +14,8 @@
     internal sealed class ImplementationStrategy
         : IStrategy
     {
+        private const int GraphNamespaceLength = 7;
+
         /// <summary>
         /// Generates a standardized navigator name for the specified subject.
         /// </summary>
@@ -34,8 +36,8 @@
         public IEnumerable<Source> Generate(Subject subject)
         {
             string name = GetName(subject.Name);
-
-            return GenerateContent(name, subject.Name, Array.Empty<Predecessor>(), subject.Properties, subject, 0);
+            // TODO: Add the code for the Navgator public method
+            return GenerateContent(name, $"{subject.Name}.Graph", Array.Empty<Predecessor>(), subject.Properties, subject, 0);
         }
 
         private static Predecessor[] AppendCurrentForNextTier(Predecessor[] preceding, int tier, params Predecessor[] predecessors)
@@ -63,17 +65,17 @@
         {
             tier++;
 
-            string body = GeneratePropertyContent(preceding, tier, out string parameters);
+            GeneratePropertyContent(preceding, tier, out string arguments, out string parameters);
 
             foreach (Property property in properties)
             {
-                yield return GenerateContentForProperty(body, @class, @namespace, parameters, property, subject, out string next);
+                yield return GenerateContentForProperty(arguments, @class, @namespace, parameters, property, subject, out string next);
 
                 IEnumerable<Source> succeeding = Enumerable.Empty<Source>();
 
                 if (property.IsSequence)
                 {
-                    succeeding = GenerateContentForElement(body, @class, property.Element, next, parameters, preceding, property, subject, tier);
+                    succeeding = GenerateContentForElement(arguments, @class, property.Element, next, parameters, preceding, property, subject, tier);
                 }
 
                 succeeding = succeeding.Concat(GenerateContentsForProperty(@class, next, preceding, property, subject, tier));
@@ -86,6 +88,7 @@
         }
 
         private static Source GenerateContent(
+            string arguments,
             string body,
             string @class,
             string name,
@@ -96,23 +99,26 @@
             string type,
             out string next)
         {
+            next = $"{@namespace}.{name}";
+
             string code = string.Format(
                 template,
-                @namespace,
-                name,
                 subject.Type,
                 parameters,
                 type,
-                body);
+                next,
+                arguments,
+                body,
+                name);
 
-            code = string.Format(GenerateContentNest, @class, code.Indent());
-            next = $"{@namespace}.{name}";
+            code = string.Format(GenerateContentNest, @class, subject.Name, code.Indent());
+            string hint = next.Substring(subject.Name.Length + GraphNamespaceLength);
 
-            return new Source(code, next);
+            return new Source(code, $"{@class}.{hint}");
         }
 
         private static IEnumerable<Source> GenerateContentForElement(
-            string body,
+            string arguments,
             string @class,
             Element element,
             string @namespace,
@@ -123,7 +129,8 @@
             int tier)
         {
             yield return GenerateContent(
-                body,
+                arguments,
+                $"results = Concat(results, Navigate(index, root, {arguments}, value.{property.Name}), cancellationToken);",
                 @class,
                 element.Name,
                 @namespace,
@@ -151,7 +158,7 @@
         }
 
         private static Source GenerateContentForProperty(
-            string body,
+            string arguments,
             string @class,
             string @namespace,
             string parameters,
@@ -160,7 +167,8 @@
             out string next)
         {
             return GenerateContent(
-                body,
+                arguments,
+                $"results = Concat(results, Navigate(root, {arguments}, value.{property.Name}), cancellationToken);",
                 @class,
                 property.Name,
                 @namespace,
@@ -196,20 +204,21 @@
             }
         }
 
-        private static string GeneratePropertyContent(Predecessor[] preceding, int tier, out string paramerers)
+        private static void GeneratePropertyContent(Predecessor[] preceding, int tier, out string arguments, out string paramerers)
         {
             if (tier == 1)
             {
+                arguments = string.Empty;
                 paramerers = string.Empty;
 
-                return string.Empty;
+                return;
             }
 
             const string separator = ", ";
 
             int total = tier - 1;
-            string[] arguments = ArrayPool<string>.Shared.Rent(total);
-            string[] assignments = ArrayPool<string>.Shared.Rent(total);
+            string[] declarations = ArrayPool<string>.Shared.Rent(total);
+            string[] propagations = ArrayPool<string>.Shared.Rent(total);
 
             try
             {
@@ -218,18 +227,20 @@
                     Predecessor predecessor = preceding[index];
                     string variable = predecessor.Name.ToCamelCase();
 
-                    arguments[index] = $"{predecessor.Type} {variable}";
-                    assignments[index] = variable;
+                    propagations[index] = $"{predecessor.Type} {variable}";
+                    declarations[index] = variable;
                 }
 
-                paramerers = string.Join(separator, arguments, 0, total);
+                arguments = string.Join(separator, declarations, 0, total);
+                paramerers = string.Join(separator, propagations, 0, total);
 
-                return string.Join(separator, assignments, 0, total);
+                arguments = string.Concat(arguments, separator);
+                paramerers = string.Concat(paramerers, separator);
             }
             finally
             {
-                ArrayPool<string>.Shared.Return(assignments);
-                ArrayPool<string>.Shared.Return(arguments);
+                ArrayPool<string>.Shared.Return(propagations);
+                ArrayPool<string>.Shared.Return(declarations);
             }
         }
     }

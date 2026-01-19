@@ -2,6 +2,11 @@
 
 public static class Boilerplate
 {
+    public static readonly Generated Base = new(
+        NavigatorGenerator.Content,
+        NavigatorGenerator.Name,
+        typeof(NavigatorGenerator));
+
     public static readonly Generated Graphify = new(
         GraphifyAttributeGenerator.Content,
         $"{GraphifyAttributeGenerator.Name}Attribute",

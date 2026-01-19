@@ -70,12 +70,9 @@ namespace Graphify {
         ///    public interface INavigator&lt;in T&gt;
         ///        where T : class
         ///    {{
-        ///        #if NET9_0_OR_GREATER
-        ///        IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;(T instance, CancellationToken cancellationToken)
-        ///            where TResult : allows ref struct;
-        ///        #else
         ///        IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;(T instance, CancellationToken cancellationToken);
-        ///        #end [rest of string was truncated]&quot;;.
+        ///    }}
+        ///}}.
         /// </summary>
         internal static string Content {
             get {

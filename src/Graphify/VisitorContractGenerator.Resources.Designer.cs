@@ -69,9 +69,6 @@ namespace Graphify {
         ///
         ///    public interface IVisitor&lt;in T, out TResult&gt;
         ///        where T : class
-        ///#if NET9_0_OR_GREATER
-        ///        where TResult : allows ref struct
-        ///#endif
         ///    {{
         ///        IAsyncEnumerable&lt;TResult&gt; Observe(T instance, CancellationToken cancellationToken);
         ///    }}

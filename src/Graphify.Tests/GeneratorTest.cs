@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
+using Microsoft.Extensions.DependencyInjection;
 
 public sealed class GeneratorTest<TGenerator>
     : CSharpSourceGeneratorTest<TGenerator, DefaultVerifier>
@@ -20,6 +21,7 @@ public sealed class GeneratorTest<TGenerator>
 
         _language = language;
         ReferenceAssemblies = assembly;
+        TestState.AdditionalReferences.Add(typeof(IServiceCollection).Assembly);
     }
 
     protected sealed override ParseOptions CreateParseOptions()

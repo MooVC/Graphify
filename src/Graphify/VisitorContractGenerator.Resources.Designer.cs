@@ -63,13 +63,17 @@ namespace Graphify {
         /// <summary>
         ///   Looks up a localized string similar to namespace Graphify
         ///{{
+        ///    using System.Collections.Generic;
         ///    using System.Threading;
-        /// using System.Threading.Tasks;
+        ///    using System.Threading.Tasks;
         ///
-        ///    public interface IVisitor&lt;T&gt;
+        ///    public interface IVisitor&lt;in T, out TResult&gt;
         ///        where T : class
+        ///#if NET9_0_OR_GREATER
+        ///        where TResult : allows ref struct
+        ///#endif
         ///    {{
-        ///  Task Observe(T instance, CancellationToken cancellationToken);
+        ///        IAsyncEnumerable&lt;TResult&gt; Observe(T instance, CancellationToken cancellationToken);
         ///    }}
         ///}}.
         /// </summary>

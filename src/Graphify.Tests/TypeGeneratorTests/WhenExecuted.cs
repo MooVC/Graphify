@@ -11,6 +11,7 @@ public sealed class WhenExecuted
     [
         typeof(GraphifyAttributeGenerator),
         typeof(IgnoreAttributeGenerator),
+        typeof(NavigatorContractGenerator),
         typeof(TypeGenerator),
         typeof(VisitorContractGenerator),
     ];
@@ -24,6 +25,7 @@ public sealed class WhenExecuted
 
         Boilerplate.Graphify.IsExpectedIn(test.TestState);
         Boilerplate.Ignore.IsExpectedIn(test.TestState);
+        Boilerplate.Navigator.IsExpectedIn(test.TestState);
         expectations.IsDeclaredIn(test.TestState);
         Boilerplate.Visitor.IsExpectedIn(test.TestState);
 

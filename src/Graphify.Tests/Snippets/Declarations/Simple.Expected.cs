@@ -53,8 +53,9 @@ internal static partial class Simple
                     #endif
 
                     public interface ISimpleNavigator
+                        : global::Graphify.INavigator<Simple>
                     {
-                        global::System.Threading.Tasks.Task Navigate(Simple simple, global::System.Threading.CancellationToken cancellationToken);
+                        //// Addition methods can be added as partial elements
                     }
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
@@ -181,5 +182,36 @@ internal static partial class Simple
                 }
                 """,
             "Graphify.Testing.Simple.Name.Length");
+
+        public static readonly Generated Registration = new(
+            """
+                namespace Graphify.Testing
+                {
+                    using System;
+                    using System.Collections.Generic;
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    #nullable disable
+                    #endif
+
+                    public static partial class ServiceCollectionExtensions
+                    {
+                        public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection AddSimpleNavigator(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
+                        {
+                            if (ReferenceEquals(services, null))
+                            {
+                                throw new global::System.ArgumentNullException("services");
+                            }
+
+                            return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<ISimpleNavigator, SimpleNavigator>(services);
+                        }
+                    }
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    #nullable restore
+                    #endif
+                }
+                """,
+            "Graphify.Testing.SimpleNavigator");
     }
 }

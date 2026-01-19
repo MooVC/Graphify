@@ -22,14 +22,14 @@ namespace Graphify.Strategies {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ClassStrategy_Resources {
+    internal class ModelStrategy_Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ClassStrategy_Resources() {
+        internal ModelStrategy_Resources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Graphify.Strategies {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.Strategies.ClassStrategy.Resources", typeof(ClassStrategy_Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.Strategies.ModelStrategy.Resources", typeof(ModelStrategy_Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -77,9 +77,9 @@ namespace Graphify.Strategies {
         ///    public {4} Value {{ get; private set; }}
         ///}}.
         /// </summary>
-        internal static string GenerateClassForElementContent {
+        internal static string GenerateContentForElementContent {
             get {
-                return ResourceManager.GetString("GenerateClassForElementContent", resourceCulture);
+                return ResourceManager.GetString("GenerateContentForElementContent", resourceCulture);
             }
         }
         
@@ -97,9 +97,9 @@ namespace Graphify.Strategies {
         ///    public {4} Value {{ get; private set; }}
         ///}}.
         /// </summary>
-        internal static string GenerateClassForPropertyContent {
+        internal static string GenerateContentForPropertyContent {
             get {
-                return ResourceManager.GetString("GenerateClassForPropertyContent", resourceCulture);
+                return ResourceManager.GetString("GenerateContentForPropertyContent", resourceCulture);
             }
         }
         
@@ -109,9 +109,9 @@ namespace Graphify.Strategies {
         ///    {2}
         ///}}.
         /// </summary>
-        internal static string GenerateClassNest {
+        internal static string GenerateContentNest {
             get {
-                return ResourceManager.GetString("GenerateClassNest", resourceCulture);
+                return ResourceManager.GetString("GenerateContentNest", resourceCulture);
             }
         }
         

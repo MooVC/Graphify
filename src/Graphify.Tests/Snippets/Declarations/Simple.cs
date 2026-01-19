@@ -16,6 +16,7 @@ internal static partial class Simple
             Expected.Name,
             Expected.NameLength,
             Expected.Contract,
+            ////Expected.Registration, // TODO: Figure out how to add dependencies to testing toolkit
         ],
         nameof(Simple));
 }

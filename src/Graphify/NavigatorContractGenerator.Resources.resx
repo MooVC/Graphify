@@ -124,13 +124,15 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public interface IVisitor&lt;in T, out TResult&gt;
+    public interface INavigator&lt;in T&gt;
         where T : class
-#if NET9_0_OR_GREATER
-        where TResult : allows ref struct
-#endif
     {{
-        IAsyncEnumerable&lt;TResult&gt; Observe(T instance, CancellationToken cancellationToken);
+        #if NET9_0_OR_GREATER
+        IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;(T instance, CancellationToken cancellationToken)
+            where TResult : allows ref struct;
+        #else
+        IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;(T instance, CancellationToken cancellationToken);
+        #endif
     }}
 }}</value>
   </data>

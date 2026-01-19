@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Graphify.Strategies {
+namespace Graphify {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Graphify.Strategies {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ContractStrategy_Resources {
+    internal class NavigatorContractGenerator_Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ContractStrategy_Resources() {
+        internal NavigatorContractGenerator_Resources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Graphify.Strategies {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.Strategies.ContractStrategy.Resources", typeof(ContractStrategy_Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.NavigatorContractGenerator.Resources", typeof(NavigatorContractGenerator_Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,15 +61,25 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} partial interface {1}
-        ///    : global::Graphify.INavigator&lt;{2}&gt;
+        ///   Looks up a localized string similar to namespace Graphify
         ///{{
-        ///    //// Addition methods can be added as partial elements
-        ///}}.
+        ///    using System.Collections.Generic;
+        ///    using System.Threading;
+        ///    using System.Threading.Tasks;
+        ///
+        ///    public interface INavigator&lt;in T&gt;
+        ///        where T : class
+        ///    {{
+        ///        #if NET9_0_OR_GREATER
+        ///        IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;(T instance, CancellationToken cancellationToken)
+        ///            where TResult : allows ref struct;
+        ///        #else
+        ///        IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;(T instance, CancellationToken cancellationToken);
+        ///        #end [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string GenerateContent {
+        internal static string Content {
             get {
-                return ResourceManager.GetString("GenerateContent", resourceCulture);
+                return ResourceManager.GetString("Content", resourceCulture);
             }
         }
     }

@@ -91,6 +91,6 @@ internal static partial class Simple
             __BODY__
             }
             """,
-            LanguageVersion.CSharp5);
+            LanguageVersion.CSharp8);
     }
 }

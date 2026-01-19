@@ -26,10 +26,20 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>GraphifyAttributeGenerator.Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Strategies\ImplementationStrategy.Resources.Designer.cs">
+      <DependentUpon>ImplementationStrategy.Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
     <Compile Update="Strategies\RegistrationStrategy.Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>RegistrationStrategy.Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="NavigatorContractGenerator.Resources.Designer.cs">
+      <DependentUpon>NavigatorContractGenerator.Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
     </Compile>
     <Compile Update="VisitorContractGenerator.Resources.Designer.cs">
       <DependentUpon>VisitorContractGenerator.Resources.resx</DependentUpon>
@@ -41,8 +51,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>IgnoreAttributeGenerator.Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="Strategies\ClassStrategy.Resources.Designer.cs">
-      <DependentUpon>ClassStrategy.Resources.resx</DependentUpon>
+    <Compile Update="Strategies\ModelStrategy.Resources.Designer.cs">
+      <DependentUpon>ModelStrategy.Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
@@ -67,9 +77,17 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>GraphifyAttributeGenerator.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Update="Strategies\ImplementationStrategy.Resources.resx">
+      <LastGenOutput>ImplementationStrategy.Resources.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Strategies\RegistrationStrategy.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>RegistrationStrategy.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="NavigatorContractGenerator.Resources.resx">
+      <LastGenOutput>NavigatorContractGenerator.Resources.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="VisitorContractGenerator.Resources.resx">
       <LastGenOutput>VisitorContractGenerator.Resources.Designer.cs</LastGenOutput>
@@ -79,8 +97,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>IgnoreAttributeGenerator.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="Strategies\ClassStrategy.Resources.resx">
-      <LastGenOutput>ClassStrategy.Resources.Designer.cs</LastGenOutput>
+    <EmbeddedResource Update="Strategies\ModelStrategy.Resources.resx">
+      <LastGenOutput>ModelStrategy.Resources.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Strategies\ContractStrategy.Resources.resx">

@@ -86,6 +86,6 @@ internal static partial class Complex
             __BODY__
             }
             """,
-            LanguageVersion.CSharp5);
+            LanguageVersion.CSharp8);
     }
 }

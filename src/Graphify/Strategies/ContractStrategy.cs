@@ -37,8 +37,7 @@
 
             string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
             string name = GetName(subject.Name);
-            string parameter = subject.Name.ToCamelCase();
-            string content = string.Format(GenerateContent, accessibility, name, subject.Name, parameter);
+            string content = string.Format(GenerateContent, accessibility, name, subject.Name);
 
             yield return new Source(content, name);
         }

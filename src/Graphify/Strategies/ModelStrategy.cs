@@ -7,12 +7,12 @@
     using System.Linq;
     using System.Text;
     using Graphify.Model;
-    using static Graphify.Strategies.ClassStrategy_Resources;
+    using static Graphify.Strategies.ModelStrategy_Resources;
 
     /// <summary>
     /// Provides a strategy for generating classes that match each tier within the hierarchy that involve a sequence.
     /// </summary>
-    internal sealed class ClassStrategy
+    internal sealed class ModelStrategy
         : IStrategy
     {
         private const string Declaration = "__DECLARATION__";
@@ -26,7 +26,7 @@
         /// </returns>
         public IEnumerable<Source> Generate(Subject subject)
         {
-            return GenerateClasses(subject.Name, Array.Empty<Predecessor>(), subject.Properties, subject, 0);
+            return GenerateContent(subject.Name, Array.Empty<Predecessor>(), subject.Properties, subject, 0);
         }
 
         private static Predecessor[] AppendCurrentForNextTier(Predecessor[] preceding, int tier, params Predecessor[] predecessors)
@@ -44,7 +44,7 @@
             return pool;
         }
 
-        private static IEnumerable<Source> GenerateClasses(
+        private static IEnumerable<Source> GenerateContent(
             string @namespace,
             Predecessor[] preceding,
             ImmutableArray<Property> properties,
@@ -58,16 +58,16 @@
 
             foreach (Property property in properties)
             {
-                yield return GenerateClassForProperty(assignments, body, @namespace, parameters, property, subject, tier, wrapper, out string next);
+                yield return GenerateContentForProperty(assignments, body, @namespace, parameters, property, subject, tier, wrapper, out string next);
 
                 IEnumerable<Source> succeeding = Enumerable.Empty<Source>();
 
                 if (property.IsSequence)
                 {
-                    succeeding = GenerateClassForElement(assignments, body, property.Element, next, parameters, preceding, property, subject, tier, wrapper);
+                    succeeding = GenerateContentForElement(assignments, body, property.Element, next, parameters, preceding, property, subject, tier, wrapper);
                 }
 
-                succeeding = succeeding.Concat(GenerateClassesForProperty(next, preceding, property, subject, tier));
+                succeeding = succeeding.Concat(GenerateContentsForProperty(next, preceding, property, subject, tier));
 
                 foreach (Source source in succeeding)
                 {
@@ -76,7 +76,7 @@
             }
         }
 
-        private static Source GenerateClass(
+        private static Source GenerateContent(
             string assignments,
             string body,
             string name,
@@ -100,15 +100,15 @@
                 body);
 
             code = ApplyWrapper(code, wrapper, tier);
-            code = string.Format(GenerateClassNest, "public static", "partial class Graph", code.Indent());
-            code = string.Format(GenerateClassNest, subject.Declaration, subject.Qualification, code.Indent());
+            code = string.Format(GenerateContentNest, "public static", "partial class Graph", code.Indent());
+            code = string.Format(GenerateContentNest, subject.Declaration, subject.Qualification, code.Indent());
 
             next = $"{@namespace}.{name}";
 
             return new Source(code, next);
         }
 
-        private static IEnumerable<Source> GenerateClassForElement(
+        private static IEnumerable<Source> GenerateContentForElement(
             string assignments,
             string body,
             Element element,
@@ -120,14 +120,14 @@
             int tier,
             string wrapper)
         {
-            yield return GenerateClass(
+            yield return GenerateContent(
                 assignments,
                 body,
                 element.Name,
                 @namespace,
                 parameters,
                 subject,
-                GenerateClassForElementContent,
+                GenerateContentForElementContent,
                 tier,
                 element.Type,
                 wrapper,
@@ -139,7 +139,7 @@
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
 
-                foreach (Source source in GenerateClasses(next, pool, element.Properties, subject, tier + 1))
+                foreach (Source source in GenerateContent(next, pool, element.Properties, subject, tier + 1))
                 {
                     yield return source;
                 }
@@ -150,7 +150,7 @@
             }
         }
 
-        private static Source GenerateClassForProperty(
+        private static Source GenerateContentForProperty(
             string assignments,
             string body,
             string @namespace,
@@ -161,21 +161,21 @@
             string wrapper,
             out string next)
         {
-            return GenerateClass(
+            return GenerateContent(
                 assignments,
                 body,
                 property.Name,
                 @namespace,
                 parameters,
                 subject,
-                GenerateClassForPropertyContent,
+                GenerateContentForPropertyContent,
                 tier,
                 property.Type,
                 wrapper,
                 out next);
         }
 
-        private static IEnumerable<Source> GenerateClassesForProperty(
+        private static IEnumerable<Source> GenerateContentsForProperty(
             string @namespace,
             Predecessor[] preceding,
             Property property,
@@ -188,7 +188,7 @@
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property));
 
-                foreach (Source succeeding in GenerateClasses(@namespace, pool, property.Properties, subject, tier))
+                foreach (Source succeeding in GenerateContent(@namespace, pool, property.Properties, subject, tier))
                 {
                     yield return succeeding;
                 }
@@ -231,8 +231,8 @@
             {
                 Predecessor predecessor = preceding[index];
 
-                _ = arguments.Append(string.Format(GeneratePropertyContentArgument, predecessor.Type, predecessor.Name.ToLowerInvariant()));
-                _ = constructor.AppendLine(string.Format(GeneratePropertyContentAssignment, predecessor.Name, predecessor.Name.ToLowerInvariant()));
+                _ = arguments.Append(string.Format(GeneratePropertyContentArgument, predecessor.Type, predecessor.Name.ToCamelCase()));
+                _ = constructor.AppendLine(string.Format(GeneratePropertyContentAssignment, predecessor.Name, predecessor.Name.ToCamelCase()));
 
                 _ = declarations
                     .AppendLine()

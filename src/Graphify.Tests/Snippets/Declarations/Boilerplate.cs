@@ -12,6 +12,11 @@ public static class Boilerplate
         $"{IgnoreAttributeGenerator.Name}Attribute",
         typeof(IgnoreAttributeGenerator));
 
+    public static readonly Generated Navigator = new(
+        NavigatorContractGenerator.Content,
+        NavigatorContractGenerator.Name,
+        typeof(NavigatorContractGenerator));
+
     public static readonly Generated Visitor = new(
         VisitorContractGenerator.Content,
         VisitorContractGenerator.Name,

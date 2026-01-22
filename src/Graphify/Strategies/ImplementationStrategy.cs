@@ -4,7 +4,9 @@
     using System.Buffers;
     using System.Collections.Generic;
     using System.Collections.Immutable;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Text;
     using Graphify.Model;
     using static Graphify.Strategies.ImplementationStrategy_Resources;
 
@@ -15,6 +17,8 @@
         : IStrategy
     {
         private const int GraphNamespaceLength = 7;
+        private const string Separator = ", ";
+        private const string MethodSubjectVariableName = "value";
 
         /// <summary>
         /// Generates a standardized navigator name for the specified subject.
@@ -36,8 +40,16 @@
         public IEnumerable<Source> Generate(Subject subject)
         {
             string name = GetName(subject.Name);
-            // TODO: Add the code for the Navgator public method
-            return GenerateContent(name, $"{subject.Name}.Graph", Array.Empty<Predecessor>(), subject.Properties, subject, 0);
+            string @namespace = $"{subject.Name}.Graph";
+
+            yield return GenerateNavigator(name, subject);
+
+            IEnumerable<Source> contents = GenerateContent(name, @namespace, string.Empty, Array.Empty<Predecessor>(), subject.Properties, subject, 0);
+
+            foreach (Source content in contents)
+            {
+                yield return content;
+            }
         }
 
         private static Predecessor[] AppendCurrentForNextTier(Predecessor[] preceding, int tier, params Predecessor[] predecessors)
@@ -58,6 +70,7 @@
         private static IEnumerable<Source> GenerateContent(
             string @class,
             string @namespace,
+            string method,
             Predecessor[] preceding,
             ImmutableArray<Property> properties,
             Subject subject,
@@ -69,16 +82,38 @@
 
             foreach (Property property in properties)
             {
-                yield return GenerateContentForProperty(arguments, @class, @namespace, parameters, property, subject, out string next);
+                string moniker = string.Concat(method, property.Name);
+
+                yield return GenerateContentForProperty(
+                    arguments,
+                    @class,
+                    @namespace,
+                    moniker,
+                    parameters,
+                    preceding,
+                    property,
+                    subject,
+                    tier,
+                    out string next);
 
                 IEnumerable<Source> succeeding = Enumerable.Empty<Source>();
 
                 if (property.IsSequence)
                 {
-                    succeeding = GenerateContentForElement(arguments, @class, property.Element, next, parameters, preceding, property, subject, tier);
+                    succeeding = GenerateContentForElement(
+                        arguments,
+                        @class,
+                        property.Element,
+                        next,
+                        moniker,
+                        parameters,
+                        preceding,
+                        property,
+                        subject,
+                        tier);
                 }
 
-                succeeding = succeeding.Concat(GenerateContentsForProperty(@class, next, preceding, property, subject, tier));
+                succeeding = succeeding.Concat(GenerateContentsForProperty(@class, next, moniker, preceding, property, subject, tier));
 
                 foreach (Source source in succeeding)
                 {
@@ -93,6 +128,7 @@
             string @class,
             string name,
             string @namespace,
+            string method,
             string parameters,
             Subject subject,
             string template,
@@ -109,7 +145,8 @@
                 next,
                 arguments,
                 body,
-                name);
+                name,
+                method);
 
             code = string.Format(GenerateContentNest, @class, subject.Name, code.Indent());
             string hint = next.Substring(subject.Name.Length + GraphNamespaceLength);
@@ -122,31 +159,35 @@
             string @class,
             Element element,
             string @namespace,
+            string method,
             string parameters,
             Predecessor[] preceding,
             Property property,
             Subject subject,
             int tier)
         {
-            yield return GenerateContent(
-                arguments,
-                $"results = Concat(results, Navigate(index, root, {arguments}, value.{property.Name}), cancellationToken);",
-                @class,
-                element.Name,
-                @namespace,
-                parameters,
-                subject,
-                GenerateContentForElementContent,
-                element.Type,
-                out string next);
-
             Predecessor[] pool = default;
+            string moniker = string.Concat(method, element.Name);
 
             try
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
+                string body = GenerateConcatenations(moniker, pool, element.Properties, tier + 1);
 
-                foreach (Source source in GenerateContent(@class, next, pool, element.Properties, subject, tier + 1))
+                yield return GenerateContent(
+                    arguments,
+                    body.Indent(times: 2),
+                    @class,
+                    element.Name,
+                    @namespace,
+                    moniker,
+                    parameters,
+                    subject,
+                    GenerateContentForElementContent,
+                    property.Type,
+                    out string next);
+
+                foreach (Source source in GenerateContent(@class, next, moniker, pool, element.Properties, subject, tier + 1))
                 {
                     yield return source;
                 }
@@ -161,17 +202,23 @@
             string arguments,
             string @class,
             string @namespace,
+            string method,
             string parameters,
+            Predecessor[] preceding,
             Property property,
             Subject subject,
+            int tier,
             out string next)
         {
+            string body = GenerateConcatenations(method, preceding, property.Properties, tier);
+
             return GenerateContent(
                 arguments,
-                $"results = Concat(results, Navigate(root, {arguments}, value.{property.Name}), cancellationToken);",
+                body,
                 @class,
                 property.Name,
                 @namespace,
+                method,
                 parameters,
                 subject,
                 GenerateContentForPropertyContent,
@@ -182,6 +229,7 @@
         private static IEnumerable<Source> GenerateContentsForProperty(
             string @class,
             string @namespace,
+            string method,
             Predecessor[] preceding,
             Property property,
             Subject subject,
@@ -193,7 +241,7 @@
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property));
 
-                foreach (Source succeeding in GenerateContent(@class, @namespace, pool, property.Properties, subject, tier))
+                foreach (Source succeeding in GenerateContent(@class, @namespace, method, pool, property.Properties, subject, tier))
                 {
                     yield return succeeding;
                 }
@@ -202,6 +250,52 @@
             {
                 ArrayPool<Predecessor>.Shared.Return(pool);
             }
+        }
+
+        private static Source GenerateNavigator(string name, Subject subject)
+        {
+            string contract = ContractStrategy.GetName(subject.Name);
+            string body = GenerateConcatenations(string.Empty, Array.Empty<Predecessor>(), subject.Properties, 0);
+
+            string code = string.Format(
+                GenerateNavigatorContent,
+                name,
+                contract,
+                subject.Name,
+                body.Indent(times: 2));
+
+            return new Source(code, $"{GetName(subject.Name)}");
+        }
+
+        [SuppressMessage("Minor Code Smell", "S3267:Loops should be simplified with \"LINQ\" expressions", Justification = "Suggested approach is less readable.")]
+        private static string GenerateConcatenations(string method, Predecessor[] preceding, ImmutableArray<Property> properties, int tier)
+        {
+            string call = string.Empty;
+
+            if (tier > 1)
+            {
+                string[] arguments = preceding
+                    .Take(tier - 2)
+                    .Select(predecessor => predecessor.Name.ToCamelCase())
+                    .Concat(new[] { MethodSubjectVariableName })
+                    .ToArray();
+
+                call = string.Join(Separator, arguments);
+                call = string.Concat(call, Separator);
+            }
+
+            var builder = new StringBuilder();
+
+            foreach (Property property in properties)
+            {
+                _ = builder.AppendLine(string.Format(
+                    GenerateConcatenationsContent,
+                    string.Concat(method, property.Name),
+                    call,
+                    property.Name));
+            }
+
+            return builder.ToString();
         }
 
         private static void GeneratePropertyContent(Predecessor[] preceding, int tier, out string arguments, out string paramerers)
@@ -213,8 +307,6 @@
 
                 return;
             }
-
-            const string separator = ", ";
 
             int total = tier - 1;
             string[] declarations = ArrayPool<string>.Shared.Rent(total);
@@ -231,11 +323,11 @@
                     declarations[index] = variable;
                 }
 
-                arguments = string.Join(separator, declarations, 0, total);
-                paramerers = string.Join(separator, propagations, 0, total);
+                arguments = string.Join(Separator, declarations, 0, total);
+                paramerers = string.Join(Separator, propagations, 0, total);
 
-                arguments = string.Concat(arguments, separator);
-                paramerers = string.Concat(paramerers, separator);
+                arguments = string.Concat(arguments, Separator);
+                paramerers = string.Concat(paramerers, Separator);
             }
             finally
             {

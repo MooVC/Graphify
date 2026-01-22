@@ -141,7 +141,7 @@
     <value>    public {0} {1} {{ get; private set; }}</value>
   </data>
   <data name="GenerateWrapperDeclarationsContent" xml:space="preserve">
-    <value>partial class {0}
+    <value>public partial class {0}
 {{
     {1}
 }}</value>

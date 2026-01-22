@@ -70,7 +70,7 @@ namespace Graphify {
         ///    public interface INavigator&lt;in T&gt;
         ///        where T : class
         ///    {{
-        ///        IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;(T instance, CancellationToken cancellationToken);
+        ///        IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;(T root, CancellationToken cancellationToken);
         ///    }}
         ///}}.
         /// </summary>

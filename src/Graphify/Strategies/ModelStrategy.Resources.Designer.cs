@@ -143,7 +143,7 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to partial class {0}
+        ///   Looks up a localized string similar to public partial class {0}
         ///{{
         ///    {1}
         ///}}.

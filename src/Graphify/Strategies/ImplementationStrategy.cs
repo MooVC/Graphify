@@ -18,7 +18,6 @@
     {
         private const int GraphNamespaceLength = 7;
         private const string Separator = ", ";
-        private const string MethodSubjectVariableName = "value";
 
         /// <summary>
         /// Generates a standardized navigator name for the specified subject.
@@ -40,7 +39,7 @@
         public IEnumerable<Source> Generate(Subject subject)
         {
             string name = GetName(subject.Name);
-            string @namespace = $"{subject.Name}.Graph";
+            string @namespace = string.Concat(subject.Qualification, ".Graph");
 
             yield return GenerateNavigator(name, subject);
 
@@ -172,7 +171,7 @@
             try
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
-                string body = GenerateConcatenations(moniker, pool, element.Properties, tier + 1);
+                string body = GenerateConcatenationsForElement(moniker, pool, element.Properties, tier);
 
                 yield return GenerateContent(
                     arguments,
@@ -210,7 +209,7 @@
             int tier,
             out string next)
         {
-            string body = GenerateConcatenations(method, preceding, property.Properties, tier);
+            string body = GenerateConcatenationsForProperty(method, preceding, property.Properties, tier);
 
             return GenerateContent(
                 arguments,
@@ -255,7 +254,7 @@
         private static Source GenerateNavigator(string name, Subject subject)
         {
             string contract = ContractStrategy.GetName(subject.Name);
-            string body = GenerateConcatenations(string.Empty, Array.Empty<Predecessor>(), subject.Properties, 0);
+            string body = GenerateConcatenationsForSubject(subject.Properties);
 
             string code = string.Format(
                 GenerateNavigatorContent,
@@ -268,17 +267,20 @@
         }
 
         [SuppressMessage("Minor Code Smell", "S3267:Loops should be simplified with \"LINQ\" expressions", Justification = "Suggested approach is less readable.")]
-        private static string GenerateConcatenations(string method, Predecessor[] preceding, ImmutableArray<Property> properties, int tier)
+        private static string GenerateConcatenations(
+            string method,
+            Predecessor[] preceding,
+            ImmutableArray<Property> properties,
+            string template,
+            int tier)
         {
             string call = string.Empty;
 
             if (tier > 1)
             {
-                string[] arguments = preceding
-                    .Take(tier - 2)
-                    .Select(predecessor => predecessor.Name.ToCamelCase())
-                    .Concat(new[] { MethodSubjectVariableName })
-                    .ToArray();
+                IEnumerable<string> arguments = preceding
+                    .Take(tier - 1)
+                    .Select(predecessor => predecessor.Name.ToCamelCase());
 
                 call = string.Join(Separator, arguments);
                 call = string.Concat(call, Separator);
@@ -289,13 +291,28 @@
             foreach (Property property in properties)
             {
                 _ = builder.AppendLine(string.Format(
-                    GenerateConcatenationsContent,
+                    template,
                     string.Concat(method, property.Name),
                     call,
                     property.Name));
             }
 
             return builder.ToString();
+        }
+
+        private static string GenerateConcatenationsForElement(string method, Predecessor[] preceding, ImmutableArray<Property> properties, int tier)
+        {
+            return GenerateConcatenations(method, preceding, properties, GenerateConcatenationsForElementContent, tier);
+        }
+
+        private static string GenerateConcatenationsForProperty(string method, Predecessor[] preceding, ImmutableArray<Property> properties, int tier)
+        {
+            return GenerateConcatenations(method, preceding, properties, GenerateConcatenationsForPropertyContent, tier);
+        }
+
+        private static string GenerateConcatenationsForSubject(ImmutableArray<Property> properties)
+        {
+            return GenerateConcatenations(string.Empty, Array.Empty<Predecessor>(), properties, GenerateConcatenationsForSubjectContent, 0);
         }
 
         private static void GeneratePropertyContent(Predecessor[] preceding, int tier, out string arguments, out string paramerers)

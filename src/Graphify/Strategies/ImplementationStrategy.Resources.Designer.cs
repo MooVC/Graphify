@@ -61,11 +61,29 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to results = Concat(results, Navigate{0}(root, {1}, element, element.{2}));.
+        ///   Looks up a localized string similar to results = Concat(results, Navigate{0}&lt;TResult&gt;(root, {1}value, element, element.{2}, cancellationToken), cancellationToken);.
         /// </summary>
-        internal static string GenerateConcatenationsContent {
+        internal static string GenerateConcatenationsForElementContent {
             get {
-                return ResourceManager.GetString("GenerateConcatenationsContent", resourceCulture);
+                return ResourceManager.GetString("GenerateConcatenationsForElementContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to results = Concat(results, Navigate{0}&lt;TResult&gt;(root, {1}value, value.{2}, cancellationToken), cancellationToken);.
+        /// </summary>
+        internal static string GenerateConcatenationsForPropertyContent {
+            get {
+                return ResourceManager.GetString("GenerateConcatenationsForPropertyContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to results = Concat(results, Navigate{0}&lt;TResult&gt;(root, root.{2}, cancellationToken), cancellationToken);.
+        /// </summary>
+        internal static string GenerateConcatenationsForSubjectContent {
+            get {
+                return ResourceManager.GetString("GenerateConcatenationsForSubjectContent", resourceCulture);
             }
         }
         
@@ -95,11 +113,13 @@ namespace Graphify.Strategies {
         ///{{
         ///    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
         ///
-        ///    if (HasObservers(out global::System.Collections.Generic.IEnumerable&lt;IVisitor&lt;{3}, TResult&gt;&gt; observers))
-        ///    {{
-        ///        var instance = new {3}(root, {4}value);
+        ///    _ = HasObservers(out global::System.Collections.Generic.IEnumerable&lt;IVisitor&lt;{3}, TResult&gt;&gt; observers);
+        ///    
+        ///    int index = 0;
         ///
-        ///        foreach (IVisitor&lt;{3}, TRes [rest of string was truncated]&quot;;.
+        ///    foreach ({6} element in value)
+        ///    {{
+        ///        var instance = [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GenerateContentForElementContent {
             get {
@@ -141,7 +161,12 @@ namespace Graphify.Strategies {
         ///    : global::Graphify.Navigator&lt;{2}&gt;,
         ///      {1}
         ///{{
-        ///    public override IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({2} instance, CancellationToken cancellationToken)
+        ///    public {0}(global::System.IServiceProvider provider)
+        ///        : base(provider)
+        ///    {{
+        ///    }}
+        ///
+        ///    public override IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({2} root, CancellationToken cancellationToken)
         ///    {{
         ///        var results = Empty&lt;TResult&gt;();
         ///

@@ -12,8 +12,8 @@
     /// </summary>
     internal static partial class INamedTypeSymbolExtensions
     {
-        private static readonly ConcurrentDictionary<string, ImmutableArray<Property>> _cache
-             = new ConcurrentDictionary<string, ImmutableArray<Property>>();
+        private static readonly ConcurrentDictionary<string, Property[]> _cache
+             = new ConcurrentDictionary<string, Property[]>();
 
         /// <summary>
         /// Returns a collection of <see cref="Property"/> for each property belonging to <paramref name="type"/>.
@@ -51,7 +51,7 @@
         {
             string key = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
 
-            ImmutableArray<Property> GetProperties()
+            Property[] GetProperties()
             {
                 return type
                     .GetMembers()
@@ -60,10 +60,12 @@
                                     && property.ExplicitInterfaceImplementations.Length == 0
                                     && !property.Type.Equals(type, SymbolEqualityComparer.Default))
                     .Select(property => property.ToProperty())
-                    .ToImmutableArray();
+                    .ToArray();
             }
 
-            return _cache.GetOrAdd(key, _ => GetProperties());
+            return _cache
+                .GetOrAdd(key, _ => GetProperties())
+                .ToImmutableArray();
         }
     }
 }

@@ -270,7 +270,7 @@
         private static string GenerateConcatenations(
             string method,
             Predecessor[] preceding,
-            ImmutableArray<Property> properties,
+            in ImmutableArray<Property> properties,
             string template,
             int tier)
         {
@@ -300,17 +300,25 @@
             return builder.ToString();
         }
 
-        private static string GenerateConcatenationsForElement(string method, Predecessor[] preceding, ImmutableArray<Property> properties, int tier)
+        private static string GenerateConcatenationsForElement(
+            string method,
+            Predecessor[] preceding,
+            in ImmutableArray<Property> properties,
+            int tier)
         {
             return GenerateConcatenations(method, preceding, properties, GenerateConcatenationsForElementContent, tier);
         }
 
-        private static string GenerateConcatenationsForProperty(string method, Predecessor[] preceding, ImmutableArray<Property> properties, int tier)
+        private static string GenerateConcatenationsForProperty(
+            string method,
+            Predecessor[] preceding,
+            in ImmutableArray<Property> properties,
+            int tier)
         {
             return GenerateConcatenations(method, preceding, properties, GenerateConcatenationsForPropertyContent, tier);
         }
 
-        private static string GenerateConcatenationsForSubject(ImmutableArray<Property> properties)
+        private static string GenerateConcatenationsForSubject(in ImmutableArray<Property> properties)
         {
             return GenerateConcatenations(string.Empty, Array.Empty<Predecessor>(), properties, GenerateConcatenationsForSubjectContent, 0);
         }

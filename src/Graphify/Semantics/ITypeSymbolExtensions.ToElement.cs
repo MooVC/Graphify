@@ -20,14 +20,14 @@
         /// </returns>
         public static Element ToElement(this ITypeSymbol type)
         {
-            IEnumerable<Property> properties = type is INamedTypeSymbol named
+            ImmutableArray<Property> properties = type is INamedTypeSymbol named
                 ? named.GetProperties()
-                : Enumerable.Empty<Property>();
+                : ImmutableArray<Property>.Empty;
 
             return new Element
             {
                 Name = type.Name,
-                Properties = properties.ToImmutableArray(),
+                Properties = properties,
                 Symbol = type,
                 Type = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
             };

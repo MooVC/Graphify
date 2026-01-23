@@ -19,7 +19,7 @@
 
             string contract = ContractStrategy.GetName(subject.Name);
             string implementation = ImplementationStrategy.GetName(subject.Name);
-            string content = string.Format(GenerateContent, implementation, contract);
+            string content = string.Format(GenerateContent, implementation, contract, subject.Name);
             string hint = $"ServiceCollectionExtensions.Add{implementation}";
 
             yield return new Source(content, hint);

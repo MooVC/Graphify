@@ -70,7 +70,7 @@ namespace Graphify.Strategies {
         ///            throw new global::System.ArgumentNullException(&quot;services&quot;);
         ///        }}
         ///
-        ///        return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton&lt;{1}, {0}&gt; [rest of string was truncated]&quot;;.
+        ///        _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton&lt;global::Grap [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GenerateContent {
             get {

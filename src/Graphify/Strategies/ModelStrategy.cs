@@ -64,7 +64,7 @@
 
                 if (property.IsSequence)
                 {
-                    succeeding = GenerateContentForElement(assignments, body, property.Element, next, parameters, preceding, property, subject, tier, wrapper);
+                    succeeding = GenerateContentForElement(assignments, body, property.Element, next, parameters, preceding, property, subject, tier);
                 }
 
                 succeeding = succeeding.Concat(GenerateContentsForProperty(next, preceding, property, subject, tier));
@@ -117,29 +117,32 @@
             Predecessor[] preceding,
             Property property,
             Subject subject,
-            int tier,
-            string wrapper)
+            int tier)
         {
-            yield return GenerateContent(
-                assignments,
-                body,
-                element.Name,
-                @namespace,
-                parameters,
-                subject,
-                GenerateContentForElementContent,
-                tier,
-                element.Type,
-                wrapper,
-                out string next);
-
             Predecessor[] pool = default;
 
             try
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
 
-                foreach (Source source in GenerateContent(next, pool, element.Properties, subject, tier + 1))
+                tier++;
+
+                string wrapper = GenerateWrapperDeclarations(pool, tier);
+
+                yield return GenerateContent(
+                    assignments,
+                    body,
+                    element.Name,
+                    @namespace,
+                    parameters,
+                    subject,
+                    GenerateContentForElementContent,
+                    tier,
+                    element.Type,
+                    wrapper,
+                    out string next);
+
+                foreach (Source source in GenerateContent(next, pool, element.Properties, subject, tier))
                 {
                     yield return source;
                 }

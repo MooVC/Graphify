@@ -1,4 +1,4 @@
-﻿namespace Graphify.Console;
+﻿namespace Graphify.Console.Complex;
 
 public sealed partial class Child
 {

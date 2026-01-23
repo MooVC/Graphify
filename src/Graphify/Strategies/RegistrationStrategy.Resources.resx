@@ -127,7 +127,13 @@
             throw new global::System.ArgumentNullException("services");
         }}
 
-        return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton&lt;{1}, {0}&gt;(services);
+        _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton&lt;global::Graphify.INavigator&lt;{2}&gt;&gt;(
+            services, (global::System.IServiceProvider provider) =&gt; (global::Graphify.INavigator&lt;{2}&gt;)provider.GetService(typeof({0})));
+
+        _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton&lt;{1}&gt;(
+            services, (global::System.IServiceProvider provider) =&gt; ({1})provider.GetService(typeof({0})));
+
+        return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton&lt;{0}&gt;(services);
     }}
 }}</value>
   </data>

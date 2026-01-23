@@ -118,15 +118,15 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GenerateContentForPropertyContent" xml:space="preserve">
-    <value>private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({0} root, {1}{2} value, [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken)
+    <value>private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({0} root, {1}{2} value, global::System.Threading.CancellationToken cancellationToken)
 {{
     global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
 
-    if (HasObservers(out global::System.Collections.Generic.IEnumerable&lt;IVisitor&lt;{3}, TResult&gt;&gt; observers))
+    if (HasObservers(out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;{3}, TResult&gt;&gt; observers))
     {{
         var instance = new {3}(root, {4}value);
         
-        foreach (IVisitor&lt;{3}, TResult&gt; observer in observers)
+        foreach (global::Graphify.IVisitor&lt;{3}, TResult&gt; observer in observers)
         {{
             results = Concat(results, observer.Observe(instance, cancellationToken), cancellationToken);
         }}
@@ -136,11 +136,11 @@
 }}</value>
   </data>
   <data name="GenerateContentForElementContent" xml:space="preserve">
-    <value>private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({0} root, {1}{2} value, [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken)
+    <value>private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({0} root, {1}{2} value, CancellationToken cancellationToken)
 {{
     global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
 
-    _ = HasObservers(out global::System.Collections.Generic.IEnumerable&lt;IVisitor&lt;{3}, TResult&gt;&gt; observers);
+    _ = HasObservers(out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;{3}, TResult&gt;&gt; observers);
     
     int index = 0;
 
@@ -148,7 +148,7 @@
     {{
         var instance = new {3}(index, root, {4}element);
 
-        foreach (IVisitor&lt;{3}, TResult&gt; observer in observers)
+        foreach (global::Graphify.IVisitor&lt;{3}, TResult&gt; observer in observers)
         {{
             results = Concat(results, observer.Observe(instance, cancellationToken), cancellationToken);
         }}
@@ -171,7 +171,7 @@
     : {1},
       global::Graphify.Navigator&lt;{2}&gt;
 {{
-    public override IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({2} root, CancellationToken cancellationToken)
+    public override IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({2} root, global::System.Threading.CancellationToken cancellationToken)
     {{
         var results = Empty&lt;TResult&gt;();
         
@@ -191,7 +191,7 @@
     {{
     }}
 
-    public override IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({2} root, CancellationToken cancellationToken)
+    public override IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({2} root, global::System.Threading.CancellationToken cancellationToken)
     {{
         var results = Empty&lt;TResult&gt;();
 

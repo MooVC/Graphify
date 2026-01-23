@@ -1,4 +1,4 @@
-﻿namespace Graphify.Console;
+﻿namespace Graphify.Console.Simple;
 
 /// <summary>
 /// Represents a simple entity with a name, age, and species information.
@@ -15,12 +15,12 @@ public sealed partial class Simple
     public static string Species { get; } = "Human";
 
     /// <summary>
-    /// Gets the age value associated with the current instance.
+    /// Gets or sets the age value associated with the current instance.
     /// </summary>
     /// <value>
     /// The age value associated with the current instance.
     /// </value>
-    public int Age { get; }
+    public int Age { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether the person is considered an adult based on their age.
@@ -31,10 +31,10 @@ public sealed partial class Simple
     public bool IsAdult => Age >= 18;
 
     /// <summary>
-    /// Gets the name associated with the current instance.
+    /// Gets or sets the name associated with the current instance.
     /// </summary>
     /// <value>
     /// The name associated with the current instance.
     /// </value>
-    public string Name { get; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 }

@@ -1,4 +1,4 @@
-﻿namespace Graphify.Console;
+﻿namespace Graphify.Console.Complex;
 
 /// <summary>
 /// Represents a complex entity with a name, age, and a collection of child objects.

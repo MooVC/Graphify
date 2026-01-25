@@ -62,6 +62,8 @@ internal static class Program
 
         await Enumerate(simple, provider);
         await Enumerate(complex, provider);
+
+        _ = ReadLine();
     }
 
     private static async Task Enumerate<T>(T instance, IServiceProvider provider)

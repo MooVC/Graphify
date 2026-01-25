@@ -186,7 +186,7 @@
         {{
             observers = (IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt;)_provider.GetService(typeof(IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt;));
 
-            return ReferenceEquals(observers, null) || !observers.Any();
+            return !ReferenceEquals(observers, null) &amp;&amp; observers.Any();
         }}
         
         protected async IAsyncEnumerable&lt;TResult&gt; Invoke&lt;TInstance, TResult&gt;(

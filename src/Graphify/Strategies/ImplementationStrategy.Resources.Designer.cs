@@ -95,12 +95,10 @@ namespace Graphify.Strategies {
         ///    public override IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({2} root, global::System.Threading.CancellationToken cancellationToken)
         ///    {{
         ///        var results = Empty&lt;TResult&gt;();
-        ///        
-        ///        {3}
-        ///        
-        ///        return results;
-        ///    }}
-        ///}}.
+        ///
+        ///        if (HasObservers&lt;{2}, TResult&gt;(out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;{2}, TResult&gt;&gt; observers))
+        ///        {{
+        ///            results = Invoke&lt;{2}, TResult&gt;(root, observers, cancellationToken) [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GenerateContent {
             get {
@@ -114,14 +112,14 @@ namespace Graphify.Strategies {
         ///    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
         ///
         ///    _ = HasObservers(out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;{3}, TResult&gt;&gt; observers);
-        ///    
+        ///
         ///    int index = 0;
         ///
         ///    foreach ({6} element in value)
         ///    {{
         ///        var instance = new {3}(index, root, {4}element);
         ///
-        ///   [rest of string was truncated]&quot;;.
+        ///       [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GenerateContentForElementContent {
             get {
@@ -137,8 +135,8 @@ namespace Graphify.Strategies {
         ///    if (HasObservers(out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;{3}, TResult&gt;&gt; observers))
         ///    {{
         ///        var instance = new {3}(root, {4}value);
-        ///        
-        ///        foreach (global::Graphify.IVisitor [rest of string was truncated]&quot;;.
+        ///
+        ///        results = Concat(results, Invoke&lt;{3}, TRes [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GenerateContentForPropertyContent {
             get {

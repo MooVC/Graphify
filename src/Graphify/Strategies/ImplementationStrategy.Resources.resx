@@ -125,11 +125,8 @@
     if (HasObservers(out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;{3}, TResult&gt;&gt; observers))
     {{
         var instance = new {3}(root, {4}value);
-        
-        foreach (global::Graphify.IVisitor&lt;{3}, TResult&gt; observer in observers)
-        {{
-            results = Concat(results, observer.Observe(instance, cancellationToken), cancellationToken);
-        }}
+
+        results = Concat(results, Invoke&lt;{3}, TResult&gt;(instance, observers, cancellationToken), cancellationToken);
     }}
 {5}
     return results;
@@ -141,17 +138,14 @@
     global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
 
     _ = HasObservers(out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;{3}, TResult&gt;&gt; observers);
-    
+
     int index = 0;
 
     foreach ({6} element in value)
     {{
         var instance = new {3}(index, root, {4}element);
 
-        foreach (global::Graphify.IVisitor&lt;{3}, TResult&gt; observer in observers)
-        {{
-            results = Concat(results, observer.Observe(instance, cancellationToken), cancellationToken);
-        }}
+        results = Concat(results, Invoke&lt;{3}, TResult&gt;(instance, observers, cancellationToken), cancellationToken);
 
         {5}
         index++;
@@ -174,9 +168,14 @@
     public override IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({2} root, global::System.Threading.CancellationToken cancellationToken)
     {{
         var results = Empty&lt;TResult&gt;();
-        
+
+        if (HasObservers&lt;{2}, TResult&gt;(out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;{2}, TResult&gt;&gt; observers))
+        {{
+            results = Invoke&lt;{2}, TResult&gt;(root, observers, cancellationToken);
+        }}
+
         {3}
-        
+
         return results;
     }}
 }}</value>

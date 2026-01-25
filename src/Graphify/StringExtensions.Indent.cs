@@ -57,9 +57,7 @@
                 line = reader.ReadLine();
             }
 
-            return builder
-                .ToString()
-                .TrimEnd();
+            return builder.ToString();
         }
 
         private static string GenerateWhitespace(int times, string whitespace)

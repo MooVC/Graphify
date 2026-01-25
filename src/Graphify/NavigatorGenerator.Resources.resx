@@ -189,23 +189,20 @@
             return !ReferenceEquals(observers, null) &amp;&amp; observers.Any();
         }}
         
-        protected async IAsyncEnumerable&lt;TResult&gt; Invoke&lt;TInstance, TResult&gt;(
+        protected IAsyncEnumerable&lt;TResult&gt; Invoke&lt;TInstance, TResult&gt;(
             TInstance instance,
             IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt; observers,
-            [EnumeratorCancellation] CancellationToken cancellationToken)
+            CancellationToken cancellationToken)
             where TInstance : class
         {{
-            foreach (var observer in observers)
+            global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
+
+            foreach (global::Graphify.IVisitor&lt;TInstance, TResult&gt; observer in observers)
             {{
-                var results = observer
-                    .Observe(instance, cancellationToken)
-                    .ConfigureAwait(false);
-                
-                await foreach (var result in results)
-                {{
-                    yield return result;
-                }}
+                results = Concat(results, observer.Observe(instance, cancellationToken), cancellationToken);
             }}
+
+            return results;
         }}
     }}
 }}</value>

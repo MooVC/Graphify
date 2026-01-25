@@ -8,6 +8,7 @@ public static partial class IServiceCollectionExtensions
     public static IServiceCollection AddComplexVisitors(this IServiceCollection services)
     {
         return services
+            .AddSingleton<IVisitor<Complex, string>, Root>()
             .AddSingleton<IVisitor<Complex.Graph.Age, string>, Age>()
             .AddSingleton<IVisitor<Complex.Graph.Children, string>, Children>()
             .AddSingleton<IVisitor<Complex.Graph.Children.Child, string>, ChildrenChild>()

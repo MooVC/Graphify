@@ -213,7 +213,7 @@
 
             return GenerateContent(
                 arguments,
-                body,
+                body.Indent(skip: 0),
                 @class,
                 property.Name,
                 @namespace,
@@ -288,6 +288,8 @@
 
             var builder = new StringBuilder();
 
+            _ = builder.AppendLine();
+
             foreach (Property property in properties)
             {
                 _ = builder.AppendLine(string.Format(
@@ -296,6 +298,8 @@
                     call,
                     property.Name));
             }
+
+            _ = builder.AppendLine();
 
             return builder.ToString();
         }

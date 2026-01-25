@@ -64,7 +64,7 @@ namespace Graphify.Strategies {
         ///   Looks up a localized string similar to {0} partial interface {1}
         ///    : global::Graphify.INavigator&lt;{2}&gt;
         ///{{
-        ///    //// Addition methods can be added as partial elements
+        ///    //// Additional methods can be added as partial elements
         ///}}.
         /// </summary>
         internal static string GenerateContent {

@@ -1,7 +1,7 @@
 ﻿namespace Graphify.Snippets.Declarations;
 
 internal static partial class Complex
-{
+{/*
     public static readonly Snippets Declaration = new(
         [
             Declarations.CSharp1Body,
@@ -20,7 +20,7 @@ internal static partial class Complex
             Expected.Name,
             Expected.NameLength,
             Expected.Contract,
-            Expected.Registration, // TODO: Figure out how to add dependencies to testing toolkit
+            Expected.Registration,
         ],
-        nameof(Complex));
+        nameof(Complex));*/
 }

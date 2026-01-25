@@ -177,9 +177,7 @@
         {{
             results = Invoke&lt;{2}, TResult&gt;(root, observers, cancellationToken);
         }}
-
-        {3}
-
+{3}
         return results;
     }}
 }}</value>

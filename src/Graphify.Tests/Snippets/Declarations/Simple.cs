@@ -11,12 +11,17 @@ internal static partial class Simple
         ],
         Declarations.Main,
         [
+            Expected.Contract,
+            Expected.Navigator,
+            Expected.NavigatorAge,
+            Expected.NavigatorIsAdult,
+            Expected.NavigatorName,
+            Expected.NavigatorNameLength,
             Expected.Age,
             Expected.IsAdult,
             Expected.Name,
             Expected.NameLength,
-            Expected.Contract,
-            ////Expected.Registration, // TODO: Figure out how to add dependencies to testing toolkit
+            Expected.Registration,
         ],
         nameof(Simple));
 }

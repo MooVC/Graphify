@@ -10,6 +10,6 @@ public sealed record Generated(string Content, string Hint, Type? Generator = de
     {
         Type generator = Generator ?? typeof(TypeGenerator);
 
-        state.GeneratedSources.Add((sourceGeneratorType: generator, filename: $"{Hint}.g.cs", content: Content));
+        state.GeneratedSources.Add((sourceGeneratorType: generator, filename: Hint, content: Content));
     }
 }

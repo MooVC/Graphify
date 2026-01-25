@@ -39,7 +39,7 @@ internal static partial class Complex
                     #endif
                 }
                 """,
-            "Graphify.Testing.Complex.Age");
+            "Graphify.Testing.Complex.Age.g.cs");
 
         public static readonly Generated Children = new(
             """
@@ -76,7 +76,7 @@ internal static partial class Complex
                     #endif
                 }
                 """,
-            "Graphify.Testing.Complex.Children");
+            "Graphify.Testing.Complex.Children.g.cs");
 
         public static readonly Generated ChildrenChild = new(
             """
@@ -116,7 +116,7 @@ internal static partial class Complex
                     #endif
                 }
                 """,
-            "Graphify.Testing.Complex.Children.Child");
+            "Graphify.Testing.Complex.Children.Child.g.cs");
 
         public static readonly Generated ChildrenChildAge = new(
             """
@@ -166,7 +166,7 @@ internal static partial class Complex
                     #endif
                 }
                 """,
-            "Graphify.Testing.Complex.Children.Child.Age");
+            "Graphify.Testing.Complex.Children.Child.Age.g.cs");
 
         public static readonly Generated ChildrenChildName = new(
             """
@@ -216,7 +216,7 @@ internal static partial class Complex
                     #endif
                 }
                 """,
-            "Graphify.Testing.Complex.Children.Child.Name");
+            "Graphify.Testing.Complex.Children.Child.Name.g.cs");
 
         public static readonly Generated ChildrenChildNameLength = new(
             """
@@ -272,7 +272,7 @@ internal static partial class Complex
                     #endif
                 }
                 """,
-            "Graphify.Testing.Complex.Children.Child.Name.Length");
+            "Graphify.Testing.Complex.Children.Child.Name.Length.g.cs");
 
         public static readonly Generated Contract = new(
             """
@@ -296,7 +296,7 @@ internal static partial class Complex
                     #endif
                 }
                 """,
-            "Graphify.Testing.IComplexNavigator");
+            "Graphify.Testing.IComplexNavigator.g.cs");
 
         public static readonly Generated Name = new(
             """
@@ -333,7 +333,7 @@ internal static partial class Complex
                     #endif
                 }
                 """,
-            "Graphify.Testing.Complex.Name");
+            "Graphify.Testing.Complex.Name.g.cs");
 
         public static readonly Generated NameLength = new(
             """
@@ -377,7 +377,7 @@ internal static partial class Complex
                     #endif
                 }
                 """,
-            "Graphify.Testing.Complex.Name.Length");
+            "Graphify.Testing.Complex.Name.Length.g.cs");
 
         public static readonly Generated Registration = new(
             """
@@ -408,6 +408,6 @@ internal static partial class Complex
                     #endif
                 }
                 """,
-            "Graphify.Testing.ServiceCollectionExtensions.AddComplexNavigator");
+            "Graphify.Testing.ServiceCollectionExtensions.AddComplexNavigator.g.cs");
     }
 }

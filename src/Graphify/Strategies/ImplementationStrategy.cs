@@ -175,7 +175,7 @@
 
                 yield return GenerateContent(
                     arguments,
-                    body.Indent(skip: 0, times: 2),
+                    body.Indent(skip: 0, times: 2, trim: false),
                     @class,
                     element.Name,
                     @namespace,
@@ -213,7 +213,7 @@
 
             return GenerateContent(
                 arguments,
-                body.Indent(skip: 0),
+                body.Indent(skip: 0, trim: false),
                 @class,
                 property.Name,
                 @namespace,
@@ -261,12 +261,11 @@
                 name,
                 contract,
                 subject.Name,
-                body.Indent(times: 2));
+                body.Indent(skip: 0, times: 2, trim: false));
 
             return new Source(code, $"{GetName(subject.Name)}");
         }
 
-        [SuppressMessage("Minor Code Smell", "S3267:Loops should be simplified with \"LINQ\" expressions", Justification = "Suggested approach is less readable.")]
         private static string GenerateConcatenations(
             Element element,
             string method,
@@ -275,18 +274,24 @@
             string template,
             int tier)
         {
+            if (element is null && properties.Length == 0)
+            {
+                return string.Empty;
+            }
+
             string call = string.Empty;
 
             if (tier > 1)
             {
-                IEnumerable<string> arguments = preceding
-                    .Take(tier - 1)
-                    .Select(predecessor => predecessor.Name.ToCamelCase());
-
-                call = string.Join(Separator, arguments);
-                call = string.Concat(call, Separator);
+                call = GenerateParametersForConcatenations(preceding, tier);
             }
 
+            return GenerateConcatenations(call, element, method, properties, template);
+        }
+
+        [SuppressMessage("Minor Code Smell", "S3267:Loops should be simplified with \"LINQ\" expressions", Justification = "Suggested approach is less readable.")]
+        private static string GenerateConcatenations(string call, Element element, string method, ImmutableArray<Property> properties, string template)
+        {
             var builder = new StringBuilder();
 
             _ = builder.AppendLine();
@@ -334,6 +339,17 @@
         private static string GenerateConcatenationsForSubject(in ImmutableArray<Property> properties)
         {
             return GenerateConcatenations(default, string.Empty, Array.Empty<Predecessor>(), properties, GenerateConcatenationsForSubjectContent, 0);
+        }
+
+        private static string GenerateParametersForConcatenations(Predecessor[] preceding, int tier)
+        {
+            IEnumerable<string> arguments = preceding
+                .Take(tier - 1)
+                .Select(predecessor => predecessor.Name.ToCamelCase());
+
+            string call = string.Join(Separator, arguments);
+
+            return string.Concat(call, Separator);
         }
 
         private static void GeneratePropertyContent(Predecessor[] preceding, int tier, out string arguments, out string paramerers)

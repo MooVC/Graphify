@@ -4,26 +4,26 @@ public static class Boilerplate
 {
     public static readonly Generated Base = new(
         NavigatorGenerator.Content,
-        NavigatorGenerator.Name,
+        NavigatorGenerator.Hint,
         typeof(NavigatorGenerator));
 
     public static readonly Generated Graphify = new(
         GraphifyAttributeGenerator.Content,
-        $"{GraphifyAttributeGenerator.Name}Attribute",
+        $"{GraphifyAttributeGenerator.Name}Attribute.g.cs",
         typeof(GraphifyAttributeGenerator));
 
     public static readonly Generated Ignore = new(
         IgnoreAttributeGenerator.Content,
-        $"{IgnoreAttributeGenerator.Name}Attribute",
+        $"{IgnoreAttributeGenerator.Name}Attribute.g.cs",
         typeof(IgnoreAttributeGenerator));
 
     public static readonly Generated Navigator = new(
         NavigatorContractGenerator.Content,
-        NavigatorContractGenerator.Name,
+        NavigatorContractGenerator.Hint,
         typeof(NavigatorContractGenerator));
 
     public static readonly Generated Visitor = new(
         VisitorContractGenerator.Content,
-        VisitorContractGenerator.Name,
+        $"{VisitorContractGenerator.Name}.g.cs",
         typeof(VisitorContractGenerator));
 }

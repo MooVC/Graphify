@@ -146,8 +146,7 @@
         var instance = new {3}(index, root, {4}element);
 
         results = Concat(results, Invoke&lt;{3}, TResult&gt;(instance, observers, cancellationToken), cancellationToken);
-
-        {5}
+{5}
         index++;
     }}
 
@@ -193,5 +192,8 @@
   </data>
   <data name="GenerateConcatenationsForSubjectContent" xml:space="preserve">
     <value>results = Concat(results, Navigate{0}&lt;TResult&gt;(root, root.{2}, cancellationToken), cancellationToken);</value>
+  </data>
+  <data name="GenerateConcatenationsForPropertyElement" xml:space="preserve">
+    <value>results = Concat(results, Navigate{0}&lt;TResult&gt;(root, {1}value, cancellationToken), cancellationToken);</value>
   </data>
 </root>

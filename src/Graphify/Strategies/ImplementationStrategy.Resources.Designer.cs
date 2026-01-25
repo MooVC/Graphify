@@ -79,6 +79,15 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to results = Concat(results, Navigate{0}&lt;TResult&gt;(root, {1}value, cancellationToken), cancellationToken);.
+        /// </summary>
+        internal static string GenerateConcatenationsForPropertyElement {
+            get {
+                return ResourceManager.GetString("GenerateConcatenationsForPropertyElement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to results = Concat(results, Navigate{0}&lt;TResult&gt;(root, root.{2}, cancellationToken), cancellationToken);.
         /// </summary>
         internal static string GenerateConcatenationsForSubjectContent {

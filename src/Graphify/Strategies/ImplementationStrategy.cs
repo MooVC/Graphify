@@ -171,11 +171,11 @@
             try
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
-                string body = GenerateConcatenationsForElement(moniker, pool, element.Properties, tier);
+                string body = GenerateConcatenationsForElement(moniker, pool, element.Properties, tier++);
 
                 yield return GenerateContent(
                     arguments,
-                    body.Indent(times: 2),
+                    body.Indent(skip: 0, times: 2),
                     @class,
                     element.Name,
                     @namespace,
@@ -186,7 +186,7 @@
                     property.Type,
                     out string next);
 
-                foreach (Source source in GenerateContent(@class, next, moniker, pool, element.Properties, subject, tier + 1))
+                foreach (Source source in GenerateContent(@class, next, moniker, pool, element.Properties, subject, tier))
                 {
                     yield return source;
                 }
@@ -209,7 +209,7 @@
             int tier,
             out string next)
         {
-            string body = GenerateConcatenationsForProperty(method, preceding, property.Properties, tier);
+            string body = GenerateConcatenationsForProperty(property.Element, method, preceding, property.Properties, tier);
 
             return GenerateContent(
                 arguments,
@@ -268,6 +268,7 @@
 
         [SuppressMessage("Minor Code Smell", "S3267:Loops should be simplified with \"LINQ\" expressions", Justification = "Suggested approach is less readable.")]
         private static string GenerateConcatenations(
+            Element element,
             string method,
             Predecessor[] preceding,
             in ImmutableArray<Property> properties,
@@ -290,6 +291,15 @@
 
             _ = builder.AppendLine();
 
+            if (element is object)
+            {
+                _ = builder.AppendLine(string.Format(
+                    GenerateConcatenationsForPropertyElement,
+                    string.Concat(method, element.Name),
+                    call,
+                    element.Name));
+            }
+
             foreach (Property property in properties)
             {
                 _ = builder.AppendLine(string.Format(
@@ -298,8 +308,6 @@
                     call,
                     property.Name));
             }
-
-            _ = builder.AppendLine();
 
             return builder.ToString();
         }
@@ -310,21 +318,22 @@
             in ImmutableArray<Property> properties,
             int tier)
         {
-            return GenerateConcatenations(method, preceding, properties, GenerateConcatenationsForElementContent, tier);
+            return GenerateConcatenations(default, method, preceding, properties, GenerateConcatenationsForElementContent, tier);
         }
 
         private static string GenerateConcatenationsForProperty(
+            Element element,
             string method,
             Predecessor[] preceding,
             in ImmutableArray<Property> properties,
             int tier)
         {
-            return GenerateConcatenations(method, preceding, properties, GenerateConcatenationsForPropertyContent, tier);
+            return GenerateConcatenations(element, method, preceding, properties, GenerateConcatenationsForPropertyContent, tier);
         }
 
         private static string GenerateConcatenationsForSubject(in ImmutableArray<Property> properties)
         {
-            return GenerateConcatenations(string.Empty, Array.Empty<Predecessor>(), properties, GenerateConcatenationsForSubjectContent, 0);
+            return GenerateConcatenations(default, string.Empty, Array.Empty<Predecessor>(), properties, GenerateConcatenationsForSubjectContent, 0);
         }
 
         private static void GeneratePropertyContent(Predecessor[] preceding, int tier, out string arguments, out string paramerers)

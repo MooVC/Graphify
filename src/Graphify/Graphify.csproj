@@ -16,10 +16,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="AttributeAnalyzer.Resources.Designer.cs">
+    <Compile Update="GraphifyAttributeAnalyzer.Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>AttributeAnalyzer.Resources.resx</DependentUpon>
+      <DependentUpon>GraphifyAttributeAnalyzer.Resources.resx</DependentUpon>
     </Compile>
     <Compile Update="GraphifyAttributeGenerator.Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -74,9 +74,9 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="System.Collections.Immutable" />
-    <EmbeddedResource Update="AttributeAnalyzer.Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>AttributeAnalyzer.Resources.Designer.cs</LastGenOutput>
+    <EmbeddedResource Update="GraphifyAttributeAnalyzer.Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>GraphifyAttributeAnalyzer.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="GraphifyAttributeGenerator.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

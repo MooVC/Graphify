@@ -1,0 +1,107 @@
+# GRAFY03: Type does not utilize Graphify
+
+<table>
+<tr>
+  <td>Type Name</td>
+  <td>GRAFY03_IgnoreAttributeAnalyzer</td>
+</tr>
+<tr>
+  <td>Diagnostic Id</td>
+  <td>GRAFY03</td>
+</tr>
+<tr>
+  <td>Category</td>
+  <td>Usage</td>
+</tr>
+<tr>
+  <td>Severity</td>
+  <td>Info</td>
+</tr>
+<tr>
+  <td>Is Enabled By Default</td>
+  <td>Yes</td>
+</tr>
+</table>
+
+## Cause
+
+The property is not considered by Graphify because the type has not been annotated with the `Graphify` attribute.
+
+## Rule Description
+
+A violation of this rule occurs when a property is marked with the `Ignore` attribute, but the containing `class` is not annotated with the `Graphify` attribute. Therefore, no extension methods will be generated, making use of the `Ignore` attribute redundant.
+
+For example:
+
+```csharp
+public class Example
+{
+    [Ignore]
+    public string Property { get; set; }
+}
+```
+
+In this example, the `Ignore` attribute on `Property`, and the `class` itself, will be ignored by `Graphify`, suggesting a misunderstanding by the engineer as to its intended usage.
+
+## How to Fix Violations
+
+Reevaluate the decision to apply the `Ignore` attribute. If the `Ignore` attribute usage is deemed correct, annotate the type with the `Graphify` attribute, otherwise remove the `Ignore` attribute.
+
+For example:
+
+```csharp
+[Graphify]
+public class Example
+{
+    [Ignore]
+    public string Property { get; set; }
+}
+```
+or alternatively:
+
+```csharp
+public class Example
+{
+    public string Property { get; set; }
+}
+```
+
+## When to Suppress Warnings
+
+Warnings from this rule should be suppressed only if there is a strong justification for not using the `Graphify` attribute on the containing type when the `Ignore` attribute is applied.
+
+If suppression is desired, one of the following approaches can be used:
+
+```csharp
+[Graphify]
+public class Example
+{
+    #pragma warning disable GRAFY03 // Type does not utilize Graphify
+    
+    [Ignore]
+    public string Property { get; set; }
+    
+    #pragma warning restore GRAFY03 // Type does not utilize Graphify
+}
+```
+
+or alternatively:
+
+```csharp
+public class Example
+{
+    [Ignore]
+    [SuppressMessage("Usage", "GRAFY03:Type does not utilize Graphify", Justification = "Explanation for suppression")]
+    public string Property { get; set; }
+}
+```
+
+## How to Disable GRAFY03
+
+It is not recommended to disable the rule, as this may result in some confusion if expected extension methods are not present.
+
+```ini
+# Disable GRAFY03: Type does not utilize Graphify
+[*.cs]
+dotnet_diagnostic.GRAFY03.severity = none
+```

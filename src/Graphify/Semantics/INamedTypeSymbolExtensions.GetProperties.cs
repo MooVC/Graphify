@@ -58,7 +58,8 @@
                     .OfType<IPropertySymbol>()
                     .Where(property => !(property.IsStatic || property.IsIndexer)
                                     && property.ExplicitInterfaceImplementations.Length == 0
-                                    && !property.Type.Equals(type, SymbolEqualityComparer.Default))
+                                    && !property.Type.Equals(type, SymbolEqualityComparer.Default)
+                                    && !property.HasIgnore())
                     .Select(property => property.ToProperty())
                     .ToArray();
             }

@@ -20,7 +20,7 @@
             return new Property
             {
                 Element = element,
-                IsIgnored = property.HasIgnore(),
+                IsIgnored = false,
                 Name = property.Name,
                 Symbol = property.Type,
                 Type = property.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),

@@ -39,6 +39,7 @@
   <Folder Name="/Rules/">
     <File Path="docs/rules/GRAFY01.md" />
     <File Path="docs/rules/GRAFY02.md" />
+    <File Path="docs/rules/GRAFY03.md" />
   </Folder>
   <Folder Name="/Templates/">
     <File Path=".github/ISSUE_TEMPLATE/bug_report.md" />

@@ -97,7 +97,7 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({0} root, {1}{2} value, CancellationToken cancellationToken)
+        ///   Looks up a localized string similar to private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({0} root, {1}{2} value, global::System.Threading.CancellationToken cancellationToken)
         ///{{
         ///    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
         ///
@@ -107,9 +107,7 @@ namespace Graphify.Strategies {
         ///
         ///    foreach ({6} element in value)
         ///    {{
-        ///        var instance = new {3}(index, root, {4}element);
-        ///
-        ///       [rest of string was truncated]&quot;;.
+        ///        var instance = new {3}(index, roo [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GenerateContentForElementContent {
             get {

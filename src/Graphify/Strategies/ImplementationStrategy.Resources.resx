@@ -133,7 +133,7 @@
 }}</value>
   </data>
   <data name="GenerateContentForElementContent" xml:space="preserve">
-    <value>private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({0} root, {1}{2} value, CancellationToken cancellationToken)
+    <value>private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({0} root, {1}{2} value, global::System.Threading.CancellationToken cancellationToken)
 {{
     global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
 

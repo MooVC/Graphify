@@ -1,7 +1,7 @@
 ﻿namespace Graphify.Snippets.Declarations;
 
 internal static partial class Complex
-{/*
+{
     public static readonly Snippets Declaration = new(
         [
             Declarations.CSharp1Body,
@@ -11,6 +11,16 @@ internal static partial class Complex
         ],
         Declarations.Main,
         [
+            Expected.Contract,
+            Expected.Navigator,
+            Expected.NavigatorAge,
+            Expected.NavigatorChildren,
+            Expected.NavigatorChildrenChild,
+            Expected.NavigatorChildrenChildAge,
+            Expected.NavigatorChildrenChildName,
+            Expected.NavigatorChildrenChildNameLength,
+            Expected.NavigatorName,
+            Expected.NavigatorNameLength,
             Expected.Age,
             Expected.Children,
             Expected.ChildrenChild,
@@ -19,8 +29,7 @@ internal static partial class Complex
             Expected.ChildrenChildNameLength,
             Expected.Name,
             Expected.NameLength,
-            Expected.Contract,
             Expected.Registration,
         ],
-        nameof(Complex));*/
+        nameof(Complex));
 }

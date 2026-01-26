@@ -11,7 +11,7 @@ internal static class Frameworks
         (ReferenceAssemblies.Net.Net60, LanguageVersion.CSharp10, new DateOnly(2024, 11, 12)),
         (ReferenceAssemblies.Net.Net70, LanguageVersion.CSharp10, new DateOnly(2024, 5, 14)),
         (ReferenceAssemblies.Net.Net80, LanguageVersion.CSharp10, new DateOnly(2026, 11, 10)),
-        (ReferenceAssemblies.Net.Net90, LanguageVersion.CSharp10, new DateOnly(2026, 5, 12)),
+        (ReferenceAssemblies.Net.Net90, LanguageVersion.CSharp10, new DateOnly(2026, 11, 10)),
         (ReferenceAssemblies.NetStandard.NetStandard21, LanguageVersion.CSharp8, DateOnly.MaxValue),
     ];
 

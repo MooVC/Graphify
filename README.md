@@ -167,10 +167,10 @@ This flow keeps traversal explicit, type-safe, and discoverable in IntelliSense.
 Graphify ships analyzers to keep your graph models consistent and safe:
 
 Rule ID                         | Category | Severity | Description
-:------------------------------|:---------|:---------|:---------------------------------------------------------------
-[GRAFY01](docs/rules/GRAFY01.md) | Usage    | Warning  | Type is not compatible with Graphify
-[GRAFY02](docs/rules/GRAFY02.md) | Usage    | Warning  | Type is not Partial
-[GRAFY03](docs/rules/GRAFY03.md) | Usage    | Info     | Type does not utilize Graphify
+:-------------------------------|:---------|:---------|:---------------------------------------------------------------
+[GRAFY01](docs/rules/GRAFY01.md)| Usage    | Warning  | Type is not compatible with Graphify
+[GRAFY02](docs/rules/GRAFY02.md)| Usage    | Warning  | Type is not Partial
+[GRAFY03](docs/rules/GRAFY03.md)| Usage    | Info     | Type does not utilize Graphify
 
 ## Contributing
 

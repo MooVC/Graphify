@@ -1,86 +1,99 @@
 # Graphify [![NuGet](https://img.shields.io/nuget/v/Graphify?logo=nuget)](https://www.nuget.org/packages/Graphify/) [![GitHub](https://img.shields.io/github/license/MooVC/Graphify)](LICENSE.md)
 
-Graphify, a .NET Roslyn source generator, automates the creation of strongly-typed wrappers around single values, improving semantic clarity, type safety, and maintainability.
+Graphify is a .NET Roslyn source generator that turns your object models into navigable graphs. It enables engineers to scan an object hierarchy and observe values at different levels without reflection by generating strongly-typed nodes and visitor helpers.
+
+## Why Graphify
+
+- **Graph scanning without reflection**: Traverse and observe your object graphs with generated, strongly-typed nodes.
+- **Type-safe visitors**: Register and compose visitors for specific nodes in the graph.
+- **Generator-backed performance**: Build-time code generation avoids runtime discovery costs.
+- **Analyzer guardrails**: Diagnostics catch misconfiguration early.
 
 ## Requirements
 
-- C# v5.0 or later.
-- Visual Studio 2022 v17.0 or later, or any compatible IDE that supports Roslyn source generators.
+- .NET SDK with a Roslyn-capable compiler (Visual Studio 2022, Rider, or VS Code with the C# extension).
+- A C# language version that supports source generators (C# 9.0 or later).
 
 ## Installation
 
-To install Graphify, use the following command in your package manager console:
+Add the package reference to your project:
+
+```xml
+<ItemGroup>
+  <PackageReference Include="Graphify" Version="<LATEST_VERSION>" />
+</ItemGroup>
+```
+
+Or via the package manager console:
 
 ```shell
-install-package Graphify
+Install-Package Graphify
 ```
 
-## Usage
+## Quick start
 
-Graphify turns a `class`, `record`, or `struct` into a strongly typed wrapper around a single value. To opt in, annotate a `partial` type with the `Graphify` attribute and specify the encapsulated value type.
+Annotate a partial type with the `Graphify` attribute to generate graph nodes and visitor hooks.
 
 ```csharp
 using Graphify;
 
-[Graphify<int>]
-public partial struct Age;
-```
-
-For language versions earlier than C# 11:
-
-```csharp
-using Graphify;
-
-[Graphify(Type = typeof(int))]
-public partial struct Age;
-```
-
-### Generated Members
-
-When applied, Graphify generates the boilerplate needed for a lightweight value object:
-
-- A private readonly field `_value` that stores the encapsulated value.
-- A constructor accepting the underlying value: `Age(int value)`.
-- Implicit conversion operators to and from the encapsulated type.
-- Implementations of `IEquatable<Age>` and `IEquatable<int>`.
-- Equality (`==`) and inequality (`!=`) operators for comparing with other instances or with the underlying value.
-- Overrides of `Equals(object)`, `GetHashCode()`, and `ToString()`.
-
-### Example
-
-```csharp
-Age age = 42;       // implicit conversion from int
-int value = age;    // implicit conversion to int
-
-if (age == value)
+[Graphify]
+public partial class Order
 {
-    // comparisons work with both Age and int
+    public Customer Customer { get; init; } = new();
+    public decimal Total { get; init; }
 }
 ```
 
-Classes annotated with `Graphify` are `sealed` automatically to preserve immutability. Types must be `partial` and cannot declare additional state; the included analyzers will warn when these guidelines are not followed.
+With generated graph nodes, you can register visitors for specific paths (for example, observing totals or customer data) without using reflection. The generated APIs give you strongly-typed entry points into the object graph.
 
-### Nested wrappers and circular guards
+## Key concepts
 
-Graphify also follows chains of nested wrappers and automatically emits the necessary implicit conversions so the outermost wrapper can convert directly to and from the innermost value type. For example, if `Money` wraps `Amount` and `Amount` wraps `decimal`, conversions will be generated for every hop, allowing callers to cast `Money` to `decimal` (and vice versa) without manual glue code.
+Graphify generates a few key building blocks. Understanding these makes it easier to wire up scanning and observation in your application.
 
-To keep the generator safe, conversion discovery halts as soon as a type repeats in the chain. This prevents circular relationships (e.g. `Outer` wrapping `Inner` while `Inner` wraps `Outer`) from producing infinite loops or ambiguous operators while still supporting arbitrarily deep, non-circular nesting.
+### Model
+
+The model is your domain object graph annotated with the `Graphify` attribute. Any public instance properties become navigation points in the graph. Keep the type `partial` so Graphify can extend it with generated nodes.
+
+### Graph nodes
+
+Graphify emits a typed graph node hierarchy that mirrors your model. Each node represents a path through the object graph. For example, `Order` becomes a root node, with child nodes representing `Order.Customer`, `Order.Total`, and so on. These nodes act as the strongly-typed targets for navigation and observation.
+
+### Navigator
+
+The navigator is the generated entry point for scanning the graph. It coordinates traversal from the root node through child nodes, invoking any visitors registered for each node. Because the traversal logic is generated, there is no reflection and no runtime discovery cost.
+
+### Visitors
+
+Visitors observe values at specific nodes. You implement a visitor by targeting the node type you care about and returning observations, such as strings or domain events. This makes it easy to capture the exact data points you need without manual tree-walking.
+
+### IoC registration
+
+Graphify generates extension methods for dependency injection registration so visitors and navigators can be resolved by your IoC container. This allows you to compose visitors with your existing application services and control their lifetime centrally.
+
+## Typical usage flow
+
+1. **Annotate a model** with `Graphify` to generate the graph nodes and navigator.
+2. **Implement visitors** for nodes you want to observe.
+3. **Register visitors** using the generated IoC extension methods.
+4. **Scan the graph** using the navigator to gather observations.
+
+This flow keeps traversal explicit, type-safe, and discoverable in IntelliSense.
 
 ## Analyzers
 
-Graphify includes several analyzers to assist engineers with its usage. These are:
+Graphify ships analyzers to keep your graph models consistent and safe:
 
-Rule ID                          | Category | Severity | Notes
-:--------------------------------|:---------|:---------|:-------------------------------------------------------------------------
-[MONFY01](docs/rules/MONFY01.md) | Usage    | Warning  | Type is not compatible with Graphify
-[MONFY02](docs/rules/MONFY02.md) | Usage    | Warning  | Type is not Partial
-[MONFY03](docs/rules/MONFY03.md) | Design   | Error    | Type captures State
-[MONFY04](docs/rules/MONFY04.md) | Design   | Error    | Self Referencing Type
+Rule ID                         | Category | Severity | Description
+:------------------------------|:---------|:---------|:---------------------------------------------------------------
+[GRAFY01](docs/rules/GRAFY01.md) | Usage    | Warning  | Type is not compatible with Graphify
+[GRAFY02](docs/rules/GRAFY02.md) | Usage    | Warning  | Type is not Partial
+[GRAFY03](docs/rules/GRAFY03.md) | Usage    | Info     | Type does not utilize Graphify
 
 ## Contributing
 
-Contributions are welcome - see the [CONTRIBUTING.md](/.github/CONTRIBUTING.md) file for details.
+Contributions are welcome. See [CONTRIBUTING.md](/.github/CONTRIBUTING.md) for build instructions and coding guidelines.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
+This project is licensed under the MIT License. See [LICENSE.md](LICENSE.md) for details.

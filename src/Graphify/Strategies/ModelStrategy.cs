@@ -53,8 +53,14 @@
         {
             tier++;
 
+            if (tier > subject.Depth)
+            {
+                yield break;
+            }
+
             string body = GeneratePropertyContent(preceding, tier, out string assignments, out string parameters);
             string wrapper = GenerateWrapperDeclarations(preceding, tier);
+            bool canRecurse = tier < subject.Depth;
 
             foreach (Property property in properties)
             {
@@ -62,12 +68,15 @@
 
                 IEnumerable<Source> succeeding = Enumerable.Empty<Source>();
 
-                if (property.IsSequence)
+                if (canRecurse && property.IsSequence)
                 {
                     succeeding = GenerateContentForElement(assignments, body, property.Element, next, parameters, preceding, property, subject, tier);
                 }
 
-                succeeding = succeeding.Concat(GenerateContentsForProperty(next, preceding, property, subject, tier));
+                if (canRecurse)
+                {
+                    succeeding = succeeding.Concat(GenerateContentsForProperty(next, preceding, property, subject, tier));
+                }
 
                 foreach (Source source in succeeding)
                 {
@@ -125,9 +134,10 @@
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
 
-                tier++;
+                int elementTier = tier + 1;
+                bool canRecurse = elementTier < subject.Depth;
 
-                string wrapper = GenerateWrapperDeclarations(pool, tier);
+                string wrapper = GenerateWrapperDeclarations(pool, elementTier);
 
                 yield return GenerateContent(
                     assignments,
@@ -137,14 +147,17 @@
                     parameters,
                     subject,
                     GenerateContentForElementContent,
-                    tier,
+                    elementTier,
                     element.Type,
                     wrapper,
                     out string next);
 
-                foreach (Source source in GenerateContent(next, pool, element.Properties, subject, tier))
+                if (canRecurse)
                 {
-                    yield return source;
+                    foreach (Source source in GenerateContent(next, pool, element.Properties, subject, elementTier))
+                    {
+                        yield return source;
+                    }
                 }
             }
             finally

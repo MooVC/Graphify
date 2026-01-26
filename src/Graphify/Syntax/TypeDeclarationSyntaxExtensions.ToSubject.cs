@@ -52,12 +52,12 @@
             SemanticModel model = compilation.GetSemanticModel(syntax.SyntaxTree);
             ISymbol symbol = model.GetDeclaredSymbol(syntax, cancellationToken: cancellationToken);
 
-            if (!(symbol is INamedTypeSymbol type && type.HasGraphify()))
+            if (!(symbol is INamedTypeSymbol type && type.HasGraphify(out byte depth)))
             {
                 return default;
             }
 
-            return type.ToSubject(ImmutableArray.ToImmutableArray(nesting), registration);
+            return type.ToSubject(ImmutableArray.ToImmutableArray(nesting), registration, depth);
         }
     }
 }

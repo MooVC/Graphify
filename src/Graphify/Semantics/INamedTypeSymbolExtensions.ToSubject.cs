@@ -21,13 +21,16 @@
         /// <param name="registration">
         /// The symbol representing the registration contract from Microsoft.Extensions.DependencyInjection. Can be <see langword="null"/>.
         /// </param>
+        /// <param name="depth">
+        /// The depth configured on the Graphify attribute.
+        /// </param>
         /// <returns>
         /// An instance of <see cref="Subject"/> containing the required semantics.
         /// </returns>
         /// <remarks>
         /// If the declaration associated with the type cannot be determined, the method will return <see langword="null" />.
         /// </remarks>
-        public static Subject ToSubject(this INamedTypeSymbol subject, in ImmutableArray<Nesting> nesting, INamedTypeSymbol registration)
+        public static Subject ToSubject(this INamedTypeSymbol subject, in ImmutableArray<Nesting> nesting, INamedTypeSymbol registration, byte depth)
         {
             string @namespace = subject.ContainingNamespace.IsGlobalNamespace
                ? string.Empty
@@ -45,6 +48,7 @@
                 Accessibility = subject.DeclaredAccessibility,
                 CanRegister = registration is object,
                 Declaration = subject.GetDeclaration(),
+                Depth = depth,
                 HasContract = subject.HasContract(),
                 HasRegistration = subject.HasRegistration(),
                 Name = subject.Name,

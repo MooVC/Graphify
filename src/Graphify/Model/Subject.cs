@@ -36,6 +36,14 @@
         public string Declaration { get; set; } = string.Empty;
 
         /// <summary>
+        /// Gets or sets the maximum depth to which graph generation should proceed.
+        /// </summary>
+        /// <value>
+        /// The maximum depth to which graph generation should proceed.
+        /// </value>
+        public byte Depth { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether a contract is associated with the current entity.
         /// </summary>
         /// <value>

@@ -18,7 +18,7 @@ internal static partial class Unsupported
                 public string Name { get; set; }
             }
             """,
-            LanguageVersion.CSharp3),
+            LanguageVersion.CSharp8),
         [],
         "Unsupported.g.cs");
 
@@ -49,7 +49,7 @@ internal static partial class Unsupported
                 public string Name { get; set; }
             }
             """,
-            LanguageVersion.CSharp3),
+            LanguageVersion.CSharp8),
         [],
         "Unsupported.g.cs");
 }

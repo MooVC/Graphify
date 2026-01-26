@@ -18,7 +18,7 @@ internal static partial class Unannotated
                 public string Name { get; set; }
             }
             """,
-            LanguageVersion.CSharp3),
+            LanguageVersion.CSharp8),
         [],
         "Unannotated.g.cs");
 
@@ -54,7 +54,7 @@ internal static partial class Unannotated
                 public string Name { get; set; }
             }
             """,
-            LanguageVersion.CSharp3),
+            LanguageVersion.CSharp8),
         [],
         "Unannotated.g.cs");
 }

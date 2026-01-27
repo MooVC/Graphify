@@ -77,6 +77,11 @@
         {
             tier++;
 
+            if (tier > subject.Depth)
+            {
+                yield break;
+            }
+
             GeneratePropertyContent(preceding, tier, out string arguments, out string parameters);
 
             foreach (Property property in properties)
@@ -171,7 +176,7 @@
             try
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
-                string body = GenerateConcatenationsForElement(moniker, pool, element.Properties, tier++);
+                string body = GenerateConcatenationsForElement(moniker, pool, element.Properties, subject, tier++);
 
                 yield return GenerateContent(
                     arguments,
@@ -209,7 +214,7 @@
             int tier,
             out string next)
         {
-            string body = GenerateConcatenationsForProperty(property.Element, method, preceding, property.Properties, tier);
+            string body = GenerateConcatenationsForProperty(property.Element, method, preceding, property.Properties, subject, tier);
 
             return GenerateContent(
                 arguments,
@@ -254,7 +259,7 @@
         private static Source GenerateNavigator(string name, Subject subject)
         {
             string contract = ContractStrategy.GetName(subject.Name);
-            string body = GenerateConcatenationsForSubject(subject.Properties);
+            string body = GenerateConcatenationsForSubject(subject.Properties, subject);
 
             string code = string.Format(
                 GenerateNavigatorContent,
@@ -271,10 +276,11 @@
             string method,
             Predecessor[] preceding,
             in ImmutableArray<Property> properties,
+            Subject subject,
             string template,
             int tier)
         {
-            if (element is null && properties.Length == 0)
+            if (tier >= subject.Depth || (element is null && properties.Length == 0))
             {
                 return string.Empty;
             }
@@ -321,9 +327,10 @@
             string method,
             Predecessor[] preceding,
             in ImmutableArray<Property> properties,
+            Subject subject,
             int tier)
         {
-            return GenerateConcatenations(default, method, preceding, properties, GenerateConcatenationsForElementContent, tier);
+            return GenerateConcatenations(default, method, preceding, properties, subject, GenerateConcatenationsForElementContent, tier);
         }
 
         private static string GenerateConcatenationsForProperty(
@@ -331,14 +338,15 @@
             string method,
             Predecessor[] preceding,
             in ImmutableArray<Property> properties,
+            Subject subject,
             int tier)
         {
-            return GenerateConcatenations(element, method, preceding, properties, GenerateConcatenationsForPropertyContent, tier);
+            return GenerateConcatenations(element, method, preceding, properties, subject, GenerateConcatenationsForPropertyContent, tier);
         }
 
-        private static string GenerateConcatenationsForSubject(in ImmutableArray<Property> properties)
+        private static string GenerateConcatenationsForSubject(in ImmutableArray<Property> properties, Subject subject)
         {
-            return GenerateConcatenations(default, string.Empty, Array.Empty<Predecessor>(), properties, GenerateConcatenationsForSubjectContent, 0);
+            return GenerateConcatenations(default, string.Empty, Array.Empty<Predecessor>(), properties, subject, GenerateConcatenationsForSubjectContent, 0);
         }
 
         private static string GenerateParametersForConcatenations(Predecessor[] preceding, int tier)

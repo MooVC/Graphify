@@ -53,6 +53,11 @@
         {
             tier++;
 
+            if (tier > subject.Depth)
+            {
+                yield break;
+            }
+
             string body = GeneratePropertyContent(preceding, tier, out string assignments, out string parameters);
             string wrapper = GenerateWrapperDeclarations(preceding, tier);
 

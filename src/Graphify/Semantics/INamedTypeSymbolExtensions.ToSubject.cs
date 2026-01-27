@@ -15,6 +15,9 @@
         /// <param name="subject">
         /// The subject from which the semantics are identified.
         /// </param>
+        /// <param name="depth">
+        /// The depth configured on the Graphify attribute.
+        /// </param>
         /// <param name="nesting">
         /// The declaration syntax for the parents of the <paramref name="syntax"/>.
         /// </param>
@@ -27,7 +30,7 @@
         /// <remarks>
         /// If the declaration associated with the type cannot be determined, the method will return <see langword="null" />.
         /// </remarks>
-        public static Subject ToSubject(this INamedTypeSymbol subject, in ImmutableArray<Nesting> nesting, INamedTypeSymbol registration)
+        public static Subject ToSubject(this INamedTypeSymbol subject, byte depth, in ImmutableArray<Nesting> nesting, INamedTypeSymbol registration)
         {
             string @namespace = subject.ContainingNamespace.IsGlobalNamespace
                ? string.Empty
@@ -45,6 +48,7 @@
                 Accessibility = subject.DeclaredAccessibility,
                 CanRegister = registration is object,
                 Declaration = subject.GetDeclaration(),
+                Depth = depth,
                 HasContract = subject.HasContract(),
                 HasRegistration = subject.HasRegistration(),
                 Name = subject.Name,

@@ -10,6 +10,11 @@
     internal sealed class RegistrationStrategy
         : IStrategy
     {
+        /// <summary>
+        /// Generates registration source for the provided subject when registration is required.
+        /// </summary>
+        /// <param name="subject">The subject to inspect for registration support.</param>
+        /// <returns>The generated sources for registration.</returns>
         public IEnumerable<Source> Generate(Subject subject)
         {
             if (subject.HasRegistration || !subject.CanRegister)

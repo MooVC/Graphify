@@ -1,6 +1,6 @@
 ﻿namespace Graphify.Snippets.Declarations;
 
-internal static partial class TraverseScopeSample
+internal static partial class Traversals
 {
     public static readonly Snippets Declaration = new(
         [],
@@ -12,21 +12,21 @@ internal static partial class TraverseScopeSample
             Expected.NavigatorDescription,
             Expected.NavigatorDescriptionLength,
             Expected.NavigatorShallowChildren,
-            Expected.NavigatorShallowChildrenTraverseScopeChild,
+            Expected.NavigatorShallowChildrenTraversalChild,
             Expected.NavigatorDeepChildren,
-            Expected.NavigatorDeepChildrenTraverseScopeChild,
-            Expected.NavigatorDeepChildrenTraverseScopeChildName,
-            Expected.NavigatorDeepChildrenTraverseScopeChildNameLength,
+            Expected.NavigatorDeepChildrenTraversalChild,
+            Expected.NavigatorDeepChildrenTraversalChildName,
+            Expected.NavigatorDeepChildrenTraversalChildNameLength,
             Expected.Title,
             Expected.Description,
             Expected.DescriptionLength,
             Expected.ShallowChildren,
-            Expected.ShallowChildrenTraverseScopeChild,
+            Expected.ShallowChildrenTraversalChild,
             Expected.DeepChildren,
-            Expected.DeepChildrenTraverseScopeChild,
-            Expected.DeepChildrenTraverseScopeChildName,
-            Expected.DeepChildrenTraverseScopeChildNameLength,
+            Expected.DeepChildrenTraversalChild,
+            Expected.DeepChildrenTraversalChildName,
+            Expected.DeepChildrenTraversalChildNameLength,
             Expected.Registration,
         ],
-        nameof(TraverseScopeSample));
+        nameof(Traversals));
 }

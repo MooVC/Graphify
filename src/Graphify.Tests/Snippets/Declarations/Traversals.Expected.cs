@@ -1,6 +1,6 @@
 ﻿namespace Graphify.Snippets.Declarations;
 
-internal static partial class TraverseScopeSample
+internal static partial class Traversals
 {
     public static class Expected
     {
@@ -15,8 +15,8 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    public partial interface ITraverseScopeSampleNavigator
-                        : global::Graphify.INavigator<TraverseScopeSample>
+                    public partial interface ITraversalsNavigator
+                        : global::Graphify.INavigator<Traversals>
                     {
                         //// Additional methods can be added as partial elements
                     }
@@ -26,7 +26,7 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.ITraverseScopeSampleNavigator.g.cs");
+            "Graphify.Testing.ITraversalsNavigator.g.cs");
 
         public static readonly Generated Navigator = new(
             """
@@ -39,22 +39,22 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraverseScopeSampleNavigator
-                        : global::Graphify.Navigator<TraverseScopeSample>,
-                          ITraverseScopeSampleNavigator
+                    internal sealed partial class TraversalsNavigator
+                        : global::Graphify.Navigator<Traversals>,
+                          ITraversalsNavigator
                     {
-                        public TraverseScopeSampleNavigator(global::System.IServiceProvider provider)
+                        public TraversalsNavigator(global::System.IServiceProvider provider)
                             : base(provider)
                         {
                         }
 
-                        public override IAsyncEnumerable<TResult> Navigate<TResult>(TraverseScopeSample root, global::System.Threading.CancellationToken cancellationToken)
+                        public override IAsyncEnumerable<TResult> Navigate<TResult>(Traversals root, global::System.Threading.CancellationToken cancellationToken)
                         {
                             var results = Empty<TResult>();
 
-                            if (HasObservers<TraverseScopeSample, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TraverseScopeSample, TResult>> observers))
+                            if (HasObservers<Traversals, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Traversals, TResult>> observers))
                             {
-                                results = Invoke<TraverseScopeSample, TResult>(root, observers, cancellationToken);
+                                results = Invoke<Traversals, TResult>(root, observers, cancellationToken);
                             }
 
                             results = Concat(results, NavigateTitle<TResult>(root, root.Title, cancellationToken), cancellationToken);
@@ -71,7 +71,7 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSampleNavigator.g.cs");
+            "Graphify.Testing.TraversalsNavigator.g.cs");
 
         public static readonly Generated NavigatorTitle = new(
             """
@@ -84,17 +84,17 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraverseScopeSampleNavigator
+                    internal sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateTitle<TResult>(global::Graphify.Testing.TraverseScopeSample root, string value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateTitle<TResult>(global::Graphify.Testing.Traversals root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
 
-                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TraverseScopeSample.Graph.Title, TResult>> observers))
+                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Traversals.Graph.Title, TResult>> observers))
                             {
-                                var instance = new TraverseScopeSample.Graph.Title(root, value);
+                                var instance = new Traversals.Graph.Title(root, value);
 
-                                results = Concat(results, Invoke<TraverseScopeSample.Graph.Title, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Traversals.Graph.Title, TResult>(instance, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
@@ -106,7 +106,7 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSampleNavigator.Title.g.cs");
+            "Graphify.Testing.TraversalsNavigator.Title.g.cs");
 
         public static readonly Generated NavigatorDescription = new(
             """
@@ -119,17 +119,17 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraverseScopeSampleNavigator
+                    internal sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDescription<TResult>(global::Graphify.Testing.TraverseScopeSample root, string value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDescription<TResult>(global::Graphify.Testing.Traversals root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
 
-                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TraverseScopeSample.Graph.Description, TResult>> observers))
+                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Traversals.Graph.Description, TResult>> observers))
                             {
-                                var instance = new TraverseScopeSample.Graph.Description(root, value);
+                                var instance = new Traversals.Graph.Description(root, value);
 
-                                results = Concat(results, Invoke<TraverseScopeSample.Graph.Description, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Traversals.Graph.Description, TResult>(instance, observers, cancellationToken), cancellationToken);
                             }
 
                             results = Concat(results, NavigateDescriptionLength<TResult>(root, value, value.Length, cancellationToken), cancellationToken);
@@ -143,7 +143,7 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSampleNavigator.Description.g.cs");
+            "Graphify.Testing.TraversalsNavigator.Description.g.cs");
 
         public static readonly Generated NavigatorDescriptionLength = new(
             """
@@ -156,17 +156,17 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraverseScopeSampleNavigator
+                    internal sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDescriptionLength<TResult>(global::Graphify.Testing.TraverseScopeSample root, string description, int value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDescriptionLength<TResult>(global::Graphify.Testing.Traversals root, string description, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
 
-                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TraverseScopeSample.Graph.Description.Length, TResult>> observers))
+                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Traversals.Graph.Description.Length, TResult>> observers))
                             {
-                                var instance = new TraverseScopeSample.Graph.Description.Length(root, description, value);
+                                var instance = new Traversals.Graph.Description.Length(root, description, value);
 
-                                results = Concat(results, Invoke<TraverseScopeSample.Graph.Description.Length, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Traversals.Graph.Description.Length, TResult>(instance, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
@@ -178,7 +178,7 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSampleNavigator.Description.Length.g.cs");
+            "Graphify.Testing.TraversalsNavigator.Description.Length.g.cs");
 
         public static readonly Generated NavigatorShallowChildren = new(
             """
@@ -191,20 +191,20 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraverseScopeSampleNavigator
+                    internal sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateShallowChildren<TResult>(global::Graphify.Testing.TraverseScopeSample root, global::Graphify.Testing.TraverseScopeChild[] value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateShallowChildren<TResult>(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
 
-                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TraverseScopeSample.Graph.ShallowChildren, TResult>> observers))
+                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Traversals.Graph.ShallowChildren, TResult>> observers))
                             {
-                                var instance = new TraverseScopeSample.Graph.ShallowChildren(root, value);
+                                var instance = new Traversals.Graph.ShallowChildren(root, value);
 
-                                results = Concat(results, Invoke<TraverseScopeSample.Graph.ShallowChildren, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Traversals.Graph.ShallowChildren, TResult>(instance, observers, cancellationToken), cancellationToken);
                             }
 
-                            results = Concat(results, NavigateShallowChildrenTraverseScopeChild<TResult>(root, value, cancellationToken), cancellationToken);
+                            results = Concat(results, NavigateShallowChildrenTraversalChild<TResult>(root, value, cancellationToken), cancellationToken);
 
                             return results;
                         }
@@ -215,9 +215,9 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSampleNavigator.ShallowChildren.g.cs");
+            "Graphify.Testing.TraversalsNavigator.ShallowChildren.g.cs");
 
-        public static readonly Generated NavigatorShallowChildrenTraverseScopeChild = new(
+        public static readonly Generated NavigatorShallowChildrenTraversalChild = new(
             """
                 namespace Graphify.Testing
                 {
@@ -228,21 +228,21 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraverseScopeSampleNavigator
+                    internal sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateShallowChildrenTraverseScopeChild<TResult>(global::Graphify.Testing.TraverseScopeSample root, global::Graphify.Testing.TraverseScopeChild[] value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateShallowChildrenTraversalChild<TResult>(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
 
-                            _ = HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TraverseScopeSample.Graph.ShallowChildren.TraverseScopeChild, TResult>> observers);
+                            _ = HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Traversals.Graph.ShallowChildren.TraversalChild, TResult>> observers);
 
                             int index = 0;
 
-                            foreach (TraverseScopeChild element in value)
+                            foreach (TraversalChild element in value)
                             {
-                                var instance = new TraverseScopeSample.Graph.ShallowChildren.TraverseScopeChild(index, root, element);
+                                var instance = new Traversals.Graph.ShallowChildren.TraversalChild(index, root, element);
 
-                                results = Concat(results, Invoke<TraverseScopeSample.Graph.ShallowChildren.TraverseScopeChild, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Traversals.Graph.ShallowChildren.TraversalChild, TResult>(instance, observers, cancellationToken), cancellationToken);
 
                                 index++;
                             }
@@ -256,7 +256,7 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSampleNavigator.ShallowChildren.TraverseScopeChild.g.cs");
+            "Graphify.Testing.TraversalsNavigator.ShallowChildren.TraversalChild.g.cs");
 
         public static readonly Generated NavigatorDeepChildren = new(
             """
@@ -269,20 +269,20 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraverseScopeSampleNavigator
+                    internal sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildren<TResult>(global::Graphify.Testing.TraverseScopeSample root, global::Graphify.Testing.TraverseScopeChild[] value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildren<TResult>(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
 
-                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TraverseScopeSample.Graph.DeepChildren, TResult>> observers))
+                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Traversals.Graph.DeepChildren, TResult>> observers))
                             {
-                                var instance = new TraverseScopeSample.Graph.DeepChildren(root, value);
+                                var instance = new Traversals.Graph.DeepChildren(root, value);
 
-                                results = Concat(results, Invoke<TraverseScopeSample.Graph.DeepChildren, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Traversals.Graph.DeepChildren, TResult>(instance, observers, cancellationToken), cancellationToken);
                             }
 
-                            results = Concat(results, NavigateDeepChildrenTraverseScopeChild<TResult>(root, value, cancellationToken), cancellationToken);
+                            results = Concat(results, NavigateDeepChildrenTraversalChild<TResult>(root, value, cancellationToken), cancellationToken);
 
                             return results;
                         }
@@ -293,9 +293,9 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSampleNavigator.DeepChildren.g.cs");
+            "Graphify.Testing.TraversalsNavigator.DeepChildren.g.cs");
 
-        public static readonly Generated NavigatorDeepChildrenTraverseScopeChild = new(
+        public static readonly Generated NavigatorDeepChildrenTraversalChild = new(
             """
                 namespace Graphify.Testing
                 {
@@ -306,23 +306,23 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraverseScopeSampleNavigator
+                    internal sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraverseScopeChild<TResult>(global::Graphify.Testing.TraverseScopeSample root, global::Graphify.Testing.TraverseScopeChild[] value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraversalChild<TResult>(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
 
-                            _ = HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TraverseScopeSample.Graph.DeepChildren.TraverseScopeChild, TResult>> observers);
+                            _ = HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Traversals.Graph.DeepChildren.TraversalChild, TResult>> observers);
 
                             int index = 0;
 
-                            foreach (TraverseScopeChild element in value)
+                            foreach (TraversalChild element in value)
                             {
-                                var instance = new TraverseScopeSample.Graph.DeepChildren.TraverseScopeChild(index, root, element);
+                                var instance = new Traversals.Graph.DeepChildren.TraversalChild(index, root, element);
 
-                                results = Concat(results, Invoke<TraverseScopeSample.Graph.DeepChildren.TraverseScopeChild, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Traversals.Graph.DeepChildren.TraversalChild, TResult>(instance, observers, cancellationToken), cancellationToken);
 
-                                results = Concat(results, NavigateDeepChildrenTraverseScopeChildName<TResult>(root, value, element, element.Name, cancellationToken), cancellationToken);
+                                results = Concat(results, NavigateDeepChildrenTraversalChildName<TResult>(root, value, element, element.Name, cancellationToken), cancellationToken);
 
                                 index++;
                             }
@@ -336,9 +336,9 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSampleNavigator.DeepChildren.TraverseScopeChild.g.cs");
+            "Graphify.Testing.TraversalsNavigator.DeepChildren.TraversalChild.g.cs");
 
-        public static readonly Generated NavigatorDeepChildrenTraverseScopeChildName = new(
+        public static readonly Generated NavigatorDeepChildrenTraversalChildName = new(
             """
                 namespace Graphify.Testing
                 {
@@ -349,20 +349,20 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraverseScopeSampleNavigator
+                    internal sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraverseScopeChildName<TResult>(global::Graphify.Testing.TraverseScopeSample root, global::Graphify.Testing.TraverseScopeChild[] deepChildren, global::Graphify.Testing.TraverseScopeChild traverseScopeChild, string value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraversalChildName<TResult>(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] deepChildren, global::Graphify.Testing.TraversalChild traversalChild, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
 
-                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TraverseScopeSample.Graph.DeepChildren.TraverseScopeChild.Name, TResult>> observers))
+                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Traversals.Graph.DeepChildren.TraversalChild.Name, TResult>> observers))
                             {
-                                var instance = new TraverseScopeSample.Graph.DeepChildren.TraverseScopeChild.Name(root, deepChildren, traverseScopeChild, value);
+                                var instance = new Traversals.Graph.DeepChildren.TraversalChild.Name(root, deepChildren, traversalChild, value);
 
-                                results = Concat(results, Invoke<TraverseScopeSample.Graph.DeepChildren.TraverseScopeChild.Name, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Traversals.Graph.DeepChildren.TraversalChild.Name, TResult>(instance, observers, cancellationToken), cancellationToken);
                             }
 
-                            results = Concat(results, NavigateDeepChildrenTraverseScopeChildNameLength<TResult>(root, deepChildren, traverseScopeChild, value, value.Length, cancellationToken), cancellationToken);
+                            results = Concat(results, NavigateDeepChildrenTraversalChildNameLength<TResult>(root, deepChildren, traversalChild, value, value.Length, cancellationToken), cancellationToken);
 
                             return results;
                         }
@@ -373,9 +373,9 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSampleNavigator.DeepChildren.TraverseScopeChild.Name.g.cs");
+            "Graphify.Testing.TraversalsNavigator.DeepChildren.TraversalChild.Name.g.cs");
 
-        public static readonly Generated NavigatorDeepChildrenTraverseScopeChildNameLength = new(
+        public static readonly Generated NavigatorDeepChildrenTraversalChildNameLength = new(
             """
                 namespace Graphify.Testing
                 {
@@ -386,17 +386,17 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraverseScopeSampleNavigator
+                    internal sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraverseScopeChildNameLength<TResult>(global::Graphify.Testing.TraverseScopeSample root, global::Graphify.Testing.TraverseScopeChild[] deepChildren, global::Graphify.Testing.TraverseScopeChild traverseScopeChild, string name, int value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraversalChildNameLength<TResult>(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] deepChildren, global::Graphify.Testing.TraversalChild traversalChild, string name, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
 
-                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TraverseScopeSample.Graph.DeepChildren.TraverseScopeChild.Name.Length, TResult>> observers))
+                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Traversals.Graph.DeepChildren.TraversalChild.Name.Length, TResult>> observers))
                             {
-                                var instance = new TraverseScopeSample.Graph.DeepChildren.TraverseScopeChild.Name.Length(root, deepChildren, traverseScopeChild, name, value);
+                                var instance = new Traversals.Graph.DeepChildren.TraversalChild.Name.Length(root, deepChildren, traversalChild, name, value);
 
-                                results = Concat(results, Invoke<TraverseScopeSample.Graph.DeepChildren.TraverseScopeChild.Name.Length, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Traversals.Graph.DeepChildren.TraversalChild.Name.Length, TResult>(instance, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
@@ -408,7 +408,7 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSampleNavigator.DeepChildren.TraverseScopeChild.Name.Length.g.cs");
+            "Graphify.Testing.TraversalsNavigator.DeepChildren.TraversalChild.Name.Length.g.cs");
 
         public static readonly Generated Title = new(
             """
@@ -421,19 +421,19 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    partial class TraverseScopeSample
+                    partial class Traversals
                     {
                         public static partial class Graph
                         {
                             public sealed partial class Title
                             {
-                                internal Title(global::Graphify.Testing.TraverseScopeSample root, string value)
+                                internal Title(global::Graphify.Testing.Traversals root, string value)
                                 {
                                     Root = root;
                                     Value = value;
                                 }
 
-                                public global::Graphify.Testing.TraverseScopeSample Root { get; private set; }
+                                public global::Graphify.Testing.Traversals Root { get; private set; }
 
                                 public string Value { get; private set; }
                             }
@@ -445,7 +445,7 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSample.Title.g.cs");
+            "Graphify.Testing.Traversals.Title.g.cs");
 
         public static readonly Generated Description = new(
             """
@@ -458,19 +458,19 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    partial class TraverseScopeSample
+                    partial class Traversals
                     {
                         public static partial class Graph
                         {
                             public sealed partial class Description
                             {
-                                internal Description(global::Graphify.Testing.TraverseScopeSample root, string value)
+                                internal Description(global::Graphify.Testing.Traversals root, string value)
                                 {
                                     Root = root;
                                     Value = value;
                                 }
 
-                                public global::Graphify.Testing.TraverseScopeSample Root { get; private set; }
+                                public global::Graphify.Testing.Traversals Root { get; private set; }
 
                                 public string Value { get; private set; }
                             }
@@ -482,7 +482,7 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSample.Description.g.cs");
+            "Graphify.Testing.Traversals.Description.g.cs");
 
         public static readonly Generated DescriptionLength = new(
             """
@@ -495,7 +495,7 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    partial class TraverseScopeSample
+                    partial class Traversals
                     {
                         public static partial class Graph
                         {
@@ -503,7 +503,7 @@ internal static partial class TraverseScopeSample
                             {
                                 public sealed partial class Length
                                 {
-                                    internal Length(global::Graphify.Testing.TraverseScopeSample root, string description, int value)
+                                    internal Length(global::Graphify.Testing.Traversals root, string description, int value)
                                     {
                                         Description = description;
 
@@ -511,7 +511,7 @@ internal static partial class TraverseScopeSample
                                         Value = value;
                                     }
 
-                                    public global::Graphify.Testing.TraverseScopeSample Root { get; private set; }
+                                    public global::Graphify.Testing.Traversals Root { get; private set; }
 
                                     public string Description { get; private set; }
 
@@ -526,7 +526,7 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSample.Description.Length.g.cs");
+            "Graphify.Testing.Traversals.Description.Length.g.cs");
 
         public static readonly Generated ShallowChildren = new(
             """
@@ -539,21 +539,21 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    partial class TraverseScopeSample
+                    partial class Traversals
                     {
                         public static partial class Graph
                         {
                             public sealed partial class ShallowChildren
                             {
-                                internal ShallowChildren(global::Graphify.Testing.TraverseScopeSample root, global::Graphify.Testing.TraverseScopeChild[] value)
+                                internal ShallowChildren(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] value)
                                 {
                                     Root = root;
                                     Value = value;
                                 }
 
-                                public global::Graphify.Testing.TraverseScopeSample Root { get; private set; }
+                                public global::Graphify.Testing.Traversals Root { get; private set; }
 
-                                public global::Graphify.Testing.TraverseScopeChild[] Value { get; private set; }
+                                public global::Graphify.Testing.TraversalChild[] Value { get; private set; }
                             }
                         }
                     }
@@ -563,9 +563,9 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSample.ShallowChildren.g.cs");
+            "Graphify.Testing.Traversals.ShallowChildren.g.cs");
 
-        public static readonly Generated ShallowChildrenTraverseScopeChild = new(
+        public static readonly Generated ShallowChildrenTraversalChild = new(
             """
                 namespace Graphify.Testing
                 {
@@ -576,15 +576,15 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    partial class TraverseScopeSample
+                    partial class Traversals
                     {
                         public static partial class Graph
                         {
                             public partial class ShallowChildren
                             {
-                                public sealed partial class TraverseScopeChild
+                                public sealed partial class TraversalChild
                                 {
-                                    internal TraverseScopeChild(int index, global::Graphify.Testing.TraverseScopeSample root, global::Graphify.Testing.TraverseScopeChild value)
+                                    internal TraversalChild(int index, global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild value)
                                     {
                                         Index = index;
                                         Root = root;
@@ -593,9 +593,9 @@ internal static partial class TraverseScopeSample
 
                                     public int Index { get; private set; }
 
-                                    public global::Graphify.Testing.TraverseScopeSample Root { get; private set; }
+                                    public global::Graphify.Testing.Traversals Root { get; private set; }
 
-                                    public global::Graphify.Testing.TraverseScopeChild Value { get; private set; }
+                                    public global::Graphify.Testing.TraversalChild Value { get; private set; }
                                 }
                             }
                         }
@@ -606,7 +606,7 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSample.ShallowChildren.TraverseScopeChild.g.cs");
+            "Graphify.Testing.Traversals.ShallowChildren.TraversalChild.g.cs");
 
         public static readonly Generated DeepChildren = new(
             """
@@ -619,21 +619,21 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    partial class TraverseScopeSample
+                    partial class Traversals
                     {
                         public static partial class Graph
                         {
                             public sealed partial class DeepChildren
                             {
-                                internal DeepChildren(global::Graphify.Testing.TraverseScopeSample root, global::Graphify.Testing.TraverseScopeChild[] value)
+                                internal DeepChildren(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] value)
                                 {
                                     Root = root;
                                     Value = value;
                                 }
 
-                                public global::Graphify.Testing.TraverseScopeSample Root { get; private set; }
+                                public global::Graphify.Testing.Traversals Root { get; private set; }
 
-                                public global::Graphify.Testing.TraverseScopeChild[] Value { get; private set; }
+                                public global::Graphify.Testing.TraversalChild[] Value { get; private set; }
                             }
                         }
                     }
@@ -643,9 +643,9 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSample.DeepChildren.g.cs");
+            "Graphify.Testing.Traversals.DeepChildren.g.cs");
 
-        public static readonly Generated DeepChildrenTraverseScopeChild = new(
+        public static readonly Generated DeepChildrenTraversalChild = new(
             """
                 namespace Graphify.Testing
                 {
@@ -656,15 +656,15 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    partial class TraverseScopeSample
+                    partial class Traversals
                     {
                         public static partial class Graph
                         {
                             public partial class DeepChildren
                             {
-                                public sealed partial class TraverseScopeChild
+                                public sealed partial class TraversalChild
                                 {
-                                    internal TraverseScopeChild(int index, global::Graphify.Testing.TraverseScopeSample root, global::Graphify.Testing.TraverseScopeChild value)
+                                    internal TraversalChild(int index, global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild value)
                                     {
                                         Index = index;
                                         Root = root;
@@ -673,9 +673,9 @@ internal static partial class TraverseScopeSample
 
                                     public int Index { get; private set; }
 
-                                    public global::Graphify.Testing.TraverseScopeSample Root { get; private set; }
+                                    public global::Graphify.Testing.Traversals Root { get; private set; }
 
-                                    public global::Graphify.Testing.TraverseScopeChild Value { get; private set; }
+                                    public global::Graphify.Testing.TraversalChild Value { get; private set; }
                                 }
                             }
                         }
@@ -686,9 +686,9 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSample.DeepChildren.TraverseScopeChild.g.cs");
+            "Graphify.Testing.Traversals.DeepChildren.TraversalChild.g.cs");
 
-        public static readonly Generated DeepChildrenTraverseScopeChildName = new(
+        public static readonly Generated DeepChildrenTraversalChildName = new(
             """
                 namespace Graphify.Testing
                 {
@@ -699,30 +699,30 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    partial class TraverseScopeSample
+                    partial class Traversals
                     {
                         public static partial class Graph
                         {
                             public partial class DeepChildren
                             {
-                                public partial class TraverseScopeChild
+                                public partial class TraversalChild
                                 {
                                     public sealed partial class Name
                                     {
-                                        internal Name(global::Graphify.Testing.TraverseScopeSample root, global::Graphify.Testing.TraverseScopeChild[] deepChildren, global::Graphify.Testing.TraverseScopeChild traverseScopeChild, string value)
+                                        internal Name(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] deepChildren, global::Graphify.Testing.TraversalChild traversalChild, string value)
                                         {
                                             DeepChildren = deepChildren;
-                                            TraverseScopeChild = traverseScopeChild;
+                                            TraversalChild = traversalChild;
 
                                             Root = root;
                                             Value = value;
                                         }
 
-                                        public global::Graphify.Testing.TraverseScopeSample Root { get; private set; }
+                                        public global::Graphify.Testing.Traversals Root { get; private set; }
 
-                                        public global::Graphify.Testing.TraverseScopeChild[] DeepChildren { get; private set; }
+                                        public global::Graphify.Testing.TraversalChild[] DeepChildren { get; private set; }
 
-                                        public global::Graphify.Testing.TraverseScopeChild TraverseScopeChild { get; private set; }
+                                        public global::Graphify.Testing.TraversalChild TraversalChild { get; private set; }
 
                                         public string Value { get; private set; }
                                     }
@@ -736,9 +736,9 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSample.DeepChildren.TraverseScopeChild.Name.g.cs");
+            "Graphify.Testing.Traversals.DeepChildren.TraversalChild.Name.g.cs");
 
-        public static readonly Generated DeepChildrenTraverseScopeChildNameLength = new(
+        public static readonly Generated DeepChildrenTraversalChildNameLength = new(
             """
                 namespace Graphify.Testing
                 {
@@ -749,33 +749,33 @@ internal static partial class TraverseScopeSample
                     #nullable disable
                     #endif
 
-                    partial class TraverseScopeSample
+                    partial class Traversals
                     {
                         public static partial class Graph
                         {
                             public partial class DeepChildren
                             {
-                                public partial class TraverseScopeChild
+                                public partial class TraversalChild
                                 {
                                     public partial class Name
                                     {
                                         public sealed partial class Length
                                         {
-                                            internal Length(global::Graphify.Testing.TraverseScopeSample root, global::Graphify.Testing.TraverseScopeChild[] deepChildren, global::Graphify.Testing.TraverseScopeChild traverseScopeChild, string name, int value)
+                                            internal Length(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] deepChildren, global::Graphify.Testing.TraversalChild traversalChild, string name, int value)
                                             {
                                                 DeepChildren = deepChildren;
-                                                TraverseScopeChild = traverseScopeChild;
+                                                TraversalChild = traversalChild;
                                                 Name = name;
 
                                                 Root = root;
                                                 Value = value;
                                             }
 
-                                            public global::Graphify.Testing.TraverseScopeSample Root { get; private set; }
+                                            public global::Graphify.Testing.Traversals Root { get; private set; }
 
-                                            public global::Graphify.Testing.TraverseScopeChild[] DeepChildren { get; private set; }
+                                            public global::Graphify.Testing.TraversalChild[] DeepChildren { get; private set; }
 
-                                            public global::Graphify.Testing.TraverseScopeChild TraverseScopeChild { get; private set; }
+                                            public global::Graphify.Testing.TraversalChild TraversalChild { get; private set; }
 
                                             public string Name { get; private set; }
 
@@ -792,7 +792,7 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.TraverseScopeSample.DeepChildren.TraverseScopeChild.Name.Length.g.cs");
+            "Graphify.Testing.Traversals.DeepChildren.TraversalChild.Name.Length.g.cs");
 
         public static readonly Generated Registration = new(
             """
@@ -807,15 +807,20 @@ internal static partial class TraverseScopeSample
 
                     public static partial class ServiceCollectionExtensions
                     {
-                        public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection AddTraverseScopeSampleNavigator(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
+                        public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection AddTraversalsNavigator(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
                         {
-                            _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Graphify.INavigator<TraverseScopeSample>>(
-                                services, (global::System.IServiceProvider provider) => (global::Graphify.INavigator<TraverseScopeSample>)provider.GetService(typeof(TraverseScopeSampleNavigator)));
+                            if (ReferenceEquals(services, null))
+                            {
+                                throw new global::System.ArgumentNullException("services");
+                            }
 
-                            _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<ITraverseScopeSampleNavigator>(
-                                services, (global::System.IServiceProvider provider) => (ITraverseScopeSampleNavigator)provider.GetService(typeof(TraverseScopeSampleNavigator)));
+                            _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Graphify.INavigator<Traversals>>(
+                                services, (global::System.IServiceProvider provider) => (global::Graphify.INavigator<Traversals>)provider.GetService(typeof(TraversalsNavigator)));
 
-                            return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<TraverseScopeSampleNavigator>(services);
+                            _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<ITraversalsNavigator>(
+                                services, (global::System.IServiceProvider provider) => (ITraversalsNavigator)provider.GetService(typeof(TraversalsNavigator)));
+
+                            return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<TraversalsNavigator>(services);
                         }
                     }
 
@@ -824,6 +829,6 @@ internal static partial class TraverseScopeSample
                     #endif
                 }
                 """,
-            "Graphify.Testing.ServiceCollectionExtensions.AddTraverseScopeSampleNavigator.g.cs");
+            "Graphify.Testing.ServiceCollectionExtensions.AddTraversalsNavigator.g.cs");
     }
 }

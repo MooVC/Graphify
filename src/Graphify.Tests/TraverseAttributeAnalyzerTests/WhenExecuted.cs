@@ -34,7 +34,7 @@ public sealed class WhenExecuted
 
         expectations.IsDeclaredIn(test.TestState);
 
-        test.ExpectedDiagnostics.Add(GetExpectedMissingGraphifyRule(new LinePosition(6, 5), nameof(Unannotated)));
+        test.ExpectedDiagnostics.Add(GetExpectedMissingGraphifyRule(new LinePosition(6, 5), nameof(Unannotated.Class.Name)));
 
         // Act
         Func<Task> act = () => test.RunAsync();

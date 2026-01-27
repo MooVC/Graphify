@@ -2,7 +2,7 @@
 
 using Microsoft.CodeAnalysis.CSharp;
 
-internal static partial class TraverseScopeSample
+internal static partial class Traversals
 {
     public static class Declarations
     {
@@ -10,13 +10,13 @@ internal static partial class TraverseScopeSample
             """
             namespace Graphify.Testing
             {
-                public sealed class TraverseScopeChild
+                public sealed class TraversalChild
                 {
                     public string Name { get; set; }
                 }
 
                 [Graphify]
-                public sealed partial class TraverseScopeSample
+                public sealed partial class Traversals
                 {
                     [Traverse(Scope = TraverseScope.None)]
                     public string Ignored { get; set; }
@@ -28,13 +28,13 @@ internal static partial class TraverseScopeSample
                     public string Description { get; set; }
 
                     [Traverse(Scope = TraverseScope.None)]
-                    public TraverseScopeChild[] IgnoredChildren { get; set; }
+                    public TraversalChild[] IgnoredChildren { get; set; }
 
                     [Traverse(Scope = TraverseScope.Property)]
-                    public TraverseScopeChild[] ShallowChildren { get; set; }
+                    public TraversalChild[] ShallowChildren { get; set; }
 
                     [Traverse(Scope = TraverseScope.All)]
-                    public TraverseScopeChild[] DeepChildren { get; set; }
+                    public TraversalChild[] DeepChildren { get; set; }
                 }
             }
             """,

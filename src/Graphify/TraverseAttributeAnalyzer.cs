@@ -38,9 +38,9 @@
         /// <inheritdoc/>
         protected override void Analyze(AttributeSyntax attribute, SyntaxNodeAnalysisContext context, Location location)
         {
-            if (IsViolatingMissingGraphifyRule(attribute, context, out string @class))
+            if (IsViolatingMissingGraphifyRule(attribute, context, out string property))
             {
-                Raise(context, MissingGraphifyRule, location, @class);
+                Raise(context, MissingGraphifyRule, location, property);
             }
         }
 
@@ -51,7 +51,7 @@
                 && symbol.ContainingType.IsTraverse();
         }
 
-        private static bool IsViolatingMissingGraphifyRule(AttributeSyntax attribute, SyntaxNodeAnalysisContext context, out string @class)
+        private static bool IsViolatingMissingGraphifyRule(AttributeSyntax attribute, SyntaxNodeAnalysisContext context, out string property)
         {
             if (attribute is null)
             {
@@ -60,13 +60,17 @@
 
             ISymbol parent = attribute.GetParent<TypeDeclarationSyntax>(context);
 
-            @class = string.Empty;
+            property = string.Empty;
 
             if (parent is INamedTypeSymbol type)
             {
-                @class = type.Name;
+                PropertyDeclarationSyntax declaration = attribute.FirstAncestorOrSelf<PropertyDeclarationSyntax>();
 
-                if (type.IsGraphify())
+                property = declaration is null
+                    ? type.Name
+                    : declaration.Identifier.ValueText;
+
+                if (type.HasGraphify(out _))
                 {
                     return false;
                 }

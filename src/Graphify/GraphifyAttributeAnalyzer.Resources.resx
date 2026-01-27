@@ -153,4 +153,13 @@
   <data name="SelfReferenceTitle" xml:space="preserve">
     <value>Type references itself</value>
   </data>
+  <data name="GenericTypeRuleDescription" xml:space="preserve">
+    <value>The Graphify attribute does not support generic type declarations.</value>
+  </data>
+  <data name="GenericTypeRuleMessageFormat" xml:space="preserve">
+    <value>Type `{0}` has generic parameters and cannot be used with Graphify.</value>
+  </data>
+  <data name="GenericTypeRuleTitle" xml:space="preserve">
+    <value>Type has generic parameters</value>
+  </data>
 </root>

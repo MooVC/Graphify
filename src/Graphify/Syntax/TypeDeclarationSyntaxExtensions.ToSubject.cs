@@ -44,7 +44,7 @@
         {
             var nesting = new Stack<Nesting>();
 
-            if (syntax is null || !syntax.IsPartial())
+            if (syntax is null || !syntax.IsPartial() || syntax.HasGenerics())
             {
                 return default;
             }

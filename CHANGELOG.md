@@ -6,5 +6,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [1.0.0] - TBC
 
-- Implemented Depth-limited graph generation for GraphifyAttribute.
 - Initial Release

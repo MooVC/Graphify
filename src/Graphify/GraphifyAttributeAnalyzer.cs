@@ -18,6 +18,7 @@
         /// <inheritdoc/>
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             CompatibleTargetTypeRule,
+            GenericTypeRule,
             PartialTypeRule);
 
         /// <summary>
@@ -52,6 +53,22 @@
             description: GetResourceString(ResourceManager, nameof(PartialTypeRuleDescription)),
             helpLinkUri: GetHelpLinkUri("GRAFY02"));
 
+        /// <summary>
+        /// Gets the descriptor associated with the generic type rule (GRAFY04).
+        /// </summary>
+        /// <value>
+        /// The descriptor associated with the generic type rule (GRAFY04).
+        /// </value>
+        internal static DiagnosticDescriptor GenericTypeRule { get; } = new DiagnosticDescriptor(
+            "GRAFY04",
+            GetResourceString(ResourceManager, nameof(GenericTypeRuleTitle)),
+            GetResourceString(ResourceManager, nameof(GenericTypeRuleMessageFormat)),
+            "Usage",
+            DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: GetResourceString(ResourceManager, nameof(GenericTypeRuleDescription)),
+            helpLinkUri: GetHelpLinkUri("GRAFY04"));
+
         /// <inheritdoc/>
         protected override void Analyze(AttributeSyntax attribute, SyntaxNodeAnalysisContext context, Location location)
         {
@@ -66,6 +83,11 @@
             {
                 Raise(context, PartialTypeRule, location, identifier);
             }
+
+            if (IsViolatingGenericTypeRule(type, out identifier))
+            {
+                Raise(context, GenericTypeRule, location, identifier);
+            }
         }
 
         protected override bool IsMatch(IMethodSymbol symbol)
@@ -79,6 +101,13 @@
             type = attribute.Parent?.Parent as TypeDeclarationSyntax;
 
             return type is null;
+        }
+
+        private static bool IsViolatingGenericTypeRule(TypeDeclarationSyntax parent, out string identifier)
+        {
+            identifier = parent.Identifier.Text;
+
+            return parent.HasGenerics();
         }
 
         private static bool IsViolatingPartialTypeRule(TypeDeclarationSyntax parent, out string identifier)

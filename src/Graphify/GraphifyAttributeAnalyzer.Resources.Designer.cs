@@ -115,6 +115,33 @@ namespace Graphify {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Graphify attribute does not support generic type declarations..
+        /// </summary>
+        public static string GenericTypeRuleDescription {
+            get {
+                return ResourceManager.GetString("GenericTypeRuleDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type `{0}` has generic parameters and cannot be used with Graphify..
+        /// </summary>
+        public static string GenericTypeRuleMessageFormat {
+            get {
+                return ResourceManager.GetString("GenericTypeRuleMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type has generic parameters.
+        /// </summary>
+        public static string GenericTypeRuleTitle {
+            get {
+                return ResourceManager.GetString("GenericTypeRuleTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type must be marked as Partial to facilitate code generation..
         /// </summary>
         public static string PartialTypeRuleDescription {

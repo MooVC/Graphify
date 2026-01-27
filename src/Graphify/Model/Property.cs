@@ -20,12 +20,12 @@
         public Element Element { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether or not the property is marked as ignored.
+        /// Gets or sets the traversal scope for the property.
         /// </summary>
         /// <value>
-        /// The value indicating whether or not the property is marked as ignored.
+        /// The traversal scope for the property.
         /// </value>
-        public bool IsIgnored { get; set; }
+        public TraverseScope Scope { get; set; } = TraverseScope.All;
 
         /// <summary>
         /// Gets a value indicating whether or not the type associated with the property is deemed to be a sequence.

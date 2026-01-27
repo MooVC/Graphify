@@ -7,14 +7,14 @@
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
     using Microsoft.CodeAnalysis.Diagnostics;
-    using static Graphify.IgnoreAttributeAnalyzer_Resources;
+    using static Graphify.TraverseAttributeAnalyzer_Resources;
 
     /// <summary>
-    /// Analyzes usage of the IgnoreAttribute when applied to a property, ensuring the property adheres to the known constraints.
+    /// Analyzes usage of the TraverseAttribute when applied to a property, ensuring the property adheres to the known constraints.
     /// </summary>
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public sealed class IgnoreAttributeAnalyzer
-        : AttributeAnalyzer<IgnoreAttributeAnalyzer_Resources>
+    public sealed class TraverseAttributeAnalyzer
+        : AttributeAnalyzer<TraverseAttributeAnalyzer_Resources>
     {
         /// <inheritdoc/>
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(MissingGraphifyRule);
@@ -48,7 +48,7 @@
         protected override bool IsMatch(IMethodSymbol symbol)
         {
             return symbol.ContainingType is object
-                && symbol.ContainingType.IsIgnore();
+                && symbol.ContainingType.IsTraverse();
         }
 
         private static bool IsViolatingMissingGraphifyRule(AttributeSyntax attribute, SyntaxNodeAnalysisContext context, out string @class)

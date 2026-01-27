@@ -35,6 +35,18 @@
 
                 foreach (Property property in properties)
                 {
+                    if (property.Scope == TraverseScope.Property)
+                    {
+                        property.Properties = ImmutableArray<Property>.Empty;
+
+                        if (property.Element is object)
+                        {
+                            property.Element.Properties = ImmutableArray<Property>.Empty;
+                        }
+
+                        continue;
+                    }
+
                     property.Properties = TryGetAllPropertiesFromCache(property.Symbol);
                 }
 
@@ -58,9 +70,14 @@
                     .OfType<IPropertySymbol>()
                     .Where(property => !(property.IsStatic || property.IsIndexer)
                                     && property.ExplicitInterfaceImplementations.Length == 0
-                                    && !property.Type.Equals(type, SymbolEqualityComparer.Default)
-                                    && !property.HasIgnore())
-                    .Select(property => property.ToProperty())
+                                    && !property.Type.Equals(type, SymbolEqualityComparer.Default))
+                    .Select(property => new
+                    {
+                        Property = property,
+                        Scope = property.GetTraverseScope(),
+                    })
+                    .Where(candidate => candidate.Scope != TraverseScope.None)
+                    .Select(candidate => candidate.Property.ToProperty(candidate.Scope))
                     .ToArray();
             }
 

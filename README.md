@@ -96,6 +96,18 @@ partial class Order
 }
 ```
 
+### Traverse
+
+Use the `Traverse` attribute to control how Graphify walks specific properties. The `Scope` property defaults to `TraverseScope.All`, which behaves the same as if the attribute is not present. Set `Scope` to `TraverseScope.None` to exclude the property entirely, or to `TraverseScope.Property` to include the property itself while skipping any child properties (for collections, elements are still enumerated, but their child properties are not traversed).
+
+```csharp
+public sealed class Customer
+{
+    [Traverse(Scope = TraverseScope.Property)]
+    public Address Address { get; init; } = new();
+}
+```
+
 ### Visitors
 
 Visitors allows for the observation of specific nodes within the heirarchy. You implement a visitor by targeting the node type you care about and returning the appropriate observation(s). This makes it easy to capture the exact data points you need without manual tree-walking.

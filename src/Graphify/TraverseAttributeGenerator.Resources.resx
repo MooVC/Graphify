@@ -121,12 +121,19 @@
     <value>namespace Graphify
 {{
     using System;
-    using System.Diagnostics.CodeAnalysis;
+
+    public enum TraverseScope
+    {{
+        None,
+        All,
+        Property,
+    }}
 
     [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-    public sealed class IgnoreAttribute
+    public sealed class TraverseAttribute
         : Attribute
     {{
+        public TraverseScope Scope {{ get; set; }} = TraverseScope.All;
     }}
 }}</value>
   </data>

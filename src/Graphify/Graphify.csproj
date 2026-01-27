@@ -26,10 +26,10 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>GraphifyAttributeGenerator.Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="IgnoreAttributeAnalyzer.Resources.Designer.cs">
+    <Compile Update="TraverseAttributeAnalyzer.Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>IgnoreAttributeAnalyzer.Resources.resx</DependentUpon>
+      <DependentUpon>TraverseAttributeAnalyzer.Resources.resx</DependentUpon>
     </Compile>
     <Compile Update="NavigatorContractGenerator.Resources.Designer.cs">
       <DesignTime>True</DesignTime>
@@ -56,10 +56,10 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
-    <Compile Update="IgnoreAttributeGenerator.Resources.Designer.cs">
+    <Compile Update="TraverseAttributeGenerator.Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>IgnoreAttributeGenerator.Resources.resx</DependentUpon>
+      <DependentUpon>TraverseAttributeGenerator.Resources.resx</DependentUpon>
     </Compile>
     <Compile Update="Strategies\ModelStrategy.Resources.Designer.cs">
       <DependentUpon>ModelStrategy.Resources.resx</DependentUpon>
@@ -87,9 +87,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>GraphifyAttributeGenerator.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="IgnoreAttributeAnalyzer.Resources.resx">
+    <EmbeddedResource Update="TraverseAttributeAnalyzer.Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>IgnoreAttributeAnalyzer.Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>TraverseAttributeAnalyzer.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="NavigatorContractGenerator.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -111,9 +111,9 @@
       <LastGenOutput>VisitorContractGenerator.Resources.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="IgnoreAttributeGenerator.Resources.resx">
+    <EmbeddedResource Update="TraverseAttributeGenerator.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>IgnoreAttributeGenerator.Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>TraverseAttributeGenerator.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Strategies\ModelStrategy.Resources.resx">
       <LastGenOutput>ModelStrategy.Resources.Designer.cs</LastGenOutput>

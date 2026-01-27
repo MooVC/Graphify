@@ -1,4 +1,4 @@
-﻿namespace Graphify.IgnoreAttributeGeneratorTests;
+﻿namespace Graphify.TraverseAttributeGeneratorTests;
 
 using Graphify.Snippets.Declarations;
 using Microsoft.CodeAnalysis.CSharp;
@@ -11,9 +11,9 @@ public sealed class WhenExecuted
     public async Task GivenAnAssemblyThenTheAttributeIsGenerated(ReferenceAssemblies assemblies, LanguageVersion language)
     {
         // Arrange
-        var test = new GeneratorTest<IgnoreAttributeGenerator>(assemblies, language);
+        var test = new GeneratorTest<TraverseAttributeGenerator>(assemblies, language);
 
-        Boilerplate.Ignore.IsExpectedIn(test.TestState);
+        Boilerplate.Traverse.IsExpectedIn(test.TestState);
 
         // Act
         Func<Task> act = () => test.RunAsync();

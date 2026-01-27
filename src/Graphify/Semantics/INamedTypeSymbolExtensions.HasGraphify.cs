@@ -1,5 +1,6 @@
 ﻿namespace Graphify.Semantics
 {
+    using Graphify.Model;
     using Microsoft.CodeAnalysis;
     using static Graphify.GraphifyAttributeGenerator;
 
@@ -39,7 +40,7 @@
         {
             depth = DefaultDepth;
 
-            if (!attribute.TryGetArgumentText(string.Empty, out string argumentText))
+            if (!attribute.TryGetArgumentText(nameof(Subject.Depth), out string argumentText))
             {
                 return false;
             }

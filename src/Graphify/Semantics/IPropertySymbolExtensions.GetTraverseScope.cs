@@ -55,13 +55,20 @@
 
         private static TraverseScope ResolveScope(int value)
         {
-            return value switch
+            switch (value)
             {
-                0 => TraverseScope.None,
-                1 => TraverseScope.All,
-                2 => TraverseScope.Property,
-                _ => TraverseScope.All,
-            };
+                case 0:
+                    return TraverseScope.None;
+
+                case 1:
+                    return TraverseScope.All;
+
+                case 2:
+                    return TraverseScope.Property;
+
+                default:
+                    return TraverseScope.All;
+            }
         }
 
         private static string NormalizeScopeName(string argumentText)

@@ -67,28 +67,26 @@
                 return false;
             }
 
-            if (attribute.ApplicationSyntaxReference.GetSyntax() is not AttributeSyntax syntax)
+            if (attribute.ApplicationSyntaxReference.GetSyntax() is AttributeSyntax syntax)
             {
-                return false;
-            }
-
-            if (syntax.ArgumentList is null || syntax.ArgumentList.Arguments.Count == 0)
-            {
-                return false;
-            }
-
-            foreach (AttributeArgumentSyntax argument in syntax.ArgumentList.Arguments)
-            {
-                if (!IsMatch(argument, name))
+                if (syntax.ArgumentList is null || syntax.ArgumentList.Arguments.Count == 0)
                 {
-                    continue;
+                    return false;
                 }
 
-                argumentText = argument.Expression is LiteralExpressionSyntax literal && literal.IsKind(SyntaxKind.NumericLiteralExpression)
-                    ? literal.Token.ValueText
-                    : argument.Expression.ToString();
+                foreach (AttributeArgumentSyntax argument in syntax.ArgumentList.Arguments)
+                {
+                    if (!IsMatch(argument, name))
+                    {
+                        continue;
+                    }
 
-                return !string.IsNullOrWhiteSpace(argumentText);
+                    argumentText = argument.Expression is LiteralExpressionSyntax literal && literal.IsKind(SyntaxKind.NumericLiteralExpression)
+                        ? literal.Token.ValueText
+                        : argument.Expression.ToString();
+
+                    return !string.IsNullOrWhiteSpace(argumentText);
+                }
             }
 
             return false;

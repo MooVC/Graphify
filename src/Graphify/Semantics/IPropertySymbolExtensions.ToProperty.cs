@@ -12,6 +12,7 @@
         /// Converts the specified Roslyn property symbol to a corresponding <see cref="Property"/> instance.
         /// </summary>
         /// <param name="property">The property symbol to convert. Cannot be <see langword="null"/>.</param>
+        /// <param name="scope">The scope to which the property is to be graphed.</param>
         /// <returns>A <see cref="Property"/> instance representing the specified property symbol.</returns>
         public static Property ToProperty(this IPropertySymbol property, TraverseScope scope)
         {

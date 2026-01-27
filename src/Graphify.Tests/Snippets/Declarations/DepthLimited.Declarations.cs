@@ -10,7 +10,7 @@ internal static partial class DepthLimited
             """
             namespace Graphify.Testing
             {
-                public sealed partial class DepthChild
+                public sealed class DepthChild
                 {
                     public string Name { get; set; }
                 }

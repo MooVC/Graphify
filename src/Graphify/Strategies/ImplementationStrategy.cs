@@ -83,7 +83,6 @@
             }
 
             GeneratePropertyContent(preceding, tier, out string arguments, out string parameters);
-            bool canRecurse = tier < subject.Depth;
 
             foreach (Property property in properties)
             {
@@ -99,12 +98,11 @@
                     property,
                     subject,
                     tier,
-                    canRecurse,
                     out string next);
 
                 IEnumerable<Source> succeeding = Enumerable.Empty<Source>();
 
-                if (canRecurse && property.IsSequence)
+                if (property.IsSequence)
                 {
                     succeeding = GenerateContentForElement(
                         arguments,
@@ -119,10 +117,7 @@
                         tier);
                 }
 
-                if (canRecurse)
-                {
-                    succeeding = succeeding.Concat(GenerateContentsForProperty(@class, next, moniker, preceding, property, subject, tier));
-                }
+                succeeding = succeeding.Concat(GenerateContentsForProperty(@class, next, moniker, preceding, property, subject, tier));
 
                 foreach (Source source in succeeding)
                 {
@@ -181,12 +176,7 @@
             try
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
-                int elementTier = tier + 1;
-                bool canRecurse = elementTier < subject.Depth;
-                ImmutableArray<Property> properties = canRecurse
-                    ? element.Properties
-                    : ImmutableArray<Property>.Empty;
-                string body = GenerateConcatenationsForElement(moniker, pool, properties, elementTier);
+                string body = GenerateConcatenationsForElement(moniker, pool, element.Properties, subject, tier++);
 
                 yield return GenerateContent(
                     arguments,
@@ -201,12 +191,9 @@
                     property.Type,
                     out string next);
 
-                if (canRecurse)
+                foreach (Source source in GenerateContent(@class, next, moniker, pool, element.Properties, subject, tier))
                 {
-                    foreach (Source source in GenerateContent(@class, next, moniker, pool, element.Properties, subject, elementTier))
-                    {
-                        yield return source;
-                    }
+                    yield return source;
                 }
             }
             finally
@@ -225,16 +212,9 @@
             Property property,
             Subject subject,
             int tier,
-            bool canRecurse,
             out string next)
         {
-            Element element = canRecurse
-                ? property.Element
-                : default;
-            ImmutableArray<Property> properties = canRecurse
-                ? property.Properties
-                : ImmutableArray<Property>.Empty;
-            string body = GenerateConcatenationsForProperty(element, method, preceding, properties, tier);
+            string body = GenerateConcatenationsForProperty(property.Element, method, preceding, property.Properties, subject, tier);
 
             return GenerateContent(
                 arguments,
@@ -279,10 +259,7 @@
         private static Source GenerateNavigator(string name, Subject subject)
         {
             string contract = ContractStrategy.GetName(subject.Name);
-            ImmutableArray<Property> properties = subject.Depth > 0
-                ? subject.Properties
-                : ImmutableArray<Property>.Empty;
-            string body = GenerateConcatenationsForSubject(properties);
+            string body = GenerateConcatenationsForSubject(subject.Properties, subject);
 
             string code = string.Format(
                 GenerateNavigatorContent,
@@ -299,10 +276,11 @@
             string method,
             Predecessor[] preceding,
             in ImmutableArray<Property> properties,
+            Subject subject,
             string template,
             int tier)
         {
-            if (element is null && properties.Length == 0)
+            if (tier >= subject.Depth || (element is null && properties.Length == 0))
             {
                 return string.Empty;
             }
@@ -349,9 +327,10 @@
             string method,
             Predecessor[] preceding,
             in ImmutableArray<Property> properties,
+            Subject subject,
             int tier)
         {
-            return GenerateConcatenations(default, method, preceding, properties, GenerateConcatenationsForElementContent, tier);
+            return GenerateConcatenations(default, method, preceding, properties, subject, GenerateConcatenationsForElementContent, tier);
         }
 
         private static string GenerateConcatenationsForProperty(
@@ -359,14 +338,15 @@
             string method,
             Predecessor[] preceding,
             in ImmutableArray<Property> properties,
+            Subject subject,
             int tier)
         {
-            return GenerateConcatenations(element, method, preceding, properties, GenerateConcatenationsForPropertyContent, tier);
+            return GenerateConcatenations(element, method, preceding, properties, subject, GenerateConcatenationsForPropertyContent, tier);
         }
 
-        private static string GenerateConcatenationsForSubject(in ImmutableArray<Property> properties)
+        private static string GenerateConcatenationsForSubject(in ImmutableArray<Property> properties, Subject subject)
         {
-            return GenerateConcatenations(default, string.Empty, Array.Empty<Predecessor>(), properties, GenerateConcatenationsForSubjectContent, 0);
+            return GenerateConcatenations(default, string.Empty, Array.Empty<Predecessor>(), properties, subject, GenerateConcatenationsForSubjectContent, 0);
         }
 
         private static string GenerateParametersForConcatenations(Predecessor[] preceding, int tier)

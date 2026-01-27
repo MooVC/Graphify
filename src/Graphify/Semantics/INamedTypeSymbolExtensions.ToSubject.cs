@@ -15,14 +15,14 @@
         /// <param name="subject">
         /// The subject from which the semantics are identified.
         /// </param>
+        /// <param name="depth">
+        /// The depth configured on the Graphify attribute.
+        /// </param>
         /// <param name="nesting">
         /// The declaration syntax for the parents of the <paramref name="syntax"/>.
         /// </param>
         /// <param name="registration">
         /// The symbol representing the registration contract from Microsoft.Extensions.DependencyInjection. Can be <see langword="null"/>.
-        /// </param>
-        /// <param name="depth">
-        /// The depth configured on the Graphify attribute.
         /// </param>
         /// <returns>
         /// An instance of <see cref="Subject"/> containing the required semantics.
@@ -30,7 +30,7 @@
         /// <remarks>
         /// If the declaration associated with the type cannot be determined, the method will return <see langword="null" />.
         /// </remarks>
-        public static Subject ToSubject(this INamedTypeSymbol subject, in ImmutableArray<Nesting> nesting, INamedTypeSymbol registration, byte depth)
+        public static Subject ToSubject(this INamedTypeSymbol subject, byte depth, in ImmutableArray<Nesting> nesting, INamedTypeSymbol registration)
         {
             string @namespace = subject.ContainingNamespace.IsGlobalNamespace
                ? string.Empty

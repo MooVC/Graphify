@@ -60,7 +60,6 @@
 
             string body = GeneratePropertyContent(preceding, tier, out string assignments, out string parameters);
             string wrapper = GenerateWrapperDeclarations(preceding, tier);
-            bool canRecurse = tier < subject.Depth;
 
             foreach (Property property in properties)
             {
@@ -68,15 +67,12 @@
 
                 IEnumerable<Source> succeeding = Enumerable.Empty<Source>();
 
-                if (canRecurse && property.IsSequence)
+                if (property.IsSequence)
                 {
                     succeeding = GenerateContentForElement(assignments, body, property.Element, next, parameters, preceding, property, subject, tier);
                 }
 
-                if (canRecurse)
-                {
-                    succeeding = succeeding.Concat(GenerateContentsForProperty(next, preceding, property, subject, tier));
-                }
+                succeeding = succeeding.Concat(GenerateContentsForProperty(next, preceding, property, subject, tier));
 
                 foreach (Source source in succeeding)
                 {
@@ -134,10 +130,9 @@
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
 
-                int elementTier = tier + 1;
-                bool canRecurse = elementTier < subject.Depth;
+                tier++;
 
-                string wrapper = GenerateWrapperDeclarations(pool, elementTier);
+                string wrapper = GenerateWrapperDeclarations(pool, tier);
 
                 yield return GenerateContent(
                     assignments,
@@ -147,17 +142,14 @@
                     parameters,
                     subject,
                     GenerateContentForElementContent,
-                    elementTier,
+                    tier,
                     element.Type,
                     wrapper,
                     out string next);
 
-                if (canRecurse)
+                foreach (Source source in GenerateContent(next, pool, element.Properties, subject, tier))
                 {
-                    foreach (Source source in GenerateContent(next, pool, element.Properties, subject, elementTier))
-                    {
-                        yield return source;
-                    }
+                    yield return source;
                 }
             }
             finally

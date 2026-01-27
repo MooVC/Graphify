@@ -57,7 +57,7 @@
                 return default;
             }
 
-            return type.ToSubject(ImmutableArray.ToImmutableArray(nesting), registration, depth);
+            return type.ToSubject(depth, ImmutableArray.ToImmutableArray(nesting), registration);
         }
     }
 }

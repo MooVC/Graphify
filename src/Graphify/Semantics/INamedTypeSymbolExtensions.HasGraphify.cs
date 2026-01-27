@@ -2,7 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp;
+    using Microsoft.CodeAnalysis.CSharp.Syntax;
     using static Graphify.GraphifyAttributeGenerator;
 
     /// <summary>
@@ -30,37 +33,54 @@
                 return false;
             }
 
-            foreach (KeyValuePair<string, TypedConstant> argument in attribute.NamedArguments)
+            if ((HasDepthOnConstuctorArguments(attribute, out depth) || HasDescriptorOnSyntax(attribute, out depth)) && depth == 0)
             {
-                if (argument.Key.Equals(DepthPropertyName, StringComparison.Ordinal))
-                {
-                    depth = GetDepthValue(argument.Value);
-                    break;
-                }
+                depth = DefaultDepth;
             }
 
             return true;
         }
 
-        private static byte GetDepthValue(TypedConstant value)
+        private static bool HasDepthOnConstuctorArguments(this AttributeData attribute, out byte depth)
         {
-            if (value.Value is null || value.Kind == TypedConstantKind.Error)
+            depth = DefaultDepth;
+
+            if (attribute.ConstructorArguments.Length == 0)
             {
-                return DefaultDepth;
+                return false;
             }
 
-            return value.Value switch
+            TypedConstant argument = attribute.ConstructorArguments.First();
+
+            if (argument.Value is byte value)
             {
-                byte depth => depth,
-                sbyte depth => (byte)depth,
-                short depth => (byte)depth,
-                ushort depth => (byte)depth,
-                int depth => (byte)depth,
-                uint depth => (byte)depth,
-                long depth => (byte)depth,
-                ulong depth => (byte)depth,
-                _ => DefaultDepth,
-            };
+                depth = value;
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private static bool HasDescriptorOnSyntax(this AttributeData attribute, out byte value)
+        {
+            if (attribute.ApplicationSyntaxReference is object
+             && attribute.ApplicationSyntaxReference.GetSyntax() is AttributeSyntax syntax
+             && syntax.ArgumentList is object
+             && syntax.ArgumentList.Arguments.Count == 1)
+            {
+                AttributeArgumentSyntax argument = syntax.ArgumentList.Arguments[0];
+
+                string expression = argument.Expression is LiteralExpressionSyntax literal && literal.IsKind(SyntaxKind.NumericLiteralExpression)
+                    ? literal.Token.ValueText
+                    : argument.Expression.ToString();
+
+                return byte.TryParse(expression, out value);
+            }
+
+            value = DefaultDepth;
+
+            return false;
         }
     }
 }

@@ -14,7 +14,7 @@ on:
 env:
   configuration: 'Release'
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
-  PACKAGE_ID: 'Monify'
+  PACKAGE_ID: 'Graphify'
   solution: 'Graphify.slnx'
 
 permissions:

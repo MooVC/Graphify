@@ -22,24 +22,24 @@ namespace Graphify {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class IgnoreAttributeAnalyzer_Resources {
+    internal class TraverseAttributeGenerator_Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal IgnoreAttributeAnalyzer_Resources() {
+        internal TraverseAttributeGenerator_Resources() {
         }
         
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.IgnoreAttributeAnalyzer.Resources", typeof(IgnoreAttributeAnalyzer_Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.TraverseAttributeGenerator.Resources", typeof(TraverseAttributeGenerator_Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace Graphify {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,29 +61,28 @@ namespace Graphify {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This property is not considered by Graphify because the Graphify attribute has not been applied to the type, so the usage of the Ignore attribute is redundant..
+        ///   Looks up a localized string similar to namespace Graphify
+        ///{{
+        ///    using System;
+        ///
+        ///    public enum TraverseScope
+        ///    {{
+        ///        None,
+        ///        All,
+        ///        Property,
+        ///    }}
+        ///
+        ///    [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
+        ///    public sealed class TraverseAttribute
+        ///        : Attribute
+        ///    {{
+        ///        public TraverseScope Scope {{ get; set; }} = TraverseScope.All;
+        ///    }}
+        ///}}.
         /// </summary>
-        public static string MissingGraphifyRuleDescription {
+        internal static string Content {
             get {
-                return ResourceManager.GetString("MissingGraphifyRuleDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Property `{0}` is not considered by Graphify, making the usage of the Ignore attribute redundant..
-        /// </summary>
-        public static string MissingGraphifyRuleMessageFormat {
-            get {
-                return ResourceManager.GetString("MissingGraphifyRuleMessageFormat", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Type does not utilize Graphify.
-        /// </summary>
-        public static string MissingGraphifyRuleTitle {
-            get {
-                return ResourceManager.GetString("MissingGraphifyRuleTitle", resourceCulture);
+                return ResourceManager.GetString("Content", resourceCulture);
             }
         }
     }

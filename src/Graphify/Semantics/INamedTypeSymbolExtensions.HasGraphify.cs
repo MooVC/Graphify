@@ -1,11 +1,6 @@
 ﻿namespace Graphify.Semantics
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using Microsoft.CodeAnalysis;
-    using Microsoft.CodeAnalysis.CSharp;
-    using Microsoft.CodeAnalysis.CSharp.Syntax;
     using static Graphify.GraphifyAttributeGenerator;
 
     /// <summary>
@@ -14,7 +9,6 @@
     internal static partial class INamedTypeSymbolExtensions
     {
         private const byte DefaultDepth = 16;
-        private const string DepthPropertyName = "Depth";
 
         /// <summary>
         /// Determines whether or not the <paramref name="symbol"/> provided is annotated with the Graphify attribute.
@@ -33,7 +27,7 @@
                 return false;
             }
 
-            if ((HasDepthOnConstuctorArguments(attribute, out depth) || HasDescriptorOnSyntax(attribute, out depth)) && depth == 0)
+            if (TryGetDepth(attribute, out depth) && depth == 0)
             {
                 depth = DefaultDepth;
             }
@@ -41,46 +35,23 @@
             return true;
         }
 
-        private static bool HasDepthOnConstuctorArguments(this AttributeData attribute, out byte depth)
+        private static bool TryGetDepth(AttributeData attribute, out byte depth)
         {
             depth = DefaultDepth;
 
-            if (attribute.ConstructorArguments.Length == 0)
+            if (!attribute.TryGetArgumentText(string.Empty, out string argumentText))
             {
                 return false;
             }
 
-            TypedConstant argument = attribute.ConstructorArguments.First();
-
-            if (argument.Value is byte value)
+            if (!byte.TryParse(argumentText, out byte value))
             {
-                depth = value;
-
-                return true;
+                return false;
             }
 
-            return false;
-        }
+            depth = value;
 
-        private static bool HasDescriptorOnSyntax(this AttributeData attribute, out byte value)
-        {
-            if (attribute.ApplicationSyntaxReference is object
-             && attribute.ApplicationSyntaxReference.GetSyntax() is AttributeSyntax syntax
-             && syntax.ArgumentList is object
-             && syntax.ArgumentList.Arguments.Count == 1)
-            {
-                AttributeArgumentSyntax argument = syntax.ArgumentList.Arguments[0];
-
-                string expression = argument.Expression is LiteralExpressionSyntax literal && literal.IsKind(SyntaxKind.NumericLiteralExpression)
-                    ? literal.Token.ValueText
-                    : argument.Expression.ToString();
-
-                return byte.TryParse(expression, out value);
-            }
-
-            value = DefaultDepth;
-
-            return false;
+            return true;
         }
     }
 }

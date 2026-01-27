@@ -12,10 +12,10 @@ public static class Boilerplate
         $"{GraphifyAttributeGenerator.Name}Attribute.g.cs",
         typeof(GraphifyAttributeGenerator));
 
-    public static readonly Generated Ignore = new(
-        IgnoreAttributeGenerator.Content,
-        $"{IgnoreAttributeGenerator.Name}Attribute.g.cs",
-        typeof(IgnoreAttributeGenerator));
+    public static readonly Generated Traverse = new(
+        TraverseAttributeGenerator.Content,
+        $"{TraverseAttributeGenerator.Name}Attribute.g.cs",
+        typeof(TraverseAttributeGenerator));
 
     public static readonly Generated Navigator = new(
         NavigatorContractGenerator.Content,

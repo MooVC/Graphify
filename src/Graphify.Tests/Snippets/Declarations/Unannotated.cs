@@ -14,7 +14,7 @@ internal static partial class Unannotated
             {
                 public int Id { get; set; }
 
-                [Ignore]
+                [Traverse]
                 public string Name { get; set; }
             }
             """,
@@ -32,7 +32,7 @@ internal static partial class Unannotated
             {
                 public int Id { get; set; }
             
-                [Ignore]
+                [Traverse]
                 public string Name { get; set; }
             }
             """,
@@ -50,7 +50,7 @@ internal static partial class Unannotated
             {
                 public int Id { get; set; }
 
-                [Ignore]
+                [Traverse]
                 public string Name { get; set; }
             }
             """,

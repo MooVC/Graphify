@@ -3,7 +3,7 @@
 <table>
 <tr>
   <td>Type Name</td>
-  <td>GRAFY03_IgnoreAttributeAnalyzer</td>
+  <td>GRAFY03_TraverseAttributeAnalyzer</td>
 </tr>
 <tr>
   <td>Diagnostic Id</td>
@@ -29,23 +29,23 @@ The property is not considered by Graphify because the type has not been annotat
 
 ## Rule Description
 
-A violation of this rule occurs when a property is marked with the `Ignore` attribute, but the containing `class` is not annotated with the `Graphify` attribute. Therefore, no extension methods will be generated, making use of the `Ignore` attribute redundant.
+A violation of this rule occurs when a property is marked with the `Traverse` attribute, but the containing `class` is not annotated with the `Graphify` attribute. Therefore, no extension methods will be generated, making use of the `Traverse` attribute redundant.
 
 For example:
 
 ```csharp
 public class Example
 {
-    [Ignore]
+    [Traverse]
     public string Property { get; set; }
 }
 ```
 
-In this example, the `Ignore` attribute on `Property`, and the `class` itself, will be ignored by `Graphify`, suggesting a misunderstanding by the engineer as to its intended usage.
+In this example, the `Traverse` attribute on `Property`, and the `class` itself, will be ignored by `Graphify`, suggesting a misunderstanding by the engineer as to its intended usage.
 
 ## How to Fix Violations
 
-Reevaluate the decision to apply the `Ignore` attribute. If the `Ignore` attribute usage is deemed correct, annotate the type with the `Graphify` attribute, otherwise remove the `Ignore` attribute.
+Reevaluate the decision to apply the `Traverse` attribute. If the `Traverse` attribute usage is deemed correct, annotate the type with the `Graphify` attribute, otherwise remove the `Traverse` attribute.
 
 For example:
 
@@ -53,7 +53,7 @@ For example:
 [Graphify]
 public class Example
 {
-    [Ignore]
+    [Traverse]
     public string Property { get; set; }
 }
 ```
@@ -68,7 +68,7 @@ public class Example
 
 ## When to Suppress Warnings
 
-Warnings from this rule should be suppressed only if there is a strong justification for not using the `Graphify` attribute on the containing type when the `Ignore` attribute is applied.
+Warnings from this rule should be suppressed only if there is a strong justification for not using the `Graphify` attribute on the containing type when the `Traverse` attribute is applied.
 
 If suppression is desired, one of the following approaches can be used:
 
@@ -78,7 +78,7 @@ public class Example
 {
     #pragma warning disable GRAFY03 // Type does not utilize Graphify
     
-    [Ignore]
+    [Traverse]
     public string Property { get; set; }
     
     #pragma warning restore GRAFY03 // Type does not utilize Graphify
@@ -90,7 +90,7 @@ or alternatively:
 ```csharp
 public class Example
 {
-    [Ignore]
+    [Traverse]
     [SuppressMessage("Usage", "GRAFY03:Type does not utilize Graphify", Justification = "Explanation for suppression")]
     public string Property { get; set; }
 }

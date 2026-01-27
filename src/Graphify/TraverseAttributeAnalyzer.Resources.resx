@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="MissingGraphifyRuleDescription" xml:space="preserve">
-    <value>This property is not considered by Graphify because the Graphify attribute has not been applied to the type, so the usage of the Ignore attribute is redundant.</value>
+    <value>This property is not considered by Graphify because the Graphify attribute has not been applied to the type, so the usage of the Traverse attribute is redundant.</value>
   </data>
   <data name="MissingGraphifyRuleMessageFormat" xml:space="preserve">
-    <value>Property `{0}` is not considered by Graphify, making the usage of the Ignore attribute redundant.</value>
+    <value>Property `{0}` is not considered by Graphify, making the usage of the Traverse attribute redundant.</value>
   </data>
   <data name="MissingGraphifyRuleTitle" xml:space="preserve">
     <value>Type does not utilize Graphify</value>

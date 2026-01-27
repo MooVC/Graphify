@@ -1,11 +1,11 @@
-﻿namespace Graphify.IgnoreAttributeAnalyzerTests;
+﻿namespace Graphify.TraverseAttributeAnalyzerTests;
 
 using Graphify.Snippets;
 using Graphify.Snippets.Declarations;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Testing;
 using Microsoft.CodeAnalysis.Text;
-using AnalyzerTest = Graphify.AnalyzerTest<Graphify.IgnoreAttributeAnalyzer>;
+using AnalyzerTest = Graphify.AnalyzerTest<Graphify.TraverseAttributeAnalyzer>;
 
 public sealed class WhenExecuted
 {
@@ -14,7 +14,7 @@ public sealed class WhenExecuted
     public async Task GivenAClassWhenCompliantThenNoDiagnosticsAreRaised(ReferenceAssemblies assembly, Expectations expectations, LanguageVersion language)
     {
         // Arrange
-        var test = new AnalyzerTest(assembly, language, typeof(GraphifyAttributeGenerator), typeof(IgnoreAttributeGenerator));
+        var test = new AnalyzerTest(assembly, language, typeof(GraphifyAttributeGenerator), typeof(TraverseAttributeGenerator));
 
         expectations.IsDeclaredIn(test.TestState);
 
@@ -30,7 +30,7 @@ public sealed class WhenExecuted
     public async Task GivenATypeWhenUnannotatedThenCompatibleTargetTypeRuleIsRaised(ReferenceAssemblies assembly, Expectations expectations, LanguageVersion language)
     {
         // Arrange
-        var test = new AnalyzerTest(assembly, language, typeof(IgnoreAttributeGenerator));
+        var test = new AnalyzerTest(assembly, language, typeof(TraverseAttributeGenerator));
 
         expectations.IsDeclaredIn(test.TestState);
 
@@ -45,7 +45,7 @@ public sealed class WhenExecuted
 
     private static DiagnosticResult GetExpectedMissingGraphifyRule(LinePosition position, string name)
     {
-        return new DiagnosticResult(IgnoreAttributeAnalyzer.MissingGraphifyRule)
+        return new DiagnosticResult(TraverseAttributeAnalyzer.MissingGraphifyRule)
             .WithLocation(position)
             .WithArguments(name);
     }

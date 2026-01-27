@@ -1,4 +1,4 @@
-namespace Graphify.Console.Complex.IComplexNavigatorTests;
+namespace Graphify.Console.Complex.ComplexNavigatorTests;
 
 using System;
 using System.Collections.Generic;
@@ -35,8 +35,9 @@ public sealed class WhenNavigateIsCalled
             .AddComplexVisitors()
             .AddComplexNavigator();
 
-        var provider = services.BuildServiceProvider();
-        var navigator = provider.GetRequiredService<IComplexNavigator>();
+        ServiceProvider provider = services.BuildServiceProvider();
+        IComplexNavigator navigator = provider.GetRequiredService<IComplexNavigator>();
+
         var complex = new Complex
         {
             Age = age,
@@ -91,7 +92,8 @@ public sealed class WhenNavigateIsCalled
         }
 
         // Assert
-        observations.OrderBy(value => value, StringComparer.Ordinal)
+        observations
+            .OrderBy(value => value, StringComparer.Ordinal)
             .ShouldBe(expectedObservations.OrderBy(value => value, StringComparer.Ordinal));
     }
 }

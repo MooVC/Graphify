@@ -1,4 +1,4 @@
-namespace Graphify.Console.Simple.ISimpleNavigatorTests;
+namespace Graphify.Console.Simple.SimpleNavigatorTests;
 
 using System;
 using System.Collections.Generic;
@@ -26,8 +26,9 @@ public sealed class WhenNavigateIsCalled
             .AddSimpleVisitors()
             .AddSimpleNavigator();
 
-        var provider = services.BuildServiceProvider();
-        var navigator = provider.GetRequiredService<ISimpleNavigator>();
+        ServiceProvider provider = services.BuildServiceProvider();
+        ISimpleNavigator navigator = provider.GetRequiredService<ISimpleNavigator>();
+
         var simple = new Simple
         {
             Age = age,
@@ -52,7 +53,8 @@ public sealed class WhenNavigateIsCalled
         }
 
         // Assert
-        observations.OrderBy(value => value, StringComparer.Ordinal)
+        observations
+            .OrderBy(value => value, StringComparer.Ordinal)
             .ShouldBe(expectedObservations.OrderBy(value => value, StringComparer.Ordinal));
     }
 }

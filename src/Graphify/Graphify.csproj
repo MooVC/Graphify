@@ -1,7 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <Description>Graphify, a .NET Roslyn source generator, allows for the efficient navigation of a class hierarchy, without the use of reflection.</Description>
+    <Description>Graphify is a Roslyn source generator that delivers strongly typed graph traversal, visitor, and navigator APIs, replacing reflection with compile-time speed and safety.</Description>
+    <PackageId>Graphify</PackageId>
+    <Title>Graphify</Title>
+    <Summary>Generate graph traversal, visitor, and navigator APIs with compile-time safety and zero reflection.</Summary>
+    <PackageTags>Graph;Traversal;Visitor;Navigator;SourceGenerator;Roslyn;Analyzer;CSharp;DomainModel</PackageTags>
     <ImplicitUsings>disable</ImplicitUsings>
     <LangVersion>7.3</LangVersion>
     <Nullable>disable</Nullable>

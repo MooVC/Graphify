@@ -65,7 +65,7 @@ namespace Graphify {
         ///{{
         ///    using System;
         ///
-        ///    public enum TraverseScope
+        ///    internal enum TraverseScope
         ///    {{
         ///        None,
         ///        All,
@@ -73,7 +73,7 @@ namespace Graphify {
         ///    }}
         ///
         ///    [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-        ///    public sealed class TraverseAttribute
+        ///    internal sealed class TraverseAttribute
         ///        : Attribute
         ///    {{
         ///        public TraverseScope Scope {{ get; set; }} = TraverseScope.All;

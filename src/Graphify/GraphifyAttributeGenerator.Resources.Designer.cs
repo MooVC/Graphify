@@ -67,7 +67,7 @@ namespace Graphify {
         ///    using System.Diagnostics.CodeAnalysis;
         ///
         ///    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false, AllowMultiple = false)]
-        ///    public sealed class {0}Attribute
+        ///    internal sealed class {0}Attribute
         ///        : Attribute
         ///    {{
         ///        public {0}Attribute()

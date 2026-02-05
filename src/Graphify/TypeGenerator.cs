@@ -18,8 +18,6 @@
     public sealed class TypeGenerator
         : IIncrementalGenerator
     {
-        private const string RegistrationContractName = "Microsoft.Extensions.DependencyInjection.IServiceCollection";
-
         private static readonly IStrategy[] _strategies = new IStrategy[]
         {
             new ContractStrategy(),
@@ -94,12 +92,9 @@
             return node is TypeDeclarationSyntax type && type.AttributeLists.Count > 0;
         }
 
-        private static Subject Parse(
-            TypeDeclarationSyntax syntax,
-            Compilation compilation,
-            CancellationToken cancellationToken)
+        private static Subject Parse(TypeDeclarationSyntax syntax, Compilation compilation, CancellationToken cancellationToken)
         {
-            return syntax.ToSubject(compilation, RegistrationContractName, cancellationToken);
+            return syntax.ToSubject(compilation, cancellationToken);
         }
 
         private static TypeDeclarationSyntax Transform(GeneratorSyntaxContext context, CancellationToken cancellationToken)

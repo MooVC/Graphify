@@ -1,5 +1,6 @@
 ﻿namespace Graphify.Syntax
 {
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.Linq;
@@ -14,6 +15,10 @@
     /// </summary>
     internal static partial class TypeDeclarationSyntaxExtensions
     {
+        private const string RegistrationContractName = "Microsoft.Extensions.DependencyInjection.IServiceCollection";
+
+        private static readonly ConcurrentDictionary<IAssemblySymbol, bool> _cache = new ConcurrentDictionary<IAssemblySymbol, bool>(SymbolEqualityComparer.Default);
+
         /// <summary>
         /// Maps the required Semantics from the <paramref name="syntax"/>, using the <paramref name="compilation"/>
         /// and places it within an instance of <see cref="Subject"/>.
@@ -27,9 +32,6 @@
         /// <param name="compilation">
         /// Information relating to the compilation, used to obtain the semantic model for <paramref name="syntax"/>.
         /// </param>
-        /// <param name="registrationContractName">
-        /// The metadata name representing the registration contract from Microsoft.Extensions.DependencyInjection.
-        /// </param>
         /// <param name="cancellationToken">
         /// A <see cref="CancellationToken" /> that can be used to cancel the operation.
         /// </param>
@@ -37,11 +39,7 @@
         /// When the <paramref name="syntax"/> is annotated with the Graphify attribute and it, and its parents are marked as partial,
         /// the required semantics mapped from <paramref name="syntax"/> using <paramref name="compilation"/>, otherwise <see langword="null"/>.
         /// </returns>
-        public static Subject ToSubject(
-            this TypeDeclarationSyntax syntax,
-            Compilation compilation,
-            string registrationContractName,
-            CancellationToken cancellationToken)
+        public static Subject ToSubject(this TypeDeclarationSyntax syntax, Compilation compilation, CancellationToken cancellationToken)
         {
             var nesting = new Stack<Nesting>();
 
@@ -58,23 +56,21 @@
                 return default;
             }
 
-            INamedTypeSymbol registration = GetRegistration(type, compilation, registrationContractName);
+            bool hasRegistration = _cache.GetOrAdd(type.ContainingAssembly, assembly => GetRegistration(assembly, compilation));
 
-            return type.ToSubject(depth, ImmutableArray.ToImmutableArray(nesting), registration);
+            return type.ToSubject(depth, ImmutableArray.ToImmutableArray(nesting), hasRegistration);
         }
 
-        private static INamedTypeSymbol GetRegistration(INamedTypeSymbol type, Compilation compilation, string registrationContractName)
+        private static bool GetRegistration(IAssemblySymbol assembly, Compilation compilation)
         {
-            INamedTypeSymbol registration = compilation.GetTypeByMetadataName(registrationContractName);
+            INamedTypeSymbol registration = compilation.GetTypeByMetadataName(RegistrationContractName);
 
             if (registration is null)
             {
-                return null;
+                return false;
             }
 
-            return CanReference(type.ContainingAssembly, registration.ContainingAssembly)
-                ? registration
-                : null;
+            return CanReference(assembly, registration.ContainingAssembly);
         }
 
         private static bool CanReference(IAssemblySymbol source, IAssemblySymbol target)

@@ -31,17 +31,13 @@
         /// <inheritdoc/>
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
-            IncrementalValueProvider<INamedTypeSymbol> serviceCollectionSymbol = context.CompilationProvider
-                .Select(GetDependencyInjectionContract);
-
             IncrementalValuesProvider<TypeDeclarationSyntax> classes = context
                 .SyntaxProvider
                 .CreateSyntaxProvider(predicate: IsMatch, transform: Transform);
 
             IncrementalValuesProvider<Subject> subjects = classes
                 .Combine(context.CompilationProvider)
-                .Combine(serviceCollectionSymbol)
-                .Select((match, cancellationToken) => Parse(match.Left.Left, match.Left.Right, match.Right, cancellationToken));
+                .Select((match, cancellationToken) => Parse(match.Left, match.Right, cancellationToken));
 
             context.RegisterSourceOutput(subjects, (production, subject) => Generate(production, subject));
         }
@@ -93,11 +89,6 @@
             return $"{name}{separator}{source.Hint}.g.cs";
         }
 
-        private static INamedTypeSymbol GetDependencyInjectionContract(Compilation compilation, CancellationToken cancellationToken)
-        {
-            return compilation.GetTypeByMetadataName(RegistrationContractName);
-        }
-
         private static bool IsMatch(SyntaxNode node, CancellationToken cancellationToken)
         {
             return node is TypeDeclarationSyntax type && type.AttributeLists.Count > 0;
@@ -106,10 +97,9 @@
         private static Subject Parse(
             TypeDeclarationSyntax syntax,
             Compilation compilation,
-            INamedTypeSymbol registration,
             CancellationToken cancellationToken)
         {
-            return syntax.ToSubject(compilation, registration, cancellationToken);
+            return syntax.ToSubject(compilation, RegistrationContractName, cancellationToken);
         }
 
         private static TypeDeclarationSyntax Transform(GeneratorSyntaxContext context, CancellationToken cancellationToken)

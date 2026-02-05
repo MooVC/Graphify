@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Collections.Immutable;
+    using System.Linq;
     using System.Threading;
     using Graphify.Model;
     using Graphify.Semantics;
@@ -26,8 +27,8 @@
         /// <param name="compilation">
         /// Information relating to the compilation, used to obtain the semantic model for <paramref name="syntax"/>.
         /// </param>
-        /// <param name="registration">
-        /// The symbol representing the registration contract from Microsoft.Extensions.DependencyInjection. Can be <see langword="null"/>.
+        /// <param name="registrationContractName">
+        /// The metadata name representing the registration contract from Microsoft.Extensions.DependencyInjection.
         /// </param>
         /// <param name="cancellationToken">
         /// A <see cref="CancellationToken" /> that can be used to cancel the operation.
@@ -39,7 +40,7 @@
         public static Subject ToSubject(
             this TypeDeclarationSyntax syntax,
             Compilation compilation,
-            INamedTypeSymbol registration,
+            string registrationContractName,
             CancellationToken cancellationToken)
         {
             var nesting = new Stack<Nesting>();
@@ -57,7 +58,36 @@
                 return default;
             }
 
+            INamedTypeSymbol registration = GetRegistration(type, compilation, registrationContractName);
+
             return type.ToSubject(depth, ImmutableArray.ToImmutableArray(nesting), registration);
+        }
+
+        private static INamedTypeSymbol GetRegistration(INamedTypeSymbol type, Compilation compilation, string registrationContractName)
+        {
+            INamedTypeSymbol registration = compilation.GetTypeByMetadataName(registrationContractName);
+
+            if (registration is null)
+            {
+                return null;
+            }
+
+            return CanReference(type.ContainingAssembly, registration.ContainingAssembly)
+                ? registration
+                : null;
+        }
+
+        private static bool CanReference(IAssemblySymbol source, IAssemblySymbol target)
+        {
+            if (SymbolEqualityComparer.Default.Equals(source, target))
+            {
+                return true;
+            }
+
+            return source
+                .Modules
+                .SelectMany(module => module.ReferencedAssemblySymbols)
+                .Any(reference => SymbolEqualityComparer.Default.Equals(reference, target));
         }
     }
 }

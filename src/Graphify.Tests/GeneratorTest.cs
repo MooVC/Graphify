@@ -13,7 +13,7 @@ public sealed class GeneratorTest<TGenerator>
     private readonly Type[] _generators;
     private readonly LanguageVersion _language;
 
-    public GeneratorTest(ReferenceAssemblies assembly, LanguageVersion language, params Type[] generators)
+    public GeneratorTest(ReferenceAssemblies assembly, LanguageVersion language, bool includeDependencyInjection, params Type[] generators)
     {
         _generators = generators.Length == 0
             ? [typeof(TGenerator)]
@@ -21,7 +21,16 @@ public sealed class GeneratorTest<TGenerator>
 
         _language = language;
         ReferenceAssemblies = assembly;
-        TestState.AdditionalReferences.Add(typeof(IServiceCollection).Assembly);
+
+        if (includeDependencyInjection)
+        {
+            TestState.AdditionalReferences.Add(typeof(IServiceCollection).Assembly);
+        }
+    }
+
+    public GeneratorTest(ReferenceAssemblies assembly, LanguageVersion language, params Type[] generators)
+        : this(assembly, language, includeDependencyInjection: true, generators)
+    {
     }
 
     protected sealed override ParseOptions CreateParseOptions()

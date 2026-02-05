@@ -21,8 +21,8 @@
         /// <param name="nesting">
         /// The declaration syntax for the parents of the <paramref name="syntax"/>.
         /// </param>
-        /// <param name="registration">
-        /// The symbol representing the registration contract from Microsoft.Extensions.DependencyInjection. Can be <see langword="null"/>.
+        /// <param name="hasRegistration">
+        /// Indictaes whether or not the assembly within which <paramref name="subject"/> resides has registration references.
         /// </param>
         /// <returns>
         /// An instance of <see cref="Subject"/> containing the required semantics.
@@ -30,7 +30,7 @@
         /// <remarks>
         /// If the declaration associated with the type cannot be determined, the method will return <see langword="null" />.
         /// </remarks>
-        public static Subject ToSubject(this INamedTypeSymbol subject, byte depth, in ImmutableArray<Nesting> nesting, INamedTypeSymbol registration)
+        public static Subject ToSubject(this INamedTypeSymbol subject, byte depth, in ImmutableArray<Nesting> nesting, bool hasRegistration)
         {
             string @namespace = subject.ContainingNamespace.IsGlobalNamespace
                ? string.Empty
@@ -46,7 +46,7 @@
             return new Subject
             {
                 Accessibility = subject.DeclaredAccessibility,
-                CanRegister = registration is object,
+                CanRegister = hasRegistration,
                 Declaration = subject.GetDeclaration(),
                 Depth = depth,
                 HasContract = subject.HasContract(),

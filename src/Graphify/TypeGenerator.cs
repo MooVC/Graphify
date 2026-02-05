@@ -18,8 +18,6 @@
     public sealed class TypeGenerator
         : IIncrementalGenerator
     {
-        private const string RegistrationContractName = "Microsoft.Extensions.DependencyInjection.IServiceCollection";
-
         private static readonly IStrategy[] _strategies = new IStrategy[]
         {
             new ContractStrategy(),
@@ -31,17 +29,13 @@
         /// <inheritdoc/>
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
-            IncrementalValueProvider<INamedTypeSymbol> serviceCollectionSymbol = context.CompilationProvider
-                .Select(GetDependencyInjectionContract);
-
             IncrementalValuesProvider<TypeDeclarationSyntax> classes = context
                 .SyntaxProvider
                 .CreateSyntaxProvider(predicate: IsMatch, transform: Transform);
 
             IncrementalValuesProvider<Subject> subjects = classes
                 .Combine(context.CompilationProvider)
-                .Combine(serviceCollectionSymbol)
-                .Select((match, cancellationToken) => Parse(match.Left.Left, match.Left.Right, match.Right, cancellationToken));
+                .Select((match, cancellationToken) => Parse(match.Left, match.Right, cancellationToken));
 
             context.RegisterSourceOutput(subjects, (production, subject) => Generate(production, subject));
         }
@@ -93,23 +87,14 @@
             return $"{name}{separator}{source.Hint}.g.cs";
         }
 
-        private static INamedTypeSymbol GetDependencyInjectionContract(Compilation compilation, CancellationToken cancellationToken)
-        {
-            return compilation.GetTypeByMetadataName(RegistrationContractName);
-        }
-
         private static bool IsMatch(SyntaxNode node, CancellationToken cancellationToken)
         {
             return node is TypeDeclarationSyntax type && type.AttributeLists.Count > 0;
         }
 
-        private static Subject Parse(
-            TypeDeclarationSyntax syntax,
-            Compilation compilation,
-            INamedTypeSymbol registration,
-            CancellationToken cancellationToken)
+        private static Subject Parse(TypeDeclarationSyntax syntax, Compilation compilation, CancellationToken cancellationToken)
         {
-            return syntax.ToSubject(compilation, registration, cancellationToken);
+            return syntax.ToSubject(compilation, cancellationToken);
         }
 
         private static TypeDeclarationSyntax Transform(GeneratorSyntaxContext context, CancellationToken cancellationToken)

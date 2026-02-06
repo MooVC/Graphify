@@ -17,7 +17,7 @@
     {
         private const string RegistrationContractName = "Microsoft.Extensions.DependencyInjection.IServiceCollection";
 
-        private static readonly ConcurrentDictionary<IAssemblySymbol, bool> _cache = new ConcurrentDictionary<IAssemblySymbol, bool>(SymbolEqualityComparer.Default);
+        private static readonly ConcurrentDictionary<string, bool> _cache = new ConcurrentDictionary<string, bool>();
 
         /// <summary>
         /// Maps the required Semantics from the <paramref name="syntax"/>, using the <paramref name="compilation"/>
@@ -56,7 +56,8 @@
                 return default;
             }
 
-            bool hasRegistration = _cache.GetOrAdd(type.ContainingAssembly, assembly => GetRegistration(assembly, compilation));
+            string assembly = type.ContainingAssembly.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
+            bool hasRegistration = _cache.GetOrAdd(assembly, _ => GetRegistration(type.ContainingAssembly, compilation));
 
             return type.ToSubject(depth, ImmutableArray.ToImmutableArray(nesting), hasRegistration);
         }

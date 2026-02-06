@@ -116,6 +116,12 @@ jobs:
     needs: build
 
     steps:
+    - name: Use .NET SDKs
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: |
+          10.0.x
+
     - name: Extract and Format Version from Tag
       run: |
         $rawTag = '${{ github.ref_name }}'
@@ -170,7 +176,7 @@ jobs:
 
           $packageIndexUrl = "https://api.nuget.org/v3-flatcontainer/$($packageId.ToLowerInvariant())/index.json"
           $maxAttempts = 60
-          $delaySeconds = 360
+          $delaySeconds = 60
           $versions = $null
 
           for ($attempt = 1; $attempt -le $maxAttempts; $attempt++) {
@@ -180,9 +186,8 @@ jobs:
               break
             }
 
-            Write-Host "Waiting for $packageId $currentVersion to appear on NuGet (attempt $attempt of $maxAttempts)."
+            Write-Host "Waiting $delaySeconds seconds for $packageId $currentVersion to appear on NuGet (attempt $attempt of $maxAttempts)."
             Start-Sleep -Seconds $delaySeconds
-            $delaySeconds = 60
           }
 
           if (-not $versions) {
@@ -210,6 +215,11 @@ jobs:
             isOther = $true
             message = "Deprecated in favor of $currentVersion."
           }
-          Invoke-RestMethod -Uri "https://www.nuget.org/api/v2/package/$packageId/deprecations" -Method Put -Headers @{ 'X-NuGet-ApiKey' = $env:NUGET_API_KEY } -ContentType 'application/x-www-form-urlencoded' -Body $deprecateBody
+          $headers = @{
+            'User-Agent' = 'MooVC-CD'
+            'X-NuGet-ApiKey' = $env:NUGET_API_KEY
+          }
+          $deprecateUri = "https://www.nuget.org/api/v2/package/{0}/deprecations" -f $packageId
+          Invoke-RestMethod -Uri $deprecateUri -Method Put -Headers $headers -ContentType 'application/x-www-form-urlencoded' -Body $deprecateBody
         }
       shell: pwsh

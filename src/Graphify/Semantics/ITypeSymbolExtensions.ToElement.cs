@@ -1,8 +1,6 @@
 ﻿namespace Graphify.Semantics
 {
-    using System.Collections.Generic;
     using System.Collections.Immutable;
-    using System.Linq;
     using Graphify.Model;
     using Microsoft.CodeAnalysis;
 
@@ -20,14 +18,10 @@
         /// </returns>
         public static Element ToElement(this ITypeSymbol type)
         {
-            ImmutableArray<Property> properties = type is INamedTypeSymbol named
-                ? named.GetProperties()
-                : ImmutableArray<Property>.Empty;
-
             return new Element
             {
                 Name = type.Name,
-                Properties = properties,
+                Properties = ImmutableArray<Property>.Empty,
                 Symbol = type,
                 Type = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
             };

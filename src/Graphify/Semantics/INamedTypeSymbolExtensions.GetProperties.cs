@@ -64,6 +64,11 @@
         {
             string key = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
 
+            if (cache.TryGetValue(key, out Property[] cached))
+            {
+                return cached.ToImmutableArray();
+            }
+
             Property[] GetProperties()
             {
                 return type
@@ -81,9 +86,19 @@
                     .ToArray();
             }
 
-            return cache
-                .GetOrAdd(key, _ => GetProperties())
-                .ToImmutableArray();
+            Property[] properties = GetProperties();
+
+            cache[key] = properties;
+
+            foreach (Property property in properties)
+            {
+                if (property.Element is object)
+                {
+                    property.Element.Properties = property.Element.Symbol.TryGetAllPropertiesFromCache(cache);
+                }
+            }
+
+            return properties.ToImmutableArray();
         }
     }
 }

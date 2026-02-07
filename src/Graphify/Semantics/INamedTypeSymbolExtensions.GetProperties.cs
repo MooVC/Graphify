@@ -1,6 +1,5 @@
 ﻿namespace Graphify.Semantics
 {
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.Linq;
@@ -25,7 +24,7 @@
         {
             INamedTypeSymbol current = type;
             var all = new List<Property>();
-            var cache = new ConcurrentDictionary<string, Property[]>();
+            var cache = new Dictionary<string, ImmutableArray<Property>>();
 
             do
             {
@@ -60,16 +59,16 @@
             return all.ToImmutableArray();
         }
 
-        private static ImmutableArray<Property> TryGetAllPropertiesFromCache(this ITypeSymbol type, ConcurrentDictionary<string, Property[]> cache)
+        private static ImmutableArray<Property> TryGetAllPropertiesFromCache(this ITypeSymbol type, Dictionary<string, ImmutableArray<Property>> cache)
         {
             string key = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
 
-            if (cache.TryGetValue(key, out Property[] cached))
+            if (cache.TryGetValue(key, out ImmutableArray<Property> cached))
             {
-                return cached.ToImmutableArray();
+                return cached;
             }
 
-            Property[] GetProperties()
+            ImmutableArray<Property> GetProperties()
             {
                 return type
                     .GetMembers()
@@ -83,22 +82,21 @@
                     })
                     .Where(candidate => candidate.Scope != TraverseScope.None)
                     .Select(candidate => candidate.Property.ToProperty(candidate.Scope))
-                    .ToArray();
+                    .ToImmutableArray();
             }
 
-            Property[] properties = GetProperties();
+            ImmutableArray<Property> properties = GetProperties();
 
             cache[key] = properties;
 
-            foreach (Property property in properties)
+            foreach (Element element in properties
+                .Where(property => property.Element is object)
+                .Select(property => property.Element))
             {
-                if (property.Element is object)
-                {
-                    property.Element.Properties = property.Element.Symbol.TryGetAllPropertiesFromCache(cache);
-                }
+                element.Properties = element.Symbol.TryGetAllPropertiesFromCache(cache);
             }
 
-            return properties.ToImmutableArray();
+            return properties;
         }
     }
 }

@@ -5,9 +5,7 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <LangVersion>7.3</LangVersion>
     <Nullable>disable</Nullable>
-    <Version>1.0.0-unstable</Version>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <!--<TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludeReferenceDependencies</TargetsForTfmSpecificContentInPackage>-->
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Valuify">

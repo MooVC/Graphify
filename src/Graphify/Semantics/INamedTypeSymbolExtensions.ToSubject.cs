@@ -54,7 +54,7 @@
                 Name = subject.Name,
                 Namespace = @namespace,
                 Nesting = nesting,
-                Properties = subject.GetProperties(),
+                Properties = subject.GetProperties(depth),
                 Qualification = subject.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
                 Type = subject.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
             };

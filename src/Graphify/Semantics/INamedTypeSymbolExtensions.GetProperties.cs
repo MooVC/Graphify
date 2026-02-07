@@ -12,9 +12,6 @@
     /// </summary>
     internal static partial class INamedTypeSymbolExtensions
     {
-        private static readonly ConcurrentDictionary<string, Property[]> _cache
-             = new ConcurrentDictionary<string, Property[]>();
-
         /// <summary>
         /// Returns a collection of <see cref="Property"/> for each property belonging to <paramref name="type"/>.
         /// </summary>
@@ -28,10 +25,11 @@
         {
             INamedTypeSymbol current = type;
             var all = new List<Property>();
+            var cache = new ConcurrentDictionary<string, Property[]>();
 
             do
             {
-                ImmutableArray<Property> properties = current.TryGetAllPropertiesFromCache();
+                ImmutableArray<Property> properties = current.TryGetAllPropertiesFromCache(cache);
 
                 foreach (Property property in properties)
                 {
@@ -47,7 +45,10 @@
                         continue;
                     }
 
-                    property.Properties = TryGetAllPropertiesFromCache(property.Symbol);
+                    if (!property.Symbol.Equals(current, SymbolEqualityComparer.Default))
+                    {
+                        property.Properties = property.Symbol.TryGetAllPropertiesFromCache(cache);
+                    }
                 }
 
                 all.AddRange(properties);
@@ -59,7 +60,7 @@
             return all.ToImmutableArray();
         }
 
-        private static ImmutableArray<Property> TryGetAllPropertiesFromCache(this ITypeSymbol type)
+        private static ImmutableArray<Property> TryGetAllPropertiesFromCache(this ITypeSymbol type, ConcurrentDictionary<string, Property[]> cache)
         {
             string key = type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat);
 
@@ -69,8 +70,7 @@
                     .GetMembers()
                     .OfType<IPropertySymbol>()
                     .Where(property => !(property.IsStatic || property.IsIndexer)
-                                    && property.ExplicitInterfaceImplementations.Length == 0
-                                    && !property.Type.Equals(type, SymbolEqualityComparer.Default))
+                                    && property.ExplicitInterfaceImplementations.Length == 0)
                     .Select(property => new
                     {
                         Property = property,
@@ -81,7 +81,7 @@
                     .ToArray();
             }
 
-            return _cache
+            return cache
                 .GetOrAdd(key, _ => GetProperties())
                 .ToImmutableArray();
         }

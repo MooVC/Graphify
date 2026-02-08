@@ -353,7 +353,7 @@
         {
             IEnumerable<string> arguments = preceding
                 .Take(tier - 1)
-                .Select(predecessor => predecessor.Name.ToCamelCase());
+                .Select((_, index) => $"param{index}");
 
             string call = string.Join(Separator, arguments);
 
@@ -379,7 +379,7 @@
                 for (int index = 0; index < total; index++)
                 {
                     Predecessor predecessor = preceding[index];
-                    string variable = predecessor.Name.ToCamelCase();
+                    string variable = $"param{index}";
 
                     propagations[index] = $"{predecessor.Type} {variable}";
                     declarations[index] = variable;

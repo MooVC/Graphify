@@ -158,13 +158,13 @@ internal static partial class Traversals
 
                     internal sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDescriptionLength<TResult>(global::Graphify.Testing.Traversals root, string description, int value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDescriptionLength<TResult>(global::Graphify.Testing.Traversals root, string param0, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
 
                             if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Traversals.Graph.Description.Length, TResult>> observers))
                             {
-                                var instance = new Traversals.Graph.Description.Length(root, description, value);
+                                var instance = new Traversals.Graph.Description.Length(root, param0, value);
 
                                 results = Concat(results, Invoke<Traversals.Graph.Description.Length, TResult>(instance, observers, cancellationToken), cancellationToken);
                             }
@@ -351,18 +351,18 @@ internal static partial class Traversals
 
                     internal sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraversalChildName<TResult>(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] deepChildren, global::Graphify.Testing.TraversalChild traversalChild, string value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraversalChildName<TResult>(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] param0, global::Graphify.Testing.TraversalChild param1, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
 
                             if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Traversals.Graph.DeepChildren.TraversalChild.Name, TResult>> observers))
                             {
-                                var instance = new Traversals.Graph.DeepChildren.TraversalChild.Name(root, deepChildren, traversalChild, value);
+                                var instance = new Traversals.Graph.DeepChildren.TraversalChild.Name(root, param0, param1, value);
 
                                 results = Concat(results, Invoke<Traversals.Graph.DeepChildren.TraversalChild.Name, TResult>(instance, observers, cancellationToken), cancellationToken);
                             }
 
-                            results = Concat(results, NavigateDeepChildrenTraversalChildNameLength<TResult>(root, deepChildren, traversalChild, value, value.Length, cancellationToken), cancellationToken);
+                            results = Concat(results, NavigateDeepChildrenTraversalChildNameLength<TResult>(root, param0, param1, value, value.Length, cancellationToken), cancellationToken);
 
                             return results;
                         }
@@ -388,13 +388,13 @@ internal static partial class Traversals
 
                     internal sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraversalChildNameLength<TResult>(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] deepChildren, global::Graphify.Testing.TraversalChild traversalChild, string name, int value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraversalChildNameLength<TResult>(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] param0, global::Graphify.Testing.TraversalChild param1, string param2, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
 
                             if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Traversals.Graph.DeepChildren.TraversalChild.Name.Length, TResult>> observers))
                             {
-                                var instance = new Traversals.Graph.DeepChildren.TraversalChild.Name.Length(root, deepChildren, traversalChild, name, value);
+                                var instance = new Traversals.Graph.DeepChildren.TraversalChild.Name.Length(root, param0, param1, param2, value);
 
                                 results = Concat(results, Invoke<Traversals.Graph.DeepChildren.TraversalChild.Name.Length, TResult>(instance, observers, cancellationToken), cancellationToken);
                             }
@@ -503,9 +503,9 @@ internal static partial class Traversals
                             {
                                 public sealed partial class Length
                                 {
-                                    internal Length(global::Graphify.Testing.Traversals root, string description, int value)
+                                    internal Length(global::Graphify.Testing.Traversals root, string param0, int value)
                                     {
-                                        Description = description;
+                                        Description = param0;
 
                                         Root = root;
                                         Value = value;
@@ -709,10 +709,10 @@ internal static partial class Traversals
                                 {
                                     public sealed partial class Name
                                     {
-                                        internal Name(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] deepChildren, global::Graphify.Testing.TraversalChild traversalChild, string value)
+                                        internal Name(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] param0, global::Graphify.Testing.TraversalChild param1, string value)
                                         {
-                                            DeepChildren = deepChildren;
-                                            TraversalChild = traversalChild;
+                                            DeepChildren = param0;
+                                            TraversalChild = param1;
 
                                             Root = root;
                                             Value = value;
@@ -761,11 +761,11 @@ internal static partial class Traversals
                                     {
                                         public sealed partial class Length
                                         {
-                                            internal Length(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] deepChildren, global::Graphify.Testing.TraversalChild traversalChild, string name, int value)
+                                            internal Length(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] param0, global::Graphify.Testing.TraversalChild param1, string param2, int value)
                                             {
-                                                DeepChildren = deepChildren;
-                                                TraversalChild = traversalChild;
-                                                Name = name;
+                                                DeepChildren = param0;
+                                                TraversalChild = param1;
+                                                Name = param2;
 
                                                 Root = root;
                                                 Value = value;

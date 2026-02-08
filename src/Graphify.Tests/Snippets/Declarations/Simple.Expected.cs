@@ -158,9 +158,9 @@ internal static partial class Simple
                             {
                                 public sealed partial class Length
                                 {
-                                    internal Length(global::Graphify.Testing.Simple root, string name, int value)
+                                    internal Length(global::Graphify.Testing.Simple root, string param0, int value)
                                     {
-                                        Name = name;
+                                        Name = param0;
 
                                         Root = root;
                                         Value = value;
@@ -347,13 +347,13 @@ internal static partial class Simple
 
                     internal sealed partial class SimpleNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateNameLength<TResult>(global::Graphify.Testing.Simple root, string name, int value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateNameLength<TResult>(global::Graphify.Testing.Simple root, string param0, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
 
                             if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Simple.Graph.Name.Length, TResult>> observers))
                             {
-                                var instance = new Simple.Graph.Name.Length(root, name, value);
+                                var instance = new Simple.Graph.Name.Length(root, param0, value);
 
                                 results = Concat(results, Invoke<Simple.Graph.Name.Length, TResult>(instance, observers, cancellationToken), cancellationToken);
                             }

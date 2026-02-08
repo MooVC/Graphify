@@ -24,11 +24,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>GraphifyAttributeGenerator.Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="TraverseAttributeAnalyzer.Resources.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>TraverseAttributeAnalyzer.Resources.resx</DependentUpon>
-    </Compile>
     <Compile Update="NavigatorContractGenerator.Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -84,10 +79,6 @@
     <EmbeddedResource Update="GraphifyAttributeGenerator.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>GraphifyAttributeGenerator.Resources.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Update="TraverseAttributeAnalyzer.Resources.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>TraverseAttributeAnalyzer.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="NavigatorContractGenerator.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -238,9 +238,10 @@
             for (int index = 0; index < (tier - 1); index++)
             {
                 Predecessor predecessor = preceding[index];
+                string parameterName = $"param{index}";
 
-                _ = arguments.Append(string.Format(GeneratePropertyContentArgument, predecessor.Type, predecessor.Name.ToCamelCase()));
-                _ = constructor.AppendLine(string.Format(GeneratePropertyContentAssignment, predecessor.Name, predecessor.Name.ToCamelCase()));
+                _ = arguments.Append(string.Format(GeneratePropertyContentArgument, predecessor.Type, parameterName));
+                _ = constructor.AppendLine(string.Format(GeneratePropertyContentAssignment, predecessor.Name, parameterName));
 
                 _ = declarations
                     .AppendLine()

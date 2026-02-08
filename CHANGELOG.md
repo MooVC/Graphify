@@ -7,3 +7,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # [1.0.0] - TBC
 
 - Initial Release
+- Updated generated navigation parameter names to use param{n} to avoid clashes in deep graphs
+- Removed the unused ToCamelCase string extension after switching to indexed parameter names

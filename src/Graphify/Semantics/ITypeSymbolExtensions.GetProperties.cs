@@ -56,7 +56,10 @@
                         continue;
                     }
 
-                    property.Properties = property.Symbol.GetAllProperties(depth, level);
+                    if (!property.Symbol.Equals(current, SymbolEqualityComparer.Default))
+                    {
+                        property.Properties = property.Symbol.GetAllProperties(depth, level);
+                    }
                 }
 
                 all.AddRange(properties);

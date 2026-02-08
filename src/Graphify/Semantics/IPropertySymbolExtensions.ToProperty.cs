@@ -18,7 +18,7 @@
         /// <returns>A <see cref="Property"/> instance representing the specified property symbol.</returns>
         public static Property ToProperty(this IPropertySymbol property, byte depth, byte level, TraverseScope scope)
         {
-            _ = property.Type.IsSequence(depth, level, out Element element);
+            _ = property.Type.IsSequence(property.ContainingType, depth, level, out Element element);
 
             return new Property
             {

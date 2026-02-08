@@ -15,9 +15,11 @@
         /// Determines whether or not the <paramref name="type"/> represents a sequence.
         /// </summary>
         /// <param name="type">The type to check.</param>
+        /// <param name="depth">The configured maximum depth to graph.</param>
+        /// <param name="level">The current level within the graph.</param>
         /// <param name="element">The element type if the <paramref name="type"/> is a sequence.</param>
         /// <returns><see langword="true"/> if the <paramref name="type"/> represents a sequence, otherwise <see langword="false"/>.</returns>
-        public static bool IsSequence(this ITypeSymbol type, out Element element)
+        public static bool IsSequence(this ITypeSymbol type, byte depth, byte level, out Element element)
         {
             bool IsEnumerable(INamedTypeSymbol @interface)
             {
@@ -34,7 +36,7 @@
 
             if (type is IArrayTypeSymbol array)
             {
-                element = array.ElementType.ToElement();
+                element = array.ElementType.ToElement(depth, level);
 
                 return true;
             }
@@ -43,7 +45,7 @@
 
             if (enumerable is object && enumerable.TypeArguments.Length == ExpectedArgumentsForEnumerable)
             {
-                element = enumerable.TypeArguments[0].ToElement();
+                element = enumerable.TypeArguments[0].ToElement(depth, level);
 
                 return true;
             }

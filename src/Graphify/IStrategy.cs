@@ -17,6 +17,6 @@
         /// <returns>
         /// Zero or more units of <see cref="Source"/> to be output by the generator.
         /// </returns>
-        IEnumerable<Source> GenerateClassesForSucceedng(Subject subject);
+        IEnumerable<Source> Generate(Subject subject);
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Graphify.Model
 {
     using System.Collections.Immutable;
+    using Microsoft.CodeAnalysis;
     using Valuify;
 
     /// <summary>
@@ -11,12 +12,52 @@
     internal sealed partial class Subject
     {
         /// <summary>
+        /// Gets or sets the accessibility level of the type.
+        /// </summary>
+        /// <value>
+        /// The accessibility level of the type.
+        /// </value>
+        public Accessibility Accessibility { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether registration is possible, meaning the required libraries are referenced.
+        /// </summary>
+        /// <value>
+        /// A value indicating whether registration is possible, meaning the required libraries are referenced.
+        /// </value>
+        public bool CanRegister { get; set; }
+
+        /// <summary>
         /// Gets or sets the kind associated with the type, be it a class, record etc.
         /// </summary>
         /// <value>
         /// The kind associated with the type, be it a class, record etc.
         /// </value>
         public string Declaration { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the maximum depth to which graph generation should proceed.
+        /// </summary>
+        /// <value>
+        /// The maximum depth to which graph generation should proceed.
+        /// </value>
+        public byte Depth { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether a contract is associated with the current entity.
+        /// </summary>
+        /// <value>
+        /// A value indicating whether a contract is associated with the current entity.
+        /// </value>
+        public bool HasContract { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether a registration extension exists for the current instance.
+        /// </summary>
+        /// <value>
+        /// A value indicating whether a registration extension exists for the current instance.
+        /// </value>
+        public bool HasRegistration { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether or not the subject belongs to the global namespace.

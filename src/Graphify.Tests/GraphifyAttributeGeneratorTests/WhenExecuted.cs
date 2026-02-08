@@ -13,7 +13,7 @@ public sealed class WhenExecuted
         // Arrange
         var test = new GeneratorTest<GraphifyAttributeGenerator>(assemblies, language);
 
-        Attributes.Graphify.IsExpectedIn(test.TestState);
+        Boilerplate.Graphify.IsExpectedIn(test.TestState);
 
         // Act
         Func<Task> act = () => test.RunAsync();

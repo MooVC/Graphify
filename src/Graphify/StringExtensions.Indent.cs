@@ -22,13 +22,16 @@
         /// <param name="times">
         /// Specifies the number of times indentation should be applied.
         /// </param>
+        /// <param name="trim">
+        /// Trims any whitespace at the end of the string.
+        /// </param>
         /// <param name="whitespace">
         /// The whitespace to apply when indenting.
         /// </param>
         /// <returns>
         /// A new string with <paramref name="whitespace"/> added to the start of each non-blank line.
         /// </returns>
-        public static string Indent(this string input, int skip = 1, int times = 1, string whitespace = Default)
+        public static string Indent(this string input, int skip = 1, int times = 1, bool trim = true, string whitespace = Default)
         {
             if (times <= 0)
             {
@@ -40,6 +43,18 @@
                 whitespace = GenerateWhitespace(times, whitespace);
             }
 
+            string line = Indent(input, skip, whitespace);
+
+            if (trim)
+            {
+                line = line.TrimEnd();
+            }
+
+            return line;
+        }
+
+        private static string Indent(string input, int skip, string whitespace)
+        {
             var reader = new StringReader(input);
             var builder = new StringBuilder();
             string line = reader.ReadLine();
@@ -57,9 +72,7 @@
                 line = reader.ReadLine();
             }
 
-            return builder
-                .ToString()
-                .TrimEnd();
+            return builder.ToString();
         }
 
         private static string GenerateWhitespace(int times, string whitespace)

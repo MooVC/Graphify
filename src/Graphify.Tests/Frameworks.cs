@@ -8,21 +8,10 @@ internal static class Frameworks
 {
     public static readonly IReadOnlyList<(ReferenceAssemblies Assembly, LanguageVersion Maximum, DateOnly SupportTo)> InScope =
     [
-        (ReferenceAssemblies.Net.Net50, LanguageVersion.CSharp9, new DateOnly(2022, 5, 10)),
         (ReferenceAssemblies.Net.Net60, LanguageVersion.CSharp10, new DateOnly(2024, 11, 12)),
         (ReferenceAssemblies.Net.Net70, LanguageVersion.CSharp10, new DateOnly(2024, 5, 14)),
         (ReferenceAssemblies.Net.Net80, LanguageVersion.CSharp10, new DateOnly(2026, 11, 10)),
-        (ReferenceAssemblies.Net.Net90, LanguageVersion.CSharp10, new DateOnly(2026, 5, 12)),
-        (ReferenceAssemblies.NetCore.NetCoreApp20, LanguageVersion.CSharp7_3, new DateOnly(2018, 10, 1)),
-        (ReferenceAssemblies.NetCore.NetCoreApp21, LanguageVersion.CSharp7_3, new DateOnly(2021, 8, 21)),
-        (ReferenceAssemblies.NetCore.NetCoreApp30, LanguageVersion.CSharp8, new DateOnly(2020, 3, 3)),
-        (ReferenceAssemblies.NetCore.NetCoreApp31, LanguageVersion.CSharp8, new DateOnly(2022, 12, 3)),
-        (ReferenceAssemblies.NetFramework.Net462.Default, LanguageVersion.CSharp7_3, new DateOnly(2022, 4, 26)),
-        (ReferenceAssemblies.NetFramework.Net47.Default, LanguageVersion.CSharp7_3, DateOnly.MaxValue),
-        (ReferenceAssemblies.NetFramework.Net471.Default, LanguageVersion.CSharp7_3, DateOnly.MaxValue),
-        (ReferenceAssemblies.NetFramework.Net472.Default, LanguageVersion.CSharp7_3, DateOnly.MaxValue),
-        (ReferenceAssemblies.NetFramework.Net48.Default, LanguageVersion.CSharp7_3, DateOnly.MaxValue),
-        (ReferenceAssemblies.NetStandard.NetStandard20, LanguageVersion.CSharp7_3, DateOnly.MaxValue),
+        (ReferenceAssemblies.Net.Net90, LanguageVersion.CSharp10, new DateOnly(2026, 11, 10)),
         (ReferenceAssemblies.NetStandard.NetStandard21, LanguageVersion.CSharp8, DateOnly.MaxValue),
     ];
 

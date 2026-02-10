@@ -28,14 +28,14 @@ public sealed class WhenExecuted
     {
         // Arrange
         const string Declaration = """
-namespace Graphify
-{
-    public interface IVisitor<in T, out TResult>
-        where T : class
-    {
-    }
-}
-""";
+            namespace Graphify
+            {
+                public interface IVisitor<in T, out TResult>
+                    where T : class
+                {
+                }
+            }
+            """;
 
         var test = new GeneratorTest<VisitorContractGenerator>(assemblies, language);
 

@@ -39,14 +39,12 @@
 
         private static void Generate(SourceProductionContext context, Compilation compilation)
         {
-            if (compilation.GetTypeByMetadataName(NavigatorMetadataName) is not null)
+            if (compilation.GetTypeByMetadataName(NavigatorMetadataName) is null)
             {
-                return;
+                var text = SourceText.From(Content, Encoding.UTF8);
+
+                context.AddSource(Hint, text);
             }
-
-            var text = SourceText.From(Content, Encoding.UTF8);
-
-            context.AddSource(Hint, text);
         }
     }
 }

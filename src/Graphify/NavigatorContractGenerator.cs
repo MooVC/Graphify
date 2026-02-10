@@ -21,6 +21,8 @@
         /// </summary>
         internal const string Name = "Navigator";
 
+        private const string NavigatorMetadataName = "Graphify.INavigator`1";
+
         /// <summary>
         /// Gets the generated content as a formatted string for use by the generator.
         /// </summary>
@@ -32,14 +34,17 @@
         /// <inheritdoc/>
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
-            context.RegisterPostInitializationOutput(Generate);
+            context.RegisterSourceOutput(context.CompilationProvider, Generate);
         }
 
-        private static void Generate(IncrementalGeneratorPostInitializationContext context)
+        private static void Generate(SourceProductionContext context, Compilation compilation)
         {
-            var text = SourceText.From(Content, Encoding.UTF8);
+            if (compilation.GetTypeByMetadataName(NavigatorMetadataName) is null)
+            {
+                var text = SourceText.From(Content, Encoding.UTF8);
 
-            context.AddSource(Hint, text);
+                context.AddSource(Hint, text);
+            }
         }
     }
 }

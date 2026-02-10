@@ -130,6 +130,7 @@
             string arguments,
             string body,
             string @class,
+            Element element,
             string name,
             string @namespace,
             string method,
@@ -150,7 +151,8 @@
                 arguments,
                 body,
                 name,
-                method);
+                method,
+                element?.Type);
 
             code = string.Format(GenerateContentNest, @class, subject.Name, code.Indent());
             string hint = next.Substring(subject.Name.Length + GraphNamespaceLength);
@@ -182,6 +184,7 @@
                     arguments,
                     body.Indent(skip: 0, times: 2, trim: false),
                     @class,
+                    element,
                     element.Name,
                     @namespace,
                     moniker,
@@ -220,6 +223,7 @@
                 arguments,
                 body.Indent(skip: 0, trim: false),
                 @class,
+                property.Element,
                 property.Name,
                 @namespace,
                 method,

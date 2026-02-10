@@ -105,7 +105,7 @@ namespace Graphify.Strategies {
         ///
         ///    int index = 0;
         ///
-        ///    foreach ({6} element in value)
+        ///    foreach ({8} element in value)
         ///    {{
         ///        var instance = new {3}(index, roo [rest of string was truncated]&quot;;.
         /// </summary>

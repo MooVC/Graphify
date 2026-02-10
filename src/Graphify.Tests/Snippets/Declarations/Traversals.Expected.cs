@@ -238,7 +238,7 @@ internal static partial class Traversals
 
                             int index = 0;
 
-                            foreach (TraversalChild element in value)
+                            foreach (global::Graphify.Testing.TraversalChild element in value)
                             {
                                 var instance = new Traversals.Graph.ShallowChildren.TraversalChild(index, root, element);
 
@@ -316,7 +316,7 @@ internal static partial class Traversals
 
                             int index = 0;
 
-                            foreach (TraversalChild element in value)
+                            foreach (global::Graphify.Testing.TraversalChild element in value)
                             {
                                 var instance = new Traversals.Graph.DeepChildren.TraversalChild(index, root, element);
 

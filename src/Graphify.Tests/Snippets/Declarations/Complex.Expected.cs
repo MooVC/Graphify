@@ -519,7 +519,7 @@ internal static partial class Complex
 
                             int index = 0;
 
-                            foreach (Child element in value)
+                            foreach (global::Graphify.Testing.Child element in value)
                             {
                                 var instance = new Complex.Graph.Children.Child(index, root, element);
 

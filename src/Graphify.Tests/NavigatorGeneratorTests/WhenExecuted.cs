@@ -28,4 +28,30 @@ public sealed class WhenExecuted
         // Assert
         await act.ShouldNotThrowAsync();
     }
+
+    [Theory]
+    [Frameworks]
+    public async Task GivenTheClassAlreadyExistsThenTheClassIsNotGenerated(ReferenceAssemblies assemblies, LanguageVersion language)
+    {
+        // Arrange
+        const string Declaration = """
+            namespace Graphify
+            {
+                public class Navigator<T>
+                    where T : class
+                {
+                }
+            }
+            """;
+
+        var test = new GeneratorTest<NavigatorGenerator>(assemblies, language);
+
+        test.TestState.Sources.Add(Declaration);
+
+        // Act
+        Func<Task> act = () => test.RunAsync();
+
+        // Assert
+        await act.ShouldNotThrowAsync();
+    }
 }

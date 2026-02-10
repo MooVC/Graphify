@@ -24,7 +24,7 @@ public sealed class WhenExecuted
 
     [Theory]
     [Frameworks]
-    public async Task GivenTheContractAlreadyExistsThenTheAttributeIsNotGenerated(ReferenceAssemblies assemblies, LanguageVersion language)
+    public async Task GivenTheContractAlreadyExistsThenTheContractIsNotGenerated(ReferenceAssemblies assemblies, LanguageVersion language)
     {
         // Arrange
         const string Declaration = """

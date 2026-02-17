@@ -6,7 +6,7 @@ on:
       - '*'
   workflow_dispatch:
     inputs:
-      deprecate_only:
+      unlist_only:
         default: false
         description: 'Run the build without publishing and then run the unlist job.'
         type: boolean
@@ -14,104 +14,87 @@ on:
 env:
   configuration: 'Release'
   NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
-  PACKAGE_ID: 'Graphify'
   solution: 'Graphify.slnx'
 
 permissions:
   packages: write
 
 jobs:
+
   build:
     name: Build, Test & Publish
     runs-on: windows-latest
-    if: ${{ github.event_name != 'workflow_dispatch' || inputs.deprecate_only != 'true' }}
-
-    outputs:
-      semantic: ${{ steps.extract-version.outputs.semantic }}
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          fetch-depth: 0
+    - name: Checkout
+      uses: actions/checkout@v6.0.2
+      with:
+        fetch-depth: 0
 
-      - name: Use .NET SDKs
-        uses: actions/setup-dotnet@v5
-        with:
-          dotnet-version: |
-            10.0.x
+    - name: Use .NET SDKs
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: | 
+          10.0.x
 
-      - name: Cache NuGet Packages
-        uses: actions/cache@v5
-        with:
-          path: ${{ github.workspace }}/.nuget/packages
-          key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nuget-
+    - name: Cache NuGet Packages
+      uses: actions/cache@v5.0.3
+      with:
+        path: ${{ github.workspace }}/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
+          
+    - name: Restore Nuget Packages for Solution
+      run: dotnet restore ${{ env.solution }}
 
-      - name: Restore NuGet Packages
-        run: dotnet restore ${{ env.solution }}
+    - name: Extract and Format Version from Tag
+      run: |
+        if ($env:GITHUB_REF -match '^refs/tags/') {
+          $rawTag = $env:GITHUB_REF -replace '^refs/tags/', ''
+        } else {
+          $rawTag = git describe --tags (git rev-list --tags --max-count=1)
+        }
+        
+        $semantic = $rawTag -replace '^v', '' -replace '(alpha|beta|rc)0+', '$1.' 
+        $numeric = ($semantic -split "-")[0] + ".0"
+        
+        echo "version=$numeric" >> $env:GITHUB_ENV
+        echo "semantic=$semantic" >> $env:GITHUB_ENV
+        echo "informational=$rawTag" >> $env:GITHUB_ENV
+      shell: pwsh
 
-      - name: Extract and Format Version from Tag
-        id: extract-version
-        shell: bash
-        run: |
-          # If push event with refs/tags, parse that. Otherwise, fallback to describing the last tag found.
-          if [[ "$GITHUB_REF" =~ ^refs/tags/ ]]; then
-            rawTag="${GITHUB_REF#refs/tags/}"
-          else
-            rawTag="$(git describe --tags $(git rev-list --tags --max-count=1) 2>/dev/null || echo "")"
-          fi
+    - name: Build Solution
+      run: dotnet build ${{ env.solution }} --configuration ${{ env.configuration }} --no-restore -p:AssemblyVersion=${{ env.version }} -p:FileVersion=${{ env.version }} -p:InformationalVersion=${{ env.informational }} -p:PackageVersion=${{ env.semantic }} -p:Version=${{ env.version }}
 
-          # If there's no real tag, rawTag might be empty on a manual run
-          if [ -z "$rawTag" ]; then
-            echo "No tag found - setting semantic=0.0.0"
-            semantic="0.0.0"
-          else
-            # Remove a leading 'v' if present
-            semantic="${rawTag#v}"
-          fi
+    - name: Test Solution
+      run: dotnet test ${{ env.solution }} --configuration ${{ env.configuration }} --no-build
 
-          numeric="${semantic%%-*}.0"
+    - name: Upload Code Coverage
+      uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
 
-          echo "version=$numeric"       >> $GITHUB_ENV
-          echo "semantic=$semantic"     >> $GITHUB_ENV
-          echo "informational=$rawTag"  >> $GITHUB_ENV
-          echo "semantic=$semantic"     >> $GITHUB_OUTPUT
+    - name: Pack Solution
+      run: dotnet pack ${{ env.solution }} --configuration ${{ env.configuration }} --no-build --output ./artifacts -p:Version=${{ env.semantic }}
 
-      - name: Build Solution
-        run: dotnet build ${{ env.solution }} --configuration ${{ env.configuration }} --no-restore -p:AssemblyVersion=${{ env.version }} -p:FileVersion=${{ env.version }}   -p:InformationalVersion=${{ env.informational }} -p:PackageVersion=${{ env.semantic }} -p:Version=${{ env.version }}
+    - name: Upload Packages
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-packages
+        path: ./artifacts/*.nupkg
 
-      - name: Test Solution
-        run: dotnet test ${{ env.solution }} --configuration ${{ env.configuration }} --no-build
+    - name: Publish Packages to GitHub
+      if: ${{ github.event_name != 'workflow_dispatch' || inputs.unlist_only != 'true' }}
+      run: dotnet nuget push **/Graphify*.nupkg --source "https://nuget.pkg.github.com/MooVC/index.json" --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
+    - name: Publish Packages to NuGet
+      if: ${{ github.event_name != 'workflow_dispatch' || inputs.unlist_only != 'true' }}
+      run: dotnet nuget push **/Graphify*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
-      - name: Upload Code Coverage
-        if: ${{ github.event_name == 'push' }}
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-
-      - name: Pack Solution
-        if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && github.event.inputs.run_pack_and_publish  == 'true') }}
-        run: dotnet pack ${{ env.solution }} --configuration ${{ env.configuration }} --no-build --output ./artifacts -p:Version=${{ env.semantic }}
-
-      - name: Upload Packages
-        uses: actions/upload-artifact@v4
-        with:
-          name: nuget-packages
-          path: ./artifacts/*.nupkg
-
-      - name: Publish Packages to GitHub
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.deprecate_only != 'true' }}
-        run: dotnet nuget push **/${{ env.PACKAGE_ID }}*.nupkg --source "https://nuget.pkg.github.com/MooVC/index.json" --api-key ${{ secrets.GITHUB_TOKEN }} --skip-duplicate
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
- 
-      - name: Publish Packages to NuGet
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.deprecate_only != 'true' }}
-        run: dotnet nuget push **/${{ env.PACKAGE_ID }}*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
-
-  deprecate:
+  unlist:
     name: Unlist Previous Pre-release Package Versions
     runs-on: windows-latest
     needs: build
@@ -121,7 +104,7 @@ jobs:
     - name: Use .NET SDKs
       uses: actions/setup-dotnet@v5
       with:
-        dotnet-version: |
+        dotnet-version: | 
           10.0.x
 
     - name: Extract and Format Version from Tag

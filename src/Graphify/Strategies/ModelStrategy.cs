@@ -5,7 +5,6 @@
     using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.Linq;
-    using System.Text;
     using Graphify.Model;
     using static Graphify.Strategies.ModelStrategy_Resources;
 
@@ -58,7 +57,7 @@
                 yield break;
             }
 
-            string body = GeneratePropertyContent(preceding, tier, out string assignments, out string parameters);
+            string body = GeneratePropertyContent(@namespace, preceding, tier, out string assignments, out string parameters);
             string wrapper = GenerateWrapperDeclarations(preceding, tier);
 
             foreach (Property property in properties)
@@ -219,7 +218,7 @@
             return wrapper.Replace(Declaration, code);
         }
 
-        private static string GeneratePropertyContent(Predecessor[] preceding, int tier, out string assignments, out string parameters)
+        private static string GeneratePropertyContent(string @namespace, Predecessor[] preceding, int tier, out string assignments, out string parameters)
         {
             if (tier == 1)
             {
@@ -229,29 +228,20 @@
                 return string.Empty;
             }
 
-            var arguments = new StringBuilder();
-            var constructor = new StringBuilder();
-            var declarations = new StringBuilder();
+            Predecessor predecessor = preceding[tier - 2];
+            string parameterName = "previous";
 
-            _ = constructor.AppendLine();
+            assignments = string.Concat(
+                Environment.NewLine,
+                string.Format(GeneratePropertyContentAssignment, predecessor.Name, parameterName),
+                Environment.NewLine);
 
-            for (int index = 0; index < (tier - 1); index++)
-            {
-                Predecessor predecessor = preceding[index];
-                string parameterName = $"param{index}";
+            parameters = string.Format(GeneratePropertyContentArgument, @namespace, parameterName);
 
-                _ = arguments.Append(string.Format(GeneratePropertyContentArgument, predecessor.Type, parameterName));
-                _ = constructor.AppendLine(string.Format(GeneratePropertyContentAssignment, predecessor.Name, parameterName));
-
-                _ = declarations
-                    .AppendLine()
-                    .AppendLine(string.Format(GeneratePropertyContentDeclaration, predecessor.Type, predecessor.Name));
-            }
-
-            assignments = constructor.ToString();
-            parameters = arguments.ToString();
-
-            return declarations.ToString();
+            return string.Concat(
+                Environment.NewLine,
+                string.Format(GeneratePropertyContentDeclaration, @namespace, predecessor.Name),
+                Environment.NewLine);
         }
 
         private static string GenerateWrapperDeclarations(Predecessor[] preceding, int tier)

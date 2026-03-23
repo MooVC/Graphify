@@ -5,7 +5,6 @@
     using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
     using System.Text;
     using Graphify.Model;
     using static Graphify.Strategies.ImplementationStrategy_Resources;
@@ -17,7 +16,6 @@
         : IStrategy
     {
         private const int GraphNamespaceLength = 7;
-        private const string Separator = ", ";
 
         /// <summary>
         /// Generates a standardized navigator name for the specified subject.
@@ -82,7 +80,7 @@
                 yield break;
             }
 
-            GeneratePropertyContent(preceding, tier, out string arguments, out string parameters);
+            GeneratePropertyContent(@namespace, tier, out string arguments, out string parameters);
 
             foreach (Property property in properties)
             {
@@ -94,7 +92,6 @@
                     @namespace,
                     moniker,
                     parameters,
-                    preceding,
                     property,
                     subject,
                     tier,
@@ -178,7 +175,7 @@
             try
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
-                string body = GenerateConcatenationsForElement(moniker, pool, element.Properties, subject, tier++);
+                string body = GenerateConcatenationsForElement(moniker, element.Properties, subject, tier++);
 
                 yield return GenerateContent(
                     arguments,
@@ -211,13 +208,12 @@
             string @namespace,
             string method,
             string parameters,
-            Predecessor[] preceding,
             Property property,
             Subject subject,
             int tier,
             out string next)
         {
-            string body = GenerateConcatenationsForProperty(property.Element, method, preceding, property.Properties, subject, tier);
+            string body = GenerateConcatenationsForProperty(property.Element, method, property.Properties, subject, tier);
 
             return GenerateContent(
                 arguments,
@@ -278,7 +274,6 @@
         private static string GenerateConcatenations(
             Element element,
             string method,
-            Predecessor[] preceding,
             in ImmutableArray<Property> properties,
             Subject subject,
             string template,
@@ -291,9 +286,9 @@
 
             string call = string.Empty;
 
-            if (tier > 1)
+            if (tier > 0)
             {
-                call = GenerateParametersForConcatenations(preceding, tier);
+                call = "instance, ";
             }
 
             return GenerateConcatenations(call, element, method, properties, template);
@@ -329,77 +324,40 @@
 
         private static string GenerateConcatenationsForElement(
             string method,
-            Predecessor[] preceding,
             in ImmutableArray<Property> properties,
             Subject subject,
             int tier)
         {
-            return GenerateConcatenations(default, method, preceding, properties, subject, GenerateConcatenationsForElementContent, tier);
+            return GenerateConcatenations(default, method, properties, subject, GenerateConcatenationsForElementContent, tier);
         }
 
         private static string GenerateConcatenationsForProperty(
             Element element,
             string method,
-            Predecessor[] preceding,
             in ImmutableArray<Property> properties,
             Subject subject,
             int tier)
         {
-            return GenerateConcatenations(element, method, preceding, properties, subject, GenerateConcatenationsForPropertyContent, tier);
+            return GenerateConcatenations(element, method, properties, subject, GenerateConcatenationsForPropertyContent, tier);
         }
 
         private static string GenerateConcatenationsForSubject(in ImmutableArray<Property> properties, Subject subject)
         {
-            return GenerateConcatenations(default, string.Empty, Array.Empty<Predecessor>(), properties, subject, GenerateConcatenationsForSubjectContent, 0);
+            return GenerateConcatenations(default, string.Empty, properties, subject, GenerateConcatenationsForSubjectContent, 0);
         }
 
-        private static string GenerateParametersForConcatenations(Predecessor[] preceding, int tier)
-        {
-            IEnumerable<string> arguments = preceding
-                .Take(tier - 1)
-                .Select((_, index) => $"param{index}");
-
-            string call = string.Join(Separator, arguments);
-
-            return string.Concat(call, Separator);
-        }
-
-        private static void GeneratePropertyContent(Predecessor[] preceding, int tier, out string arguments, out string paramerers)
+        private static void GeneratePropertyContent(string @namespace, int tier, out string arguments, out string parameters)
         {
             if (tier == 1)
             {
                 arguments = string.Empty;
-                paramerers = string.Empty;
+                parameters = string.Empty;
 
                 return;
             }
 
-            int total = tier - 1;
-            string[] declarations = ArrayPool<string>.Shared.Rent(total);
-            string[] propagations = ArrayPool<string>.Shared.Rent(total);
-
-            try
-            {
-                for (int index = 0; index < total; index++)
-                {
-                    Predecessor predecessor = preceding[index];
-                    string variable = $"param{index}";
-
-                    propagations[index] = $"{predecessor.Type} {variable}";
-                    declarations[index] = variable;
-                }
-
-                arguments = string.Join(Separator, declarations, 0, total);
-                paramerers = string.Join(Separator, propagations, 0, total);
-
-                arguments = string.Concat(arguments, Separator);
-                paramerers = string.Concat(paramerers, Separator);
-            }
-            finally
-            {
-                ArrayPool<string>.Shared.Return(propagations);
-                ArrayPool<string>.Shared.Return(declarations);
-            }
+            arguments = "previous, ";
+            parameters = string.Concat(@namespace, " previous, ");
         }
     }
 }

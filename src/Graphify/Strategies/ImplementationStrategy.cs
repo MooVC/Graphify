@@ -80,7 +80,7 @@
                 yield break;
             }
 
-            GeneratePropertyContent(@namespace, tier, out string arguments, out string parameters);
+            GeneratePropertyContent(@namespace, preceding, tier, out string arguments, out string parameters);
 
             foreach (Property property in properties)
             {
@@ -346,7 +346,7 @@
             return GenerateConcatenations(default, string.Empty, properties, subject, GenerateConcatenationsForSubjectContent, 0);
         }
 
-        private static void GeneratePropertyContent(string @namespace, int tier, out string arguments, out string parameters)
+        private static void GeneratePropertyContent(string @namespace, Predecessor[] preceding, int tier, out string arguments, out string parameters)
         {
             if (tier == 1)
             {
@@ -356,8 +356,20 @@
                 return;
             }
 
-            arguments = "previous, ";
-            parameters = string.Concat(@namespace, " previous, ");
+            string parameterName = ToCamelCase(preceding[tier - 2].Name);
+
+            arguments = string.Concat(parameterName, ", ");
+            parameters = string.Concat(@namespace, " ", parameterName, ", ");
+        }
+
+        private static string ToCamelCase(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return string.Empty;
+            }
+
+            return string.Concat(char.ToLowerInvariant(name[0]), name.AsSpan(1));
         }
     }
 }

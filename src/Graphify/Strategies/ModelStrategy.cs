@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.Linq;
+    using System.Text;
     using Graphify.Model;
     using static Graphify.Strategies.ModelStrategy_Resources;
 
@@ -229,20 +230,24 @@
             }
 
             Predecessor predecessor = preceding[tier - 2];
-            string parameterName = "previous";
+            string parameterName = ToCamelCase(predecessor.Name);
             string type = ToGraphType(@namespace);
+            var assignmentBuilder = new StringBuilder();
+            var declarationBuilder = new StringBuilder();
 
-            assignments = string.Concat(
-                Environment.NewLine,
-                string.Format(GeneratePropertyContentAssignment, predecessor.Name, parameterName),
-                Environment.NewLine);
+            _ = assignmentBuilder
+                .AppendLine()
+                .AppendLine(string.Format(GeneratePropertyContentAssignment, predecessor.Name, parameterName));
+
+            _ = declarationBuilder
+                .AppendLine()
+                .AppendLine(string.Format(GeneratePropertyContentDeclaration, type, predecessor.Name));
+
+            assignments = assignmentBuilder.ToString();
 
             parameters = string.Format(GeneratePropertyContentArgument, type, parameterName);
 
-            return string.Concat(
-                Environment.NewLine,
-                string.Format(GeneratePropertyContentDeclaration, type, predecessor.Name),
-                Environment.NewLine);
+            return declarationBuilder.ToString();
         }
 
         private static string ToGraphType(string @namespace)
@@ -255,6 +260,16 @@
             }
 
             return @namespace.Insert(separator, ".Graph");
+        }
+
+        private static string ToCamelCase(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return string.Empty;
+            }
+
+            return string.Concat(char.ToLowerInvariant(name[0]), name.AsSpan(1));
         }
 
         private static string GenerateWrapperDeclarations(Predecessor[] preceding, int tier)

@@ -61,7 +61,7 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to results = Concat(results, Navigate{0}&lt;TResult&gt;(root, {1}value, element, element.{2}, cancellationToken), cancellationToken);.
+        ///   Looks up a localized string similar to results = Concat(results, Navigate{0}&lt;TResult&gt;({1}root, element.{2}, cancellationToken), cancellationToken);.
         /// </summary>
         internal static string GenerateConcatenationsForElementContent {
             get {
@@ -70,7 +70,7 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to results = Concat(results, Navigate{0}&lt;TResult&gt;(root, {1}value, value.{2}, cancellationToken), cancellationToken);.
+        ///   Looks up a localized string similar to results = Concat(results, Navigate{0}&lt;TResult&gt;({1}root, value.{2}, cancellationToken), cancellationToken);.
         /// </summary>
         internal static string GenerateConcatenationsForPropertyContent {
             get {
@@ -79,7 +79,7 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to results = Concat(results, Navigate{0}&lt;TResult&gt;(root, {1}value, cancellationToken), cancellationToken);.
+        ///   Looks up a localized string similar to results = Concat(results, Navigate{0}&lt;TResult&gt;({1}root, value, cancellationToken), cancellationToken);.
         /// </summary>
         internal static string GenerateConcatenationsForPropertyElement {
             get {
@@ -97,7 +97,7 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({0} root, {1}{2} value, global::System.Threading.CancellationToken cancellationToken)
+        ///   Looks up a localized string similar to private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({1}{0} root, {2} value, global::System.Threading.CancellationToken cancellationToken)
         ///{{
         ///    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
         ///
@@ -107,7 +107,7 @@ namespace Graphify.Strategies {
         ///
         ///    foreach ({8} element in value)
         ///    {{
-        ///        var instance = new {3}(index, roo [rest of string was truncated]&quot;;.
+        ///        var {9} = new {3}(index, {4}root, [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GenerateContentForElementContent {
             get {
@@ -116,15 +116,14 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({0} root, {1}{2} value, global::System.Threading.CancellationToken cancellationToken)
+        ///   Looks up a localized string similar to private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({1}{0} root, {2} value, global::System.Threading.CancellationToken cancellationToken)
         ///{{
         ///    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
+        ///    var {9} = new {3}({4}root, value);
         ///
         ///    if (HasObservers(out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;{3}, TResult&gt;&gt; observers))
         ///    {{
-        ///        var instance = new {3}(root, {4}value);
-        ///
-        ///        results = Concat(results, Invoke&lt;{3}, TRes [rest of string was truncated]&quot;;.
+        ///        results = Concat(results, Invoke&lt;{3}, TResult&gt;({9}, o [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GenerateContentForPropertyContent {
             get {

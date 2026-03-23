@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GenerateContentForPropertyContent" xml:space="preserve">
-    <value>private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({0} root, {1}{2} value, global::System.Threading.CancellationToken cancellationToken)
+    <value>private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({1}{0} root, {2} value, global::System.Threading.CancellationToken cancellationToken)
 {{
     global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
-    var {9} = new {3}(root, {4}value);
+    var {9} = new {3}({4}root, value);
 
     if (HasObservers(out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;{3}, TResult&gt;&gt; observers))
     {{
@@ -132,7 +132,7 @@
 }}</value>
   </data>
   <data name="GenerateContentForElementContent" xml:space="preserve">
-    <value>private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({0} root, {1}{2} value, global::System.Threading.CancellationToken cancellationToken)
+    <value>private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({1}{0} root, {2} value, global::System.Threading.CancellationToken cancellationToken)
 {{
     global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
 
@@ -142,7 +142,7 @@
 
     foreach ({8} element in value)
     {{
-        var {9} = new {3}(index, root, {4}element);
+        var {9} = new {3}(index, {4}root, element);
 
         results = Concat(results, Invoke&lt;{3}, TResult&gt;({9}, observers, cancellationToken), cancellationToken);
 {5}
@@ -182,15 +182,15 @@
 }}</value>
   </data>
   <data name="GenerateConcatenationsForElementContent" xml:space="preserve">
-    <value>results = Concat(results, Navigate{0}&lt;TResult&gt;(root, {1}element.{2}, cancellationToken), cancellationToken);</value>
+    <value>results = Concat(results, Navigate{0}&lt;TResult&gt;({1}root, element.{2}, cancellationToken), cancellationToken);</value>
   </data>
   <data name="GenerateConcatenationsForPropertyContent" xml:space="preserve">
-    <value>results = Concat(results, Navigate{0}&lt;TResult&gt;(root, {1}value.{2}, cancellationToken), cancellationToken);</value>
+    <value>results = Concat(results, Navigate{0}&lt;TResult&gt;({1}root, value.{2}, cancellationToken), cancellationToken);</value>
   </data>
   <data name="GenerateConcatenationsForSubjectContent" xml:space="preserve">
     <value>results = Concat(results, Navigate{0}&lt;TResult&gt;(root, root.{2}, cancellationToken), cancellationToken);</value>
   </data>
   <data name="GenerateConcatenationsForPropertyElement" xml:space="preserve">
-    <value>results = Concat(results, Navigate{0}&lt;TResult&gt;(root, {1}value, cancellationToken), cancellationToken);</value>
+    <value>results = Concat(results, Navigate{0}&lt;TResult&gt;({1}root, value, cancellationToken), cancellationToken);</value>
   </data>
 </root>

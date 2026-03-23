@@ -361,10 +361,9 @@
             }
 
             string parameterName = ToCamelCase(preceding[tier - 2].Name);
-            string type = ToGraphType(@namespace);
 
             arguments = string.Concat(parameterName, ", ");
-            parameters = string.Concat(type, " ", parameterName, ", ");
+            parameters = string.Concat(@namespace, " ", parameterName, ", ");
         }
 
         private static string ToCamelCase(string name)
@@ -375,11 +374,6 @@
             }
 
             return string.Concat(char.ToLowerInvariant(name[0]), name.Substring(1));
-        }
-
-        private static string ToGraphType(string @namespace)
-        {
-            return string.Concat("global::", @namespace);
         }
     }
 }

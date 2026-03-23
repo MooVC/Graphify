@@ -158,7 +158,7 @@ internal static partial class Simple
                             {
                                 public sealed partial class Length
                                 {
-                                    internal Length(global::Graphify.Testing.Simple root, Simple.Graph.Name name, int value)
+                                    internal Length(Simple.Graph.Name name, global::Graphify.Testing.Simple root, int value)
                                     {
                                         Name = name;
 
@@ -166,9 +166,9 @@ internal static partial class Simple
                                         Value = value;
                                     }
 
-                                    public global::Graphify.Testing.Simple Root { get; private set; }
+                                    public Simple.Graph.Name Name { get; private set; }
 
-                                    public string Name { get; private set; }
+                                    public global::Graphify.Testing.Simple Root { get; private set; }
 
                                     public int Value { get; private set; }
                                 }
@@ -199,11 +199,11 @@ internal static partial class Simple
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateAge<TResult>(global::Graphify.Testing.Simple root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
-                            var instance = new Simple.Graph.Age(root, value);
+                            var age = new Simple.Graph.Age(root, value);
 
                             if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Simple.Graph.Age, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Simple.Graph.Age, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Simple.Graph.Age, TResult>(age, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
@@ -277,11 +277,11 @@ internal static partial class Simple
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateIsAdult<TResult>(global::Graphify.Testing.Simple root, bool value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
-                            var instance = new Simple.Graph.IsAdult(root, value);
+                            var isAdult = new Simple.Graph.IsAdult(root, value);
 
                             if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Simple.Graph.IsAdult, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Simple.Graph.IsAdult, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Simple.Graph.IsAdult, TResult>(isAdult, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
@@ -311,14 +311,14 @@ internal static partial class Simple
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateName<TResult>(global::Graphify.Testing.Simple root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
-                            var instance = new Simple.Graph.Name(root, value);
+                            var name = new Simple.Graph.Name(root, value);
 
                             if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Simple.Graph.Name, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Simple.Graph.Name, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Simple.Graph.Name, TResult>(name, observers, cancellationToken), cancellationToken);
                             }
 
-                            results = Concat(results, NavigateNameLength<TResult>(root, instance, value.Length, cancellationToken), cancellationToken);
+                            results = Concat(results, NavigateNameLength<TResult>(name, root, value.Length, cancellationToken), cancellationToken);
 
                             return results;
                         }
@@ -344,14 +344,14 @@ internal static partial class Simple
 
                     internal sealed partial class SimpleNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateNameLength<TResult>(global::Graphify.Testing.Simple root, Simple.Graph.Name name, int value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateNameLength<TResult>(Simple.Graph.Name name, global::Graphify.Testing.Simple root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
-                            var instance = new Simple.Graph.Name.Length(root, name, value);
+                            var length = new Simple.Graph.Name.Length(name, root, value);
 
                             if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Simple.Graph.Name.Length, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Simple.Graph.Name.Length, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Simple.Graph.Name.Length, TResult>(length, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;

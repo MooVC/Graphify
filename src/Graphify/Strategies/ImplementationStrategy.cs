@@ -103,12 +103,10 @@
                 if (property.IsSequence)
                 {
                     succeeding = GenerateContentForElement(
-                        arguments,
                         @class,
                         property.Element,
                         next,
                         moniker,
-                        parameters,
                         preceding,
                         property,
                         subject,
@@ -159,12 +157,10 @@
         }
 
         private static IEnumerable<Source> GenerateContentForElement(
-            string arguments,
             string @class,
             Element element,
             string @namespace,
             string method,
-            string parameters,
             Predecessor[] preceding,
             Property property,
             Subject subject,
@@ -176,7 +172,9 @@
             try
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
-                string body = GenerateConcatenationsForElement(moniker, element.Properties, subject, tier++);
+                tier++;
+                string body = GenerateConcatenationsForElement(moniker, element.Properties, subject, tier);
+                GeneratePropertyContent(@namespace, pool, tier, out string arguments, out string parameters);
 
                 yield return GenerateContent(
                     arguments,
@@ -357,10 +355,20 @@
                 return;
             }
 
-            string parameterName = preceding[tier - 2].Name.ToCamelCase();
+            string parameterName = ToCamelCase(preceding[tier - 2].Name);
 
             arguments = string.Concat(parameterName, ", ");
             parameters = string.Concat(@namespace, " ", parameterName, ", ");
+        }
+
+        private static string ToCamelCase(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return string.Empty;
+            }
+
+            return string.Concat(char.ToLowerInvariant(name[0]), name.Substring(1));
         }
     }
 }

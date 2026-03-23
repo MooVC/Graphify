@@ -81,11 +81,10 @@ internal static partial class DepthLimited
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChild<TResult>(global::Graphify.Testing.DepthLimited root, global::Graphify.Testing.DepthChild value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
+                            var instance = new DepthLimited.Graph.Child(root, value);
 
                             if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<DepthLimited.Graph.Child, TResult>> observers))
                             {
-                                var instance = new DepthLimited.Graph.Child(root, value);
-
                                 results = Concat(results, Invoke<DepthLimited.Graph.Child, TResult>(instance, observers, cancellationToken), cancellationToken);
                             }
 

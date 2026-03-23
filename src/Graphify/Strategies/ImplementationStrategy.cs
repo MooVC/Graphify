@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Text;
     using Graphify.Model;
     using static Graphify.Strategies.ImplementationStrategy_Resources;
@@ -102,12 +103,10 @@
                 if (property.IsSequence)
                 {
                     succeeding = GenerateContentForElement(
-                        arguments,
                         @class,
                         property.Element,
                         next,
                         moniker,
-                        parameters,
                         preceding,
                         property,
                         subject,
@@ -158,12 +157,10 @@
         }
 
         private static IEnumerable<Source> GenerateContentForElement(
-            string arguments,
             string @class,
             Element element,
             string @namespace,
             string method,
-            string parameters,
             Predecessor[] preceding,
             Property property,
             Subject subject,
@@ -175,7 +172,9 @@
             try
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
-                string body = GenerateConcatenationsForElement(moniker, element.Properties, subject, tier++);
+                tier++;
+                string body = GenerateConcatenationsForElement(moniker, element.Properties, subject, tier);
+                GeneratePropertyContent(@namespace, pool, tier, out string arguments, out string parameters);
 
                 yield return GenerateContent(
                     arguments,
@@ -369,7 +368,7 @@
                 return string.Empty;
             }
 
-            return string.Concat(char.ToLowerInvariant(name[0]), name.AsSpan(1));
+            return string.Concat(char.ToLowerInvariant(name[0]), name.Substring(1));
         }
     }
 }

@@ -69,7 +69,7 @@
 
                 if (property.IsSequence)
                 {
-                    succeeding = GenerateContentForElement(assignments, body, property.Element, next, parameters, preceding, property, subject, tier);
+                    succeeding = GenerateContentForElement(property.Element, next, preceding, property, subject, tier);
                 }
 
                 succeeding = succeeding.Concat(GenerateContentsForProperty(next, preceding, property, subject, tier));
@@ -114,11 +114,8 @@
         }
 
         private static IEnumerable<Source> GenerateContentForElement(
-            string assignments,
-            string body,
             Element element,
             string @namespace,
-            string parameters,
             Predecessor[] preceding,
             Property property,
             Subject subject,
@@ -131,6 +128,7 @@
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
 
                 tier++;
+                string body = GeneratePropertyContent(@namespace, pool, tier, out string assignments, out string parameters);
 
                 string wrapper = GenerateWrapperDeclarations(pool, tier);
 
@@ -252,7 +250,7 @@
 
         private static string ToGraphType(string @namespace)
         {
-            int separator = @namespace.IndexOf('.', StringComparison.Ordinal);
+            int separator = @namespace.IndexOf(".", StringComparison.Ordinal);
 
             if (separator < 0)
             {
@@ -269,7 +267,7 @@
                 return string.Empty;
             }
 
-            return string.Concat(char.ToLowerInvariant(name[0]), name.AsSpan(1));
+            return string.Concat(char.ToLowerInvariant(name[0]), name.Substring(1));
         }
 
         private static string GenerateWrapperDeclarations(Predecessor[] preceding, int tier)

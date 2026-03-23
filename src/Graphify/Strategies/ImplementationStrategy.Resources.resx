@@ -185,7 +185,7 @@
     <value>results = Concat(results, Navigate{0}&lt;TResult&gt;(root, {1}element.{2}, cancellationToken), cancellationToken);</value>
   </data>
   <data name="GenerateConcatenationsForPropertyContent" xml:space="preserve">
-    <value>results = Concat(results, Navigate{0}&lt;TResult&gt;(root, {1}value, value.{2}, cancellationToken), cancellationToken);</value>
+    <value>results = Concat(results, Navigate{0}&lt;TResult&gt;(root, {1}value.{2}, cancellationToken), cancellationToken);</value>
   </data>
   <data name="GenerateConcatenationsForSubjectContent" xml:space="preserve">
     <value>results = Concat(results, Navigate{0}&lt;TResult&gt;(root, root.{2}, cancellationToken), cancellationToken);</value>

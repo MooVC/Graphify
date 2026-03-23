@@ -5,6 +5,7 @@
     using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using System.Text;
     using Graphify.Model;
     using static Graphify.Strategies.ImplementationStrategy_Resources;
@@ -356,20 +357,10 @@
                 return;
             }
 
-            string parameterName = ToCamelCase(preceding[tier - 2].Name);
+            string parameterName = preceding[tier - 2].Name.ToCamelCase();
 
             arguments = string.Concat(parameterName, ", ");
             parameters = string.Concat(@namespace, " ", parameterName, ", ");
-        }
-
-        private static string ToCamelCase(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return string.Empty;
-            }
-
-            return string.Concat(char.ToLowerInvariant(name[0]), name.AsSpan(1));
         }
     }
 }

@@ -183,7 +183,7 @@
 }}</value>
   </data>
   <data name="GenerateConcatenationsForElementContent" xml:space="preserve">
-    <value>results = Concat(results, Navigate{0}&lt;TResult&gt;(root, {1}value, element, element.{2}, cancellationToken), cancellationToken);</value>
+    <value>results = Concat(results, Navigate{0}&lt;TResult&gt;(root, {1}element.{2}, cancellationToken), cancellationToken);</value>
   </data>
   <data name="GenerateConcatenationsForPropertyContent" xml:space="preserve">
     <value>results = Concat(results, Navigate{0}&lt;TResult&gt;(root, {1}value, value.{2}, cancellationToken), cancellationToken);</value>

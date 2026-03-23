@@ -230,18 +230,31 @@
 
             Predecessor predecessor = preceding[tier - 2];
             string parameterName = "previous";
+            string type = ToGraphType(@namespace);
 
             assignments = string.Concat(
                 Environment.NewLine,
                 string.Format(GeneratePropertyContentAssignment, predecessor.Name, parameterName),
                 Environment.NewLine);
 
-            parameters = string.Format(GeneratePropertyContentArgument, @namespace, parameterName);
+            parameters = string.Format(GeneratePropertyContentArgument, type, parameterName);
 
             return string.Concat(
                 Environment.NewLine,
-                string.Format(GeneratePropertyContentDeclaration, @namespace, predecessor.Name),
+                string.Format(GeneratePropertyContentDeclaration, type, predecessor.Name),
                 Environment.NewLine);
+        }
+
+        private static string ToGraphType(string @namespace)
+        {
+            int separator = @namespace.IndexOf('.', StringComparison.Ordinal);
+
+            if (separator < 0)
+            {
+                return string.Concat(@namespace, ".Graph");
+            }
+
+            return @namespace.Insert(separator, ".Graph");
         }
 
         private static string GenerateWrapperDeclarations(Predecessor[] preceding, int tier)

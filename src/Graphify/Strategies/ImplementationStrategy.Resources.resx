@@ -142,7 +142,7 @@
 
     foreach ({8} element in value)
     {{
-        var {9} = new {3}(index, {4}root, element);
+        var {9} = new {3}({4}index, root, element);
 
         results = Concat(results, Invoke&lt;{3}, TResult&gt;({9}, observers, cancellationToken), cancellationToken);
 {5}

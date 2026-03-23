@@ -97,12 +97,16 @@ internal static partial class Complex
                             {
                                 public sealed partial class Child
                                 {
-                                    internal Child(int index, global::Graphify.Testing.Complex root, global::Graphify.Testing.Child value)
+                                    internal Child(Complex.Graph.Children children, int index, global::Graphify.Testing.Complex root, global::Graphify.Testing.Child value)
                                     {
+                                        Children = children;
+
                                         Index = index;
                                         Root = root;
                                         Value = value;
                                     }
+
+                                    public Complex.Graph.Children Children { get; private set; }
 
                                     public int Index { get; private set; }
 
@@ -142,7 +146,7 @@ internal static partial class Complex
                                 {
                                     public sealed partial class Age
                                     {
-                                        internal Age(global::Graphify.Testing.Complex root, Complex.Graph.Children.Child child, int value)
+                                        internal Age(Complex.Graph.Children.Child child, global::Graphify.Testing.Complex root, int value)
                                         {
                                             Child = child;
 
@@ -150,9 +154,9 @@ internal static partial class Complex
                                             Value = value;
                                         }
 
-                                        public global::Graphify.Testing.Complex Root { get; private set; }
-
                                         public Complex.Graph.Children.Child Child { get; private set; }
+
+                                        public global::Graphify.Testing.Complex Root { get; private set; }
 
                                         public int Value { get; private set; }
                                     }
@@ -189,7 +193,7 @@ internal static partial class Complex
                                 {
                                     public sealed partial class Name
                                     {
-                                        internal Name(global::Graphify.Testing.Complex root, Complex.Graph.Children.Child child, string value)
+                                        internal Name(Complex.Graph.Children.Child child, global::Graphify.Testing.Complex root, string value)
                                         {
                                             Child = child;
 
@@ -197,9 +201,9 @@ internal static partial class Complex
                                             Value = value;
                                         }
 
-                                        public global::Graphify.Testing.Complex Root { get; private set; }
-
                                         public Complex.Graph.Children.Child Child { get; private set; }
+
+                                        public global::Graphify.Testing.Complex Root { get; private set; }
 
                                         public string Value { get; private set; }
                                     }
@@ -238,7 +242,7 @@ internal static partial class Complex
                                     {
                                         public sealed partial class Length
                                         {
-                                            internal Length(global::Graphify.Testing.Complex root, Complex.Graph.Children.Child.Name name, int value)
+                                            internal Length(Complex.Graph.Children.Child.Name name, global::Graphify.Testing.Complex root, int value)
                                             {
                                                 Name = name;
 
@@ -246,9 +250,9 @@ internal static partial class Complex
                                                 Value = value;
                                             }
 
-                                            public global::Graphify.Testing.Complex Root { get; private set; }
-
                                             public Complex.Graph.Children.Child.Name Name { get; private set; }
+
+                                            public global::Graphify.Testing.Complex Root { get; private set; }
 
                                             public int Value { get; private set; }
                                         }
@@ -345,7 +349,7 @@ internal static partial class Complex
                             {
                                 public sealed partial class Length
                                 {
-                                    internal Length(global::Graphify.Testing.Complex root, Complex.Graph.Name name, int value)
+                                    internal Length(Complex.Graph.Name name, global::Graphify.Testing.Complex root, int value)
                                     {
                                         Name = name;
 
@@ -353,9 +357,9 @@ internal static partial class Complex
                                         Value = value;
                                     }
 
-                                    public global::Graphify.Testing.Complex Root { get; private set; }
+                                    public Complex.Graph.Name Name { get; private set; }
 
-                                    public string Name { get; private set; }
+                                    public global::Graphify.Testing.Complex Root { get; private set; }
 
                                     public int Value { get; private set; }
                                 }
@@ -430,11 +434,11 @@ internal static partial class Complex
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateAge<TResult>(global::Graphify.Testing.Complex root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
-                            var instance = new Complex.Graph.Age(root, value);
+                            var age = new Complex.Graph.Age(root, value);
 
                             if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Age, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Complex.Graph.Age, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Complex.Graph.Age, TResult>(age, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
@@ -464,14 +468,14 @@ internal static partial class Complex
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildren<TResult>(global::Graphify.Testing.Complex root, global::Graphify.Testing.Child[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
-                            var instance = new Complex.Graph.Children(root, value);
+                            var children = new Complex.Graph.Children(root, value);
 
                             if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Complex.Graph.Children, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Complex.Graph.Children, TResult>(children, observers, cancellationToken), cancellationToken);
                             }
 
-                            results = Concat(results, NavigateChildrenChild<TResult>(root, instance, value, cancellationToken), cancellationToken);
+                            results = Concat(results, NavigateChildrenChild<TResult>(children, root, value, cancellationToken), cancellationToken);
 
                             return results;
                         }
@@ -497,7 +501,7 @@ internal static partial class Complex
 
                     internal sealed partial class ComplexNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChild<TResult>(global::Graphify.Testing.Complex root, global::Graphify.Testing.Child[] value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChild<TResult>(Complex.Graph.Children children, global::Graphify.Testing.Complex root, global::Graphify.Testing.Child[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
 
@@ -507,12 +511,12 @@ internal static partial class Complex
 
                             foreach (global::Graphify.Testing.Child element in value)
                             {
-                            var instance = new Complex.Graph.Children.Child(index, root, element);
+                                var child = new Complex.Graph.Children.Child(children, index, root, element);
 
-                                results = Concat(results, Invoke<Complex.Graph.Children.Child, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Complex.Graph.Children.Child, TResult>(child, observers, cancellationToken), cancellationToken);
 
-                                results = Concat(results, NavigateChildrenChildAge<TResult>(root, instance, element, element.Age, cancellationToken), cancellationToken);
-                                results = Concat(results, NavigateChildrenChildName<TResult>(root, instance, element, element.Name, cancellationToken), cancellationToken);
+                                results = Concat(results, NavigateChildrenChildAge<TResult>(child, root, element.Age, cancellationToken), cancellationToken);
+                                results = Concat(results, NavigateChildrenChildName<TResult>(child, root, element.Name, cancellationToken), cancellationToken);
 
                                 index++;
                             }
@@ -541,14 +545,14 @@ internal static partial class Complex
 
                     internal sealed partial class ComplexNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChildAge<TResult>(global::Graphify.Testing.Complex root, Complex.Graph.Children.Child child, int value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChildAge<TResult>(Complex.Graph.Children.Child child, global::Graphify.Testing.Complex root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
-                            var instance = new Complex.Graph.Children.Child.Age(root, child, value);
+                            var age = new Complex.Graph.Children.Child.Age(child, root, value);
 
                             if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children.Child.Age, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Complex.Graph.Children.Child.Age, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Complex.Graph.Children.Child.Age, TResult>(age, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
@@ -575,17 +579,17 @@ internal static partial class Complex
 
                     internal sealed partial class ComplexNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChildName<TResult>(global::Graphify.Testing.Complex root, Complex.Graph.Children.Child child, string value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChildName<TResult>(Complex.Graph.Children.Child child, global::Graphify.Testing.Complex root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
-                            var instance = new Complex.Graph.Children.Child.Name(root, child, value);
+                            var name = new Complex.Graph.Children.Child.Name(child, root, value);
 
                             if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children.Child.Name, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Complex.Graph.Children.Child.Name, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Complex.Graph.Children.Child.Name, TResult>(name, observers, cancellationToken), cancellationToken);
                             }
 
-                            results = Concat(results, NavigateChildrenChildNameLength<TResult>(root, instance, value.Length, cancellationToken), cancellationToken);
+                            results = Concat(results, NavigateChildrenChildNameLength<TResult>(name, root, value.Length, cancellationToken), cancellationToken);
 
                             return results;
                         }
@@ -611,14 +615,14 @@ internal static partial class Complex
 
                     internal sealed partial class ComplexNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChildNameLength<TResult>(global::Graphify.Testing.Complex root, Complex.Graph.Children.Child.Name name, int value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChildNameLength<TResult>(Complex.Graph.Children.Child.Name name, global::Graphify.Testing.Complex root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
-                            var instance = new Complex.Graph.Children.Child.Name.Length(root, name, value);
+                            var length = new Complex.Graph.Children.Child.Name.Length(name, root, value);
 
                             if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children.Child.Name.Length, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Complex.Graph.Children.Child.Name.Length, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Complex.Graph.Children.Child.Name.Length, TResult>(length, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
@@ -648,14 +652,14 @@ internal static partial class Complex
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateName<TResult>(global::Graphify.Testing.Complex root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
-                            var instance = new Complex.Graph.Name(root, value);
+                            var name = new Complex.Graph.Name(root, value);
 
                             if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Name, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Complex.Graph.Name, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Complex.Graph.Name, TResult>(name, observers, cancellationToken), cancellationToken);
                             }
 
-                            results = Concat(results, NavigateNameLength<TResult>(root, instance, value.Length, cancellationToken), cancellationToken);
+                            results = Concat(results, NavigateNameLength<TResult>(name, root, value.Length, cancellationToken), cancellationToken);
 
                             return results;
                         }
@@ -681,14 +685,14 @@ internal static partial class Complex
 
                     internal sealed partial class ComplexNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateNameLength<TResult>(global::Graphify.Testing.Complex root, Complex.Graph.Name name, int value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateNameLength<TResult>(Complex.Graph.Name name, global::Graphify.Testing.Complex root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
-                            var instance = new Complex.Graph.Name.Length(root, name, value);
+                            var length = new Complex.Graph.Name.Length(name, root, value);
 
                             if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Name.Length, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Complex.Graph.Name.Length, TResult>(instance, observers, cancellationToken), cancellationToken);
+                                results = Concat(results, Invoke<Complex.Graph.Name.Length, TResult>(length, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;

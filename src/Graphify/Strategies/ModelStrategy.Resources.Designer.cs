@@ -63,15 +63,15 @@ namespace Graphify.Strategies {
         /// <summary>
         ///   Looks up a localized string similar to public sealed partial class {1}
         ///{{
-        ///    internal {1}(int index, {3}{2} root, {4} value)
+        ///    internal {1}({3}int index, {2} root, {4} value)
         ///    {{{5}
         ///        Index = index;
         ///        Root = root;
         ///        Value = value;
         ///    }}
-        ///
-        ///    public int Index {{ get; private set; }}
         ///{6}
+        ///    public int Index {{ get; private set; }}
+        ///
         ///    public {2} Root {{ get; private set; }}
         ///
         ///    public {4} Value {{ get; private set; }}

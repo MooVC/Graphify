@@ -107,7 +107,7 @@ namespace Graphify.Strategies {
         ///
         ///    foreach ({8} element in value)
         ///    {{
-        ///        var {9} = new {3}(index, {4}root, [rest of string was truncated]&quot;;.
+        ///        var {9} = new {3}({4}index, root, [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GenerateContentForElementContent {
             get {

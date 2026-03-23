@@ -58,7 +58,7 @@
                 yield break;
             }
 
-            string body = GeneratePropertyContent(preceding, tier, out string assignments, out string parameters);
+            string body = GeneratePropertyContent(@namespace, preceding, tier, out string assignments, out string parameters);
             string wrapper = GenerateWrapperDeclarations(preceding, tier);
 
             foreach (Property property in properties)
@@ -69,7 +69,7 @@
 
                 if (property.IsSequence)
                 {
-                    succeeding = GenerateContentForElement(assignments, body, property.Element, next, parameters, preceding, property, subject, tier);
+                    succeeding = GenerateContentForElement(property.Element, next, preceding, property, subject, tier);
                 }
 
                 succeeding = succeeding.Concat(GenerateContentsForProperty(next, preceding, property, subject, tier));
@@ -114,11 +114,8 @@
         }
 
         private static IEnumerable<Source> GenerateContentForElement(
-            string assignments,
-            string body,
             Element element,
             string @namespace,
-            string parameters,
             Predecessor[] preceding,
             Property property,
             Subject subject,
@@ -131,6 +128,7 @@
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
 
                 tier++;
+                string body = GeneratePropertyContent(@namespace, pool, tier, out string assignments, out string parameters);
 
                 string wrapper = GenerateWrapperDeclarations(pool, tier);
 
@@ -219,7 +217,7 @@
             return wrapper.Replace(Declaration, code);
         }
 
-        private static string GeneratePropertyContent(Predecessor[] preceding, int tier, out string assignments, out string parameters)
+        private static string GeneratePropertyContent(string @namespace, Predecessor[] preceding, int tier, out string assignments, out string parameters)
         {
             if (tier == 1)
             {
@@ -229,29 +227,47 @@
                 return string.Empty;
             }
 
-            var arguments = new StringBuilder();
-            var constructor = new StringBuilder();
-            var declarations = new StringBuilder();
+            Predecessor predecessor = preceding[tier - 2];
+            string parameterName = ToCamelCase(predecessor.Name);
+            string type = ToGraphType(@namespace);
+            var assignmentBuilder = new StringBuilder();
+            var declarationBuilder = new StringBuilder();
 
-            _ = constructor.AppendLine();
+            _ = assignmentBuilder
+                .AppendLine()
+                .AppendLine(string.Format(GeneratePropertyContentAssignment, predecessor.Name, parameterName));
 
-            for (int index = 0; index < (tier - 1); index++)
+            _ = declarationBuilder
+                .AppendLine()
+                .AppendLine(string.Format(GeneratePropertyContentDeclaration, type, predecessor.Name));
+
+            assignments = assignmentBuilder.ToString();
+
+            parameters = string.Format(GeneratePropertyContentArgument, type, parameterName);
+
+            return declarationBuilder.ToString();
+        }
+
+        private static string ToGraphType(string @namespace)
+        {
+            int separator = @namespace.IndexOf(".", StringComparison.Ordinal);
+
+            if (separator < 0)
             {
-                Predecessor predecessor = preceding[index];
-                string parameterName = $"param{index}";
-
-                _ = arguments.Append(string.Format(GeneratePropertyContentArgument, predecessor.Type, parameterName));
-                _ = constructor.AppendLine(string.Format(GeneratePropertyContentAssignment, predecessor.Name, parameterName));
-
-                _ = declarations
-                    .AppendLine()
-                    .AppendLine(string.Format(GeneratePropertyContentDeclaration, predecessor.Type, predecessor.Name));
+                return string.Concat(@namespace, ".Graph");
             }
 
-            assignments = constructor.ToString();
-            parameters = arguments.ToString();
+            return @namespace.Insert(separator, ".Graph");
+        }
 
-            return declarations.ToString();
+        private static string ToCamelCase(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return string.Empty;
+            }
+
+            return string.Concat(char.ToLowerInvariant(name[0]), name.Substring(1));
         }
 
         private static string GenerateWrapperDeclarations(Predecessor[] preceding, int tier)

@@ -2,6 +2,7 @@
   <PropertyGroup>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <Description>Graphify, a .NET Roslyn source generator, allows for the efficient navigation of a class hierarchy, without the use of reflection.</Description>
+    <NoWarn>$(NoWarn);NU1608</NoWarn>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Valuify">

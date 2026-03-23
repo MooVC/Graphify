@@ -17,7 +17,6 @@
         : IStrategy
     {
         private const int GraphNamespaceLength = 7;
-        private const string Separator = ", ";
 
         /// <summary>
         /// Generates a standardized navigator name for the specified subject.
@@ -82,7 +81,7 @@
                 yield break;
             }
 
-            GeneratePropertyContent(preceding, tier, out string arguments, out string parameters);
+            GeneratePropertyContent(@namespace, preceding, tier, out string arguments, out string parameters);
 
             foreach (Property property in properties)
             {
@@ -94,7 +93,6 @@
                     @namespace,
                     moniker,
                     parameters,
-                    preceding,
                     property,
                     subject,
                     tier,
@@ -105,12 +103,10 @@
                 if (property.IsSequence)
                 {
                     succeeding = GenerateContentForElement(
-                        arguments,
                         @class,
                         property.Element,
                         next,
                         moniker,
-                        parameters,
                         preceding,
                         property,
                         subject,
@@ -152,7 +148,8 @@
                 body,
                 name,
                 method,
-                element?.Type);
+                element?.Type,
+                ToCamelCase(name));
 
             code = string.Format(GenerateContentNest, @class, subject.Name, code.Indent());
             string hint = next.Substring(subject.Name.Length + GraphNamespaceLength);
@@ -161,12 +158,10 @@
         }
 
         private static IEnumerable<Source> GenerateContentForElement(
-            string arguments,
             string @class,
             Element element,
             string @namespace,
             string method,
-            string parameters,
             Predecessor[] preceding,
             Property property,
             Subject subject,
@@ -178,7 +173,10 @@
             try
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
-                string body = GenerateConcatenationsForElement(moniker, pool, element.Properties, subject, tier++);
+                tier++;
+                string name = ToCamelCase(element.Name);
+                string body = GenerateConcatenationsForElement(moniker, element.Properties, name, subject, tier);
+                GeneratePropertyContent(@namespace, pool, tier, out string arguments, out string parameters);
 
                 yield return GenerateContent(
                     arguments,
@@ -211,13 +209,12 @@
             string @namespace,
             string method,
             string parameters,
-            Predecessor[] preceding,
             Property property,
             Subject subject,
             int tier,
             out string next)
         {
-            string body = GenerateConcatenationsForProperty(property.Element, method, preceding, property.Properties, subject, tier);
+            string body = GenerateConcatenationsForProperty(property.Element, method, property.Properties, ToCamelCase(property.Name), subject, tier);
 
             return GenerateContent(
                 arguments,
@@ -278,8 +275,8 @@
         private static string GenerateConcatenations(
             Element element,
             string method,
-            Predecessor[] preceding,
             in ImmutableArray<Property> properties,
+            string variable,
             Subject subject,
             string template,
             int tier)
@@ -291,9 +288,9 @@
 
             string call = string.Empty;
 
-            if (tier > 1)
+            if (tier > 0)
             {
-                call = GenerateParametersForConcatenations(preceding, tier);
+                call = string.Concat(variable, ", ");
             }
 
             return GenerateConcatenations(call, element, method, properties, template);
@@ -329,77 +326,54 @@
 
         private static string GenerateConcatenationsForElement(
             string method,
-            Predecessor[] preceding,
             in ImmutableArray<Property> properties,
+            string variable,
             Subject subject,
             int tier)
         {
-            return GenerateConcatenations(default, method, preceding, properties, subject, GenerateConcatenationsForElementContent, tier);
+            return GenerateConcatenations(default, method, properties, variable, subject, GenerateConcatenationsForElementContent, tier);
         }
 
         private static string GenerateConcatenationsForProperty(
             Element element,
             string method,
-            Predecessor[] preceding,
             in ImmutableArray<Property> properties,
+            string variable,
             Subject subject,
             int tier)
         {
-            return GenerateConcatenations(element, method, preceding, properties, subject, GenerateConcatenationsForPropertyContent, tier);
+            return GenerateConcatenations(element, method, properties, variable, subject, GenerateConcatenationsForPropertyContent, tier);
         }
 
         private static string GenerateConcatenationsForSubject(in ImmutableArray<Property> properties, Subject subject)
         {
-            return GenerateConcatenations(default, string.Empty, Array.Empty<Predecessor>(), properties, subject, GenerateConcatenationsForSubjectContent, 0);
+            return GenerateConcatenations(default, string.Empty, properties, string.Empty, subject, GenerateConcatenationsForSubjectContent, 0);
         }
 
-        private static string GenerateParametersForConcatenations(Predecessor[] preceding, int tier)
-        {
-            IEnumerable<string> arguments = preceding
-                .Take(tier - 1)
-                .Select((_, index) => $"param{index}");
-
-            string call = string.Join(Separator, arguments);
-
-            return string.Concat(call, Separator);
-        }
-
-        private static void GeneratePropertyContent(Predecessor[] preceding, int tier, out string arguments, out string paramerers)
+        private static void GeneratePropertyContent(string @namespace, Predecessor[] preceding, int tier, out string arguments, out string parameters)
         {
             if (tier == 1)
             {
                 arguments = string.Empty;
-                paramerers = string.Empty;
+                parameters = string.Empty;
 
                 return;
             }
 
-            int total = tier - 1;
-            string[] declarations = ArrayPool<string>.Shared.Rent(total);
-            string[] propagations = ArrayPool<string>.Shared.Rent(total);
+            string parameterName = ToCamelCase(preceding[tier - 2].Name);
 
-            try
+            arguments = string.Concat(parameterName, ", ");
+            parameters = string.Concat(@namespace, " ", parameterName, ", ");
+        }
+
+        private static string ToCamelCase(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
             {
-                for (int index = 0; index < total; index++)
-                {
-                    Predecessor predecessor = preceding[index];
-                    string variable = $"param{index}";
-
-                    propagations[index] = $"{predecessor.Type} {variable}";
-                    declarations[index] = variable;
-                }
-
-                arguments = string.Join(Separator, declarations, 0, total);
-                paramerers = string.Join(Separator, propagations, 0, total);
-
-                arguments = string.Concat(arguments, Separator);
-                paramerers = string.Concat(paramerers, Separator);
+                return string.Empty;
             }
-            finally
-            {
-                ArrayPool<string>.Shared.Return(propagations);
-                ArrayPool<string>.Shared.Return(declarations);
-            }
+
+            return string.Concat(char.ToLowerInvariant(name[0]), name.Substring(1));
         }
     }
 }

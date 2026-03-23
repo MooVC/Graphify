@@ -148,7 +148,8 @@
                 body,
                 name,
                 method,
-                element?.Type);
+                element?.Type,
+                ToCamelCase(name));
 
             code = string.Format(GenerateContentNest, @class, subject.Name, code.Indent());
             string hint = next.Substring(subject.Name.Length + GraphNamespaceLength);
@@ -173,7 +174,8 @@
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
                 tier++;
-                string body = GenerateConcatenationsForElement(moniker, element.Properties, subject, tier);
+                string name = ToCamelCase(element.Name);
+                string body = GenerateConcatenationsForElement(moniker, element.Properties, name, subject, tier);
                 GeneratePropertyContent(@namespace, pool, tier, out string arguments, out string parameters);
 
                 yield return GenerateContent(
@@ -212,7 +214,7 @@
             int tier,
             out string next)
         {
-            string body = GenerateConcatenationsForProperty(property.Element, method, property.Properties, subject, tier);
+            string body = GenerateConcatenationsForProperty(property.Element, method, property.Properties, ToCamelCase(property.Name), subject, tier);
 
             return GenerateContent(
                 arguments,
@@ -274,6 +276,7 @@
             Element element,
             string method,
             in ImmutableArray<Property> properties,
+            string variable,
             Subject subject,
             string template,
             int tier)
@@ -287,7 +290,7 @@
 
             if (tier > 0)
             {
-                call = "instance, ";
+                call = string.Concat(variable, ", ");
             }
 
             return GenerateConcatenations(call, element, method, properties, template);
@@ -324,25 +327,27 @@
         private static string GenerateConcatenationsForElement(
             string method,
             in ImmutableArray<Property> properties,
+            string variable,
             Subject subject,
             int tier)
         {
-            return GenerateConcatenations(default, method, properties, subject, GenerateConcatenationsForElementContent, tier);
+            return GenerateConcatenations(default, method, properties, variable, subject, GenerateConcatenationsForElementContent, tier);
         }
 
         private static string GenerateConcatenationsForProperty(
             Element element,
             string method,
             in ImmutableArray<Property> properties,
+            string variable,
             Subject subject,
             int tier)
         {
-            return GenerateConcatenations(element, method, properties, subject, GenerateConcatenationsForPropertyContent, tier);
+            return GenerateConcatenations(element, method, properties, variable, subject, GenerateConcatenationsForPropertyContent, tier);
         }
 
         private static string GenerateConcatenationsForSubject(in ImmutableArray<Property> properties, Subject subject)
         {
-            return GenerateConcatenations(default, string.Empty, properties, subject, GenerateConcatenationsForSubjectContent, 0);
+            return GenerateConcatenations(default, string.Empty, properties, string.Empty, subject, GenerateConcatenationsForSubjectContent, 0);
         }
 
         private static void GeneratePropertyContent(string @namespace, Predecessor[] preceding, int tier, out string arguments, out string parameters)
@@ -356,9 +361,10 @@
             }
 
             string parameterName = ToCamelCase(preceding[tier - 2].Name);
+            string type = ToGraphType(@namespace);
 
             arguments = string.Concat(parameterName, ", ");
-            parameters = string.Concat(@namespace, " ", parameterName, ", ");
+            parameters = string.Concat(type, " ", parameterName, ", ");
         }
 
         private static string ToCamelCase(string name)
@@ -369,6 +375,11 @@
             }
 
             return string.Concat(char.ToLowerInvariant(name[0]), name.Substring(1));
+        }
+
+        private static string ToGraphType(string @namespace)
+        {
+            return string.Concat("global::", @namespace);
         }
     }
 }

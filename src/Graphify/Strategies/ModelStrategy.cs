@@ -254,10 +254,10 @@
 
             if (separator < 0)
             {
-                return string.Concat(@namespace, ".Graph");
+                return string.Concat("global::", @namespace, ".Graph");
             }
 
-            return @namespace.Insert(separator, ".Graph");
+            return string.Concat("global::", @namespace.Insert(separator, ".Graph"));
         }
 
         private static string ToCamelCase(string name)

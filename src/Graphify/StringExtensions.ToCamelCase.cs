@@ -9,10 +9,10 @@
         /// Converts the first character of the specified string to lowercase, returning the result in camel case format.
         /// </summary>
         /// <param name="name">
-        /// The string to convert to camel case. If null, empty, or consists only of white-space characters, an empty string is returned.
+        /// The string to convert to camel case. If <see langword="null"/>, empty, or consists only of white-space characters, an empty string is returned.
         /// </param>
         /// <returns>
-        /// A string with the first character converted to lowercase. Returns an empty string if the input is null, empty, or white space.
+        /// A string with the first character converted to lowercase. Returns an empty string if the input is <see langword="null"/>, empty, or white space.
         /// </returns>
         public static string ToCamelCase(this string name)
         {

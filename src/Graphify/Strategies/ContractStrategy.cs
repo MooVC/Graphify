@@ -23,7 +23,7 @@
         /// <summary>
         /// Generates source representations for the specified subject if it does not have an associated contract.
         /// </summary>
-        /// <param name="subject">The subject for which to generate source representations. Must not be null.</param>
+        /// <param name="subject">The subject for which to generate source representations. Must not be <see langword="null"/>.</param>
         /// <returns>
         /// An enumerable collection containing a single source representation if the subject does not have a contract;
         /// otherwise, an empty collection.

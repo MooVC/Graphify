@@ -13,7 +13,7 @@ internal sealed class Age
     /// <summary>
     /// Observes changes or events related to the specified Age instance as an asynchronous stream of strings.
     /// </summary>
-    /// <param name="instance">The Age instance to observe for changes or events. Cannot be null.</param>
+    /// <param name="instance">The Age instance to observe for changes or events. Cannot be <see langword="null"/>.</param>
     /// <param name="cancellationToken">A cancellation token that can be used to cancel the observation operation.</param>
     /// <returns>An asynchronous stream of strings representing observed changes or events for the specified Age instance.</returns>
     public async IAsyncEnumerable<string> Observe(Complex.Graph.Age instance, [EnumeratorCancellation] CancellationToken cancellationToken)

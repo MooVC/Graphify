@@ -11,13 +11,13 @@ using AnalyzerTest = Graphify.AnalyzerTest<Graphify.GraphifyAttributeAnalyzer>;
 public sealed class WhenExecuted
 {
     [Theory]
-    [Snippets(inclusions: [typeof(Unsupported)])]
-    public async Task GivenATypeWhenNotPartialThenPartialTypeRuleIsRaised(ReferenceAssemblies assembly, Expectations expectations, LanguageVersion language)
+    [Snippets(inclusions: [typeof(Generic)])]
+    public async Task GivenATypeWhenGenericThenGenericTypeRuleIsRaised(ReferenceAssemblies assembly, Expectations expectations, LanguageVersion language)
     {
         // Arrange
         var test = new AnalyzerTest(assembly, language);
 
-        test.ExpectedDiagnostics.Add(GetExpectedPartialTypeRule(new LinePosition(2, 1), nameof(Unsupported)));
+        test.ExpectedDiagnostics.Add(GetExpectedGenericTypeRule(new LinePosition(2, 1), nameof(Generic)));
         expectations.IsDeclaredIn(test.TestState);
 
         // Act
@@ -28,13 +28,13 @@ public sealed class WhenExecuted
     }
 
     [Theory]
-    [Snippets(inclusions: [typeof(Generic)])]
-    public async Task GivenATypeWhenGenericThenGenericTypeRuleIsRaised(ReferenceAssemblies assembly, Expectations expectations, LanguageVersion language)
+    [Snippets(inclusions: [typeof(Unsupported)])]
+    public async Task GivenATypeWhenNotPartialThenPartialTypeRuleIsRaised(ReferenceAssemblies assembly, Expectations expectations, LanguageVersion language)
     {
         // Arrange
         var test = new AnalyzerTest(assembly, language);
 
-        test.ExpectedDiagnostics.Add(GetExpectedGenericTypeRule(new LinePosition(2, 1), nameof(Generic)));
+        test.ExpectedDiagnostics.Add(GetExpectedPartialTypeRule(new LinePosition(2, 1), nameof(Unsupported)));
         expectations.IsDeclaredIn(test.TestState);
 
         // Act

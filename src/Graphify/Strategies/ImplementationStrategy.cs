@@ -151,7 +151,8 @@
                 element?.Type,
                 ToCamelCase(name));
 
-            code = string.Format(GenerateContentNest, @class, subject.Name, code.Indent());
+            string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
+            code = string.Format(GenerateContentNest, accessibility, @class, subject.Name, code.Indent());
             string hint = next.Substring(subject.Name.Length + GraphNamespaceLength);
 
             return new Source(code, $"{@class}.{hint}");

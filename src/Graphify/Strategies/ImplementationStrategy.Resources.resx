@@ -153,9 +153,9 @@
 }}</value>
   </data>
   <data name="GenerateContentNest" xml:space="preserve">
-    <value>internal sealed partial class {0}
+    <value>{0} sealed partial class {1}
 {{
-    {2}
+    {3}
 }}</value>
   </data>
   <data name="GenerateNavigatorContent" xml:space="preserve">

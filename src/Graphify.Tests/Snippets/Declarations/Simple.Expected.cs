@@ -194,7 +194,7 @@ internal static partial class Simple
                     #nullable disable
                     #endif
 
-                    internal sealed partial class SimpleNavigator
+                    public sealed partial class SimpleNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateAge<TResult>(global::Graphify.Testing.Simple root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -228,7 +228,7 @@ internal static partial class Simple
                     #nullable disable
                     #endif
 
-                    internal sealed partial class SimpleNavigator
+                    public sealed partial class SimpleNavigator
                         : global::Graphify.Navigator<Simple>,
                           ISimpleNavigator
                     {
@@ -272,7 +272,7 @@ internal static partial class Simple
                     #nullable disable
                     #endif
 
-                    internal sealed partial class SimpleNavigator
+                    public sealed partial class SimpleNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateIsAdult<TResult>(global::Graphify.Testing.Simple root, bool value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -306,7 +306,7 @@ internal static partial class Simple
                     #nullable disable
                     #endif
 
-                    internal sealed partial class SimpleNavigator
+                    public sealed partial class SimpleNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateName<TResult>(global::Graphify.Testing.Simple root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -342,7 +342,7 @@ internal static partial class Simple
                     #nullable disable
                     #endif
 
-                    internal sealed partial class SimpleNavigator
+                    public sealed partial class SimpleNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateNameLength<TResult>(Simple.Graph.Name name, global::Graphify.Testing.Simple root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {

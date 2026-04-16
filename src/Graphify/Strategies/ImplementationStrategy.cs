@@ -151,7 +151,8 @@
                 element?.Type,
                 ToCamelCase(name));
 
-            code = string.Format(GenerateContentNest, @class, subject.Name, code.Indent());
+            string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
+            code = string.Format(GenerateContentNest, accessibility, @class, subject.Name, code.Indent());
             string hint = next.Substring(subject.Name.Length + GraphNamespaceLength);
 
             return new Source(code, $"{@class}.{hint}");
@@ -261,9 +262,11 @@
         {
             string contract = ContractStrategy.GetName(subject.Name);
             string body = GenerateConcatenationsForSubject(subject.Properties, subject);
+            string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
 
             string code = string.Format(
                 GenerateNavigatorContent,
+                accessibility,
                 name,
                 contract,
                 subject.Name,

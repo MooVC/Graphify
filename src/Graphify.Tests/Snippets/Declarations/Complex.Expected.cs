@@ -385,7 +385,7 @@ internal static partial class Complex
                     #nullable disable
                     #endif
 
-                    internal sealed partial class ComplexNavigator
+                    public sealed partial class ComplexNavigator
                         : global::Graphify.Navigator<Complex>,
                           IComplexNavigator
                     {
@@ -429,7 +429,7 @@ internal static partial class Complex
                     #nullable disable
                     #endif
 
-                    internal sealed partial class ComplexNavigator
+                    public sealed partial class ComplexNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateAge<TResult>(global::Graphify.Testing.Complex root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -463,7 +463,7 @@ internal static partial class Complex
                     #nullable disable
                     #endif
 
-                    internal sealed partial class ComplexNavigator
+                    public sealed partial class ComplexNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildren<TResult>(global::Graphify.Testing.Complex root, global::Graphify.Testing.Child[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -499,7 +499,7 @@ internal static partial class Complex
                     #nullable disable
                     #endif
 
-                    internal sealed partial class ComplexNavigator
+                    public sealed partial class ComplexNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChild<TResult>(Complex.Graph.Children children, global::Graphify.Testing.Complex root, global::Graphify.Testing.Child[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -543,7 +543,7 @@ internal static partial class Complex
                     #nullable disable
                     #endif
 
-                    internal sealed partial class ComplexNavigator
+                    public sealed partial class ComplexNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChildAge<TResult>(Complex.Graph.Children.Child child, global::Graphify.Testing.Complex root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -577,7 +577,7 @@ internal static partial class Complex
                     #nullable disable
                     #endif
 
-                    internal sealed partial class ComplexNavigator
+                    public sealed partial class ComplexNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChildName<TResult>(Complex.Graph.Children.Child child, global::Graphify.Testing.Complex root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -613,7 +613,7 @@ internal static partial class Complex
                     #nullable disable
                     #endif
 
-                    internal sealed partial class ComplexNavigator
+                    public sealed partial class ComplexNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChildNameLength<TResult>(Complex.Graph.Children.Child.Name name, global::Graphify.Testing.Complex root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -647,7 +647,7 @@ internal static partial class Complex
                     #nullable disable
                     #endif
 
-                    internal sealed partial class ComplexNavigator
+                    public sealed partial class ComplexNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateName<TResult>(global::Graphify.Testing.Complex root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -683,7 +683,7 @@ internal static partial class Complex
                     #nullable disable
                     #endif
 
-                    internal sealed partial class ComplexNavigator
+                    public sealed partial class ComplexNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateNameLength<TResult>(Complex.Graph.Name name, global::Graphify.Testing.Complex root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {

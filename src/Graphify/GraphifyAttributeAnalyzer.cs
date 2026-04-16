@@ -19,7 +19,8 @@
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             CompatibleTargetTypeRule,
             GenericTypeRule,
-            PartialTypeRule);
+            PartialTypeRule,
+            TypeAccessibilityRule);
 
         /// <summary>
         /// Gets the descriptor associated with the compatible target type rule (GRAFY01).
@@ -69,6 +70,22 @@
             description: GetResourceString(ResourceManager, nameof(GenericTypeRuleDescription)),
             helpLinkUri: GetHelpLinkUri("GRAFY04"));
 
+        /// <summary>
+        /// Gets the descriptor associated with the type accessibility rule (GRAFY05).
+        /// </summary>
+        /// <value>
+        /// The descriptor associated with the type accessibility rule (GRAFY05).
+        /// </value>
+        internal static DiagnosticDescriptor TypeAccessibilityRule { get; } = new DiagnosticDescriptor(
+            "GRAFY05",
+            GetResourceString(ResourceManager, nameof(TypeAccessibilityRuleTitle)),
+            GetResourceString(ResourceManager, nameof(TypeAccessibilityRuleMessageFormat)),
+            "Usage",
+            DiagnosticSeverity.Warning,
+            isEnabledByDefault: true,
+            description: GetResourceString(ResourceManager, nameof(TypeAccessibilityRuleDescription)),
+            helpLinkUri: GetHelpLinkUri("GRAFY05"));
+
         /// <inheritdoc/>
         protected override void Analyze(AttributeSyntax attribute, SyntaxNodeAnalysisContext context, Location location)
         {
@@ -87,6 +104,11 @@
             if (IsViolatingGenericTypeRule(type, out identifier))
             {
                 Raise(context, GenericTypeRule, location, identifier);
+            }
+
+            if (IsViolatingTypeAccessibilityRule(type, context, out identifier))
+            {
+                Raise(context, TypeAccessibilityRule, location, identifier);
             }
         }
 
@@ -127,6 +149,21 @@
             }
 
             return false;
+        }
+
+        private static bool IsViolatingTypeAccessibilityRule(TypeDeclarationSyntax parent, SyntaxNodeAnalysisContext context, out string identifier)
+        {
+            identifier = parent.Identifier.Text;
+
+            INamedTypeSymbol symbol = context.SemanticModel.GetDeclaredSymbol(parent, cancellationToken: context.CancellationToken) as INamedTypeSymbol;
+
+            if (symbol is null)
+            {
+                return false;
+            }
+
+            return symbol.DeclaredAccessibility != Accessibility.Public
+                && symbol.DeclaredAccessibility != Accessibility.Internal;
         }
     }
 }

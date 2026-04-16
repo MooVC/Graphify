@@ -39,7 +39,7 @@ internal static partial class Traversals
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraversalsNavigator
+                    public sealed partial class TraversalsNavigator
                         : global::Graphify.Navigator<Traversals>,
                           ITraversalsNavigator
                     {
@@ -84,7 +84,7 @@ internal static partial class Traversals
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraversalsNavigator
+                    public sealed partial class TraversalsNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateTitle<TResult>(global::Graphify.Testing.Traversals root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -118,7 +118,7 @@ internal static partial class Traversals
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraversalsNavigator
+                    public sealed partial class TraversalsNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDescription<TResult>(global::Graphify.Testing.Traversals root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -154,7 +154,7 @@ internal static partial class Traversals
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraversalsNavigator
+                    public sealed partial class TraversalsNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDescriptionLength<TResult>(Traversals.Graph.Description description, global::Graphify.Testing.Traversals root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -188,7 +188,7 @@ internal static partial class Traversals
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraversalsNavigator
+                    public sealed partial class TraversalsNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateShallowChildren<TResult>(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -224,7 +224,7 @@ internal static partial class Traversals
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraversalsNavigator
+                    public sealed partial class TraversalsNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateShallowChildrenTraversalChild<TResult>(Traversals.Graph.ShallowChildren shallowChildren, global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -265,7 +265,7 @@ internal static partial class Traversals
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraversalsNavigator
+                    public sealed partial class TraversalsNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildren<TResult>(global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -301,7 +301,7 @@ internal static partial class Traversals
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraversalsNavigator
+                    public sealed partial class TraversalsNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraversalChild<TResult>(Traversals.Graph.DeepChildren deepChildren, global::Graphify.Testing.Traversals root, global::Graphify.Testing.TraversalChild[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -344,7 +344,7 @@ internal static partial class Traversals
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraversalsNavigator
+                    public sealed partial class TraversalsNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraversalChildName<TResult>(Traversals.Graph.DeepChildren.TraversalChild traversalChild, global::Graphify.Testing.Traversals root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -380,7 +380,7 @@ internal static partial class Traversals
                     #nullable disable
                     #endif
 
-                    internal sealed partial class TraversalsNavigator
+                    public sealed partial class TraversalsNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraversalChildNameLength<TResult>(Traversals.Graph.DeepChildren.TraversalChild.Name name, global::Graphify.Testing.Traversals root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {

@@ -153,30 +153,30 @@
 }}</value>
   </data>
   <data name="GenerateContentNest" xml:space="preserve">
-    <value>internal sealed partial class {0}
+    <value>{0} sealed partial class {1}
 {{
-    {2}
+    {3}
 }}</value>
   </data>
   <data name="GenerateNavigatorContent" xml:space="preserve">
-    <value>internal sealed partial class {0}
-    : global::Graphify.Navigator&lt;{2}&gt;,
-      {1}
+    <value>{0} sealed partial class {1}
+    : global::Graphify.Navigator&lt;{3}&gt;,
+      {2}
 {{
-    public {0}(global::System.IServiceProvider provider)
+    public {1}(global::System.IServiceProvider provider)
         : base(provider)
     {{
     }}
 
-    public override IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({2} root, global::System.Threading.CancellationToken cancellationToken)
+    public override IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({3} root, global::System.Threading.CancellationToken cancellationToken)
     {{
         var results = Empty&lt;TResult&gt;();
 
-        if (HasObservers&lt;{2}, TResult&gt;(out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;{2}, TResult&gt;&gt; observers))
+        if (HasObservers&lt;{3}, TResult&gt;(out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;{3}, TResult&gt;&gt; observers))
         {{
-            results = Invoke&lt;{2}, TResult&gt;(root, observers, cancellationToken);
+            results = Invoke&lt;{3}, TResult&gt;(root, observers, cancellationToken);
         }}
-{3}
+{4}
         return results;
     }}
 }}</value>

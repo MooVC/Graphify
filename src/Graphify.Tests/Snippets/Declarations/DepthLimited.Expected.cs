@@ -76,7 +76,7 @@ internal static partial class DepthLimited
                     #nullable disable
                     #endif
 
-                    internal sealed partial class DepthLimitedNavigator
+                    public sealed partial class DepthLimitedNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChild<TResult>(global::Graphify.Testing.DepthLimited root, global::Graphify.Testing.DepthChild value, global::System.Threading.CancellationToken cancellationToken)
                         {
@@ -110,7 +110,7 @@ internal static partial class DepthLimited
                     #nullable disable
                     #endif
 
-                    internal sealed partial class DepthLimitedNavigator
+                    public sealed partial class DepthLimitedNavigator
                         : global::Graphify.Navigator<DepthLimited>,
                           IDepthLimitedNavigator
                     {

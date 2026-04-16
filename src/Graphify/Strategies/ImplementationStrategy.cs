@@ -261,9 +261,11 @@
         {
             string contract = ContractStrategy.GetName(subject.Name);
             string body = GenerateConcatenationsForSubject(subject.Properties, subject);
+            string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
 
             string code = string.Format(
                 GenerateNavigatorContent,
+                accessibility,
                 name,
                 contract,
                 subject.Name,

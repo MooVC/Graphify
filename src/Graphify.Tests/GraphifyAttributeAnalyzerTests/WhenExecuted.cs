@@ -44,6 +44,23 @@ public sealed class WhenExecuted
         await act.ShouldNotThrowAsync();
     }
 
+    [Theory]
+    [Snippets(inclusions: [typeof(Inaccessible)])]
+    public async Task GivenATypeWhenAccessibilityIsNotSupportedThenTypeAccessibilityRuleIsRaised(ReferenceAssemblies assembly, Expectations expectations, LanguageVersion language)
+    {
+        // Arrange
+        var test = new AnalyzerTest(assembly, language);
+
+        test.ExpectedDiagnostics.Add(GetExpectedTypeAccessibilityRule(new LinePosition(5, 5), nameof(Inaccessible)));
+        expectations.IsDeclaredIn(test.TestState);
+
+        // Act
+        Func<Task> act = () => test.RunAsync();
+
+        // Assert
+        await act.ShouldNotThrowAsync();
+    }
+
     private static DiagnosticResult GetExpectedPartialTypeRule(LinePosition position, string name)
     {
         return new DiagnosticResult(GraphifyAttributeAnalyzer.PartialTypeRule)
@@ -54,6 +71,13 @@ public sealed class WhenExecuted
     private static DiagnosticResult GetExpectedGenericTypeRule(LinePosition position, string name)
     {
         return new DiagnosticResult(GraphifyAttributeAnalyzer.GenericTypeRule)
+            .WithLocation(position)
+            .WithArguments(name);
+    }
+
+    private static DiagnosticResult GetExpectedTypeAccessibilityRule(LinePosition position, string name)
+    {
+        return new DiagnosticResult(GraphifyAttributeAnalyzer.TypeAccessibilityRule)
             .WithLocation(position)
             .WithArguments(name);
     }

@@ -51,7 +51,7 @@ public sealed class WhenExecuted
         // Arrange
         var test = new AnalyzerTest(assembly, language);
 
-        test.ExpectedDiagnostics.Add(GetExpectedTypeAccessibilityRule(new LinePosition(5, 5), nameof(Inaccessible)));
+        test.ExpectedDiagnostics.Add(GetExpectedTypeAccessibilityRule(new LinePosition(4, 5), nameof(Inaccessible)));
         expectations.IsDeclaredIn(test.TestState);
 
         // Act

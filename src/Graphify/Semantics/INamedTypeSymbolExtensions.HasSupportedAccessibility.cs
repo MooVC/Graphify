@@ -18,8 +18,8 @@
         /// </returns>
         public static bool HasSupportedAccessibility(this INamedTypeSymbol subject)
         {
-            return subject.DeclaredAccessibility is Accessibility.Public
-                or Accessibility.Internal;
+            return subject.DeclaredAccessibility == Accessibility.Public
+                || subject.DeclaredAccessibility == Accessibility.Internal;
         }
     }
 }

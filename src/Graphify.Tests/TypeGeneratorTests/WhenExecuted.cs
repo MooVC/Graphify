@@ -10,8 +10,7 @@ public sealed class WhenExecuted
     private static readonly Type[] _generators =
     [
         typeof(GraphifyAttributeGenerator),
-        typeof(NavigatorContractGenerator),
-        typeof(NavigatorGenerator),
+        typeof(InspectorContractGenerator),
         typeof(TraverseAttributeGenerator),
         typeof(TypeGenerator),
         typeof(VisitorContractGenerator),
@@ -25,8 +24,7 @@ public sealed class WhenExecuted
         var test = new GeneratorTest<TypeGenerator>(assembly, language, _generators);
 
         Boilerplate.Graphify.IsExpectedIn(test.TestState);
-        Boilerplate.Navigator.IsExpectedIn(test.TestState);
-        Boilerplate.Base.IsExpectedIn(test.TestState);
+        Boilerplate.Inspector.IsExpectedIn(test.TestState);
         Boilerplate.Traverse.IsExpectedIn(test.TestState);
         expectations.IsDeclaredIn(test.TestState);
         Boilerplate.Visitor.IsExpectedIn(test.TestState);

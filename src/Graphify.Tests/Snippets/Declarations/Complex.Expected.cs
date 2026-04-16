@@ -281,8 +281,8 @@ internal static partial class Complex
                     #endif
 
                     public partial interface IComplexNavigator
-                        : global::Graphify.INavigator<Complex>
                     {
+                        global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(Complex root, global::System.Threading.CancellationToken cancellationToken);
                         //// Additional methods can be added as partial elements
                     }
 
@@ -386,8 +386,7 @@ internal static partial class Complex
                     #endif
 
                     public sealed partial class ComplexNavigator
-                        : global::Graphify.Navigator<Complex>,
-                          IComplexNavigator
+                        : IComplexNavigator
                     {
                         public ComplexNavigator(global::System.IServiceProvider provider)
                             : base(provider)
@@ -725,9 +724,6 @@ internal static partial class Complex
                             {
                                 throw new global::System.ArgumentNullException("services");
                             }
-
-                            _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Graphify.INavigator<Complex>>(
-                                services, (global::System.IServiceProvider provider) => (global::Graphify.INavigator<Complex>)provider.GetService(typeof(ComplexNavigator)));
 
                             _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<IComplexNavigator>(
                                 services, (global::System.IServiceProvider provider) => (IComplexNavigator)provider.GetService(typeof(ComplexNavigator)));

@@ -160,21 +160,29 @@
   </data>
   <data name="GenerateNavigatorContent" xml:space="preserve">
     <value>{0} sealed partial class {1}
-    : global::Graphify.Navigator&lt;{3}&gt;,
-      {2}
+    : {2}
 {{
+    private readonly global::System.IServiceProvider _provider;
+
     public {1}(global::System.IServiceProvider provider)
-        : base(provider)
     {{
+        if (global::System.Object.ReferenceEquals(provider, null))
+        {{
+            throw new global::System.ArgumentNullException("provider");
+        }}
+
+        _provider = provider;
     }}
 
-    public override IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({3} root, global::System.Threading.CancellationToken cancellationToken)
+    {5}
+
+    public global::System.Collections.Generic.{6}&lt;TResult&gt; Navigate&lt;TResult&gt;({3} root{8})
     {{
         var results = Empty&lt;TResult&gt;();
 
-        if (HasObservers&lt;{3}, TResult&gt;(out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;{3}, TResult&gt;&gt; observers))
+        if (HasObservers&lt;{3}, TResult&gt;(out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.{7}&lt;{3}, TResult&gt;&gt; observers))
         {{
-            results = Invoke&lt;{3}, TResult&gt;(root, observers, cancellationToken);
+            results = Invoke&lt;{3}, TResult&gt;(root, observers{9});
         }}
 {4}
         return results;

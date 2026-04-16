@@ -53,8 +53,8 @@ internal static partial class Simple
                     #endif
 
                     public partial interface ISimpleNavigator
-                        : global::Graphify.INavigator<Simple>
                     {
+                        global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(Simple root, global::System.Threading.CancellationToken cancellationToken);
                         //// Additional methods can be added as partial elements
                     }
 
@@ -229,8 +229,7 @@ internal static partial class Simple
                     #endif
 
                     public sealed partial class SimpleNavigator
-                        : global::Graphify.Navigator<Simple>,
-                          ISimpleNavigator
+                        : ISimpleNavigator
                     {
                         public SimpleNavigator(global::System.IServiceProvider provider)
                             : base(provider)
@@ -384,9 +383,6 @@ internal static partial class Simple
                             {
                                 throw new global::System.ArgumentNullException("services");
                             }
-
-                            _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Graphify.INavigator<Simple>>(
-                                services, (global::System.IServiceProvider provider) => (global::Graphify.INavigator<Simple>)provider.GetService(typeof(SimpleNavigator)));
 
                             _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<ISimpleNavigator>(
                                 services, (global::System.IServiceProvider provider) => (ISimpleNavigator)provider.GetService(typeof(SimpleNavigator)));

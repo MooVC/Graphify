@@ -1,4 +1,4 @@
-﻿namespace Graphify.NavigatorContractGeneratorTests;
+﻿namespace Graphify.InspectorContractGeneratorTests;
 
 using Graphify.Snippets.Declarations;
 using Microsoft.CodeAnalysis.CSharp;
@@ -11,9 +11,9 @@ public sealed class WhenExecuted
     public async Task GivenAnAssemblyThenTheAttributeIsGenerated(ReferenceAssemblies assemblies, LanguageVersion language)
     {
         // Arrange
-        var test = new GeneratorTest<NavigatorContractGenerator>(assemblies, language);
+        var test = new GeneratorTest<InspectorContractGenerator>(assemblies, language);
 
-        Boilerplate.Navigator.IsExpectedIn(test.TestState);
+        Boilerplate.Inspector.IsExpectedIn(test.TestState);
 
         // Act
         Func<Task> act = () => test.RunAsync();
@@ -30,14 +30,14 @@ public sealed class WhenExecuted
         const string Declaration = """
             namespace Graphify
             {
-                public interface INavigator<in T>
+                public interface IInspector<in T, out TResult>
                     where T : class
                 {
                 }
             }
             """;
 
-        var test = new GeneratorTest<NavigatorContractGenerator>(assemblies, language);
+        var test = new GeneratorTest<InspectorContractGenerator>(assemblies, language);
 
         test.TestState.Sources.Add(Declaration);
 

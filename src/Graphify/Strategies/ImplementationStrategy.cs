@@ -17,6 +17,112 @@
         : IStrategy
     {
         private const int GraphNamespaceLength = 7;
+        private const string AsynchronousHelpersContent = """
+            private async global::System.Collections.Generic.IAsyncEnumerable<TResult> Concat<TResult>(
+                global::System.Collections.Generic.IAsyncEnumerable<TResult> first,
+                global::System.Collections.Generic.IAsyncEnumerable<TResult> second,
+                [global::System.Runtime.CompilerServices.EnumeratorCancellation] global::System.Threading.CancellationToken cancellationToken)
+            {
+                if (!global::System.Object.ReferenceEquals(first, null))
+                {
+                    var firstResults = global::System.Threading.Tasks.TaskAsyncEnumerableExtensions.WithCancellation(first, cancellationToken);
+
+                    await foreach (var result in firstResults)
+                    {
+                        yield return result;
+                    }
+                }
+
+                if (!global::System.Object.ReferenceEquals(second, null))
+                {
+                    var secondResults = global::System.Threading.Tasks.TaskAsyncEnumerableExtensions.WithCancellation(second, cancellationToken);
+
+                    await foreach (var result in secondResults)
+                    {
+                        yield return result;
+                    }
+                }
+            }
+
+            private async global::System.Collections.Generic.IAsyncEnumerable<TResult> Empty<TResult>()
+            {
+                yield break;
+            }
+
+            private bool HasObservers<TInstance, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>> observers)
+                where TInstance : class
+            {
+                observers = (global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>>)_provider.GetService(typeof(global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>>));
+
+                return !global::System.Object.ReferenceEquals(observers, null);
+            }
+
+            private global::System.Collections.Generic.IAsyncEnumerable<TResult> Invoke<TInstance, TResult>(
+                TInstance instance,
+                global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>> observers,
+                global::System.Threading.CancellationToken cancellationToken)
+                where TInstance : class
+            {
+                global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
+
+                foreach (global::Graphify.IVisitor<TInstance, TResult> observer in observers)
+                {
+                    results = Concat(results, observer.Observe(instance, cancellationToken), cancellationToken);
+                }
+
+                return results;
+            }
+            """;
+        private const string SynchronousHelpersContent = """
+            private static global::System.Collections.Generic.IEnumerable<TResult> Concat<TResult>(
+                global::System.Collections.Generic.IEnumerable<TResult> first,
+                global::System.Collections.Generic.IEnumerable<TResult> second)
+            {
+                if (!global::System.Object.ReferenceEquals(first, null))
+                {
+                    foreach (var result in first)
+                    {
+                        yield return result;
+                    }
+                }
+
+                if (!global::System.Object.ReferenceEquals(second, null))
+                {
+                    foreach (var result in second)
+                    {
+                        yield return result;
+                    }
+                }
+            }
+
+            private static global::System.Collections.Generic.IEnumerable<TResult> Empty<TResult>()
+            {
+                yield break;
+            }
+
+            private bool HasObservers<TInstance, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<TInstance, TResult>> observers)
+                where TInstance : class
+            {
+                observers = (global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<TInstance, TResult>>)_provider.GetService(typeof(global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<TInstance, TResult>>));
+
+                return !global::System.Object.ReferenceEquals(observers, null);
+            }
+
+            private static global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(
+                TInstance instance,
+                global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<TInstance, TResult>> observers)
+                where TInstance : class
+            {
+                global::System.Collections.Generic.IEnumerable<TResult> results = Empty<TResult>();
+
+                foreach (global::Graphify.IInspector<TInstance, TResult> observer in observers)
+                {
+                    results = Concat(results, observer.Observe(instance));
+                }
+
+                return results;
+            }
+            """;
 
         /// <summary>
         /// Generates a standardized navigator name for the specified subject.
@@ -151,6 +257,11 @@
                 element?.Type,
                 ToCamelCase(name));
 
+            if (subject.Mode == Mode.Synchronous)
+            {
+                code = ToSynchronous(code);
+            }
+
             string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
             code = string.Format(GenerateContentNest, accessibility, @class, subject.Name, code.Indent());
             string hint = next.Substring(subject.Name.Length + GraphNamespaceLength);
@@ -263,6 +374,12 @@
             string contract = ContractStrategy.GetName(subject.Name);
             string body = GenerateConcatenationsForSubject(subject.Properties, subject);
             string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
+            bool isSynchronous = subject.Mode == Mode.Synchronous;
+            string helpers = isSynchronous ? SynchronousHelpersContent : AsynchronousHelpersContent;
+            string enumerableType = isSynchronous ? "IEnumerable" : "IAsyncEnumerable";
+            string observerType = isSynchronous ? "IInspector" : "IVisitor";
+            string cancellationToken = isSynchronous ? string.Empty : ", global::System.Threading.CancellationToken cancellationToken";
+            string cancellationTokenUsage = isSynchronous ? string.Empty : ", cancellationToken";
 
             string code = string.Format(
                 GenerateNavigatorContent,
@@ -270,7 +387,17 @@
                 name,
                 contract,
                 subject.Name,
-                body.Indent(skip: 0, times: 2, trim: false));
+                body.Indent(skip: 0, times: 2, trim: false),
+                helpers.Indent(skip: 0, times: 1, trim: false),
+                enumerableType,
+                observerType,
+                cancellationToken,
+                cancellationTokenUsage);
+
+            if (isSynchronous)
+            {
+                code = ToSynchronous(code);
+            }
 
             return new Source(code, $"{GetName(subject.Name)}");
         }
@@ -367,6 +494,17 @@
 
             arguments = string.Concat(parameterName, ", ");
             parameters = string.Concat(@namespace, " ", parameterName, ", ");
+        }
+
+        private static string ToSynchronous(string code)
+        {
+            return code
+                .Replace("global::System.Collections.Generic.IAsyncEnumerable", "global::System.Collections.Generic.IEnumerable", StringComparison.Ordinal)
+                .Replace("global::Graphify.IVisitor", "global::Graphify.IInspector", StringComparison.Ordinal)
+                .Replace("Observe(instance, cancellationToken)", "Observe(instance)", StringComparison.Ordinal)
+                .Replace(", global::System.Threading.CancellationToken cancellationToken", string.Empty, StringComparison.Ordinal)
+                .Replace(", cancellationToken", string.Empty, StringComparison.Ordinal)
+                .Replace("IAsyncEnumerable<TResult>", "IEnumerable<TResult>", StringComparison.Ordinal);
         }
 
         private static string ToCamelCase(string name)

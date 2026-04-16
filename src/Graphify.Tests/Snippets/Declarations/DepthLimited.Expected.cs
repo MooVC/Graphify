@@ -53,8 +53,8 @@ internal static partial class DepthLimited
                     #endif
 
                     public partial interface IDepthLimitedNavigator
-                        : global::Graphify.INavigator<DepthLimited>
                     {
+                        global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(DepthLimited root, global::System.Threading.CancellationToken cancellationToken);
                         //// Additional methods can be added as partial elements
                     }
 
@@ -111,8 +111,7 @@ internal static partial class DepthLimited
                     #endif
 
                     public sealed partial class DepthLimitedNavigator
-                        : global::Graphify.Navigator<DepthLimited>,
-                          IDepthLimitedNavigator
+                        : IDepthLimitedNavigator
                     {
                         public DepthLimitedNavigator(global::System.IServiceProvider provider)
                             : base(provider)
@@ -160,9 +159,6 @@ internal static partial class DepthLimited
                             {
                                 throw new global::System.ArgumentNullException("services");
                             }
-
-                            _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Graphify.INavigator<DepthLimited>>(
-                                services, (global::System.IServiceProvider provider) => (global::Graphify.INavigator<DepthLimited>)provider.GetService(typeof(DepthLimitedNavigator)));
 
                             _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<IDepthLimitedNavigator>(
                                 services, (global::System.IServiceProvider provider) => (IDepthLimitedNavigator)provider.GetService(typeof(DepthLimitedNavigator)));

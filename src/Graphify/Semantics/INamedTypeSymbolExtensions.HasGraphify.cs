@@ -1,5 +1,6 @@
 ﻿namespace Graphify.Semantics
 {
+    using System;
     using Graphify.Model;
     using Microsoft.CodeAnalysis;
     using static Graphify.GraphifyAttributeGenerator;
@@ -16,10 +17,12 @@
         /// </summary>
         /// <param name="symbol">The symbol for the record to be checked for the presence of the Graphify attribute.</param>
         /// <param name="depth">The depth configured on the Graphify attribute, or the default value.</param>
+        /// <param name="mode">The mode configured on the Graphify attribute, or the default value.</param>
         /// <returns>True if the Graphify attribute is present on the <paramref name="symbol"/>, otherwise False.</returns>
-        public static bool HasGraphify(this INamedTypeSymbol symbol, out byte depth)
+        public static bool HasGraphify(this INamedTypeSymbol symbol, out byte depth, out Mode mode)
         {
             depth = DefaultDepth;
+            mode = Mode.Asynchronous;
 
             AttributeData attribute = symbol.GetAttribute(Name);
 
@@ -32,6 +35,8 @@
             {
                 depth = DefaultDepth;
             }
+
+            _ = TryGetMode(attribute, out mode);
 
             return true;
         }
@@ -51,6 +56,26 @@
             }
 
             depth = value;
+
+            return true;
+        }
+
+        private static bool TryGetMode(AttributeData attribute, out Mode mode)
+        {
+            mode = Mode.Asynchronous;
+
+            if (!attribute.TryGetArgumentText(nameof(Subject.Mode), out string argumentText))
+            {
+                return false;
+            }
+
+            argumentText = argumentText.Replace($"{GraphifyAttributeGenerator.Name}Attribute.", string.Empty);
+            argumentText = argumentText.Replace($"{GraphifyAttributeGenerator.Name}.", string.Empty);
+
+            if (!Enum.TryParse(argumentText, true, out mode))
+            {
+                return false;
+            }
 
             return true;
         }

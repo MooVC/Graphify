@@ -22,14 +22,14 @@ namespace Graphify {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class NavigatorContractGenerator_Resources {
+    internal class InspectorContractGenerator_Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal NavigatorContractGenerator_Resources() {
+        internal InspectorContractGenerator_Resources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Graphify {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.NavigatorContractGenerator.Resources", typeof(NavigatorContractGenerator_Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.InspectorContractGenerator.Resources", typeof(InspectorContractGenerator_Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -67,10 +67,10 @@ namespace Graphify {
         ///    using System.Threading;
         ///    using System.Threading.Tasks;
         ///
-        ///    public interface INavigator&lt;in T&gt;
+        ///    public interface IInspector&lt;in T, out TResult&gt;
         ///        where T : class
         ///    {{
-        ///        IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;(T root, CancellationToken cancellationToken);
+        ///         IEnumerable&lt;TResult&gt; Observe(T instance, CancellationToken cancellationToken);
         ///    }}
         ///}}.
         /// </summary>

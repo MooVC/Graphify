@@ -68,6 +68,14 @@
         public bool IsGlobal => string.IsNullOrEmpty(Namespace);
 
         /// <summary>
+        /// Gets or sets the generation mode for graph traversal.
+        /// </summary>
+        /// <value>
+        /// The generation mode for graph traversal.
+        /// </value>
+        public Mode Mode { get; set; } = Mode.Asynchronous;
+
+        /// <summary>
         /// Gets or sets the name of the subject.
         /// </summary>
         /// <value>

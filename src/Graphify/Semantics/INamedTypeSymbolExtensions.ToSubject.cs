@@ -18,6 +18,9 @@
         /// <param name="depth">
         /// The depth configured on the Graphify attribute.
         /// </param>
+        /// <param name="mode">
+        /// The generation mode configured on the Graphify attribute.
+        /// </param>
         /// <param name="nesting">
         /// The declaration syntax for the parents of the <paramref name="syntax"/>.
         /// </param>
@@ -30,7 +33,7 @@
         /// <remarks>
         /// If the declaration associated with the type cannot be determined, the method will return <see langword="null" />.
         /// </remarks>
-        public static Subject ToSubject(this INamedTypeSymbol subject, byte depth, in ImmutableArray<Nesting> nesting, bool hasRegistration)
+        public static Subject ToSubject(this INamedTypeSymbol subject, byte depth, Mode mode, in ImmutableArray<Nesting> nesting, bool hasRegistration)
         {
             string @namespace = subject.ContainingNamespace.IsGlobalNamespace
                ? string.Empty
@@ -51,6 +54,7 @@
                 Depth = depth,
                 HasContract = subject.HasContract(),
                 HasRegistration = subject.HasRegistration(),
+                Mode = mode,
                 Name = subject.Name,
                 Namespace = @namespace,
                 Nesting = nesting,

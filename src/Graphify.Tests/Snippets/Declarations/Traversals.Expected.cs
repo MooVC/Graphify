@@ -16,8 +16,8 @@ internal static partial class Traversals
                     #endif
 
                     public partial interface ITraversalsNavigator
-                        : global::Graphify.INavigator<Traversals>
                     {
+                        global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(Traversals root, global::System.Threading.CancellationToken cancellationToken);
                         //// Additional methods can be added as partial elements
                     }
 
@@ -40,8 +40,7 @@ internal static partial class Traversals
                     #endif
 
                     public sealed partial class TraversalsNavigator
-                        : global::Graphify.Navigator<Traversals>,
-                          ITraversalsNavigator
+                        : ITraversalsNavigator
                     {
                         public TraversalsNavigator(global::System.IServiceProvider provider)
                             : base(provider)
@@ -805,9 +804,6 @@ internal static partial class Traversals
                             {
                                 throw new global::System.ArgumentNullException("services");
                             }
-
-                            _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Graphify.INavigator<Traversals>>(
-                                services, (global::System.IServiceProvider provider) => (global::Graphify.INavigator<Traversals>)provider.GetService(typeof(TraversalsNavigator)));
 
                             _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<ITraversalsNavigator>(
                                 services, (global::System.IServiceProvider provider) => (ITraversalsNavigator)provider.GetService(typeof(TraversalsNavigator)));

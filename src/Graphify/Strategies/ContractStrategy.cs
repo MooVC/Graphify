@@ -37,7 +37,10 @@
 
             string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
             string name = GetName(subject.Name);
-            string content = string.Format(GenerateContent, accessibility, name, subject.Name);
+            bool isSynchronous = subject.Mode == Mode.Synchronous;
+            string returnType = isSynchronous ? "IEnumerable" : "IAsyncEnumerable";
+            string parameters = isSynchronous ? string.Empty : ", global::System.Threading.CancellationToken cancellationToken";
+            string content = string.Format(GenerateContent, accessibility, name, subject.Name, returnType, parameters);
 
             yield return new Source(content, name);
         }

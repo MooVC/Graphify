@@ -66,10 +66,19 @@ internal static class Program
         _ = ReadLine();
     }
 
-    private static async Task Enumerate<T>(T instance, IServiceProvider provider)
-        where T : class
+    private static async Task Enumerate(Simple.Simple instance, IServiceProvider provider)
     {
-        INavigator<T> navigator = provider.GetRequiredService<INavigator<T>>();
+        ISimpleNavigator navigator = provider.GetRequiredService<ISimpleNavigator>();
+
+        await foreach (string item in navigator.Navigate<string>(instance, CancellationToken.None))
+        {
+            WriteLine(item);
+        }
+    }
+
+    private static async Task Enumerate(Complex.Complex instance, IServiceProvider provider)
+    {
+        IComplexNavigator navigator = provider.GetRequiredService<IComplexNavigator>();
 
         await foreach (string item in navigator.Navigate<string>(instance, CancellationToken.None))
         {

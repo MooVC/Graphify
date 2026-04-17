@@ -141,7 +141,7 @@
         }}
 
         internal static global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Invoke&lt;TInstance, TResult&gt;(
-            TInstance instance,
+            this TInstance instance,
             global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;TInstance, TResult&gt;&gt; observers,
             global::System.Threading.CancellationToken cancellationToken)
             where TInstance : class

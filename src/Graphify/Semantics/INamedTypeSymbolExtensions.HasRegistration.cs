@@ -27,7 +27,7 @@
         /// </remarks>
         public static bool HasRegistration(this INamedTypeSymbol symbol)
         {
-            string name = NavigatorStrategy.GetName(symbol.Name);
+            string name = $"{symbol.Name}Navigator";
             ImmutableArray<INamedTypeSymbol> types = symbol.ContainingNamespace.GetTypeMembers(ExtensionClassName);
 
             name = $"Add{name}";

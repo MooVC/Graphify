@@ -42,7 +42,7 @@
                 yield break;
             }
 
-            string name = NavigatorStrategy.GetName(subject.Name);
+            string name = $"{subject.Name}Navigator";
             string @namespace = string.Concat(subject.Qualification, ".Graph");
 
             yield return GenerateNavigator(name, subject);
@@ -187,7 +187,7 @@
                 string.Empty,
                 string.Empty);
 
-            return new Source(code, NavigatorStrategy.GetName(subject.Name));
+            return new Source(code, $"{subject.Name}Navigator");
         }
 
         private static string GenerateConcatenations(Element element, string method, in ImmutableArray<Property> properties, string variable, Subject subject, string template, int tier)

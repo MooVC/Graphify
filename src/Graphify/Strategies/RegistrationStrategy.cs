@@ -23,7 +23,7 @@
             }
 
             string contract = ContractStrategy.GetName(subject.Name);
-            string implementation = NavigatorStrategy.GetName(subject.Name);
+            string implementation = $"{subject.Name}Navigator";
             string content = string.Format(GenerateContent, implementation, contract, subject.Name);
             string hint = $"ServiceCollectionExtensions.Add{implementation}";
 

@@ -387,12 +387,47 @@ internal static partial class Complex
                     public sealed partial class ComplexNavigator
                         : IComplexNavigator
                     {
+                        private readonly global::System.IServiceProvider _provider;
+
                         public ComplexNavigator(global::System.IServiceProvider provider)
-                            : base(provider)
                         {
+                            if (global::System.Object.ReferenceEquals(provider, null))
+                            {
+                                throw new global::System.ArgumentNullException("provider");
+                            }
+
+                            _provider = provider;
                         }
 
-                        public override IAsyncEnumerable<TResult> Navigate<TResult>(Complex root, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> Concat<TResult>(
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> first,
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> second,
+                            global::System.Threading.CancellationToken cancellationToken)
+                        {
+                            return global::Graphify.NavigatorExtensions.Concat(first, second, cancellationToken);
+                        }
+
+                        private static global::System.Collections.Generic.IAsyncEnumerable<TResult> Empty<TResult>()
+                        {
+                            return global::Graphify.NavigatorExtensions.Empty<TResult>();
+                        }
+
+                        private bool HasObservers<TInstance, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>> observers)
+                            where TInstance : class
+                        {
+                            return global::Graphify.NavigatorExtensions.HasObservers<TInstance, TResult>(_provider, out observers);
+                        }
+
+                        private static global::System.Collections.Generic.IAsyncEnumerable<TResult> Invoke<TInstance, TResult>(
+                            TInstance instance,
+                            global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>> observers,
+                            global::System.Threading.CancellationToken cancellationToken)
+                            where TInstance : class
+                        {
+                            return global::Graphify.NavigatorExtensions.Invoke(instance, observers, cancellationToken);
+                        }
+
+                        public global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(Complex root, global::System.Threading.CancellationToken cancellationToken)
                         {
                             var results = Empty<TResult>();
 

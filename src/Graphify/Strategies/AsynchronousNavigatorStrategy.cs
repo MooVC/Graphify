@@ -265,11 +265,11 @@
         private static string Transform(string code)
         {
             return code
-                .Replace("Empty<TResult>()", "global::Graphify.NavigatorExtensions.Empty<TResult>()", StringComparison.Ordinal)
-                .Replace("if (HasObservers<", "if (global::Graphify.NavigatorExtensions.HasObservers<", StringComparison.Ordinal)
-                .Replace("(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<", "(_provider, out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<", StringComparison.Ordinal)
-                .Replace("results = Concat(", "results = global::Graphify.NavigatorExtensions.Concat(", StringComparison.Ordinal)
-                .Replace("results = Invoke<", "results = global::Graphify.NavigatorExtensions.Invoke<", StringComparison.Ordinal);
+                .Replace("Empty<TResult>()", "global::Graphify.NavigatorExtensions.Empty<TResult>()")
+                .Replace("if (HasObservers<", "if (global::Graphify.NavigatorExtensions.HasObservers<")
+                .Replace("(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<", "(_provider, out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<")
+                .Replace("results = Concat(", "results = global::Graphify.NavigatorExtensions.Concat(")
+                .Replace("results = Invoke<", "results = global::Graphify.NavigatorExtensions.Invoke<");
         }
     }
 }

@@ -17,112 +17,138 @@
         : IStrategy
     {
         private const int GraphNamespaceLength = 7;
-        private const string AsynchronousHelpersContent = """
-            private async global::System.Collections.Generic.IAsyncEnumerable<TResult> Concat<TResult>(
-                global::System.Collections.Generic.IAsyncEnumerable<TResult> first,
-                global::System.Collections.Generic.IAsyncEnumerable<TResult> second,
-                [global::System.Runtime.CompilerServices.EnumeratorCancellation] global::System.Threading.CancellationToken cancellationToken)
-            {
-                if (!global::System.Object.ReferenceEquals(first, null))
-                {
-                    var firstResults = global::System.Threading.Tasks.TaskAsyncEnumerableExtensions.WithCancellation(first, cancellationToken);
+        private static readonly IImplementationModeStrategy _asynchronous = new AsynchronousModeStrategy();
+        private static readonly IImplementationModeStrategy _synchronous = new SynchronousModeStrategy();
 
-                    await foreach (var result in firstResults)
+        private interface IImplementationModeStrategy
+        {
+            string CancellationTokenParameter { get; }
+
+            string CancellationTokenUsage { get; }
+
+            string EnumerableType { get; }
+
+            string Helpers { get; }
+
+            string ObserverType { get; }
+
+            IEnumerable<Source> Additional(Subject subject);
+
+            string Transform(string code);
+        }
+
+        private sealed class AsynchronousModeStrategy
+            : IImplementationModeStrategy
+        {
+            private const string AsynchronousHelpersContent = """
+                private global::System.Collections.Generic.IAsyncEnumerable<TResult> Concat<TResult>(
+                    global::System.Collections.Generic.IAsyncEnumerable<TResult> first,
+                    global::System.Collections.Generic.IAsyncEnumerable<TResult> second,
+                    global::System.Threading.CancellationToken cancellationToken)
+                {
+                    return first.Concat(second, cancellationToken);
+                }
+
+                private async global::System.Collections.Generic.IAsyncEnumerable<TResult> Empty<TResult>()
+                {
+                    yield break;
+                }
+
+                private bool HasObservers<TInstance, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>> observers)
+                    where TInstance : class
+                {
+                    observers = (global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>>)_provider.GetService(typeof(global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>>));
+
+                    return !global::System.Object.ReferenceEquals(observers, null);
+                }
+
+                private global::System.Collections.Generic.IAsyncEnumerable<TResult> Invoke<TInstance, TResult>(
+                    TInstance instance,
+                    global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>> observers,
+                    global::System.Threading.CancellationToken cancellationToken)
+                    where TInstance : class
+                {
+                    global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
+
+                    foreach (global::Graphify.IVisitor<TInstance, TResult> observer in observers)
                     {
-                        yield return result;
+                        results = Concat(results, observer.Observe(instance, cancellationToken), cancellationToken);
                     }
-                }
 
-                if (!global::System.Object.ReferenceEquals(second, null))
+                    return results;
+                }
+                """;
+
+            public string CancellationTokenParameter => ", global::System.Threading.CancellationToken cancellationToken";
+
+            public string CancellationTokenUsage => ", cancellationToken";
+
+            public string EnumerableType => "IAsyncEnumerable";
+
+            public string Helpers => AsynchronousHelpersContent;
+
+            public string ObserverType => "IVisitor";
+
+            public IEnumerable<Source> Additional(Subject subject)
+            {
+                return new AsynchronousNavigatorExtensionsStrategy().Generate(subject);
+            }
+
+            public string Transform(string code)
+            {
+                return code;
+            }
+        }
+
+        private sealed class SynchronousModeStrategy
+            : IImplementationModeStrategy
+        {
+            private const string SynchronousHelpersContent = """
+                private bool HasObservers<TInstance, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<TInstance, TResult>> observers)
+                    where TInstance : class
                 {
-                    var secondResults = global::System.Threading.Tasks.TaskAsyncEnumerableExtensions.WithCancellation(second, cancellationToken);
+                    observers = (global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<TInstance, TResult>>)_provider.GetService(typeof(global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<TInstance, TResult>>));
 
-                    await foreach (var result in secondResults)
-                    {
-                        yield return result;
-                    }
+                    return !global::System.Object.ReferenceEquals(observers, null);
                 }
-            }
 
-            private async global::System.Collections.Generic.IAsyncEnumerable<TResult> Empty<TResult>()
-            {
-                yield break;
-            }
-
-            private bool HasObservers<TInstance, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>> observers)
-                where TInstance : class
-            {
-                observers = (global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>>)_provider.GetService(typeof(global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>>));
-
-                return !global::System.Object.ReferenceEquals(observers, null);
-            }
-
-            private global::System.Collections.Generic.IAsyncEnumerable<TResult> Invoke<TInstance, TResult>(
-                TInstance instance,
-                global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>> observers,
-                global::System.Threading.CancellationToken cancellationToken)
-                where TInstance : class
-            {
-                global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
-
-                foreach (global::Graphify.IVisitor<TInstance, TResult> observer in observers)
+                private static global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(
+                    TInstance instance,
+                    global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<TInstance, TResult>> observers)
+                    where TInstance : class
                 {
-                    results = Concat(results, observer.Observe(instance, cancellationToken), cancellationToken);
+                    return observers.SelectMany(observer => observer.Observe(instance));
                 }
+                """;
 
-                return results;
-            }
-            """;
-        private const string SynchronousHelpersContent = """
-            private static global::System.Collections.Generic.IEnumerable<TResult> Concat<TResult>(
-                global::System.Collections.Generic.IEnumerable<TResult> first,
-                global::System.Collections.Generic.IEnumerable<TResult> second)
+            public string CancellationTokenParameter => string.Empty;
+
+            public string CancellationTokenUsage => string.Empty;
+
+            public string EnumerableType => "IEnumerable";
+
+            public string Helpers => SynchronousHelpersContent;
+
+            public string ObserverType => "IInspector";
+
+            public IEnumerable<Source> Additional(Subject subject)
             {
-                if (!global::System.Object.ReferenceEquals(first, null))
-                {
-                    foreach (var result in first)
-                    {
-                        yield return result;
-                    }
-                }
-
-                if (!global::System.Object.ReferenceEquals(second, null))
-                {
-                    foreach (var result in second)
-                    {
-                        yield return result;
-                    }
-                }
+                return Enumerable.Empty<Source>();
             }
 
-            private static global::System.Collections.Generic.IEnumerable<TResult> Empty<TResult>()
+            public string Transform(string code)
             {
-                yield break;
+                return code
+                    .Replace("global::System.Collections.Generic.IAsyncEnumerable", "global::System.Collections.Generic.IEnumerable", StringComparison.Ordinal)
+                    .Replace("global::Graphify.IVisitor", "global::Graphify.IInspector", StringComparison.Ordinal)
+                    .Replace("Observe(instance, cancellationToken)", "Observe(instance)", StringComparison.Ordinal)
+                    .Replace(", global::System.Threading.CancellationToken cancellationToken", string.Empty, StringComparison.Ordinal)
+                    .Replace(", cancellationToken", string.Empty, StringComparison.Ordinal)
+                    .Replace("Empty<TResult>()", "global::System.Linq.Enumerable.Empty<TResult>()", StringComparison.Ordinal)
+                    .Replace("Concat(results, ", "global::System.Linq.Enumerable.Concat(results, ", StringComparison.Ordinal)
+                    .Replace(", cancellationToken)", ")", StringComparison.Ordinal);
             }
-
-            private bool HasObservers<TInstance, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<TInstance, TResult>> observers)
-                where TInstance : class
-            {
-                observers = (global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<TInstance, TResult>>)_provider.GetService(typeof(global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<TInstance, TResult>>));
-
-                return !global::System.Object.ReferenceEquals(observers, null);
-            }
-
-            private static global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(
-                TInstance instance,
-                global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<TInstance, TResult>> observers)
-                where TInstance : class
-            {
-                global::System.Collections.Generic.IEnumerable<TResult> results = Empty<TResult>();
-
-                foreach (global::Graphify.IInspector<TInstance, TResult> observer in observers)
-                {
-                    results = Concat(results, observer.Observe(instance));
-                }
-
-                return results;
-            }
-            """;
+        }
 
         /// <summary>
         /// Generates a standardized navigator name for the specified subject.
@@ -143,16 +169,25 @@
         /// </returns>
         public IEnumerable<Source> Generate(Subject subject)
         {
+            IImplementationModeStrategy mode = subject.Mode == Mode.Synchronous
+                ? _synchronous
+                : _asynchronous;
+
             string name = GetName(subject.Name);
             string @namespace = string.Concat(subject.Qualification, ".Graph");
 
-            yield return GenerateNavigator(name, subject);
+            yield return GenerateNavigator(name, subject, mode);
 
-            IEnumerable<Source> contents = GenerateContent(name, @namespace, string.Empty, Array.Empty<Predecessor>(), subject.Properties, subject, 0);
+            IEnumerable<Source> contents = GenerateContent(name, @namespace, string.Empty, Array.Empty<Predecessor>(), subject.Properties, subject, mode, 0);
 
             foreach (Source content in contents)
             {
                 yield return content;
+            }
+
+            foreach (Source source in mode.Additional(subject))
+            {
+                yield return source;
             }
         }
 
@@ -178,6 +213,7 @@
             Predecessor[] preceding,
             ImmutableArray<Property> properties,
             Subject subject,
+            IImplementationModeStrategy mode,
             int tier)
         {
             tier++;
@@ -201,6 +237,7 @@
                     parameters,
                     property,
                     subject,
+                    mode,
                     tier,
                     out string next);
 
@@ -216,10 +253,11 @@
                         preceding,
                         property,
                         subject,
+                        mode,
                         tier);
                 }
 
-                succeeding = succeeding.Concat(GenerateContentsForProperty(@class, next, moniker, preceding, property, subject, tier));
+                succeeding = succeeding.Concat(GenerateContentsForProperty(@class, next, moniker, preceding, property, subject, mode, tier));
 
                 foreach (Source source in succeeding)
                 {
@@ -238,6 +276,7 @@
             string method,
             string parameters,
             Subject subject,
+            IImplementationModeStrategy mode,
             string template,
             string type,
             out string next)
@@ -257,10 +296,7 @@
                 element?.Type,
                 ToCamelCase(name));
 
-            if (subject.Mode == Mode.Synchronous)
-            {
-                code = ToSynchronous(code);
-            }
+            code = mode.Transform(code);
 
             string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
             code = string.Format(GenerateContentNest, accessibility, @class, subject.Name, code.Indent());
@@ -277,6 +313,7 @@
             Predecessor[] preceding,
             Property property,
             Subject subject,
+            IImplementationModeStrategy mode,
             int tier)
         {
             Predecessor[] pool = default;
@@ -300,11 +337,12 @@
                     moniker,
                     parameters,
                     subject,
+                    mode,
                     GenerateContentForElementContent,
                     property.Type,
                     out string next);
 
-                foreach (Source source in GenerateContent(@class, next, moniker, pool, element.Properties, subject, tier))
+                foreach (Source source in GenerateContent(@class, next, moniker, pool, element.Properties, subject, mode, tier))
                 {
                     yield return source;
                 }
@@ -323,6 +361,7 @@
             string parameters,
             Property property,
             Subject subject,
+            IImplementationModeStrategy mode,
             int tier,
             out string next)
         {
@@ -338,6 +377,7 @@
                 method,
                 parameters,
                 subject,
+                mode,
                 GenerateContentForPropertyContent,
                 property.Type,
                 out next);
@@ -350,6 +390,7 @@
             Predecessor[] preceding,
             Property property,
             Subject subject,
+            IImplementationModeStrategy mode,
             int tier)
         {
             Predecessor[] pool = default;
@@ -358,7 +399,7 @@
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property));
 
-                foreach (Source succeeding in GenerateContent(@class, @namespace, method, pool, property.Properties, subject, tier))
+                foreach (Source succeeding in GenerateContent(@class, @namespace, method, pool, property.Properties, subject, mode, tier))
                 {
                     yield return succeeding;
                 }
@@ -369,17 +410,11 @@
             }
         }
 
-        private static Source GenerateNavigator(string name, Subject subject)
+        private static Source GenerateNavigator(string name, Subject subject, IImplementationModeStrategy mode)
         {
             string contract = ContractStrategy.GetName(subject.Name);
             string body = GenerateConcatenationsForSubject(subject.Properties, subject);
             string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
-            bool isSynchronous = subject.Mode == Mode.Synchronous;
-            string helpers = isSynchronous ? SynchronousHelpersContent : AsynchronousHelpersContent;
-            string enumerableType = isSynchronous ? "IEnumerable" : "IAsyncEnumerable";
-            string observerType = isSynchronous ? "IInspector" : "IVisitor";
-            string cancellationToken = isSynchronous ? string.Empty : ", global::System.Threading.CancellationToken cancellationToken";
-            string cancellationTokenUsage = isSynchronous ? string.Empty : ", cancellationToken";
 
             string code = string.Format(
                 GenerateNavigatorContent,
@@ -388,16 +423,13 @@
                 contract,
                 subject.Name,
                 body.Indent(skip: 0, times: 2, trim: false),
-                helpers.Indent(skip: 0, times: 1, trim: false),
-                enumerableType,
-                observerType,
-                cancellationToken,
-                cancellationTokenUsage);
+                mode.Helpers.Indent(skip: 0, times: 1, trim: false),
+                mode.EnumerableType,
+                mode.ObserverType,
+                mode.CancellationTokenParameter,
+                mode.CancellationTokenUsage);
 
-            if (isSynchronous)
-            {
-                code = ToSynchronous(code);
-            }
+            code = mode.Transform(code);
 
             return new Source(code, $"{GetName(subject.Name)}");
         }
@@ -494,17 +526,6 @@
 
             arguments = string.Concat(parameterName, ", ");
             parameters = string.Concat(@namespace, " ", parameterName, ", ");
-        }
-
-        private static string ToSynchronous(string code)
-        {
-            return code
-                .Replace("global::System.Collections.Generic.IAsyncEnumerable", "global::System.Collections.Generic.IEnumerable", StringComparison.Ordinal)
-                .Replace("global::Graphify.IVisitor", "global::Graphify.IInspector", StringComparison.Ordinal)
-                .Replace("Observe(instance, cancellationToken)", "Observe(instance)", StringComparison.Ordinal)
-                .Replace(", global::System.Threading.CancellationToken cancellationToken", string.Empty, StringComparison.Ordinal)
-                .Replace(", cancellationToken", string.Empty, StringComparison.Ordinal)
-                .Replace("IAsyncEnumerable<TResult>", "IEnumerable<TResult>", StringComparison.Ordinal);
         }
 
         private static string ToCamelCase(string name)

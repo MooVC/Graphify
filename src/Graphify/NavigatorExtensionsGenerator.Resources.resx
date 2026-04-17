@@ -120,8 +120,42 @@
   <data name="Content" xml:space="preserve">
     <value>namespace Graphify
 {{
+    using System;
+    using System.Collections.Generic;
+
     internal static partial class NavigatorExtensions
     {{
+        internal static global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Empty&lt;TResult&gt;()
+        {{
+            return EmptyInternal&lt;TResult&gt;();
+        }}
+
+        internal static bool HasObservers&lt;TInstance, TResult&gt;(
+            this global::System.IServiceProvider provider,
+            out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;TInstance, TResult&gt;&gt; observers)
+            where TInstance : class
+        {{
+            observers = (global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;TInstance, TResult&gt;&gt;)provider.GetService(typeof(global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;TInstance, TResult&gt;&gt;));
+
+            return !global::System.Object.ReferenceEquals(observers, null);
+        }}
+
+        internal static global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Invoke&lt;TInstance, TResult&gt;(
+            TInstance instance,
+            global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;TInstance, TResult&gt;&gt; observers,
+            global::System.Threading.CancellationToken cancellationToken)
+            where TInstance : class
+        {{
+            global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
+
+            foreach (global::Graphify.IVisitor&lt;TInstance, TResult&gt; observer in observers)
+            {{
+                results = Concat(results, observer.Observe(instance, cancellationToken), cancellationToken);
+            }}
+
+            return results;
+        }}
+
         internal static async global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Concat&lt;TResult&gt;(
             this global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; first,
             global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; second,
@@ -146,6 +180,11 @@
                     yield return result;
                 }}
             }}
+        }}
+
+        private static async global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; EmptyInternal&lt;TResult&gt;()
+        {{
+            yield break;
         }}
     }}
 }}</value>

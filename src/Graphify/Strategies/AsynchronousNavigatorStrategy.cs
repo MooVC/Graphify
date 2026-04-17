@@ -17,44 +17,6 @@
         : IStrategy
     {
         private const int GraphNamespaceLength = 7;
-        private const string HelpersContent = """
-            private global::System.Collections.Generic.IAsyncEnumerable<TResult> Concat<TResult>(
-                global::System.Collections.Generic.IAsyncEnumerable<TResult> first,
-                global::System.Collections.Generic.IAsyncEnumerable<TResult> second,
-                global::System.Threading.CancellationToken cancellationToken)
-            {
-                return global::Graphify.NavigatorExtensions.Concat(first, second, cancellationToken);
-            }
-
-            private async global::System.Collections.Generic.IAsyncEnumerable<TResult> Empty<TResult>()
-            {
-                yield break;
-            }
-
-            private bool HasObservers<TInstance, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>> observers)
-                where TInstance : class
-            {
-                observers = (global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>>)_provider.GetService(typeof(global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>>));
-
-                return !global::System.Object.ReferenceEquals(observers, null);
-            }
-
-            private global::System.Collections.Generic.IAsyncEnumerable<TResult> Invoke<TInstance, TResult>(
-                TInstance instance,
-                global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<TInstance, TResult>> observers,
-                global::System.Threading.CancellationToken cancellationToken)
-                where TInstance : class
-            {
-                global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
-
-                foreach (global::Graphify.IVisitor<TInstance, TResult> observer in observers)
-                {
-                    results = Concat(results, observer.Observe(instance, cancellationToken), cancellationToken);
-                }
-
-                return results;
-            }
-            """;
 
         /// <inheritdoc/>
         public IEnumerable<Source> Generate(Subject subject)
@@ -211,11 +173,13 @@
                 contract,
                 subject.Name,
                 body.Indent(skip: 0, times: 2, trim: false),
-                HelpersContent.Indent(skip: 0, times: 1, trim: false),
+                string.Empty,
                 "IAsyncEnumerable",
                 "IVisitor",
                 ", global::System.Threading.CancellationToken cancellationToken",
                 ", cancellationToken");
+
+            code = Transform(code);
 
             return new Source(code, NavigatorStrategy.GetName(subject.Name));
         }
@@ -296,6 +260,16 @@
             }
 
             return string.Concat(char.ToLowerInvariant(name[0]), name.Substring(1));
+        }
+
+        private static string Transform(string code)
+        {
+            return code
+                .Replace("Empty<TResult>()", "global::Graphify.NavigatorExtensions.Empty<TResult>()", StringComparison.Ordinal)
+                .Replace("if (HasObservers<", "if (global::Graphify.NavigatorExtensions.HasObservers<", StringComparison.Ordinal)
+                .Replace("(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<", "(_provider, out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<", StringComparison.Ordinal)
+                .Replace("results = Concat(", "results = global::Graphify.NavigatorExtensions.Concat(", StringComparison.Ordinal)
+                .Replace("results = Invoke<", "results = global::Graphify.NavigatorExtensions.Invoke<", StringComparison.Ordinal);
         }
     }
 }

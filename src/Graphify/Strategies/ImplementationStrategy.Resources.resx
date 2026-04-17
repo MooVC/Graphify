@@ -201,4 +201,52 @@
   <data name="GenerateConcatenationsForPropertyElement" xml:space="preserve">
     <value>results = Concat(results, Navigate{0}&lt;TResult&gt;({1}root, value, cancellationToken), cancellationToken);</value>
   </data>
+
+  <data name="GenerateContentForPropertyContentSynchronous" xml:space="preserve">
+    <value>private global::System.Collections.Generic.IEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({1}{0} root, {2} value)
+{{
+    global::System.Collections.Generic.IEnumerable&lt;TResult&gt; results = global::System.Linq.Enumerable.Empty&lt;TResult&gt;();
+    var {9} = new {3}({4}root, value);
+
+    if (HasObservers(out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IInspector&lt;{3}, TResult&gt;&gt; observers))
+    {{
+        results = global::System.Linq.Enumerable.Concat(results, Invoke&lt;{3}, TResult&gt;({9}, observers));
+    }}
+{5}
+    return results;
+}}</value>
+  </data>
+  <data name="GenerateContentForElementContentSynchronous" xml:space="preserve">
+    <value>private global::System.Collections.Generic.IEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({1}{0} root, {2} value)
+{{
+    global::System.Collections.Generic.IEnumerable&lt;TResult&gt; results = global::System.Linq.Enumerable.Empty&lt;TResult&gt;();
+
+    _ = HasObservers(out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IInspector&lt;{3}, TResult&gt;&gt; observers);
+
+    int index = 0;
+
+    foreach ({8} element in value)
+    {{
+        var {9} = new {3}({4}index, root, element);
+
+        results = global::System.Linq.Enumerable.Concat(results, Invoke&lt;{3}, TResult&gt;({9}, observers));
+{5}
+        index++;
+    }}
+
+    return results;
+}}</value>
+  </data>
+  <data name="GenerateConcatenationsForElementContentSynchronous" xml:space="preserve">
+    <value>results = global::System.Linq.Enumerable.Concat(results, Navigate{0}&lt;TResult&gt;({1}root, element.{2}));</value>
+  </data>
+  <data name="GenerateConcatenationsForPropertyContentSynchronous" xml:space="preserve">
+    <value>results = global::System.Linq.Enumerable.Concat(results, Navigate{0}&lt;TResult&gt;({1}root, value.{2}));</value>
+  </data>
+  <data name="GenerateConcatenationsForSubjectContentSynchronous" xml:space="preserve">
+    <value>results = global::System.Linq.Enumerable.Concat(results, Navigate{0}&lt;TResult&gt;(root, root.{2}));</value>
+  </data>
+  <data name="GenerateConcatenationsForPropertyElementContentSynchronous" xml:space="preserve">
+    <value>results = global::System.Linq.Enumerable.Concat(results, Navigate{0}&lt;TResult&gt;({1}root, value));</value>
+  </data>
 </root>

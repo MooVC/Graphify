@@ -1,9 +1,9 @@
 ﻿namespace Graphify.Model
 {
     /// <summary>
-    /// Defines the generation mode for navigator contracts and implementations.
+    /// Defines the generation modes for navigator contracts and implementations.
     /// </summary>
-    internal enum Mode
+    internal enum Modes
     {
         /// <summary>
         /// Generates synchronous navigation using <see cref="System.Collections.Generic.IEnumerable{T}" /> and inspectors.

@@ -117,10 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GenerateContent" xml:space="preserve">
-    <value>{0} partial interface {1}
+  <data name="Content" xml:space="preserve">
+    <value>namespace Graphify
 {{
-    global::System.Collections.Generic.{3}&lt;TResult&gt; Navigate&lt;TResult&gt;({2} root{4});
+    internal static partial class NavigatorExtensions
+    {{
+        internal static async global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Concat&lt;TResult&gt;(
+            this global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; first,
+            global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; second,
+            [global::System.Runtime.CompilerServices.EnumeratorCancellation] global::System.Threading.CancellationToken cancellationToken)
+        {{
+            if (!global::System.Object.ReferenceEquals(first, null))
+            {{
+                var firstResults = global::System.Threading.Tasks.TaskAsyncEnumerableExtensions.WithCancellation(first, cancellationToken);
+
+                await foreach (var result in firstResults)
+                {{
+                    yield return result;
+                }}
+            }}
+
+            if (!global::System.Object.ReferenceEquals(second, null))
+            {{
+                var secondResults = global::System.Threading.Tasks.TaskAsyncEnumerableExtensions.WithCancellation(second, cancellationToken);
+
+                await foreach (var result in secondResults)
+                {{
+                    yield return result;
+                }}
+            }}
+        }}
+    }}
 }}</value>
   </data>
 </root>

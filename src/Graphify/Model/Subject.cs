@@ -73,7 +73,7 @@
         /// <value>
         /// The generation mode for graph traversal.
         /// </value>
-        public Mode Mode { get; set; } = Mode.Asynchronous;
+        public Modes Mode { get; set; } = Modes.Asynchronous;
 
         /// <summary>
         /// Gets or sets the name of the subject.

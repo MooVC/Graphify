@@ -19,10 +19,10 @@
         /// <param name="depth">The depth configured on the Graphify attribute, or the default value.</param>
         /// <param name="mode">The mode configured on the Graphify attribute, or the default value.</param>
         /// <returns>True if the Graphify attribute is present on the <paramref name="symbol"/>, otherwise False.</returns>
-        public static bool HasGraphify(this INamedTypeSymbol symbol, out byte depth, out Mode mode)
+        public static bool HasGraphify(this INamedTypeSymbol symbol, out byte depth, out Modes mode)
         {
             depth = DefaultDepth;
-            mode = Mode.Asynchronous;
+            mode = Modes.Asynchronous;
 
             AttributeData attribute = symbol.GetAttribute(Name);
 
@@ -60,9 +60,9 @@
             return true;
         }
 
-        private static bool TryGetMode(AttributeData attribute, out Mode mode)
+        private static bool TryGetMode(AttributeData attribute, out Modes mode)
         {
-            mode = Mode.Asynchronous;
+            mode = Modes.Asynchronous;
 
             if (!attribute.TryGetArgumentText(nameof(Subject.Mode), out string argumentText))
             {
@@ -71,6 +71,9 @@
 
             argumentText = argumentText.Replace($"{GraphifyAttributeGenerator.Name}Attribute.", string.Empty);
             argumentText = argumentText.Replace($"{GraphifyAttributeGenerator.Name}.", string.Empty);
+            argumentText = argumentText.Replace("global::Graphify.", string.Empty);
+            argumentText = argumentText.Replace("Graphify.", string.Empty);
+            argumentText = argumentText.Replace($"{nameof(Modes)}.", string.Empty);
 
             if (!Enum.TryParse(argumentText, true, out mode))
             {

@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using Graphify.Model;
-    using static Graphify.Strategies.ContractStrategy_Resources;
 
     /// <summary>
     /// Provides a strategy for generating navigator interface.
@@ -10,6 +9,9 @@
     internal sealed class ContractStrategy
         : IStrategy
     {
+        private static readonly IStrategy _asynchronous = new AsynchronousContractStrategy();
+        private static readonly IStrategy _synchronous = new SynchronousContractStrategy();
+
         /// <summary>
         /// Generates a standardized navigator interface name for the specified subject.
         /// </summary>
@@ -20,29 +22,14 @@
             return $"I{subject}Navigator";
         }
 
-        /// <summary>
-        /// Generates source representations for the specified subject if it does not have an associated contract.
-        /// </summary>
-        /// <param name="subject">The subject for which to generate source representations. Must not be <see langword="null"/>.</param>
-        /// <returns>
-        /// An enumerable collection containing a single source representation if the subject does not have a contract;
-        /// otherwise, an empty collection.
-        /// </returns>
+        /// <inheritdoc/>
         public IEnumerable<Source> Generate(Subject subject)
         {
-            if (subject.HasContract)
-            {
-                yield break;
-            }
+            IStrategy strategy = subject.Mode == Modes.Synchronous
+                ? _synchronous
+                : _asynchronous;
 
-            string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
-            string name = GetName(subject.Name);
-            bool isSynchronous = subject.Mode == Mode.Synchronous;
-            string returnType = isSynchronous ? "IEnumerable" : "IAsyncEnumerable";
-            string parameters = isSynchronous ? string.Empty : ", global::System.Threading.CancellationToken cancellationToken";
-            string content = string.Format(GenerateContent, accessibility, name, subject.Name, returnType, parameters);
-
-            yield return new Source(content, name);
+            return strategy.Generate(subject);
         }
     }
 }

@@ -283,7 +283,6 @@ internal static partial class Complex
                     public partial interface IComplexNavigator
                     {
                         global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(Complex root, global::System.Threading.CancellationToken cancellationToken);
-                        //// Additional methods can be added as partial elements
                     }
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER

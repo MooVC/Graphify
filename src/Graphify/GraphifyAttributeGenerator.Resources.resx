@@ -123,16 +123,16 @@
     using System;
     using System.Diagnostics.CodeAnalysis;
 
+    public enum Modes
+    {{
+        Synchronous,
+        Asynchronous,
+    }}
+
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false, AllowMultiple = false)]
     public sealed class {0}Attribute
         : Attribute
     {{
-        public enum Modes
-        {{
-            Synchronous,
-            Asynchronous,
-        }}
-
         public {0}Attribute()
         {{
             Depth = 16;

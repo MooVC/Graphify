@@ -17,6 +17,11 @@ public static class Boilerplate
         InspectorContractGenerator.Hint,
         typeof(InspectorContractGenerator));
 
+    public static readonly Generated NavigatorExtensions = new(
+        NavigatorExtensionsGenerator.Content,
+        NavigatorExtensionsGenerator.Hint,
+        typeof(NavigatorExtensionsGenerator));
+
     public static readonly Generated Visitor = new(
         VisitorContractGenerator.Content,
         $"{VisitorContractGenerator.Name}.g.cs",

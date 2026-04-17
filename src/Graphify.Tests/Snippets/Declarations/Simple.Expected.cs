@@ -55,7 +55,6 @@ internal static partial class Simple
                     public partial interface ISimpleNavigator
                     {
                         global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(Simple root, global::System.Threading.CancellationToken cancellationToken);
-                        //// Additional methods can be added as partial elements
                     }
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER

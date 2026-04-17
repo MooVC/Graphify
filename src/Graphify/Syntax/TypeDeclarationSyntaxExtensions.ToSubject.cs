@@ -48,7 +48,7 @@
             SemanticModel model = compilation.GetSemanticModel(syntax.SyntaxTree);
             ISymbol symbol = model.GetDeclaredSymbol(syntax, cancellationToken: cancellationToken);
 
-            if (!(symbol is INamedTypeSymbol type && type.HasGraphify(out byte depth, out Mode mode) && type.HasSupportedAccessibility()))
+            if (!(symbol is INamedTypeSymbol type && type.HasGraphify(out byte depth, out Modes mode) && type.HasSupportedAccessibility()))
             {
                 return default;
             }

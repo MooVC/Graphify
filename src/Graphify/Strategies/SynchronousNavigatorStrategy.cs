@@ -16,7 +16,7 @@
         : IStrategy
     {
         private const int GraphNamespaceLength = 7;
-        private const string HelpersContent = """
+        private const string HelpersContent = @"
             private bool HasObservers<TInstance, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<TInstance, TResult>> observers)
                 where TInstance : class
             {
@@ -32,7 +32,7 @@
             {
                 return observers.SelectMany(observer => observer.Observe(instance));
             }
-            """;
+            ";
 
         /// <inheritdoc/>
         public IEnumerable<Source> Generate(Subject subject)

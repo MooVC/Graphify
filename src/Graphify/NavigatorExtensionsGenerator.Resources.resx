@@ -119,74 +119,74 @@
   </resheader>
   <data name="Content" xml:space="preserve">
     <value>namespace Graphify
-{{
+{
     using System;
     using System.Collections.Generic;
 
     internal static partial class NavigatorExtensions
-    {{
+    {
         internal static global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Empty&lt;TResult&gt;()
-        {{
+        {
             return EmptyInternal&lt;TResult&gt;();
-        }}
+        }
 
         internal static bool HasObservers&lt;TInstance, TResult&gt;(
             this global::System.IServiceProvider provider,
             out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;TInstance, TResult&gt;&gt; observers)
             where TInstance : class
-        {{
+        {
             observers = (global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;TInstance, TResult&gt;&gt;)provider.GetService(typeof(global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;TInstance, TResult&gt;&gt;));
 
             return !global::System.Object.ReferenceEquals(observers, null);
-        }}
+        }
 
         internal static global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Invoke&lt;TInstance, TResult&gt;(
             this TInstance instance,
             global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;TInstance, TResult&gt;&gt; observers,
             global::System.Threading.CancellationToken cancellationToken)
             where TInstance : class
-        {{
+        {
             global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
 
             foreach (global::Graphify.IVisitor&lt;TInstance, TResult&gt; observer in observers)
-            {{
+            {
                 results = Concat(results, observer.Observe(instance, cancellationToken), cancellationToken);
-            }}
+            }
 
             return results;
-        }}
+        }
 
         internal static async global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Concat&lt;TResult&gt;(
             this global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; first,
             global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; second,
             [global::System.Runtime.CompilerServices.EnumeratorCancellation] global::System.Threading.CancellationToken cancellationToken)
-        {{
+        {
             if (!global::System.Object.ReferenceEquals(first, null))
-            {{
+            {
                 var firstResults = global::System.Threading.Tasks.TaskAsyncEnumerableExtensions.WithCancellation(first, cancellationToken);
 
                 await foreach (var result in firstResults)
-                {{
+                {
                     yield return result;
-                }}
-            }}
+                }
+            }
 
             if (!global::System.Object.ReferenceEquals(second, null))
-            {{
+            {
                 var secondResults = global::System.Threading.Tasks.TaskAsyncEnumerableExtensions.WithCancellation(second, cancellationToken);
 
                 await foreach (var result in secondResults)
-                {{
+                {
                     yield return result;
-                }}
-            }}
-        }}
+                }
+            }
+        }
 
         private static async global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; EmptyInternal&lt;TResult&gt;()
-        {{
+        {
             yield break;
-        }}
-    }}
-}}</value>
+        }
+    }
+}</value>
   </data>
 </root>

@@ -288,6 +288,5 @@
 
             return string.Concat(char.ToLowerInvariant(name[0]), name.Substring(1));
         }
-
     }
 }

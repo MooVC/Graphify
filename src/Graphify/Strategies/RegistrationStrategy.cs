@@ -22,8 +22,12 @@
                 yield break;
             }
 
-            string contract = ContractStrategy.GetName(subject.Name);
-            string implementation = ImplementationStrategy.GetName(subject.Name);
+            string contract = subject.Mode == Modes.Synchronous
+                ? SynchronousContractStrategy.GetName(subject.Name)
+                : AsynchronousContractStrategy.GetName(subject.Name);
+            string implementation = subject.Mode == Modes.Synchronous
+                ? SynchronousNavigatorStrategy.GetName(subject.Name)
+                : AsynchronousNavigatorStrategy.GetName(subject.Name);
             string content = string.Format(GenerateContent, implementation, contract, subject.Name);
             string hint = $"ServiceCollectionExtensions.Add{implementation}";
 

@@ -123,6 +123,12 @@
     using System;
     using System.Diagnostics.CodeAnalysis;
 
+    public enum Modes
+    {
+        Synchronous,
+        Asynchronous,
+    }
+
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false, AllowMultiple = false)]
     public sealed class {0}Attribute
         : Attribute
@@ -130,9 +136,12 @@
         public {0}Attribute()
         {{
             Depth = 16;
+            Mode = Modes.Asynchronous;
         }}
 
         public byte Depth {{ get; set; }}
+
+        public Modes Mode {{ get; set; }}
     }}
 }}</value>
   </data>

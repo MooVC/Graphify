@@ -13,7 +13,7 @@
     /// <summary>
     /// Provides a strategy for generating contents that match each tier within the hierarchy that involve a sequence.
     /// </summary>
-    internal sealed class ImplementationStrategy
+    internal sealed class AsynchronousNavigatorStrategy
         : IStrategy
     {
         private const int GraphNamespaceLength = 7;
@@ -37,6 +37,11 @@
         /// </returns>
         public IEnumerable<Source> Generate(Subject subject)
         {
+            if (subject.Mode != Modes.Asynchronous)
+            {
+                yield break;
+            }
+
             string name = GetName(subject.Name);
             string @namespace = string.Concat(subject.Qualification, ".Graph");
 
@@ -260,7 +265,7 @@
 
         private static Source GenerateNavigator(string name, Subject subject)
         {
-            string contract = ContractStrategy.GetName(subject.Name);
+            string contract = AsynchronousContractStrategy.GetName(subject.Name);
             string body = GenerateConcatenationsForSubject(subject.Properties, subject);
             string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
 

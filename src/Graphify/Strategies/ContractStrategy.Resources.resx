@@ -119,8 +119,9 @@
   </resheader>
   <data name="GenerateContent" xml:space="preserve">
     <value>{0} partial interface {1}
-    : global::Graphify.INavigator&lt;{2}&gt;
 {{
+    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({2} root, global::System.Threading.CancellationToken cancellationToken);
+
     //// Additional methods can be added as partial elements
 }}</value>
   </data>

@@ -21,13 +21,18 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>GraphifyAttributeGenerator.Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="NavigatorContractGenerator.Resources.Designer.cs">
+    <Compile Update="InspectorContractGenerator.Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
-      <DependentUpon>NavigatorContractGenerator.Resources.resx</DependentUpon>
+      <DependentUpon>InspectorContractGenerator.Resources.resx</DependentUpon>
     </Compile>
     <Compile Update="Strategies\ImplementationStrategy.Resources.Designer.cs">
       <DependentUpon>ImplementationStrategy.Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Strategies\SynchronousNavigatorStrategy.Resources.Designer.cs">
+      <DependentUpon>SynchronousNavigatorStrategy.Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
@@ -36,8 +41,8 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>RegistrationStrategy.Resources.resx</DependentUpon>
     </Compile>
-    <Compile Update="NavigatorGenerator.Resources.Designer.cs">
-      <DependentUpon>NavigatorGenerator.Resources.resx</DependentUpon>
+    <Compile Update="NavigatorExtensionsGenerator.Resources.Designer.cs">
+      <DependentUpon>NavigatorExtensionsGenerator.Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
     </Compile>
@@ -61,6 +66,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>ContractStrategy.Resources.resx</DependentUpon>
     </Compile>
+    <Compile Update="Strategies\SynchronousContractStrategy.Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SynchronousContractStrategy.Resources.resx</DependentUpon>
+    </Compile>
     <Compile Update="TypeGenerator.Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -77,20 +87,24 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>GraphifyAttributeGenerator.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="NavigatorContractGenerator.Resources.resx">
+    <EmbeddedResource Update="InspectorContractGenerator.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>NavigatorContractGenerator.Resources.Designer.cs</LastGenOutput>
+      <LastGenOutput>InspectorContractGenerator.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Strategies\ImplementationStrategy.Resources.resx">
       <LastGenOutput>ImplementationStrategy.Resources.Designer.cs</LastGenOutput>
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strategies\SynchronousNavigatorStrategy.Resources.resx">
+      <LastGenOutput>SynchronousNavigatorStrategy.Resources.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Strategies\RegistrationStrategy.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>RegistrationStrategy.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Update="NavigatorGenerator.Resources.resx">
-      <LastGenOutput>NavigatorGenerator.Resources.Designer.cs</LastGenOutput>
+    <EmbeddedResource Update="NavigatorExtensionsGenerator.Resources.resx">
+      <LastGenOutput>NavigatorExtensionsGenerator.Resources.Designer.cs</LastGenOutput>
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="VisitorContractGenerator.Resources.resx">
@@ -108,6 +122,10 @@
     <EmbeddedResource Update="Strategies\ContractStrategy.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>ContractStrategy.Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Strategies\SynchronousContractStrategy.Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SynchronousContractStrategy.Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="TypeGenerator.Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

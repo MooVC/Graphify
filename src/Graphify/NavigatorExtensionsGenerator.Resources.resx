@@ -117,7 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Content" xml:space="preserve">
+    <data name="Content" xml:space="preserve">
     <value>namespace Graphify
 {{
     using System;
@@ -125,28 +125,11 @@
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Threading;
-    using System.Threading.Tasks;
-    using Graphify;
 
-    public abstract class Navigator&lt;T&gt;
-        : INavigator&lt;T&gt;
-        where T : class
+    public static class {0}
     {{
-        private readonly IServiceProvider _provider;
-    
-        protected Navigator(IServiceProvider provider)
-        {{
-            if (ReferenceEquals(provider, null))
-            {{
-                throw new ArgumentNullException("provider");
-            }}
-            
-            _provider = provider;
-        }}
-    
-        public abstract IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;(T instance, CancellationToken cancellationToken);
-
-        protected async IAsyncEnumerable&lt;TResult&gt; Concat&lt;TResult&gt;(
+        public static async IAsyncEnumerable&lt;TResult&gt; ConcatAsync&lt;TResult&gt;(
+            this IServiceProvider provider,
             IAsyncEnumerable&lt;TResult&gt; first,
             IAsyncEnumerable&lt;TResult&gt; second,
             [EnumeratorCancellation] CancellationToken cancellationToken)
@@ -156,50 +139,88 @@
                 var results = first
                     .WithCancellation(cancellationToken)
                     .ConfigureAwait(false);
-                
+
                 await foreach (var result in results)
                 {{
                     yield return result;
                 }}
             }}
-            
+
             if (!ReferenceEquals(second, null))
             {{
                 var results = second
                     .WithCancellation(cancellationToken)
                     .ConfigureAwait(false);
-                
+
                 await foreach (var result in results)
                 {{
                     yield return result;
                 }}
             }}
         }}
-        
-        protected async IAsyncEnumerable&lt;TResult&gt; Empty&lt;TResult&gt;()
+
+        public static IEnumerable&lt;TResult&gt; Concat&lt;TResult&gt;(
+            this IServiceProvider provider,
+            IEnumerable&lt;TResult&gt; first,
+            IEnumerable&lt;TResult&gt; second)
+        {{
+            return first ?? Array.Empty&lt;TResult&gt;().Concat(second ?? Array.Empty&lt;TResult&gt;());
+        }}
+
+        public static async IAsyncEnumerable&lt;TResult&gt; EmptyAsync&lt;TResult&gt;(this IServiceProvider provider)
         {{
             yield break;
         }}
 
-        protected bool HasObservers&lt;TInstance, TResult&gt;(out IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt; observers)
+        public static IEnumerable&lt;TResult&gt; Empty&lt;TResult&gt;(this IServiceProvider provider)
+        {{
+            return Array.Empty&lt;TResult&gt;();
+        }}
+
+        public static bool HasInspectors&lt;TInstance, TResult&gt;(this IServiceProvider provider, out IEnumerable&lt;IInspector&lt;TInstance, TResult&gt;&gt; inspectors)
             where TInstance : class
         {{
-            observers = (IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt;)_provider.GetService(typeof(IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt;));
+            inspectors = (IEnumerable&lt;IInspector&lt;TInstance, TResult&gt;&gt;)provider.GetService(typeof(IEnumerable&lt;IInspector&lt;TInstance, TResult&gt;&gt;));
 
-            return !ReferenceEquals(observers, null) &amp;&amp; observers.Any();
+            return !ReferenceEquals(inspectors, null) &amp;&amp; inspectors.Any();
         }}
-        
-        protected IAsyncEnumerable&lt;TResult&gt; Invoke&lt;TInstance, TResult&gt;(
+
+        public static bool HasVisitors&lt;TInstance, TResult&gt;(this IServiceProvider provider, out IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt; visitors)
+            where TInstance : class
+        {{
+            visitors = (IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt;)provider.GetService(typeof(IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt;));
+
+            return !ReferenceEquals(visitors, null) &amp;&amp; visitors.Any();
+        }}
+
+        public static IEnumerable&lt;TResult&gt; Invoke&lt;TInstance, TResult&gt;(
+            this IServiceProvider provider,
             TInstance instance,
-            IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt; observers,
+            IEnumerable&lt;IInspector&lt;TInstance, TResult&gt;&gt; inspectors)
+            where TInstance : class
+        {{
+            IEnumerable&lt;TResult&gt; results = provider.Empty&lt;TResult&gt;();
+
+            foreach (IInspector&lt;TInstance, TResult&gt; inspector in inspectors)
+            {{
+                results = provider.Concat(results, inspector.Observe(instance));
+            }}
+
+            return results;
+        }}
+
+        public static IAsyncEnumerable&lt;TResult&gt; InvokeAsync&lt;TInstance, TResult&gt;(
+            this IServiceProvider provider,
+            TInstance instance,
+            IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt; visitors,
             CancellationToken cancellationToken)
             where TInstance : class
         {{
-            global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = Empty&lt;TResult&gt;();
+            IAsyncEnumerable&lt;TResult&gt; results = provider.EmptyAsync&lt;TResult&gt;();
 
-            foreach (global::Graphify.IVisitor&lt;TInstance, TResult&gt; observer in observers)
+            foreach (IVisitor&lt;TInstance, TResult&gt; visitor in visitors)
             {{
-                results = Concat(results, observer.Observe(instance, cancellationToken), cancellationToken);
+                results = provider.ConcatAsync(results, visitor.Observe(instance, cancellationToken), cancellationToken);
             }}
 
             return results;

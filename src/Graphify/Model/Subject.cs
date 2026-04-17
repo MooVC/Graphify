@@ -59,6 +59,15 @@
         /// </value>
         public bool HasRegistration { get; set; }
 
+
+        /// <summary>
+        /// Gets or sets the configured generation mode.
+        /// </summary>
+        /// <value>
+        /// The configured generation mode.
+        /// </value>
+        public Modes Mode { get; set; } = Modes.Asynchronous;
+
         /// <summary>
         /// Gets a value indicating whether or not the subject belongs to the global namespace.
         /// </summary>

@@ -20,8 +20,10 @@
     {
         private static readonly IStrategy[] _strategies = new IStrategy[]
         {
-            new ContractStrategy(),
-            new ImplementationStrategy(),
+            new AsynchronousContractStrategy(),
+            new AsynchronousNavigatorStrategy(),
+            new SynchronousContractStrategy(),
+            new SynchronousNavigatorStrategy(),
             new ModelStrategy(),
             new RegistrationStrategy(),
         };

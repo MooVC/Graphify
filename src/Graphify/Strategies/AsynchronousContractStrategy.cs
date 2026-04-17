@@ -7,7 +7,7 @@
     /// <summary>
     /// Provides a strategy for generating navigator interface.
     /// </summary>
-    internal sealed class ContractStrategy
+    internal sealed class AsynchronousContractStrategy
         : IStrategy
     {
         /// <summary>
@@ -30,7 +30,7 @@
         /// </returns>
         public IEnumerable<Source> Generate(Subject subject)
         {
-            if (subject.HasContract)
+            if (subject.Mode != Modes.Asynchronous || subject.HasContract)
             {
                 yield break;
             }

@@ -22,14 +22,14 @@ namespace Graphify {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class NavigatorContractGenerator_Resources {
+    internal class NavigatorExtensionsGenerator_Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal NavigatorContractGenerator_Resources() {
+        internal NavigatorExtensionsGenerator_Resources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Graphify {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.NavigatorContractGenerator.Resources", typeof(NavigatorContractGenerator_Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.NavigatorExtensionsGenerator.Resources", typeof(NavigatorExtensionsGenerator_Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -63,16 +63,24 @@ namespace Graphify {
         /// <summary>
         ///   Looks up a localized string similar to namespace Graphify
         ///{{
+        ///    using System;
         ///    using System.Collections.Generic;
+        ///    using System.Linq;
+        ///    using System.Runtime.CompilerServices;
         ///    using System.Threading;
         ///    using System.Threading.Tasks;
+        ///    using Graphify;
         ///
-        ///    public interface INavigator&lt;in T&gt;
+        ///    public abstract class Navigator&lt;T&gt;
+        ///        : INavigator&lt;T&gt;
         ///        where T : class
         ///    {{
-        ///        IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;(T root, CancellationToken cancellationToken);
-        ///    }}
-        ///}}.
+        ///        private readonly IServiceProvider _provider;
+        ///    
+        ///        protected Navigator(IServiceProvider provider)
+        ///        {{
+        ///            if (ReferenceEquals(provider, null))
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content {
             get {
@@ -80,4 +88,5 @@ namespace Graphify {
             }
         }
     }
+}
 }

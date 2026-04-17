@@ -1,4 +1,4 @@
-﻿namespace Graphify.NavigatorGeneratorTests;
+﻿namespace Graphify.NavigatorExtensionsGeneratorTests;
 
 using Graphify.Snippets.Declarations;
 using Microsoft.CodeAnalysis.CSharp;
@@ -11,16 +11,16 @@ public sealed class WhenExecuted
     public async Task GivenAnAssemblyThenTheAttributeIsGenerated(ReferenceAssemblies assemblies, LanguageVersion language)
     {
         // Arrange
-        var test = new GeneratorTest<NavigatorGenerator>(
+        var test = new GeneratorTest<NavigatorExtensionsGenerator>(
             assemblies,
             language,
-            typeof(NavigatorGenerator),
-            typeof(NavigatorContractGenerator),
-            typeof(VisitorContractGenerator));
+            typeof(NavigatorExtensionsGenerator),
+            typeof(VisitorContractGenerator),
+            typeof(InspectorContractGenerator));
 
-        Boilerplate.Navigator.IsExpectedIn(test.TestState);
         Boilerplate.Base.IsExpectedIn(test.TestState);
         Boilerplate.Visitor.IsExpectedIn(test.TestState);
+        Boilerplate.Inspector.IsExpectedIn(test.TestState);
 
         // Act
         Func<Task> act = () => test.RunAsync();
@@ -34,17 +34,9 @@ public sealed class WhenExecuted
     public async Task GivenTheClassAlreadyExistsThenTheClassIsNotGenerated(ReferenceAssemblies assemblies, LanguageVersion language)
     {
         // Arrange
-        const string Declaration = """
-            namespace Graphify
-            {
-                public class Navigator<T>
-                    where T : class
-                {
-                }
-            }
-            """;
+        const string Declaration = "namespace Graphify { public static class NavigatorExtensions { } }";
 
-        var test = new GeneratorTest<NavigatorGenerator>(assemblies, language);
+        var test = new GeneratorTest<NavigatorExtensionsGenerator>(assemblies, language);
 
         test.TestState.Sources.Add(Declaration);
 

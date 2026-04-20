@@ -13,30 +13,31 @@ public static class Boilerplate
         }
         """,
         "Microsoft.CodeAnalysis.EmbeddedAttribute.cs",
-        typeof(GraphifyAttributeGenerator));
+        Generator: typeof(GraphifyAttributeGenerator),
+        EndOfLine: "\r\n");
 
     public static readonly Generated Extensions = new(
         NavigatorExtensionsGenerator.Content,
         NavigatorExtensionsGenerator.Hint,
-        typeof(NavigatorExtensionsGenerator));
+        Generator: typeof(NavigatorExtensionsGenerator));
 
     public static readonly Generated Graphify = new(
         GraphifyAttributeGenerator.Content,
         $"{GraphifyAttributeGenerator.Name}Attribute.g.cs",
-        typeof(GraphifyAttributeGenerator));
+        Generator: typeof(GraphifyAttributeGenerator));
 
     public static readonly Generated Inspector = new(
         InspectorContractGenerator.Content,
         $"{InspectorContractGenerator.Name}.g.cs",
-        typeof(InspectorContractGenerator));
+        Generator: typeof(InspectorContractGenerator));
 
     public static readonly Generated Traverse = new(
         TraverseAttributeGenerator.Content,
         $"{TraverseAttributeGenerator.Name}Attribute.g.cs",
-        typeof(TraverseAttributeGenerator));
+        Generator: typeof(TraverseAttributeGenerator));
 
     public static readonly Generated Visitor = new(
         VisitorContractGenerator.Content,
         $"{VisitorContractGenerator.Name}.g.cs",
-        typeof(VisitorContractGenerator));
+        Generator: typeof(VisitorContractGenerator));
 }

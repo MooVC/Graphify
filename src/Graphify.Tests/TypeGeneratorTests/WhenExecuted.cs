@@ -24,12 +24,13 @@ public sealed class WhenExecuted
         // Arrange
         var test = new GeneratorTest<TypeGenerator>(assembly, language, _generators);
 
+        Boilerplate.Embedded.IsExpectedIn(test.TestState);
         Boilerplate.Graphify.IsExpectedIn(test.TestState);
-                Boilerplate.Base.IsExpectedIn(test.TestState);
+        Boilerplate.Inspector.IsExpectedIn(test.TestState);
+        Boilerplate.Extensions.IsExpectedIn(test.TestState);
         Boilerplate.Traverse.IsExpectedIn(test.TestState);
         expectations.IsDeclaredIn(test.TestState);
         Boilerplate.Visitor.IsExpectedIn(test.TestState);
-        Boilerplate.Inspector.IsExpectedIn(test.TestState);
 
         // Act
         Func<Task> act = () => test.RunAsync();

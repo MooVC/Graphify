@@ -2,12 +2,12 @@
 {
     using System.Collections.Generic;
     using Graphify.Model;
-    using static Graphify.Strategies.RegistrationStrategy_Resources;
+    using static Graphify.Strategies.SynchronousRegistrationStrategy_Resources;
 
     /// <summary>
     /// Provides a strategy for generating registration-related source code and standardized navigator names for subjects.
     /// </summary>
-    internal sealed class RegistrationStrategy
+    internal sealed class SynchronousRegistrationStrategy
         : IStrategy
     {
         /// <summary>
@@ -17,17 +17,13 @@
         /// <returns>The generated sources for registration.</returns>
         public IEnumerable<Source> Generate(Subject subject)
         {
-            if (subject.HasRegistration || !subject.CanRegister)
+            if (subject.Mode == Modes.Asynchronous || subject.HasRegistration || !subject.CanRegister)
             {
                 yield break;
             }
 
-            string contract = subject.Mode == Modes.Synchronous
-                ? SynchronousContractStrategy.GetName(subject.Name)
-                : AsynchronousContractStrategy.GetName(subject.Name);
-            string implementation = subject.Mode == Modes.Synchronous
-                ? SynchronousNavigatorStrategy.GetName(subject.Name)
-                : AsynchronousNavigatorStrategy.GetName(subject.Name);
+            string contract = SynchronousContractStrategy.GetName(subject.Name);
+            string implementation = SynchronousNavigatorStrategy.GetName(subject.Name);
             string content = string.Format(GenerateContent, implementation, contract, subject.Name);
             string hint = $"ServiceCollectionExtensions.Add{implementation}";
 

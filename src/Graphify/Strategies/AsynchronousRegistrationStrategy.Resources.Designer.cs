@@ -22,14 +22,14 @@ namespace Graphify.Strategies {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class ContractStrategy_Resources {
+    internal class AsynchronousRegistrationStrategy_Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal ContractStrategy_Resources() {
+        internal AsynchronousRegistrationStrategy_Resources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Graphify.Strategies {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.Strategies.ContractStrategy.Resources", typeof(ContractStrategy_Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.Strategies.AsynchronousRegistrationStrategy.Resources", typeof(AsynchronousRegistrationStrategy_Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,17 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} partial interface {1}
-        ///    : global::Graphify.INavigator&lt;{2}&gt;
+        ///   Looks up a localized string similar to #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+        ///public static partial class ServiceCollectionExtensions
         ///{{
-        ///    //// Additional methods can be added as partial elements
-        ///}}.
+        ///    public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection Add{0}(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
+        ///    {{
+        ///        if (ReferenceEquals(services, null))
+        ///        {{
+        ///            throw new global::System.ArgumentNullException(&quot;services&quot;);
+        ///        }}
+        ///
+        ///        _ = global::Microsoft.Extensions.DependencyInjection.ServiceC [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string GenerateContent {
             get {

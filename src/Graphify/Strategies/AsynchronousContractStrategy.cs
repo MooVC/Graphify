@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using Graphify.Model;
-    using static Graphify.Strategies.ContractStrategy_Resources;
+    using static Graphify.Strategies.AsynchronousContractStrategy_Resources;
 
     /// <summary>
     /// Provides a strategy for generating navigator interface.

@@ -117,27 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-    <data name="Content" xml:space="preserve">
+  <data name="Content" xml:space="preserve">
     <value>namespace Graphify
 {{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Runtime.CompilerServices;
-    using System.Threading;
-
-    public static class {0}
+    [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+    internal static partial class {0}
     {{
-        public static async IAsyncEnumerable&lt;TResult&gt; ConcatAsync&lt;TResult&gt;(
-            this IServiceProvider provider,
-            IAsyncEnumerable&lt;TResult&gt; first,
-            IAsyncEnumerable&lt;TResult&gt; second,
-            [EnumeratorCancellation] CancellationToken cancellationToken)
+#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+        public static async global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Concat&lt;TResult&gt;(
+            this global::System.IServiceProvider provider,
+            global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; first,
+            global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; second,
+            [global::System.Runtime.CompilerServices.EnumeratorCancellation] global::System.Threading.CancellationToken cancellationToken)
         {{
-            if (!ReferenceEquals(first, null))
+            if (!global::System.Object.ReferenceEquals(first, null))
             {{
-                var results = first
-                    .WithCancellation(cancellationToken)
+                var results = global::System.Threading.Tasks.TaskAsyncEnumerableExtensions
+                    .WithCancellation(first, cancellationToken)
                     .ConfigureAwait(false);
 
                 await foreach (var result in results)
@@ -146,10 +142,10 @@
                 }}
             }}
 
-            if (!ReferenceEquals(second, null))
+            if (!global::System.Object.ReferenceEquals(second, null))
             {{
-                var results = second
-                    .WithCancellation(cancellationToken)
+                var results = global::System.Threading.Tasks.TaskAsyncEnumerableExtensions
+                    .WithCancellation(second, cancellationToken)
                     .ConfigureAwait(false);
 
                 await foreach (var result in results)
@@ -159,68 +155,64 @@
             }}
         }}
 
-        public static IEnumerable&lt;TResult&gt; Concat&lt;TResult&gt;(
-            this IServiceProvider provider,
-            IEnumerable&lt;TResult&gt; first,
-            IEnumerable&lt;TResult&gt; second)
-        {{
-            return first ?? Array.Empty&lt;TResult&gt;().Concat(second ?? Array.Empty&lt;TResult&gt;());
-        }}
-
-        public static async IAsyncEnumerable&lt;TResult&gt; EmptyAsync&lt;TResult&gt;(this IServiceProvider provider)
+        public static async global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Empty&lt;TResult&gt;(this global::System.IServiceProvider provider)
         {{
             yield break;
         }}
 
-        public static IEnumerable&lt;TResult&gt; Empty&lt;TResult&gt;(this IServiceProvider provider)
-        {{
-            return Array.Empty&lt;TResult&gt;();
-        }}
-
-        public static bool HasInspectors&lt;TInstance, TResult&gt;(this IServiceProvider provider, out IEnumerable&lt;IInspector&lt;TInstance, TResult&gt;&gt; inspectors)
+        public static bool HasVisitors&lt;TInstance, TResult&gt;(
+            this global::System.IServiceProvider provider,
+            out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;TInstance, TResult&gt;&gt; visitors)
             where TInstance : class
         {{
-            inspectors = (IEnumerable&lt;IInspector&lt;TInstance, TResult&gt;&gt;)provider.GetService(typeof(IEnumerable&lt;IInspector&lt;TInstance, TResult&gt;&gt;));
+            visitors = (global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;TInstance, TResult&gt;&gt;)provider.GetService(
+                typeof(global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;TInstance, TResult&gt;&gt;));
 
-            return !ReferenceEquals(inspectors, null) &amp;&amp; inspectors.Any();
+            return !global::System.Object.ReferenceEquals(visitors, null)
+                &amp;&amp; global::System.Linq.Enumerable.Any(visitors);
         }}
 
-        public static bool HasVisitors&lt;TInstance, TResult&gt;(this IServiceProvider provider, out IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt; visitors)
-            where TInstance : class
-        {{
-            visitors = (IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt;)provider.GetService(typeof(IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt;));
-
-            return !ReferenceEquals(visitors, null) &amp;&amp; visitors.Any();
-        }}
-
-        public static IEnumerable&lt;TResult&gt; Invoke&lt;TInstance, TResult&gt;(
-            this IServiceProvider provider,
+        public static global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Invoke&lt;TInstance, TResult&gt;(
+            this global::System.IServiceProvider provider,
             TInstance instance,
-            IEnumerable&lt;IInspector&lt;TInstance, TResult&gt;&gt; inspectors)
+            global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IVisitor&lt;TInstance, TResult&gt;&gt; visitors,
+            global::System.Threading.CancellationToken cancellationToken)
             where TInstance : class
         {{
-            IEnumerable&lt;TResult&gt; results = provider.Empty&lt;TResult&gt;();
+            global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = provider.Empty&lt;TResult&gt;();
 
-            foreach (IInspector&lt;TInstance, TResult&gt; inspector in inspectors)
+            foreach (global::Graphify.IVisitor&lt;TInstance, TResult&gt; visitor in visitors)
             {{
-                results = provider.Concat(results, inspector.Observe(instance));
+                results = provider.Concat(results, visitor.Observe(instance, cancellationToken), cancellationToken);
             }}
 
             return results;
         }}
+#endif
 
-        public static IAsyncEnumerable&lt;TResult&gt; InvokeAsync&lt;TInstance, TResult&gt;(
-            this IServiceProvider provider,
-            TInstance instance,
-            IEnumerable&lt;IVisitor&lt;TInstance, TResult&gt;&gt; visitors,
-            CancellationToken cancellationToken)
+        public static bool HasInspectors&lt;TInstance, TResult&gt;(
+            this global::System.IServiceProvider provider,
+            out global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IInspector&lt;TInstance, TResult&gt;&gt; inspectors)
             where TInstance : class
         {{
-            IAsyncEnumerable&lt;TResult&gt; results = provider.EmptyAsync&lt;TResult&gt;();
+            inspectors = (global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IInspector&lt;TInstance, TResult&gt;&gt;)provider.GetService(
+                typeof(global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IInspector&lt;TInstance, TResult&gt;&gt;));
 
-            foreach (IVisitor&lt;TInstance, TResult&gt; visitor in visitors)
+            return !global::System.Object.ReferenceEquals(inspectors, null)
+                &amp;&amp; global::System.Linq.Enumerable.Any(inspectors);
+        }}
+
+        public static global::System.Collections.Generic.IEnumerable&lt;TResult&gt; Invoke&lt;TInstance, TResult&gt;(
+            this global::System.IServiceProvider provider,
+            TInstance instance,
+            global::System.Collections.Generic.IEnumerable&lt;global::Graphify.IInspector&lt;TInstance, TResult&gt;&gt; inspectors)
+            where TInstance : class
+        {{
+            global::System.Collections.Generic.IEnumerable&lt;TResult&gt; results = global::System.Linq.Enumerable.Empty&lt;TResult&gt;();
+
+            foreach (global::Graphify.IInspector&lt;TInstance, TResult&gt; inspector in inspectors)
             {{
-                results = provider.ConcatAsync(results, visitor.Observe(instance, cancellationToken), cancellationToken);
+                results = global::System.Linq.Enumerable.Concat(results, inspector.Observe(instance));
             }}
 
             return results;

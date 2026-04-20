@@ -61,7 +61,8 @@ namespace Graphify {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to namespace Graphify
+        ///   Looks up a localized string similar to #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+        ///namespace Graphify
         ///{{
         ///    using System.Collections.Generic;
         ///    using System.Threading;
@@ -72,7 +73,8 @@ namespace Graphify {
         ///    {{
         ///        IAsyncEnumerable&lt;TResult&gt; Observe(T instance, CancellationToken cancellationToken);
         ///    }}
-        ///}}.
+        ///}}
+        ///#endif.
         /// </summary>
         internal static string Content {
             get {

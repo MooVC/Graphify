@@ -14,11 +14,14 @@ public sealed class WhenExecuted
         var test = new GeneratorTest<NavigatorExtensionsGenerator>(
             assemblies,
             language,
+            typeof(GraphifyAttributeGenerator),
             typeof(NavigatorExtensionsGenerator),
             typeof(VisitorContractGenerator),
             typeof(InspectorContractGenerator));
 
-        Boilerplate.Base.IsExpectedIn(test.TestState);
+        Boilerplate.Embedded.IsExpectedIn(test.TestState);
+        Boilerplate.Graphify.IsExpectedIn(test.TestState);
+        Boilerplate.Extensions.IsExpectedIn(test.TestState);
         Boilerplate.Visitor.IsExpectedIn(test.TestState);
         Boilerplate.Inspector.IsExpectedIn(test.TestState);
 

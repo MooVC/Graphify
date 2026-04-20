@@ -8,7 +8,7 @@
     using System.Linq;
     using System.Text;
     using Graphify.Model;
-    using static Graphify.Strategies.ImplementationStrategy_Resources;
+    using static Graphify.Strategies.AsynchronousNavigatorStrategy_Resources;
 
     /// <summary>
     /// Provides a strategy for generating contents that match each tier within the hierarchy that involve a sequence.

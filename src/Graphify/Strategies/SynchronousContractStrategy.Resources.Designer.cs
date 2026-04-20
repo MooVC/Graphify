@@ -62,8 +62,9 @@ namespace Graphify.Strategies {
         
         /// <summary>
         ///   Looks up a localized string similar to {0} partial interface {1}
-        ///            ///{{
-        ///            ///}}.
+        ///{{
+        ///    global::System.Collections.Generic.IEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({2} root);
+        ///}}.
         /// </summary>
         internal static string GenerateContent {
             get {

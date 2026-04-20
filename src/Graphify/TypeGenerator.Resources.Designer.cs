@@ -75,6 +75,7 @@ namespace Graphify {
         /// <summary>
         ///   Looks up a localized string similar to using System;
         ///using System.Collections.Generic;
+        ///using Graphify;
         ///
         ///#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         ///#nullable disable

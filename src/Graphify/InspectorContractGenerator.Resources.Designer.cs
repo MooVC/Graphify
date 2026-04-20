@@ -64,13 +64,11 @@ namespace Graphify {
         ///   Looks up a localized string similar to namespace Graphify
         ///{{
         ///    using System.Collections.Generic;
-        ///    using System.Threading;
-        ///    using System.Threading.Tasks;
         ///
-        ///    public interface IInspector&lt;in T, out TResult&gt;
+        ///    public interface I{0}&lt;in T, out TResult&gt;
         ///        where T : class
         ///    {{
-        ///        IAsyncEnumerable&lt;TResult&gt; Observe(T instance);
+        ///        IEnumerable&lt;TResult&gt; Observe(T instance);
         ///    }}
         ///}}.
         /// </summary>

@@ -59,7 +59,6 @@
         /// </value>
         public bool HasRegistration { get; set; }
 
-
         /// <summary>
         /// Gets or sets the configured generation mode.
         /// </summary>

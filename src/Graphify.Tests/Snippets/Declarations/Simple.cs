@@ -17,11 +17,11 @@ internal static partial class Simple
             Expected.NavigatorIsAdult,
             Expected.NavigatorName,
             Expected.NavigatorNameLength,
+            Expected.Registration,
             Expected.Age,
             Expected.IsAdult,
             Expected.Name,
             Expected.NameLength,
-            Expected.Registration,
         ],
         nameof(Simple));
 }

@@ -70,7 +70,7 @@
                 return false;
             }
 
-            int separator = argumentText.LastIndexOf('.', StringComparison.Ordinal);
+            int separator = argumentText.LastIndexOf(".", StringComparison.Ordinal);
 
             argumentText = separator >= 0
                 ? argumentText.Substring(separator + 1)

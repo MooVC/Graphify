@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Graphify {
+namespace Graphify.Strategies {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Graphify {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class GraphifyAttributeGenerator_Resources {
+    internal class AsynchronousContractStrategy_Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal GraphifyAttributeGenerator_Resources() {
+        internal AsynchronousContractStrategy_Resources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Graphify {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.GraphifyAttributeGenerator.Resources", typeof(GraphifyAttributeGenerator_Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.Strategies.AsynchronousContractStrategy.Resources", typeof(AsynchronousContractStrategy_Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,31 +61,16 @@ namespace Graphify {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to namespace Graphify
+        ///   Looks up a localized string similar to #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+        ///{0} partial interface {1}
         ///{{
-        ///    using System;
-        ///    using System.Diagnostics.CodeAnalysis;
-        ///
-        ///    public enum Modes
-        ///    {{
-        ///        Synchronous,
-        ///#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-        ///        Asynchronous,
-        ///#endif
-        ///    }}
-        ///
-        ///    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false, AllowMultiple = false)]
-        ///    public sealed class {0}Attribute
-        ///        : Attribute
-        ///    {{
-        ///        public {0}Attribute()
-        ///        {{
-        ///            Depth = 16;
-        ///#if NET5_0_OR_GREATER || NET [rest of string was truncated]&quot;;.
+        ///    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({2} root, global::System.Threading.CancellationToken cancellationToken);
+        ///}}
+        ///#endif.
         /// </summary>
-        internal static string Content {
+        internal static string GenerateContent {
             get {
-                return ResourceManager.GetString("Content", resourceCulture);
+                return ResourceManager.GetString("GenerateContent", resourceCulture);
             }
         }
     }

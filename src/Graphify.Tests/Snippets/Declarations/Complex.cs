@@ -21,6 +21,7 @@ internal static partial class Complex
             Expected.NavigatorChildrenChildNameLength,
             Expected.NavigatorName,
             Expected.NavigatorNameLength,
+            Expected.Registration,
             Expected.Age,
             Expected.Children,
             Expected.ChildrenChild,
@@ -29,7 +30,6 @@ internal static partial class Complex
             Expected.ChildrenChildNameLength,
             Expected.Name,
             Expected.NameLength,
-            Expected.Registration,
         ],
         nameof(Complex));
 }

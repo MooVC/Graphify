@@ -117,31 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="NestContent" xml:space="preserve">
-    <value>{0} {1}
+  <data name="GenerateContent" xml:space="preserve">
+    <value>#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+{0} partial interface {1}
 {{
-    {2}
-}}</value>
-  </data>
-  <data name="WrapContent" xml:space="preserve">
-    <value>using System;
-using System.Collections.Generic;
-using Graphify;
-
-#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-#nullable disable
-#endif
-
-{0}
-
-#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-#nullable restore
+    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({2} root, global::System.Threading.CancellationToken cancellationToken);
+}}
 #endif</value>
-  </data>
-  <data name="WrapNamespace" xml:space="preserve">
-    <value>namespace {0}
-{{
-    {1}
-}}</value>
   </data>
 </root>

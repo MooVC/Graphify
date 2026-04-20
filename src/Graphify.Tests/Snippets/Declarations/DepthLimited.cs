@@ -9,8 +9,8 @@ internal static partial class DepthLimited
             Expected.Contract,
             Expected.Navigator,
             Expected.NavigatorChild,
-            Expected.Child,
             Expected.Registration,
+            Expected.Child,
         ],
         nameof(DepthLimited));
 }

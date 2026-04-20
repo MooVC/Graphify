@@ -10,6 +10,7 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -47,6 +48,7 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -84,6 +86,7 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -131,6 +134,7 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -178,6 +182,7 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -225,6 +230,7 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -275,16 +281,18 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
                     #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public partial interface IComplexNavigator
-                        : global::Graphify.INavigator<Complex>
                     {
-                        //// Additional methods can be added as partial elements
+                        global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(Complex root, global::System.Threading.CancellationToken cancellationToken);
                     }
+                    #endif
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
@@ -299,6 +307,7 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -336,6 +345,7 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -380,36 +390,45 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
                     #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
-                        : global::Graphify.Navigator<Complex>,
-                          IComplexNavigator
+                        : IComplexNavigator
                     {
+                        private readonly global::System.IServiceProvider _provider;
+
                         public ComplexNavigator(global::System.IServiceProvider provider)
-                            : base(provider)
                         {
-                        }
-
-                        public override IAsyncEnumerable<TResult> Navigate<TResult>(Complex root, global::System.Threading.CancellationToken cancellationToken)
-                        {
-                            var results = Empty<TResult>();
-
-                            if (HasObservers<Complex, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex, TResult>> observers))
+                            if (global::System.Object.ReferenceEquals(provider, null))
                             {
-                                results = Invoke<Complex, TResult>(root, observers, cancellationToken);
+                                throw new global::System.ArgumentNullException("provider");
                             }
 
-                            results = Concat(results, NavigateAge<TResult>(root, root.Age, cancellationToken), cancellationToken);
-                            results = Concat(results, NavigateChildren<TResult>(root, root.Children, cancellationToken), cancellationToken);
-                            results = Concat(results, NavigateName<TResult>(root, root.Name, cancellationToken), cancellationToken);
+                            _provider = provider;
+                        }
+
+                        public global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(Complex root, global::System.Threading.CancellationToken cancellationToken)
+                        {
+                            var results = _provider.Empty<TResult>();
+
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex, TResult>> observers))
+                            {
+                                results = _provider.Invoke<Complex, TResult>(root, observers, cancellationToken);
+                            }
+
+                            results = _provider.Concat(results, NavigateAge<TResult>(root, root.Age, cancellationToken), cancellationToken);
+                            results = _provider.Concat(results, NavigateChildren<TResult>(root, root.Children, cancellationToken), cancellationToken);
+                            results = _provider.Concat(results, NavigateName<TResult>(root, root.Name, cancellationToken), cancellationToken);
 
                             return results;
                         }
                     }
+                    #endif
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
@@ -424,26 +443,29 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
                     #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateAge<TResult>(global::Graphify.Testing.Complex root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var age = new Complex.Graph.Age(root, value);
 
-                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Age, TResult>> observers))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Age, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Complex.Graph.Age, TResult>(age, observers, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, _provider.Invoke<Complex.Graph.Age, TResult>(age, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
                         }
                     }
+                    #endif
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
@@ -458,28 +480,31 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
                     #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildren<TResult>(global::Graphify.Testing.Complex root, global::Graphify.Testing.Child[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var children = new Complex.Graph.Children(root, value);
 
-                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children, TResult>> observers))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Complex.Graph.Children, TResult>(children, observers, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, _provider.Invoke<Complex.Graph.Children, TResult>(children, observers, cancellationToken), cancellationToken);
                             }
 
-                            results = Concat(results, NavigateChildrenChild<TResult>(children, root, value, cancellationToken), cancellationToken);
+                            results = _provider.Concat(results, NavigateChildrenChild<TResult>(children, root, value, cancellationToken), cancellationToken);
 
                             return results;
                         }
                     }
+                    #endif
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
@@ -494,18 +519,20 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
                     #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChild<TResult>(Complex.Graph.Children children, global::Graphify.Testing.Complex root, global::Graphify.Testing.Child[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
 
-                            _ = HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children.Child, TResult>> observers);
+                            _ = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children.Child, TResult>> observers);
 
                             int index = 0;
 
@@ -513,10 +540,10 @@ internal static partial class Complex
                             {
                                 var child = new Complex.Graph.Children.Child(children, index, root, element);
 
-                                results = Concat(results, Invoke<Complex.Graph.Children.Child, TResult>(child, observers, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, _provider.Invoke<Complex.Graph.Children.Child, TResult>(child, observers, cancellationToken), cancellationToken);
 
-                                results = Concat(results, NavigateChildrenChildAge<TResult>(child, root, element.Age, cancellationToken), cancellationToken);
-                                results = Concat(results, NavigateChildrenChildName<TResult>(child, root, element.Name, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, NavigateChildrenChildAge<TResult>(child, root, element.Age, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, NavigateChildrenChildName<TResult>(child, root, element.Name, cancellationToken), cancellationToken);
 
                                 index++;
                             }
@@ -524,6 +551,7 @@ internal static partial class Complex
                             return results;
                         }
                     }
+                    #endif
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
@@ -538,26 +566,29 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
                     #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChildAge<TResult>(Complex.Graph.Children.Child child, global::Graphify.Testing.Complex root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var age = new Complex.Graph.Children.Child.Age(child, root, value);
 
-                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children.Child.Age, TResult>> observers))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children.Child.Age, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Complex.Graph.Children.Child.Age, TResult>(age, observers, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, _provider.Invoke<Complex.Graph.Children.Child.Age, TResult>(age, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
                         }
                     }
+                    #endif
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
@@ -572,28 +603,31 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
                     #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChildName<TResult>(Complex.Graph.Children.Child child, global::Graphify.Testing.Complex root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var name = new Complex.Graph.Children.Child.Name(child, root, value);
 
-                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children.Child.Name, TResult>> observers))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children.Child.Name, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Complex.Graph.Children.Child.Name, TResult>(name, observers, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, _provider.Invoke<Complex.Graph.Children.Child.Name, TResult>(name, observers, cancellationToken), cancellationToken);
                             }
 
-                            results = Concat(results, NavigateChildrenChildNameLength<TResult>(name, root, value.Length, cancellationToken), cancellationToken);
+                            results = _provider.Concat(results, NavigateChildrenChildNameLength<TResult>(name, root, value.Length, cancellationToken), cancellationToken);
 
                             return results;
                         }
                     }
+                    #endif
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
@@ -608,26 +642,29 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
                     #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChildNameLength<TResult>(Complex.Graph.Children.Child.Name name, global::Graphify.Testing.Complex root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var length = new Complex.Graph.Children.Child.Name.Length(name, root, value);
 
-                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children.Child.Name.Length, TResult>> observers))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children.Child.Name.Length, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Complex.Graph.Children.Child.Name.Length, TResult>(length, observers, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, _provider.Invoke<Complex.Graph.Children.Child.Name.Length, TResult>(length, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
                         }
                     }
+                    #endif
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
@@ -642,28 +679,31 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
                     #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateName<TResult>(global::Graphify.Testing.Complex root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var name = new Complex.Graph.Name(root, value);
 
-                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Name, TResult>> observers))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Name, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Complex.Graph.Name, TResult>(name, observers, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, _provider.Invoke<Complex.Graph.Name, TResult>(name, observers, cancellationToken), cancellationToken);
                             }
 
-                            results = Concat(results, NavigateNameLength<TResult>(name, root, value.Length, cancellationToken), cancellationToken);
+                            results = _provider.Concat(results, NavigateNameLength<TResult>(name, root, value.Length, cancellationToken), cancellationToken);
 
                             return results;
                         }
                     }
+                    #endif
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
@@ -678,26 +718,29 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
                     #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                     {
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateNameLength<TResult>(Complex.Graph.Name name, global::Graphify.Testing.Complex root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = Empty<TResult>();
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var length = new Complex.Graph.Name.Length(name, root, value);
 
-                            if (HasObservers(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Name.Length, TResult>> observers))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Name.Length, TResult>> observers))
                             {
-                                results = Concat(results, Invoke<Complex.Graph.Name.Length, TResult>(length, observers, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, _provider.Invoke<Complex.Graph.Name.Length, TResult>(length, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
                         }
                     }
+                    #endif
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
@@ -712,11 +755,13 @@ internal static partial class Complex
                 {
                     using System;
                     using System.Collections.Generic;
+                    using Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
                     #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public static partial class ServiceCollectionExtensions
                     {
                         public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection AddComplexNavigator(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
@@ -726,15 +771,13 @@ internal static partial class Complex
                                 throw new global::System.ArgumentNullException("services");
                             }
 
-                            _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Graphify.INavigator<Complex>>(
-                                services, (global::System.IServiceProvider provider) => (global::Graphify.INavigator<Complex>)provider.GetService(typeof(ComplexNavigator)));
-
                             _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<IComplexNavigator>(
                                 services, (global::System.IServiceProvider provider) => (IComplexNavigator)provider.GetService(typeof(ComplexNavigator)));
 
                             return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<ComplexNavigator>(services);
                         }
                     }
+                    #endif
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore

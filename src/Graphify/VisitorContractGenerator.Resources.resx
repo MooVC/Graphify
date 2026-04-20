@@ -118,7 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="Content" xml:space="preserve">
-    <value>namespace Graphify
+    <value>#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+namespace Graphify
 {{
     using System.Collections.Generic;
     using System.Threading;
@@ -129,6 +130,7 @@
     {{
         IAsyncEnumerable&lt;TResult&gt; Observe(T instance, CancellationToken cancellationToken);
     }}
-}}</value>
+}}
+#endif</value>
   </data>
 </root>

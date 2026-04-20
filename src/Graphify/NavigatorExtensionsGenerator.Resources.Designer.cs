@@ -63,24 +63,15 @@ namespace Graphify {
         /// <summary>
         ///   Looks up a localized string similar to namespace Graphify
         ///{{
-        ///    using System;
-        ///    using System.Collections.Generic;
-        ///    using System.Linq;
-        ///    using System.Runtime.CompilerServices;
-        ///    using System.Threading;
-        ///    using System.Threading.Tasks;
-        ///    using Graphify;
-        ///
-        ///    public abstract class Navigator&lt;T&gt;
-        ///        : INavigator&lt;T&gt;
-        ///        where T : class
+        ///    [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
+        ///    internal static partial class {0}
         ///    {{
-        ///        private readonly IServiceProvider _provider;
-        ///    
-        ///        protected Navigator(IServiceProvider provider)
-        ///        {{
-        ///            if (ReferenceEquals(provider, null))
-        /// [rest of string was truncated]&quot;;.
+        ///#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+        ///        public static async global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Concat&lt;TResult&gt;(
+        ///            this global::System.IServiceProvider provider,
+        ///            global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; first,
+        ///            global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; second,
+        ///    [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content {
             get {
@@ -88,5 +79,4 @@ namespace Graphify {
             }
         }
     }
-}
 }

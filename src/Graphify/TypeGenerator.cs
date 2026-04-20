@@ -22,10 +22,11 @@
         {
             new AsynchronousContractStrategy(),
             new AsynchronousNavigatorStrategy(),
-            new SynchronousContractStrategy(),
-            new SynchronousNavigatorStrategy(),
+            new AsynchronousRegistrationStrategy(),
             new ModelStrategy(),
-            new RegistrationStrategy(),
+            new SynchronousContractStrategy(),
+            new SynchronousRegistrationStrategy(),
+            new SynchronousNavigatorStrategy(),
         };
 
         /// <inheritdoc/>

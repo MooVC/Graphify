@@ -17,6 +17,7 @@ internal static partial class Traversals
             Expected.NavigatorDeepChildrenTraversalChild,
             Expected.NavigatorDeepChildrenTraversalChildName,
             Expected.NavigatorDeepChildrenTraversalChildNameLength,
+            Expected.Registration,
             Expected.Title,
             Expected.Description,
             Expected.DescriptionLength,
@@ -26,7 +27,6 @@ internal static partial class Traversals
             Expected.DeepChildrenTraversalChild,
             Expected.DeepChildrenTraversalChildName,
             Expected.DeepChildrenTraversalChildNameLength,
-            Expected.Registration,
         ],
         nameof(Traversals));
 }

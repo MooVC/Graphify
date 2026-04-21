@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations;
+﻿namespace Graphify.Snippets.Declarations.Asynchronous;
 
 internal static partial class DepthLimited
 {
@@ -6,7 +6,7 @@ internal static partial class DepthLimited
     {
         public static readonly Generated Child = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
@@ -22,15 +22,15 @@ internal static partial class DepthLimited
                         {
                             public sealed partial class Child
                             {
-                                internal Child(global::Graphify.Testing.DepthLimited root, global::Graphify.Testing.DepthChild value)
+                                internal Child(global::Graphify.Testing.Asynchronous.DepthLimited root, global::Graphify.Testing.Asynchronous.DepthChild value)
                                 {
                                     Root = root;
                                     Value = value;
                                 }
 
-                                public global::Graphify.Testing.DepthLimited Root { get; private set; }
+                                public global::Graphify.Testing.Asynchronous.DepthLimited Root { get; private set; }
 
-                                public global::Graphify.Testing.DepthChild Value { get; private set; }
+                                public global::Graphify.Testing.Asynchronous.DepthChild Value { get; private set; }
                             }
                         }
                     }
@@ -40,11 +40,11 @@ internal static partial class DepthLimited
                     #endif
                 }
                 """,
-            "Graphify.Testing.DepthLimited.Child.g.cs");
+            "Graphify.Testing.Asynchronous.DepthLimited.Child.g.cs");
 
         public static readonly Generated Contract = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
@@ -66,11 +66,11 @@ internal static partial class DepthLimited
                     #endif
                 }
                 """,
-            "Graphify.Testing.IDepthLimitedNavigator.g.cs");
+            "Graphify.Testing.Asynchronous.IDepthLimitedNavigator.g.cs");
 
         public static readonly Generated NavigatorChild = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
@@ -83,7 +83,7 @@ internal static partial class DepthLimited
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class DepthLimitedNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChild<TResult>(global::Graphify.Testing.DepthLimited root, global::Graphify.Testing.DepthChild value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChild<TResult>(global::Graphify.Testing.Asynchronous.DepthLimited root, global::Graphify.Testing.Asynchronous.DepthChild value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var child = new DepthLimited.Graph.Child(root, value);
@@ -103,11 +103,11 @@ internal static partial class DepthLimited
                     #endif
                 }
                 """,
-            "Graphify.Testing.DepthLimitedNavigator.Child.g.cs");
+            "Graphify.Testing.Asynchronous.DepthLimitedNavigator.Child.g.cs");
 
         public static readonly Generated Navigator = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
@@ -154,11 +154,11 @@ internal static partial class DepthLimited
                     #endif
                 }
                 """,
-            "Graphify.Testing.DepthLimitedNavigator.g.cs");
+            "Graphify.Testing.Asynchronous.DepthLimitedNavigator.g.cs");
 
         public static readonly Generated Registration = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
@@ -191,6 +191,6 @@ internal static partial class DepthLimited
                     #endif
                 }
                 """,
-            "Graphify.Testing.ServiceCollectionExtensions.AddDepthLimitedNavigator.g.cs");
+            "Graphify.Testing.Asynchronous.ServiceCollectionExtensions.AddDepthLimitedNavigator.g.cs");
     }
 }

@@ -25,8 +25,8 @@
             new AsynchronousRegistrationStrategy(),
             new ModelStrategy(),
             new SynchronousContractStrategy(),
-            new SynchronousRegistrationStrategy(),
             new SynchronousNavigatorStrategy(),
+            new SynchronousRegistrationStrategy(),
         };
 
         /// <inheritdoc/>

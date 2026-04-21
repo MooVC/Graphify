@@ -1,6 +1,6 @@
-﻿namespace Graphify.Snippets.Declarations.Asynchronous;
+﻿namespace Graphify.Snippets.Declarations.Synchronous;
 
-internal static partial class Complex
+internal static partial class Simple
 {
     public static readonly Snippets Declaration = new(
         [
@@ -14,22 +14,14 @@ internal static partial class Complex
             Expected.Contract,
             Expected.Navigator,
             Expected.NavigatorAge,
-            Expected.NavigatorChildren,
-            Expected.NavigatorChildrenChild,
-            Expected.NavigatorChildrenChildAge,
-            Expected.NavigatorChildrenChildName,
-            Expected.NavigatorChildrenChildNameLength,
+            Expected.NavigatorIsAdult,
             Expected.NavigatorName,
             Expected.NavigatorNameLength,
             Expected.Registration,
             Expected.Age,
-            Expected.Children,
-            Expected.ChildrenChild,
-            Expected.ChildrenChildAge,
-            Expected.ChildrenChildName,
-            Expected.ChildrenChildNameLength,
+            Expected.IsAdult,
             Expected.Name,
             Expected.NameLength,
         ],
-        nameof(Complex));
+        nameof(Simple));
 }

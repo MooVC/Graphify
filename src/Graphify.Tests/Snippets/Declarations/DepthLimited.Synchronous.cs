@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Asynchronous;
+﻿namespace Graphify.Snippets.Declarations.Synchronous;
 
 internal static partial class DepthLimited
 {

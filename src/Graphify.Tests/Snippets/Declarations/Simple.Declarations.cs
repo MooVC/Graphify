@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations;
+﻿namespace Graphify.Snippets.Declarations.Asynchronous;
 
 using Microsoft.CodeAnalysis.CSharp;
 

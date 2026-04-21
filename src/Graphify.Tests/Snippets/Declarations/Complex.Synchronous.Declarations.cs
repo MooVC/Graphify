@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Asynchronous;
+﻿namespace Graphify.Snippets.Declarations.Synchronous;
 
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -81,7 +81,7 @@ internal static partial class Complex
                     public string Name { get; set; }
                 }
 
-                [Graphify]
+                [Graphify(Mode = Graphify.Model.Modes.Synchronous)]
                 public sealed partial class Complex
             __BODY__
             }

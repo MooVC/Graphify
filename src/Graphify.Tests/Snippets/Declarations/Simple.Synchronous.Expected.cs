@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Asynchronous;
+﻿namespace Graphify.Snippets.Declarations.Synchronous;
 
 internal static partial class Simple
 {
@@ -12,9 +12,7 @@ internal static partial class Simple
                     using System.Collections.Generic;
                     using Graphify;
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
-                    #endif
 
                     partial class Simple
                     {
@@ -35,9 +33,7 @@ internal static partial class Simple
                         }
                     }
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
-                    #endif
                 }
                 """,
             "Graphify.Testing.Simple.Age.g.cs");
@@ -50,20 +46,14 @@ internal static partial class Simple
                     using System.Collections.Generic;
                     using Graphify;
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
-                    #endif
                 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public partial interface ISimpleNavigator
                     {
-                        global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(Simple root, global::System.Threading.CancellationToken cancellationToken);
+                        global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(Simple root);
                     }
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
-                    #endif
                 }
                 """,
             "Graphify.Testing.ISimpleNavigator.g.cs");
@@ -76,9 +66,7 @@ internal static partial class Simple
                     using System.Collections.Generic;
                     using Graphify;
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
-                    #endif
 
                     partial class Simple
                     {
@@ -99,9 +87,7 @@ internal static partial class Simple
                         }
                     }
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
-                    #endif
                 }
                 """,
             "Graphify.Testing.Simple.IsAdult.g.cs");
@@ -114,9 +100,7 @@ internal static partial class Simple
                     using System.Collections.Generic;
                     using Graphify;
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
-                    #endif
 
                     partial class Simple
                     {
@@ -137,9 +121,7 @@ internal static partial class Simple
                         }
                     }
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
-                    #endif
                 }
                 """,
             "Graphify.Testing.Simple.Name.g.cs");
@@ -152,9 +134,7 @@ internal static partial class Simple
                     using System.Collections.Generic;
                     using Graphify;
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
-                    #endif
 
                     partial class Simple
                     {
@@ -182,9 +162,7 @@ internal static partial class Simple
                         }
                     }
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
-                    #endif
                 }
                 """,
             "Graphify.Testing.Simple.Name.Length.g.cs");
@@ -197,31 +175,25 @@ internal static partial class Simple
                     using System.Collections.Generic;
                     using Graphify;
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class SimpleNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateAge<TResult>(global::Graphify.Testing.Simple root, int value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateAge<TResult>(global::Graphify.Testing.Simple root, int value)
                         {
-                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
+                            global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var age = new Simple.Graph.Age(root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Simple.Graph.Age, TResult>> observers))
+                            if (_provider.HasInspectors<Simple.Graph.Age, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Simple.Graph.Age, TResult>> inspectors))
                             {
-                                results = _provider.Concat(results, _provider.Invoke<Simple.Graph.Age, TResult>(age, observers, cancellationToken), cancellationToken);
+                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Simple.Graph.Age, TResult>(age, inspectors));
                             }
 
                             return results;
                         }
                     }
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
-                    #endif
                 }
                 """,
             "Graphify.Testing.SimpleNavigator.Age.g.cs");
@@ -234,11 +206,8 @@ internal static partial class Simple
                     using System.Collections.Generic;
                     using Graphify;
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class SimpleNavigator
                         : ISimpleNavigator
                     {
@@ -248,33 +217,30 @@ internal static partial class Simple
                         {
                             if (global::System.Object.ReferenceEquals(provider, null))
                             {
-                                throw new global::System.ArgumentNullException("provider");
+                                throw new global::System.ArgumentNullException(nameof(provider));
                             }
 
                             _provider = provider;
                         }
 
-                        public global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(Simple root, global::System.Threading.CancellationToken cancellationToken)
+                        public global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(Simple root)
                         {
-                            var results = _provider.Empty<TResult>();
+                            var results = global::System.Linq.Enumerable.Empty<TResult>();
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Simple, TResult>> observers))
+                            if (_provider.HasInspectors<Simple, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Simple, TResult>> inspectors))
                             {
-                                results = _provider.Invoke<Simple, TResult>(root, observers, cancellationToken);
+                                results = _provider.Invoke<Simple, TResult>(root, inspectors);
                             }
 
-                            results = _provider.Concat(results, NavigateAge<TResult>(root, root.Age, cancellationToken), cancellationToken);
-                            results = _provider.Concat(results, NavigateIsAdult<TResult>(root, root.IsAdult, cancellationToken), cancellationToken);
-                            results = _provider.Concat(results, NavigateName<TResult>(root, root.Name, cancellationToken), cancellationToken);
+                            results = global::System.Linq.Enumerable.Concat(results, NavigateAge<TResult>(root, root.Age));
+                            results = global::System.Linq.Enumerable.Concat(results, NavigateIsAdult<TResult>(root, root.IsAdult));
+                            results = global::System.Linq.Enumerable.Concat(results, NavigateName<TResult>(root, root.Name));
 
                             return results;
                         }
                     }
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
-                    #endif
                 }
                 """,
             "Graphify.Testing.SimpleNavigator.g.cs");
@@ -287,31 +253,25 @@ internal static partial class Simple
                     using System.Collections.Generic;
                     using Graphify;
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class SimpleNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateIsAdult<TResult>(global::Graphify.Testing.Simple root, bool value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateIsAdult<TResult>(global::Graphify.Testing.Simple root, bool value)
                         {
-                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
+                            global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var isAdult = new Simple.Graph.IsAdult(root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Simple.Graph.IsAdult, TResult>> observers))
+                            if (_provider.HasInspectors<Simple.Graph.IsAdult, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Simple.Graph.IsAdult, TResult>> inspectors))
                             {
-                                results = _provider.Concat(results, _provider.Invoke<Simple.Graph.IsAdult, TResult>(isAdult, observers, cancellationToken), cancellationToken);
+                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Simple.Graph.IsAdult, TResult>(isAdult, inspectors));
                             }
 
                             return results;
                         }
                     }
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
-                    #endif
                 }
                 """,
             "Graphify.Testing.SimpleNavigator.IsAdult.g.cs");
@@ -324,33 +284,27 @@ internal static partial class Simple
                     using System.Collections.Generic;
                     using Graphify;
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class SimpleNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateName<TResult>(global::Graphify.Testing.Simple root, string value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateName<TResult>(global::Graphify.Testing.Simple root, string value)
                         {
-                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
+                            global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var name = new Simple.Graph.Name(root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Simple.Graph.Name, TResult>> observers))
+                            if (_provider.HasInspectors<Simple.Graph.Name, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Simple.Graph.Name, TResult>> inspectors))
                             {
-                                results = _provider.Concat(results, _provider.Invoke<Simple.Graph.Name, TResult>(name, observers, cancellationToken), cancellationToken);
+                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Simple.Graph.Name, TResult>(name, inspectors));
                             }
 
-                            results = _provider.Concat(results, NavigateNameLength<TResult>(name, root, value.Length, cancellationToken), cancellationToken);
+                            results = global::System.Linq.Enumerable.Concat(results, NavigateNameLength<TResult>(name, root, value.Length));
 
                             return results;
                         }
                     }
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
-                    #endif
                 }
                 """,
             "Graphify.Testing.SimpleNavigator.Name.g.cs");
@@ -363,31 +317,25 @@ internal static partial class Simple
                     using System.Collections.Generic;
                     using Graphify;
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class SimpleNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateNameLength<TResult>(Simple.Graph.Name name, global::Graphify.Testing.Simple root, int value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateNameLength<TResult>(Simple.Graph.Name name, global::Graphify.Testing.Simple root, int value)
                         {
-                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
+                            global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var length = new Simple.Graph.Name.Length(name, root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Simple.Graph.Name.Length, TResult>> observers))
+                            if (_provider.HasInspectors<Simple.Graph.Name.Length, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Simple.Graph.Name.Length, TResult>> inspectors))
                             {
-                                results = _provider.Concat(results, _provider.Invoke<Simple.Graph.Name.Length, TResult>(length, observers, cancellationToken), cancellationToken);
+                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Simple.Graph.Name.Length, TResult>(length, inspectors));
                             }
 
                             return results;
                         }
                     }
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
-                    #endif
                 }
                 """,
             "Graphify.Testing.SimpleNavigator.Name.Length.g.cs");
@@ -400,11 +348,8 @@ internal static partial class Simple
                     using System.Collections.Generic;
                     using Graphify;
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public static partial class ServiceCollectionExtensions
                     {
                         public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection AddSimpleNavigator(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
@@ -420,11 +365,8 @@ internal static partial class Simple
                             return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<SimpleNavigator>(services);
                         }
                     }
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
-                    #endif
                 }
                 """,
             "Graphify.Testing.ServiceCollectionExtensions.AddSimpleNavigator.g.cs");

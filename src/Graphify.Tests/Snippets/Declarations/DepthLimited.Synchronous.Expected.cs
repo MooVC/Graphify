@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Asynchronous;
+﻿namespace Graphify.Snippets.Declarations.Synchronous;
 
 internal static partial class DepthLimited
 {
@@ -12,9 +12,7 @@ internal static partial class DepthLimited
                     using System.Collections.Generic;
                     using Graphify;
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
-                    #endif
 
                     partial class DepthLimited
                     {
@@ -35,9 +33,7 @@ internal static partial class DepthLimited
                         }
                     }
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
-                    #endif
                 }
                 """,
             "Graphify.Testing.DepthLimited.Child.g.cs");
@@ -50,20 +46,14 @@ internal static partial class DepthLimited
                     using System.Collections.Generic;
                     using Graphify;
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public partial interface IDepthLimitedNavigator
                     {
-                        global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(DepthLimited root, global::System.Threading.CancellationToken cancellationToken);
+                        global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(DepthLimited root);
                     }
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
-                    #endif
                 }
                 """,
             "Graphify.Testing.IDepthLimitedNavigator.g.cs");
@@ -76,31 +66,25 @@ internal static partial class DepthLimited
                     using System.Collections.Generic;
                     using Graphify;
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class DepthLimitedNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChild<TResult>(global::Graphify.Testing.DepthLimited root, global::Graphify.Testing.DepthChild value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateChild<TResult>(global::Graphify.Testing.DepthLimited root, global::Graphify.Testing.DepthChild value)
                         {
-                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
+                            global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var child = new DepthLimited.Graph.Child(root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<DepthLimited.Graph.Child, TResult>> observers))
+                            if (_provider.HasInspectors<DepthLimited.Graph.Child, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<DepthLimited.Graph.Child, TResult>> inspectors))
                             {
-                                results = _provider.Concat(results, _provider.Invoke<DepthLimited.Graph.Child, TResult>(child, observers, cancellationToken), cancellationToken);
+                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<DepthLimited.Graph.Child, TResult>(child, inspectors));
                             }
 
                             return results;
                         }
                     }
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
-                    #endif
                 }
                 """,
             "Graphify.Testing.DepthLimitedNavigator.Child.g.cs");
@@ -113,11 +97,8 @@ internal static partial class DepthLimited
                     using System.Collections.Generic;
                     using Graphify;
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class DepthLimitedNavigator
                         : IDepthLimitedNavigator
                     {
@@ -127,31 +108,28 @@ internal static partial class DepthLimited
                         {
                             if (global::System.Object.ReferenceEquals(provider, null))
                             {
-                                throw new global::System.ArgumentNullException("provider");
+                                throw new global::System.ArgumentNullException(nameof(provider));
                             }
 
                             _provider = provider;
                         }
 
-                        public global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(DepthLimited root, global::System.Threading.CancellationToken cancellationToken)
+                        public global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(DepthLimited root)
                         {
-                            var results = _provider.Empty<TResult>();
+                            var results = global::System.Linq.Enumerable.Empty<TResult>();
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<DepthLimited, TResult>> observers))
+                            if (_provider.HasInspectors<DepthLimited, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<DepthLimited, TResult>> inspectors))
                             {
-                                results = _provider.Invoke<DepthLimited, TResult>(root, observers, cancellationToken);
+                                results = _provider.Invoke<DepthLimited, TResult>(root, inspectors);
                             }
 
-                            results = _provider.Concat(results, NavigateChild<TResult>(root, root.Child, cancellationToken), cancellationToken);
+                            results = global::System.Linq.Enumerable.Concat(results, NavigateChild<TResult>(root, root.Child));
 
                             return results;
                         }
                     }
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
-                    #endif
                 }
                 """,
             "Graphify.Testing.DepthLimitedNavigator.g.cs");
@@ -164,11 +142,8 @@ internal static partial class DepthLimited
                     using System.Collections.Generic;
                     using Graphify;
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public static partial class ServiceCollectionExtensions
                     {
                         public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection AddDepthLimitedNavigator(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
@@ -184,11 +159,8 @@ internal static partial class DepthLimited
                             return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<DepthLimitedNavigator>(services);
                         }
                     }
-                    #endif
 
-                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
-                    #endif
                 }
                 """,
             "Graphify.Testing.ServiceCollectionExtensions.AddDepthLimitedNavigator.g.cs");

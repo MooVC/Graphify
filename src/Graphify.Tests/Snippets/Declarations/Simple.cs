@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations;
+﻿namespace Graphify.Snippets.Declarations.Asynchronous;
 
 internal static partial class Simple
 {

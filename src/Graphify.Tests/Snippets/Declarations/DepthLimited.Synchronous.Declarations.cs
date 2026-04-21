@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Asynchronous;
+﻿namespace Graphify.Snippets.Declarations.Synchronous;
 
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -15,7 +15,7 @@ internal static partial class DepthLimited
                     public string Name { get; set; }
                 }
 
-                [Graphify(Depth = 1)]
+                [Graphify(Depth = 1, Mode = Graphify.Model.Modes.Synchronous)]
                 public sealed partial class DepthLimited
                 {
                     public DepthChild Child { get; set; }

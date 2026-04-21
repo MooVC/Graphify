@@ -1,5 +1,6 @@
 ﻿namespace Graphify
 {
+    using System;
     using System.Text;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.Text;
@@ -34,7 +35,13 @@
         /// <inheritdoc/>
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
+            context.RegisterPostInitializationOutput(Generate);
             context.RegisterSourceOutput(context.CompilationProvider, Generate);
+        }
+
+        private static void Generate(IncrementalGeneratorPostInitializationContext context)
+        {
+            context.AddEmbeddedAttributeDefinition();
         }
 
         private static void Generate(SourceProductionContext context, Compilation compilation)

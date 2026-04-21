@@ -66,6 +66,14 @@ namespace Graphify {
         ///    using System;
         ///    using System.Diagnostics.CodeAnalysis;
         ///
+        ///    public enum Modes
+        ///    {{
+        ///        Synchronous,
+        ///#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+        ///        Asynchronous,
+        ///#endif
+        ///    }}
+        ///
         ///    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false, AllowMultiple = false)]
         ///    public sealed class {0}Attribute
         ///        : Attribute
@@ -73,11 +81,7 @@ namespace Graphify {
         ///        public {0}Attribute()
         ///        {{
         ///            Depth = 16;
-        ///        }}
-        ///
-        ///        public byte Depth {{ get; set; }}
-        ///    }}
-        ///}}.
+        ///#if NET5_0_OR_GREATER || NET [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content {
             get {

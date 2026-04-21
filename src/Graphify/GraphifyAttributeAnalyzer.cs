@@ -155,15 +155,15 @@
         {
             identifier = parent.Identifier.Text;
 
-            INamedTypeSymbol symbol = context.SemanticModel.GetDeclaredSymbol(parent, cancellationToken: context.CancellationToken) as INamedTypeSymbol;
+            ISymbol symbol = context.SemanticModel.GetDeclaredSymbol(parent, cancellationToken: context.CancellationToken);
 
             if (symbol is null)
             {
                 return false;
             }
 
-            return symbol.DeclaredAccessibility != Accessibility.Public
-                && symbol.DeclaredAccessibility != Accessibility.Internal;
+            return !(symbol.DeclaredAccessibility == Accessibility.Public
+                  || symbol.DeclaredAccessibility == Accessibility.Internal);
         }
     }
 }

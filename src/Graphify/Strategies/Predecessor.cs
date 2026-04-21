@@ -1,11 +1,13 @@
 ﻿namespace Graphify.Strategies
 {
     using Graphify.Model;
+    using Valuify;
 
     /// <summary>
     /// Represents a predecessor element or property used for internal processing.
     /// </summary>
-    internal sealed class Predecessor
+    [Valuify]
+    internal sealed partial class Predecessor
     {
         public bool IsIndex { get; private set; }
 

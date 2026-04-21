@@ -20,10 +20,13 @@
     {
         private static readonly IStrategy[] _strategies = new IStrategy[]
         {
-            new ContractStrategy(),
-            new ImplementationStrategy(),
+            new AsynchronousContractStrategy(),
+            new AsynchronousNavigatorStrategy(),
+            new AsynchronousRegistrationStrategy(),
             new ModelStrategy(),
-            new RegistrationStrategy(),
+            new SynchronousContractStrategy(),
+            new SynchronousNavigatorStrategy(),
+            new SynchronousRegistrationStrategy(),
         };
 
         /// <inheritdoc/>

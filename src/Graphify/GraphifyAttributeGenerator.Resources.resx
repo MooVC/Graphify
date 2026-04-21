@@ -123,6 +123,14 @@
     using System;
     using System.Diagnostics.CodeAnalysis;
 
+    public enum Modes
+    {{
+        Synchronous,
+#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+        Asynchronous,
+#endif
+    }}
+
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false, AllowMultiple = false)]
     public sealed class {0}Attribute
         : Attribute
@@ -130,9 +138,16 @@
         public {0}Attribute()
         {{
             Depth = 16;
+#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+            Mode = Modes.Asynchronous;
+#else
+            Mode = Modes.Synchronous;
+#endif
         }}
 
         public byte Depth {{ get; set; }}
+
+        public Modes Mode {{ get; set; }}
     }}
 }}</value>
   </data>

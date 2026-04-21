@@ -30,7 +30,7 @@
         /// <remarks>
         /// If the declaration associated with the type cannot be determined, the method will return <see langword="null" />.
         /// </remarks>
-        public static Subject ToSubject(this INamedTypeSymbol subject, byte depth, in ImmutableArray<Nesting> nesting, bool hasRegistration)
+        public static Subject ToSubject(this INamedTypeSymbol subject, byte depth, Modes mode, in ImmutableArray<Nesting> nesting, bool hasRegistration)
         {
             string @namespace = subject.ContainingNamespace.IsGlobalNamespace
                ? string.Empty
@@ -51,6 +51,7 @@
                 Depth = depth,
                 HasContract = subject.HasContract(),
                 HasRegistration = subject.HasRegistration(),
+                Mode = mode,
                 Name = subject.Name,
                 Namespace = @namespace,
                 Nesting = nesting,

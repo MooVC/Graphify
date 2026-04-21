@@ -6,7 +6,7 @@ internal static partial class Simple
     {
         public static readonly Generated Age = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
@@ -22,13 +22,13 @@ internal static partial class Simple
                         {
                             public sealed partial class Age
                             {
-                                internal Age(global::Graphify.Testing.Simple root, int value)
+                                internal Age(global::Graphify.Testing.Asynchronous.Simple root, int value)
                                 {
                                     Root = root;
                                     Value = value;
                                 }
 
-                                public global::Graphify.Testing.Simple Root { get; private set; }
+                                public global::Graphify.Testing.Asynchronous.Simple Root { get; private set; }
 
                                 public int Value { get; private set; }
                             }
@@ -40,11 +40,11 @@ internal static partial class Simple
                     #endif
                 }
                 """,
-            "Graphify.Testing.Simple.Age.g.cs");
+            "Graphify.Testing.Asynchronous.Simple.Age.g.cs");
 
         public static readonly Generated Contract = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
@@ -66,11 +66,11 @@ internal static partial class Simple
                     #endif
                 }
                 """,
-            "Graphify.Testing.ISimpleNavigator.g.cs");
+            "Graphify.Testing.Asynchronous.ISimpleNavigator.g.cs");
 
         public static readonly Generated IsAdult = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
@@ -86,13 +86,13 @@ internal static partial class Simple
                         {
                             public sealed partial class IsAdult
                             {
-                                internal IsAdult(global::Graphify.Testing.Simple root, bool value)
+                                internal IsAdult(global::Graphify.Testing.Asynchronous.Simple root, bool value)
                                 {
                                     Root = root;
                                     Value = value;
                                 }
 
-                                public global::Graphify.Testing.Simple Root { get; private set; }
+                                public global::Graphify.Testing.Asynchronous.Simple Root { get; private set; }
 
                                 public bool Value { get; private set; }
                             }
@@ -104,11 +104,11 @@ internal static partial class Simple
                     #endif
                 }
                 """,
-            "Graphify.Testing.Simple.IsAdult.g.cs");
+            "Graphify.Testing.Asynchronous.Simple.IsAdult.g.cs");
 
         public static readonly Generated Name = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
@@ -124,13 +124,13 @@ internal static partial class Simple
                         {
                             public sealed partial class Name
                             {
-                                internal Name(global::Graphify.Testing.Simple root, string value)
+                                internal Name(global::Graphify.Testing.Asynchronous.Simple root, string value)
                                 {
                                     Root = root;
                                     Value = value;
                                 }
 
-                                public global::Graphify.Testing.Simple Root { get; private set; }
+                                public global::Graphify.Testing.Asynchronous.Simple Root { get; private set; }
 
                                 public string Value { get; private set; }
                             }
@@ -142,11 +142,11 @@ internal static partial class Simple
                     #endif
                 }
                 """,
-            "Graphify.Testing.Simple.Name.g.cs");
+            "Graphify.Testing.Asynchronous.Simple.Name.g.cs");
 
         public static readonly Generated NameLength = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
@@ -164,7 +164,7 @@ internal static partial class Simple
                             {
                                 public sealed partial class Length
                                 {
-                                    internal Length(Simple.Graph.Name name, global::Graphify.Testing.Simple root, int value)
+                                    internal Length(Simple.Graph.Name name, global::Graphify.Testing.Asynchronous.Simple root, int value)
                                     {
                                         Name = name;
 
@@ -174,7 +174,7 @@ internal static partial class Simple
 
                                     public Simple.Graph.Name Name { get; private set; }
 
-                                    public global::Graphify.Testing.Simple Root { get; private set; }
+                                    public global::Graphify.Testing.Asynchronous.Simple Root { get; private set; }
 
                                     public int Value { get; private set; }
                                 }
@@ -187,11 +187,11 @@ internal static partial class Simple
                     #endif
                 }
                 """,
-            "Graphify.Testing.Simple.Name.Length.g.cs");
+            "Graphify.Testing.Asynchronous.Simple.Name.Length.g.cs");
 
         public static readonly Generated NavigatorAge = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
@@ -204,7 +204,7 @@ internal static partial class Simple
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class SimpleNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateAge<TResult>(global::Graphify.Testing.Simple root, int value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateAge<TResult>(global::Graphify.Testing.Asynchronous.Simple root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var age = new Simple.Graph.Age(root, value);
@@ -224,11 +224,11 @@ internal static partial class Simple
                     #endif
                 }
                 """,
-            "Graphify.Testing.SimpleNavigator.Age.g.cs");
+            "Graphify.Testing.Asynchronous.SimpleNavigator.Age.g.cs");
 
         public static readonly Generated Navigator = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
@@ -277,11 +277,11 @@ internal static partial class Simple
                     #endif
                 }
                 """,
-            "Graphify.Testing.SimpleNavigator.g.cs");
+            "Graphify.Testing.Asynchronous.SimpleNavigator.g.cs");
 
         public static readonly Generated NavigatorIsAdult = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
@@ -294,7 +294,7 @@ internal static partial class Simple
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class SimpleNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateIsAdult<TResult>(global::Graphify.Testing.Simple root, bool value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateIsAdult<TResult>(global::Graphify.Testing.Asynchronous.Simple root, bool value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var isAdult = new Simple.Graph.IsAdult(root, value);
@@ -314,11 +314,11 @@ internal static partial class Simple
                     #endif
                 }
                 """,
-            "Graphify.Testing.SimpleNavigator.IsAdult.g.cs");
+            "Graphify.Testing.Asynchronous.SimpleNavigator.IsAdult.g.cs");
 
         public static readonly Generated NavigatorName = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
@@ -331,7 +331,7 @@ internal static partial class Simple
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class SimpleNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateName<TResult>(global::Graphify.Testing.Simple root, string value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateName<TResult>(global::Graphify.Testing.Asynchronous.Simple root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var name = new Simple.Graph.Name(root, value);
@@ -353,11 +353,11 @@ internal static partial class Simple
                     #endif
                 }
                 """,
-            "Graphify.Testing.SimpleNavigator.Name.g.cs");
+            "Graphify.Testing.Asynchronous.SimpleNavigator.Name.g.cs");
 
         public static readonly Generated NavigatorNameLength = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
@@ -370,7 +370,7 @@ internal static partial class Simple
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class SimpleNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateNameLength<TResult>(Simple.Graph.Name name, global::Graphify.Testing.Simple root, int value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateNameLength<TResult>(Simple.Graph.Name name, global::Graphify.Testing.Asynchronous.Simple root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var length = new Simple.Graph.Name.Length(name, root, value);
@@ -390,11 +390,11 @@ internal static partial class Simple
                     #endif
                 }
                 """,
-            "Graphify.Testing.SimpleNavigator.Name.Length.g.cs");
+            "Graphify.Testing.Asynchronous.SimpleNavigator.Name.Length.g.cs");
 
         public static readonly Generated Registration = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
@@ -427,6 +427,6 @@ internal static partial class Simple
                     #endif
                 }
                 """,
-            "Graphify.Testing.ServiceCollectionExtensions.AddSimpleNavigator.g.cs");
+            "Graphify.Testing.Asynchronous.ServiceCollectionExtensions.AddSimpleNavigator.g.cs");
     }
 }

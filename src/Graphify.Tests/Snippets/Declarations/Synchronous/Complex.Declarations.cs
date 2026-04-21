@@ -72,7 +72,7 @@ internal static partial class Complex
 
         public static readonly Content Main = new(
             """
-            namespace Graphify.Testing
+            namespace Graphify.Testing.Synchronous
             {
                 public sealed partial class Child
                 {
@@ -81,7 +81,7 @@ internal static partial class Complex
                     public string Name { get; set; }
                 }
 
-                [Graphify(Mode = Graphify.Model.Modes.Synchronous)]
+                [Graphify(Mode = Graphify.Modes.Synchronous)]
                 public sealed partial class Complex
             __BODY__
             }

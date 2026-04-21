@@ -8,14 +8,14 @@ internal static partial class DepthLimited
     {
         public static readonly Content Main = new(
             """
-            namespace Graphify.Testing
+            namespace Graphify.Testing.Synchronous
             {
                 public sealed class DepthChild
                 {
                     public string Name { get; set; }
                 }
 
-                [Graphify(Depth = 1, Mode = Graphify.Model.Modes.Synchronous)]
+                [Graphify(Depth = 1, Mode = Graphify.Modes.Synchronous)]
                 public sealed partial class DepthLimited
                 {
                     public DepthChild Child { get; set; }

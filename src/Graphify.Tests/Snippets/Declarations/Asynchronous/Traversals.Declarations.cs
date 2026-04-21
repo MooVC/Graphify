@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Synchronous;
+﻿namespace Graphify.Snippets.Declarations.Asynchronous;
 
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -8,14 +8,14 @@ internal static partial class Traversals
     {
         public static readonly Content Main = new(
             """
-            namespace Graphify.Testing
+            namespace Graphify.Testing.Asynchronous
             {
                 public sealed class TraversalChild
                 {
                     public string Name { get; set; }
                 }
 
-                [Graphify(Mode = Graphify.Model.Modes.Synchronous)]
+                [Graphify]
                 public sealed partial class Traversals
                 {
                     [Traverse(Scope = TraverseScope.None)]

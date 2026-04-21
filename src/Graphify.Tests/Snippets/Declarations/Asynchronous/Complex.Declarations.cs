@@ -2,7 +2,7 @@
 
 using Microsoft.CodeAnalysis.CSharp;
 
-internal static partial class Simple
+internal static partial class Complex
 {
     public static class Declarations
     {
@@ -10,22 +10,19 @@ internal static partial class Simple
             """
                 {
                     private int _age;
+                    private Child[] _children;
                     private string _name;
-
-                    public static string Species
-                    {
-                        get { return "Human"; }
-                    }
 
                     public int Age
                     {
                         get { return _age; }
                         set { _age = value; }
                     }
-
-                    public bool IsAdult
+            
+                    public Child[] Children
                     {
-                        get { return Age >= 18; }
+                        get { return _children; }
+                        set { _children = value; }
                     }
 
                     public string Name
@@ -40,14 +37,9 @@ internal static partial class Simple
         public static readonly Content CSharp3Body = new(
             """
                 {
-                    public static string Species { get; private set; }
-
                     public int Age { get; set; }
 
-                    public bool IsAdult
-                    {
-                        get { return Age >= 18; }
-                    }
+                    public Child[] Children { get; set; }
 
                     public string Name { get; set; }
                 }
@@ -57,11 +49,9 @@ internal static partial class Simple
         public static readonly Content CSharp6Body = new(
             """
                 {
-                    public static string Species { get; } = "Human";
-
                     public int Age { get; }
-
-                    public bool IsAdult => Age >= 18;
+            
+                    public Child[] Children { get; }
 
                     public string Name { get; }
                 }
@@ -71,11 +61,9 @@ internal static partial class Simple
         public static readonly Content CSharp9Body = new(
             """
                 {
-                    public static string Species { get; } = "Human";
-
                     public int Age { get; init; }
-
-                    public bool IsAdult => Age >= 18;
+            
+                    public Child[] Children { get; init; }
 
                     public string Name { get; init; }
                 }
@@ -84,10 +72,17 @@ internal static partial class Simple
 
         public static readonly Content Main = new(
             """
-            namespace Graphify.Testing
+            namespace Graphify.Testing.Asynchronous
             {
+                public sealed partial class Child
+                {
+                    public int Age { get; set; }
+
+                    public string Name { get; set; }
+                }
+
                 [Graphify]
-                public sealed partial class Simple
+                public sealed partial class Complex
             __BODY__
             }
             """,

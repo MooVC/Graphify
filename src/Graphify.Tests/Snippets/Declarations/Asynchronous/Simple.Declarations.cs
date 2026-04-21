@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Synchronous;
+﻿namespace Graphify.Snippets.Declarations.Asynchronous;
 
 using Microsoft.CodeAnalysis.CSharp;
 
@@ -84,9 +84,9 @@ internal static partial class Simple
 
         public static readonly Content Main = new(
             """
-            namespace Graphify.Testing
+            namespace Graphify.Testing.Asynchronous
             {
-                [Graphify(Mode = Graphify.Model.Modes.Synchronous)]
+                [Graphify]
                 public sealed partial class Simple
             __BODY__
             }

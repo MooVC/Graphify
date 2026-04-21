@@ -8,7 +8,7 @@ internal static partial class DepthLimited
     {
         public static readonly Content Main = new(
             """
-            namespace Graphify.Testing
+            namespace Graphify.Testing.Asynchronous
             {
                 public sealed class DepthChild
                 {

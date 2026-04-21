@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Synchronous;
+﻿namespace Graphify.Snippets.Declarations.Asynchronous;
 
 internal static partial class Complex
 {
@@ -6,13 +6,15 @@ internal static partial class Complex
     {
         public static readonly Generated Age = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     partial class Complex
                     {
@@ -20,33 +22,37 @@ internal static partial class Complex
                         {
                             public sealed partial class Age
                             {
-                                internal Age(global::Graphify.Testing.Complex root, int value)
+                                internal Age(global::Graphify.Testing.Asynchronous.Complex root, int value)
                                 {
                                     Root = root;
                                     Value = value;
                                 }
 
-                                public global::Graphify.Testing.Complex Root { get; private set; }
+                                public global::Graphify.Testing.Asynchronous.Complex Root { get; private set; }
 
                                 public int Value { get; private set; }
                             }
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.Complex.Age.g.cs");
+            "Graphify.Testing.Asynchronous.Complex.Age.g.cs");
 
         public static readonly Generated Children = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     partial class Complex
                     {
@@ -54,33 +60,37 @@ internal static partial class Complex
                         {
                             public sealed partial class Children
                             {
-                                internal Children(global::Graphify.Testing.Complex root, global::Graphify.Testing.Child[] value)
+                                internal Children(global::Graphify.Testing.Asynchronous.Complex root, global::Graphify.Testing.Asynchronous.Child[] value)
                                 {
                                     Root = root;
                                     Value = value;
                                 }
 
-                                public global::Graphify.Testing.Complex Root { get; private set; }
+                                public global::Graphify.Testing.Asynchronous.Complex Root { get; private set; }
 
-                                public global::Graphify.Testing.Child[] Value { get; private set; }
+                                public global::Graphify.Testing.Asynchronous.Child[] Value { get; private set; }
                             }
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.Complex.Children.g.cs");
+            "Graphify.Testing.Asynchronous.Complex.Children.g.cs");
 
         public static readonly Generated ChildrenChild = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     partial class Complex
                     {
@@ -90,7 +100,7 @@ internal static partial class Complex
                             {
                                 public sealed partial class Child
                                 {
-                                    internal Child(Complex.Graph.Children children, int index, global::Graphify.Testing.Complex root, global::Graphify.Testing.Child value)
+                                    internal Child(Complex.Graph.Children children, int index, global::Graphify.Testing.Asynchronous.Complex root, global::Graphify.Testing.Asynchronous.Child value)
                                     {
                                         Children = children;
 
@@ -103,28 +113,32 @@ internal static partial class Complex
 
                                     public int Index { get; private set; }
 
-                                    public global::Graphify.Testing.Complex Root { get; private set; }
+                                    public global::Graphify.Testing.Asynchronous.Complex Root { get; private set; }
 
-                                    public global::Graphify.Testing.Child Value { get; private set; }
+                                    public global::Graphify.Testing.Asynchronous.Child Value { get; private set; }
                                 }
                             }
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.Complex.Children.Child.g.cs");
+            "Graphify.Testing.Asynchronous.Complex.Children.Child.g.cs");
 
         public static readonly Generated ChildrenChildAge = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     partial class Complex
                     {
@@ -136,7 +150,7 @@ internal static partial class Complex
                                 {
                                     public sealed partial class Age
                                     {
-                                        internal Age(Complex.Graph.Children.Child child, global::Graphify.Testing.Complex root, int value)
+                                        internal Age(Complex.Graph.Children.Child child, global::Graphify.Testing.Asynchronous.Complex root, int value)
                                         {
                                             Child = child;
 
@@ -146,7 +160,7 @@ internal static partial class Complex
 
                                         public Complex.Graph.Children.Child Child { get; private set; }
 
-                                        public global::Graphify.Testing.Complex Root { get; private set; }
+                                        public global::Graphify.Testing.Asynchronous.Complex Root { get; private set; }
 
                                         public int Value { get; private set; }
                                     }
@@ -155,20 +169,24 @@ internal static partial class Complex
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.Complex.Children.Child.Age.g.cs");
+            "Graphify.Testing.Asynchronous.Complex.Children.Child.Age.g.cs");
 
         public static readonly Generated ChildrenChildName = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     partial class Complex
                     {
@@ -180,7 +198,7 @@ internal static partial class Complex
                                 {
                                     public sealed partial class Name
                                     {
-                                        internal Name(Complex.Graph.Children.Child child, global::Graphify.Testing.Complex root, string value)
+                                        internal Name(Complex.Graph.Children.Child child, global::Graphify.Testing.Asynchronous.Complex root, string value)
                                         {
                                             Child = child;
 
@@ -190,7 +208,7 @@ internal static partial class Complex
 
                                         public Complex.Graph.Children.Child Child { get; private set; }
 
-                                        public global::Graphify.Testing.Complex Root { get; private set; }
+                                        public global::Graphify.Testing.Asynchronous.Complex Root { get; private set; }
 
                                         public string Value { get; private set; }
                                     }
@@ -199,20 +217,24 @@ internal static partial class Complex
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.Complex.Children.Child.Name.g.cs");
+            "Graphify.Testing.Asynchronous.Complex.Children.Child.Name.g.cs");
 
         public static readonly Generated ChildrenChildNameLength = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     partial class Complex
                     {
@@ -226,7 +248,7 @@ internal static partial class Complex
                                     {
                                         public sealed partial class Length
                                         {
-                                            internal Length(Complex.Graph.Children.Child.Name name, global::Graphify.Testing.Complex root, int value)
+                                            internal Length(Complex.Graph.Children.Child.Name name, global::Graphify.Testing.Asynchronous.Complex root, int value)
                                             {
                                                 Name = name;
 
@@ -236,7 +258,7 @@ internal static partial class Complex
 
                                             public Complex.Graph.Children.Child.Name Name { get; private set; }
 
-                                            public global::Graphify.Testing.Complex Root { get; private set; }
+                                            public global::Graphify.Testing.Asynchronous.Complex Root { get; private set; }
 
                                             public int Value { get; private set; }
                                         }
@@ -246,40 +268,50 @@ internal static partial class Complex
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.Complex.Children.Child.Name.Length.g.cs");
+            "Graphify.Testing.Asynchronous.Complex.Children.Child.Name.Length.g.cs");
 
         public static readonly Generated Contract = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public partial interface IComplexNavigator
                     {
-                        global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(Complex root);
+                        global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(Complex root, global::System.Threading.CancellationToken cancellationToken);
                     }
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.IComplexNavigator.g.cs");
+            "Graphify.Testing.Asynchronous.IComplexNavigator.g.cs");
 
         public static readonly Generated Name = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     partial class Complex
                     {
@@ -287,33 +319,37 @@ internal static partial class Complex
                         {
                             public sealed partial class Name
                             {
-                                internal Name(global::Graphify.Testing.Complex root, string value)
+                                internal Name(global::Graphify.Testing.Asynchronous.Complex root, string value)
                                 {
                                     Root = root;
                                     Value = value;
                                 }
 
-                                public global::Graphify.Testing.Complex Root { get; private set; }
+                                public global::Graphify.Testing.Asynchronous.Complex Root { get; private set; }
 
                                 public string Value { get; private set; }
                             }
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.Complex.Name.g.cs");
+            "Graphify.Testing.Asynchronous.Complex.Name.g.cs");
 
         public static readonly Generated NameLength = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     partial class Complex
                     {
@@ -323,7 +359,7 @@ internal static partial class Complex
                             {
                                 public sealed partial class Length
                                 {
-                                    internal Length(Complex.Graph.Name name, global::Graphify.Testing.Complex root, int value)
+                                    internal Length(Complex.Graph.Name name, global::Graphify.Testing.Asynchronous.Complex root, int value)
                                     {
                                         Name = name;
 
@@ -333,7 +369,7 @@ internal static partial class Complex
 
                                     public Complex.Graph.Name Name { get; private set; }
 
-                                    public global::Graphify.Testing.Complex Root { get; private set; }
+                                    public global::Graphify.Testing.Asynchronous.Complex Root { get; private set; }
 
                                     public int Value { get; private set; }
                                 }
@@ -341,21 +377,26 @@ internal static partial class Complex
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.Complex.Name.Length.g.cs");
+            "Graphify.Testing.Asynchronous.Complex.Name.Length.g.cs");
 
         public static readonly Generated Navigator = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                         : IComplexNavigator
                     {
@@ -365,126 +406,144 @@ internal static partial class Complex
                         {
                             if (global::System.Object.ReferenceEquals(provider, null))
                             {
-                                throw new global::System.ArgumentNullException(nameof(provider));
+                                throw new global::System.ArgumentNullException("provider");
                             }
 
                             _provider = provider;
                         }
 
-                        public global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(Complex root)
+                        public global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(Complex root, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            var results = global::System.Linq.Enumerable.Empty<TResult>();
+                            var results = _provider.Empty<TResult>();
 
-                            if (_provider.HasInspectors<Complex, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex, TResult>> observers))
                             {
-                                results = _provider.Invoke<Complex, TResult>(root, inspectors);
+                                results = _provider.Invoke<Complex, TResult>(root, observers, cancellationToken);
                             }
 
-                            results = global::System.Linq.Enumerable.Concat(results, NavigateAge<TResult>(root, root.Age));
-                            results = global::System.Linq.Enumerable.Concat(results, NavigateChildren<TResult>(root, root.Children));
-                            results = global::System.Linq.Enumerable.Concat(results, NavigateName<TResult>(root, root.Name));
+                            results = _provider.Concat(results, NavigateAge<TResult>(root, root.Age, cancellationToken), cancellationToken);
+                            results = _provider.Concat(results, NavigateChildren<TResult>(root, root.Children, cancellationToken), cancellationToken);
+                            results = _provider.Concat(results, NavigateName<TResult>(root, root.Name, cancellationToken), cancellationToken);
 
                             return results;
                         }
                     }
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.ComplexNavigator.g.cs");
+            "Graphify.Testing.Asynchronous.ComplexNavigator.g.cs");
 
         public static readonly Generated NavigatorAge = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                     {
-                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateAge<TResult>(global::Graphify.Testing.Complex root, int value)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateAge<TResult>(global::Graphify.Testing.Asynchronous.Complex root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var age = new Complex.Graph.Age(root, value);
 
-                            if (_provider.HasInspectors<Complex.Graph.Age, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex.Graph.Age, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Age, TResult>> observers))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Complex.Graph.Age, TResult>(age, inspectors));
+                                results = _provider.Concat(results, _provider.Invoke<Complex.Graph.Age, TResult>(age, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
                         }
                     }
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.ComplexNavigator.Age.g.cs");
+            "Graphify.Testing.Asynchronous.ComplexNavigator.Age.g.cs");
 
         public static readonly Generated NavigatorChildren = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                     {
-                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateChildren<TResult>(global::Graphify.Testing.Complex root, global::Graphify.Testing.Child[] value)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildren<TResult>(global::Graphify.Testing.Asynchronous.Complex root, global::Graphify.Testing.Asynchronous.Child[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var children = new Complex.Graph.Children(root, value);
 
-                            if (_provider.HasInspectors<Complex.Graph.Children, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex.Graph.Children, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children, TResult>> observers))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Complex.Graph.Children, TResult>(children, inspectors));
+                                results = _provider.Concat(results, _provider.Invoke<Complex.Graph.Children, TResult>(children, observers, cancellationToken), cancellationToken);
                             }
 
-                            results = global::System.Linq.Enumerable.Concat(results, NavigateChildrenChild<TResult>(children, root, value));
+                            results = _provider.Concat(results, NavigateChildrenChild<TResult>(children, root, value, cancellationToken), cancellationToken);
 
                             return results;
                         }
                     }
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.ComplexNavigator.Children.g.cs");
+            "Graphify.Testing.Asynchronous.ComplexNavigator.Children.g.cs");
 
         public static readonly Generated NavigatorChildrenChild = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                     {
-                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateChildrenChild<TResult>(Complex.Graph.Children children, global::Graphify.Testing.Complex root, global::Graphify.Testing.Child[] value)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChild<TResult>(Complex.Graph.Children children, global::Graphify.Testing.Asynchronous.Complex root, global::Graphify.Testing.Asynchronous.Child[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
 
-                            _ = _provider.HasInspectors<Complex.Graph.Children.Child, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex.Graph.Children.Child, TResult>> inspectors);
+                            _ = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children.Child, TResult>> observers);
 
                             int index = 0;
 
-                            foreach (global::Graphify.Testing.Child element in value)
+                            foreach (global::Graphify.Testing.Asynchronous.Child element in value)
                             {
                                 var child = new Complex.Graph.Children.Child(children, index, root, element);
 
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Complex.Graph.Children.Child, TResult>(child, inspectors));
+                                results = _provider.Concat(results, _provider.Invoke<Complex.Graph.Children.Child, TResult>(child, observers, cancellationToken), cancellationToken);
 
-                                results = global::System.Linq.Enumerable.Concat(results, NavigateChildrenChildAge<TResult>(child, root, element.Age));
-                                results = global::System.Linq.Enumerable.Concat(results, NavigateChildrenChildName<TResult>(child, root, element.Name));
+                                results = _provider.Concat(results, NavigateChildrenChildAge<TResult>(child, root, element.Age, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, NavigateChildrenChildName<TResult>(child, root, element.Name, cancellationToken), cancellationToken);
 
                                 index++;
                             }
@@ -492,181 +551,217 @@ internal static partial class Complex
                             return results;
                         }
                     }
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.ComplexNavigator.Children.Child.g.cs");
+            "Graphify.Testing.Asynchronous.ComplexNavigator.Children.Child.g.cs");
 
         public static readonly Generated NavigatorChildrenChildAge = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                     {
-                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateChildrenChildAge<TResult>(Complex.Graph.Children.Child child, global::Graphify.Testing.Complex root, int value)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChildAge<TResult>(Complex.Graph.Children.Child child, global::Graphify.Testing.Asynchronous.Complex root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var age = new Complex.Graph.Children.Child.Age(child, root, value);
 
-                            if (_provider.HasInspectors<Complex.Graph.Children.Child.Age, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex.Graph.Children.Child.Age, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children.Child.Age, TResult>> observers))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Complex.Graph.Children.Child.Age, TResult>(age, inspectors));
+                                results = _provider.Concat(results, _provider.Invoke<Complex.Graph.Children.Child.Age, TResult>(age, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
                         }
                     }
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.ComplexNavigator.Children.Child.Age.g.cs");
+            "Graphify.Testing.Asynchronous.ComplexNavigator.Children.Child.Age.g.cs");
 
         public static readonly Generated NavigatorChildrenChildName = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                     {
-                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateChildrenChildName<TResult>(Complex.Graph.Children.Child child, global::Graphify.Testing.Complex root, string value)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChildName<TResult>(Complex.Graph.Children.Child child, global::Graphify.Testing.Asynchronous.Complex root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var name = new Complex.Graph.Children.Child.Name(child, root, value);
 
-                            if (_provider.HasInspectors<Complex.Graph.Children.Child.Name, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex.Graph.Children.Child.Name, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children.Child.Name, TResult>> observers))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Complex.Graph.Children.Child.Name, TResult>(name, inspectors));
+                                results = _provider.Concat(results, _provider.Invoke<Complex.Graph.Children.Child.Name, TResult>(name, observers, cancellationToken), cancellationToken);
                             }
 
-                            results = global::System.Linq.Enumerable.Concat(results, NavigateChildrenChildNameLength<TResult>(name, root, value.Length));
+                            results = _provider.Concat(results, NavigateChildrenChildNameLength<TResult>(name, root, value.Length, cancellationToken), cancellationToken);
 
                             return results;
                         }
                     }
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.ComplexNavigator.Children.Child.Name.g.cs");
+            "Graphify.Testing.Asynchronous.ComplexNavigator.Children.Child.Name.g.cs");
 
         public static readonly Generated NavigatorChildrenChildNameLength = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                     {
-                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateChildrenChildNameLength<TResult>(Complex.Graph.Children.Child.Name name, global::Graphify.Testing.Complex root, int value)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateChildrenChildNameLength<TResult>(Complex.Graph.Children.Child.Name name, global::Graphify.Testing.Asynchronous.Complex root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var length = new Complex.Graph.Children.Child.Name.Length(name, root, value);
 
-                            if (_provider.HasInspectors<Complex.Graph.Children.Child.Name.Length, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex.Graph.Children.Child.Name.Length, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Children.Child.Name.Length, TResult>> observers))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Complex.Graph.Children.Child.Name.Length, TResult>(length, inspectors));
+                                results = _provider.Concat(results, _provider.Invoke<Complex.Graph.Children.Child.Name.Length, TResult>(length, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
                         }
                     }
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.ComplexNavigator.Children.Child.Name.Length.g.cs");
+            "Graphify.Testing.Asynchronous.ComplexNavigator.Children.Child.Name.Length.g.cs");
 
         public static readonly Generated NavigatorName = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                     {
-                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateName<TResult>(global::Graphify.Testing.Complex root, string value)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateName<TResult>(global::Graphify.Testing.Asynchronous.Complex root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var name = new Complex.Graph.Name(root, value);
 
-                            if (_provider.HasInspectors<Complex.Graph.Name, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex.Graph.Name, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Name, TResult>> observers))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Complex.Graph.Name, TResult>(name, inspectors));
+                                results = _provider.Concat(results, _provider.Invoke<Complex.Graph.Name, TResult>(name, observers, cancellationToken), cancellationToken);
                             }
 
-                            results = global::System.Linq.Enumerable.Concat(results, NavigateNameLength<TResult>(name, root, value.Length));
+                            results = _provider.Concat(results, NavigateNameLength<TResult>(name, root, value.Length, cancellationToken), cancellationToken);
 
                             return results;
                         }
                     }
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.ComplexNavigator.Name.g.cs");
+            "Graphify.Testing.Asynchronous.ComplexNavigator.Name.g.cs");
 
         public static readonly Generated NavigatorNameLength = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class ComplexNavigator
                     {
-                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateNameLength<TResult>(Complex.Graph.Name name, global::Graphify.Testing.Complex root, int value)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateNameLength<TResult>(Complex.Graph.Name name, global::Graphify.Testing.Asynchronous.Complex root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
-                            global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var length = new Complex.Graph.Name.Length(name, root, value);
 
-                            if (_provider.HasInspectors<Complex.Graph.Name.Length, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex.Graph.Name.Length, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<Complex.Graph.Name.Length, TResult>> observers))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Complex.Graph.Name.Length, TResult>(length, inspectors));
+                                results = _provider.Concat(results, _provider.Invoke<Complex.Graph.Name.Length, TResult>(length, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
                         }
                     }
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.ComplexNavigator.Name.Length.g.cs");
+            "Graphify.Testing.Asynchronous.ComplexNavigator.Name.Length.g.cs");
 
         public static readonly Generated Registration = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Asynchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public static partial class ServiceCollectionExtensions
                     {
                         public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection AddComplexNavigator(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
@@ -682,10 +777,13 @@ internal static partial class Complex
                             return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<ComplexNavigator>(services);
                         }
                     }
+                    #endif
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.ServiceCollectionExtensions.AddComplexNavigator.g.cs");
+            "Graphify.Testing.Asynchronous.ServiceCollectionExtensions.AddComplexNavigator.g.cs");
     }
 }

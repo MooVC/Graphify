@@ -6,13 +6,15 @@ internal static partial class Simple
     {
         public static readonly Generated Age = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Synchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     partial class Simple
                     {
@@ -20,53 +22,61 @@ internal static partial class Simple
                         {
                             public sealed partial class Age
                             {
-                                internal Age(global::Graphify.Testing.Simple root, int value)
+                                internal Age(global::Graphify.Testing.Synchronous.Simple root, int value)
                                 {
                                     Root = root;
                                     Value = value;
                                 }
 
-                                public global::Graphify.Testing.Simple Root { get; private set; }
+                                public global::Graphify.Testing.Synchronous.Simple Root { get; private set; }
 
                                 public int Value { get; private set; }
                             }
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.Simple.Age.g.cs");
+            "Graphify.Testing.Synchronous.Simple.Age.g.cs");
 
         public static readonly Generated Contract = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Synchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
                 
                     public partial interface ISimpleNavigator
                     {
                         global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(Simple root);
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.ISimpleNavigator.g.cs");
+            "Graphify.Testing.Synchronous.ISimpleNavigator.g.cs");
 
         public static readonly Generated IsAdult = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Synchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     partial class Simple
                     {
@@ -74,33 +84,37 @@ internal static partial class Simple
                         {
                             public sealed partial class IsAdult
                             {
-                                internal IsAdult(global::Graphify.Testing.Simple root, bool value)
+                                internal IsAdult(global::Graphify.Testing.Synchronous.Simple root, bool value)
                                 {
                                     Root = root;
                                     Value = value;
                                 }
 
-                                public global::Graphify.Testing.Simple Root { get; private set; }
+                                public global::Graphify.Testing.Synchronous.Simple Root { get; private set; }
 
                                 public bool Value { get; private set; }
                             }
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.Simple.IsAdult.g.cs");
+            "Graphify.Testing.Synchronous.Simple.IsAdult.g.cs");
 
         public static readonly Generated Name = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Synchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     partial class Simple
                     {
@@ -108,33 +122,37 @@ internal static partial class Simple
                         {
                             public sealed partial class Name
                             {
-                                internal Name(global::Graphify.Testing.Simple root, string value)
+                                internal Name(global::Graphify.Testing.Synchronous.Simple root, string value)
                                 {
                                     Root = root;
                                     Value = value;
                                 }
 
-                                public global::Graphify.Testing.Simple Root { get; private set; }
+                                public global::Graphify.Testing.Synchronous.Simple Root { get; private set; }
 
                                 public string Value { get; private set; }
                             }
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.Simple.Name.g.cs");
+            "Graphify.Testing.Synchronous.Simple.Name.g.cs");
 
         public static readonly Generated NameLength = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Synchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     partial class Simple
                     {
@@ -144,7 +162,7 @@ internal static partial class Simple
                             {
                                 public sealed partial class Length
                                 {
-                                    internal Length(Simple.Graph.Name name, global::Graphify.Testing.Simple root, int value)
+                                    internal Length(Simple.Graph.Name name, global::Graphify.Testing.Synchronous.Simple root, int value)
                                     {
                                         Name = name;
 
@@ -154,7 +172,7 @@ internal static partial class Simple
 
                                     public Simple.Graph.Name Name { get; private set; }
 
-                                    public global::Graphify.Testing.Simple Root { get; private set; }
+                                    public global::Graphify.Testing.Synchronous.Simple Root { get; private set; }
 
                                     public int Value { get; private set; }
                                 }
@@ -162,24 +180,28 @@ internal static partial class Simple
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.Simple.Name.Length.g.cs");
+            "Graphify.Testing.Synchronous.Simple.Name.Length.g.cs");
 
         public static readonly Generated NavigatorAge = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Synchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     public sealed partial class SimpleNavigator
                     {
-                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateAge<TResult>(global::Graphify.Testing.Simple root, int value)
+                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateAge<TResult>(global::Graphify.Testing.Synchronous.Simple root, int value)
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var age = new Simple.Graph.Age(root, value);
@@ -193,20 +215,24 @@ internal static partial class Simple
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.SimpleNavigator.Age.g.cs");
+            "Graphify.Testing.Synchronous.SimpleNavigator.Age.g.cs");
 
         public static readonly Generated Navigator = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Synchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     public sealed partial class SimpleNavigator
                         : ISimpleNavigator
@@ -240,24 +266,28 @@ internal static partial class Simple
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.SimpleNavigator.g.cs");
+            "Graphify.Testing.Synchronous.SimpleNavigator.g.cs");
 
         public static readonly Generated NavigatorIsAdult = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Synchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     public sealed partial class SimpleNavigator
                     {
-                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateIsAdult<TResult>(global::Graphify.Testing.Simple root, bool value)
+                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateIsAdult<TResult>(global::Graphify.Testing.Synchronous.Simple root, bool value)
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var isAdult = new Simple.Graph.IsAdult(root, value);
@@ -271,24 +301,28 @@ internal static partial class Simple
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.SimpleNavigator.IsAdult.g.cs");
+            "Graphify.Testing.Synchronous.SimpleNavigator.IsAdult.g.cs");
 
         public static readonly Generated NavigatorName = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Synchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     public sealed partial class SimpleNavigator
                     {
-                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateName<TResult>(global::Graphify.Testing.Simple root, string value)
+                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateName<TResult>(global::Graphify.Testing.Synchronous.Simple root, string value)
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var name = new Simple.Graph.Name(root, value);
@@ -304,24 +338,28 @@ internal static partial class Simple
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.SimpleNavigator.Name.g.cs");
+            "Graphify.Testing.Synchronous.SimpleNavigator.Name.g.cs");
 
         public static readonly Generated NavigatorNameLength = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Synchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     public sealed partial class SimpleNavigator
                     {
-                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateNameLength<TResult>(Simple.Graph.Name name, global::Graphify.Testing.Simple root, int value)
+                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateNameLength<TResult>(Simple.Graph.Name name, global::Graphify.Testing.Synchronous.Simple root, int value)
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var length = new Simple.Graph.Name.Length(name, root, value);
@@ -335,20 +373,24 @@ internal static partial class Simple
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.SimpleNavigator.Name.Length.g.cs");
+            "Graphify.Testing.Synchronous.SimpleNavigator.Name.Length.g.cs");
 
         public static readonly Generated Registration = new(
             """
-                namespace Graphify.Testing
+                namespace Graphify.Testing.Synchronous
                 {
                     using System;
                     using System.Collections.Generic;
                     using Graphify;
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
+                    #endif
 
                     public static partial class ServiceCollectionExtensions
                     {
@@ -366,9 +408,11 @@ internal static partial class Simple
                         }
                     }
 
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable restore
+                    #endif
                 }
                 """,
-            "Graphify.Testing.ServiceCollectionExtensions.AddSimpleNavigator.g.cs");
+            "Graphify.Testing.Synchronous.ServiceCollectionExtensions.AddSimpleNavigator.g.cs");
     }
 }

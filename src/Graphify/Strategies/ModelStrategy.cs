@@ -84,6 +84,7 @@
         private static Source GenerateContent(
             string assignments,
             string body,
+            string declaration,
             string name,
             string @namespace,
             string parameters,
@@ -102,7 +103,8 @@
                 parameters,
                 type,
                 assignments,
-                body);
+                body,
+                declaration);
 
             code = ApplyWrapper(code, wrapper, tier);
             code = string.Format(GenerateContentNest, "public static", "partial class Graph", code.Indent());
@@ -135,6 +137,7 @@
                 yield return GenerateContent(
                     assignments,
                     body,
+                    property.Declaration,
                     element.Name,
                     @namespace,
                     parameters,
@@ -170,6 +173,7 @@
             return GenerateContent(
                 assignments,
                 body,
+                property.Declaration,
                 property.Name,
                 @namespace,
                 parameters,

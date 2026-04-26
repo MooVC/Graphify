@@ -128,7 +128,7 @@
 {6}
     public {2} Root {{ get; private set; }}
 
-    public {4} Value {{ get; private set; }}
+    {7} {4} Value {{ get; private set; }}
 }}</value>
   </data>
   <data name="GeneratePropertyContentArgument" xml:space="preserve">
@@ -160,7 +160,7 @@
 
     public {2} Root {{ get; private set; }}
 
-    public {4} Value {{ get; private set; }}
+    {7} {4} Value {{ get; private set; }}
 }}</value>
   </data>
   <data name="GenerateContentNest" xml:space="preserve">

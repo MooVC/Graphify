@@ -77,7 +77,9 @@
                 .GetMembers()
                 .OfType<IPropertySymbol>()
                 .Where(property => !(property.IsStatic || property.IsIndexer)
-                                && property.ExplicitInterfaceImplementations.Length == 0)
+                                && property.ExplicitInterfaceImplementations.Length == 0
+                                && (property.DeclaredAccessibility == Accessibility.Public
+                                 || property.DeclaredAccessibility == Accessibility.Internal))
                 .Select(property => new
                 {
                     Property = property,

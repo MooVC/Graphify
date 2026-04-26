@@ -239,7 +239,7 @@
 
             _ = declarationBuilder
                 .AppendLine()
-                .AppendLine(string.Format(GeneratePropertyContentDeclaration, type, predecessor.Name));
+                .AppendLine(string.Format(GeneratePropertyContentDeclaration, type, predecessor.Name, predecessor.Declaration));
 
             assignments = assignmentBuilder.ToString();
 

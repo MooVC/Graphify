@@ -22,6 +22,7 @@
 
             return new Property
             {
+                Declaration = property.GetDeclaration(),
                 Element = element,
                 Name = property.Name,
                 Scope = scope,

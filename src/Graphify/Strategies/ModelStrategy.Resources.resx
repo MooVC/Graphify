@@ -138,7 +138,7 @@
     <value>        {0} = {1};</value>
   </data>
   <data name="GeneratePropertyContentDeclaration" xml:space="preserve">
-    <value>    public {0} {1} {{ get; private set; }}</value>
+    <value>    {2} {0} {1} {{ get; private set; }}</value>
   </data>
   <data name="GenerateWrapperDeclarationsContent" xml:space="preserve">
     <value>public partial class {0}

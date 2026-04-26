@@ -54,12 +54,16 @@ public sealed class WhenSemanticExtensionsAreCalled
 
                 public Child? Child { get; set; }
 
+                internal Child? InternalChild { get; set; }
+
                 public string Name { get; set; } = string.Empty;
 
                 public int[] Numbers { get; set; } = [];
 
                 [Traverse(Scope = TraverseScope.None)]
                 public Child? Ignored { get; set; }
+
+                private Child? PrivateChild { get; set; }
             }
 
             public class Child : IEnumerable<Leaf>
@@ -130,8 +134,10 @@ public sealed class WhenSemanticExtensionsAreCalled
         subject.Declaration.ShouldBe("partial class");
         subject.HasRegistration.ShouldBeTrue();
         subject.HasContract.ShouldBeFalse();
-        properties.Length.ShouldBe(4);
+        properties.Length.ShouldBe(5);
         properties.Any(property => property.Name == "Ignored").ShouldBeFalse();
+        properties.Any(property => property.Name == "PrivateChild").ShouldBeFalse();
+        properties.First(property => property.Name == "InternalChild").Declaration.ShouldBe("internal");
         properties.First(property => property.Name == "PropertyOnly").Properties.ShouldBe([]);
     }
 
@@ -244,6 +250,7 @@ public sealed class WhenSemanticExtensionsAreCalled
 
         // Assert
         property.Name.ShouldBe("Numbers");
+        property.Declaration.ShouldBe("public");
         property.Scope.ShouldBe(TraverseScope.All);
         _ = property.Element.ShouldNotBeNull();
         property.Element.Name.ShouldBe("Int32");

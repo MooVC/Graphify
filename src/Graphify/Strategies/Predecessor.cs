@@ -9,6 +9,8 @@
     [Valuify]
     internal sealed partial class Predecessor
     {
+        public string Declaration { get; private set; } = string.Empty;
+
         public bool IsIndex { get; private set; }
 
         public string Name { get; private set; } = string.Empty;
@@ -24,6 +26,7 @@
         {
             return new Predecessor
             {
+                Declaration = "public",
                 IsIndex = true,
                 Name = element.Name,
                 Type = element.Type,
@@ -39,6 +42,7 @@
         {
             return new Predecessor
             {
+                Declaration = property.Declaration,
                 Name = property.Name,
                 Type = property.Type,
             };

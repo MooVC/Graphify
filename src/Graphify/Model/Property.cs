@@ -12,6 +12,14 @@
     internal sealed partial class Property
     {
         /// <summary>
+        /// Gets or sets the declaration accessibility for the property.
+        /// </summary>
+        /// <value>
+        /// The declaration accessibility for the property.
+        /// </value>
+        public string Declaration { get; set; } = string.Empty;
+
+        /// <summary>
         /// Gets or sets the element type when the property is a collection.
         /// </summary>
         /// <value>

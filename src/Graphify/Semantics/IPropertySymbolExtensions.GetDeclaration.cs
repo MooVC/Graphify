@@ -18,11 +18,9 @@
         /// </returns>
         public static string GetDeclaration(this IPropertySymbol property)
         {
-            return property.DeclaredAccessibility switch
-            {
-                Accessibility.Internal => "internal",
-                _ => "public",
-            };
+            return property.DeclaredAccessibility == Accessibility.Internal
+                ? "internal"
+                : "public";
         }
     }
 }

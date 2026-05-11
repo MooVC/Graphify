@@ -1,4 +1,4 @@
-﻿namespace Graphify.InspectorContractGeneratorTests;
+namespace Graphify.GraphContractGeneratorTests;
 
 using Graphify.Snippets.Declarations;
 using Microsoft.CodeAnalysis.CSharp;
@@ -11,7 +11,7 @@ public sealed class WhenExecuted
     public async Task GivenAnAssemblyThenTheAttributeIsGenerated(ReferenceAssemblies assemblies, LanguageVersion language)
     {
         // Arrange
-        var test = new GeneratorTest<InspectorContractGenerator>(assemblies, language);
+        var test = new GeneratorTest<GraphContractGenerator>(assemblies, language);
 
         Boilerplate.Inspector.IsExpectedIn(test.TestState);
 
@@ -27,9 +27,9 @@ public sealed class WhenExecuted
     public async Task GivenTheContractAlreadyExistsThenTheContractIsNotGenerated(ReferenceAssemblies assemblies, LanguageVersion language)
     {
         // Arrange
-        const string Declaration = "namespace Graphify { public interface IInspector<in T, out TResult> where T : class { } }";
+        const string Declaration = "namespace Graphify { public interface IGraph<out T> where T : class { T Root { get; } } }";
 
-        var test = new GeneratorTest<InspectorContractGenerator>(assemblies, language);
+        var test = new GeneratorTest<GraphContractGenerator>(assemblies, language);
 
         test.TestState.Sources.Add(Declaration);
 

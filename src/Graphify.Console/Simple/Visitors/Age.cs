@@ -1,4 +1,4 @@
-﻿namespace Graphify.Console.Simple.Visitors;
+namespace Graphify.Console.Simple.Visitors;
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -8,7 +8,7 @@ using System.Threading;
 /// Represents a visitor that observes changes or events for an Age instance and produces a stream of string results.
 /// </summary>
 internal sealed class Age
-    : IVisitor<Simple.Graph.Age, string>
+    : ISimpleVisitor<Simple.Graph.Age, string>
 {
     /// <summary>
     /// Observes changes or events related to the specified Age instance as an asynchronous stream of strings.

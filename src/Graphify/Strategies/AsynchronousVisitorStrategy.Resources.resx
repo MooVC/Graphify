@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,19 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Content" xml:space="preserve">
+  <data name="GenerateContent" xml:space="preserve">
     <value>#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-namespace Graphify
+{0} interface I{1}Visitor&lt;in T, out TResult&gt;
+    where T : class
 {{
-    using System.Collections.Generic;
-    using System.Threading;
-    using System.Threading.Tasks;
-
-    public interface IVisitor&lt;in T, out TResult&gt;
-        where T : class
-    {{
-        IAsyncEnumerable&lt;TResult&gt; Observe(T instance, CancellationToken cancellationToken);
-    }}
+    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Observe(T instance, global::System.Threading.CancellationToken cancellationToken);
 }}
 #endif</value>
   </data>

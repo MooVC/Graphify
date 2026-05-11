@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Synchronous;
+namespace Graphify.Snippets.Declarations.Synchronous;
 
 internal static partial class DepthLimited
 {
@@ -11,6 +11,7 @@ internal static partial class DepthLimited
             Expected.Navigator,
             Expected.NavigatorChild,
             Expected.Registration,
+            Expected.Visitor,
         ],
         nameof(DepthLimited));
 }

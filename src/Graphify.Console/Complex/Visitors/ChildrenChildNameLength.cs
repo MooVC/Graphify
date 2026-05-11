@@ -1,4 +1,4 @@
-﻿namespace Graphify.Console.Complex.Visitors;
+namespace Graphify.Console.Complex.Visitors;
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -8,7 +8,7 @@ using System.Threading;
 /// Visits the complex child name length graph node.
 /// </summary>
 internal sealed class ChildrenChildNameLength
-    : IVisitor<Complex.Graph.Children.Child.Name.Length, string>
+    : IComplexVisitor<Complex.Graph.Children.Child.Name.Length, string>
 {
     /// <summary>
     /// Observes a child name length value and yields a formatted message.

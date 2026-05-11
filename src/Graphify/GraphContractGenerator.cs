@@ -1,23 +1,29 @@
-﻿namespace Graphify
+namespace Graphify
 {
     using System.Text;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.Text;
 
     /// <summary>
-    /// Generates the inspector contract.
+    /// Generates the graph contract.
     /// </summary>
     [Generator(LanguageNames.CSharp)]
-    public sealed class InspectorContractGenerator
+    public sealed class GraphContractGenerator
         : IIncrementalGenerator
     {
-        internal const string Hint = "Inspector.g.cs";
-        internal const string Name = "Inspector";
+        /// <summary>
+        /// The hint name used for the generated graph contract.
+        /// </summary>
+        internal const string Hint = "Graph.g.cs";
 
-        private const string InspectorMetadataName = "Graphify.IInspector`2";
+        private const string GraphMetadataName = "Graphify.IGraph`1";
 
-        internal static string Content { get; } = string.Format(InspectorContractGenerator_Resources.Content, Name);
+        /// <summary>
+        /// Gets the generated graph contract content.
+        /// </summary>
+        internal static string Content { get; } = GraphContractGenerator_Resources.Content;
 
+        /// <inheritdoc/>
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
             context.RegisterSourceOutput(context.CompilationProvider, Generate);
@@ -25,10 +31,9 @@
 
         private static void Generate(SourceProductionContext context, Compilation compilation)
         {
-            if (compilation.GetTypeByMetadataName(InspectorMetadataName) is null)
+            if (compilation.GetTypeByMetadataName(GraphMetadataName) is null)
             {
                 var text = SourceText.From(Content, Encoding.UTF8);
-
                 context.AddSource(Hint, text);
             }
         }

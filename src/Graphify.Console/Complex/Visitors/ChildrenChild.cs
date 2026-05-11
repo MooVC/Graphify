@@ -1,4 +1,4 @@
-﻿namespace Graphify.Console.Complex.Visitors;
+namespace Graphify.Console.Complex.Visitors;
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -9,7 +9,7 @@ using System.Threading;
 /// string results.
 /// </summary>
 internal sealed class ChildrenChild
-    : IVisitor<Complex.Graph.Children.Child, string>
+    : IComplexVisitor<Complex.Graph.Children.Child, string>
 {
     /// <summary>
     /// Observes the specified child instance and produces a sequence of string values representing observation results.

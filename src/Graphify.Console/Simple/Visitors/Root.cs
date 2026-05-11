@@ -1,4 +1,4 @@
-﻿namespace Graphify.Console.Simple.Visitors;
+namespace Graphify.Console.Simple.Visitors;
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -8,7 +8,7 @@ using System.Threading;
 /// Visits the simple root graph node.
 /// </summary>
 internal sealed class Root
-    : IVisitor<Simple, string>
+    : ISimpleVisitor<Simple, string>
 {
     /// <summary>
     /// Observes the simple root instance and yields a formatted message.

@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Synchronous;
+namespace Graphify.Snippets.Declarations.Synchronous;
 
 internal static partial class Traversals
 {
@@ -28,6 +28,31 @@ internal static partial class Traversals
                 """,
             "Graphify.Testing.Synchronous.ITraversalsNavigator.g.cs");
 
+        public static readonly Generated Visitor = new(
+            """
+                namespace Graphify.Testing.Synchronous
+                {
+                    using System;
+                    using System.Collections.Generic;
+                    using Graphify;
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    #nullable disable
+                    #endif
+
+                    public interface ITraversalsVisitor<in T, out TResult>
+                        where T : class
+                    {
+                        global::System.Collections.Generic.IEnumerable<TResult> Observe(T instance);
+                    }
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    #nullable restore
+                    #endif
+                }
+                """,
+            "Graphify.Testing.Synchronous.ITraversalsVisitor.g.cs");
+
         public static readonly Generated Navigator = new(
             """
                 namespace Graphify.Testing.Synchronous
@@ -49,7 +74,7 @@ internal static partial class Traversals
                         {
                             if (global::System.Object.ReferenceEquals(provider, null))
                             {
-                                throw new global::System.ArgumentNullException(nameof(provider));
+                                throw new global::System.ArgumentNullException("provider");
                             }
 
                             _provider = provider;
@@ -59,15 +84,30 @@ internal static partial class Traversals
                         {
                             var results = global::System.Linq.Enumerable.Empty<TResult>();
 
-                            if (_provider.HasInspectors<Traversals, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Traversals, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals, TResult>> visitors))
                             {
-                                results = _provider.Invoke<Traversals, TResult>(root, inspectors);
+                                results = Invoke<Traversals, TResult>(root, visitors);
                             }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateTitle<TResult>(root, root.Title));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateDescription<TResult>(root, root.Description));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateShallowChildren<TResult>(root, root.ShallowChildren));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateDeepChildren<TResult>(root, root.DeepChildren));
+
+                            return results;
+                        }
+
+                        private global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(
+                            TInstance instance,
+                            global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<TInstance, TResult>> visitors)
+                            where TInstance : class
+                        {
+                            global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
+
+                            foreach (ITraversalsVisitor<TInstance, TResult> visitor in visitors)
+                            {
+                                results = global::System.Linq.Enumerable.Concat(results, visitor.Observe(instance));
+                            }
 
                             return results;
                         }
@@ -99,9 +139,9 @@ internal static partial class Traversals
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var title = new Traversals.Graph.Title(root, value);
 
-                            if (_provider.HasInspectors<Traversals.Graph.Title, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Traversals.Graph.Title, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.Title, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Traversals.Graph.Title, TResult>(title, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Traversals.Graph.Title, TResult>(title, visitors));
                             }
 
                             return results;
@@ -134,9 +174,9 @@ internal static partial class Traversals
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var description = new Traversals.Graph.Description(root, value);
 
-                            if (_provider.HasInspectors<Traversals.Graph.Description, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Traversals.Graph.Description, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.Description, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Traversals.Graph.Description, TResult>(description, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Traversals.Graph.Description, TResult>(description, visitors));
                             }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateDescriptionLength<TResult>(description, root, value.Length));
@@ -171,9 +211,9 @@ internal static partial class Traversals
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var length = new Traversals.Graph.Description.Length(description, root, value);
 
-                            if (_provider.HasInspectors<Traversals.Graph.Description.Length, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Traversals.Graph.Description.Length, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.Description.Length, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Traversals.Graph.Description.Length, TResult>(length, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Traversals.Graph.Description.Length, TResult>(length, visitors));
                             }
 
                             return results;
@@ -206,9 +246,9 @@ internal static partial class Traversals
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var shallowChildren = new Traversals.Graph.ShallowChildren(root, value);
 
-                            if (_provider.HasInspectors<Traversals.Graph.ShallowChildren, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Traversals.Graph.ShallowChildren, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.ShallowChildren, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Traversals.Graph.ShallowChildren, TResult>(shallowChildren, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Traversals.Graph.ShallowChildren, TResult>(shallowChildren, visitors));
                             }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateShallowChildrenTraversalChild<TResult>(shallowChildren, root, value));
@@ -242,7 +282,7 @@ internal static partial class Traversals
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
 
-                            _ = _provider.HasInspectors<Traversals.Graph.ShallowChildren.TraversalChild, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Traversals.Graph.ShallowChildren.TraversalChild, TResult>> inspectors);
+                            _ = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.ShallowChildren.TraversalChild, TResult>> visitors);
 
                             int index = 0;
 
@@ -250,7 +290,7 @@ internal static partial class Traversals
                             {
                                 var traversalChild = new Traversals.Graph.ShallowChildren.TraversalChild(shallowChildren, index, root, element);
 
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Traversals.Graph.ShallowChildren.TraversalChild, TResult>(traversalChild, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Traversals.Graph.ShallowChildren.TraversalChild, TResult>(traversalChild, visitors));
 
                                 index++;
                             }
@@ -285,9 +325,9 @@ internal static partial class Traversals
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var deepChildren = new Traversals.Graph.DeepChildren(root, value);
 
-                            if (_provider.HasInspectors<Traversals.Graph.DeepChildren, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Traversals.Graph.DeepChildren, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.DeepChildren, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Traversals.Graph.DeepChildren, TResult>(deepChildren, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Traversals.Graph.DeepChildren, TResult>(deepChildren, visitors));
                             }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateDeepChildrenTraversalChild<TResult>(deepChildren, root, value));
@@ -321,7 +361,7 @@ internal static partial class Traversals
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
 
-                            _ = _provider.HasInspectors<Traversals.Graph.DeepChildren.TraversalChild, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Traversals.Graph.DeepChildren.TraversalChild, TResult>> inspectors);
+                            _ = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.DeepChildren.TraversalChild, TResult>> visitors);
 
                             int index = 0;
 
@@ -329,7 +369,7 @@ internal static partial class Traversals
                             {
                                 var traversalChild = new Traversals.Graph.DeepChildren.TraversalChild(deepChildren, index, root, element);
 
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Traversals.Graph.DeepChildren.TraversalChild, TResult>(traversalChild, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Traversals.Graph.DeepChildren.TraversalChild, TResult>(traversalChild, visitors));
 
                                 results = global::System.Linq.Enumerable.Concat(results, NavigateDeepChildrenTraversalChildName<TResult>(traversalChild, root, element.Name));
 
@@ -366,9 +406,9 @@ internal static partial class Traversals
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var name = new Traversals.Graph.DeepChildren.TraversalChild.Name(traversalChild, root, value);
 
-                            if (_provider.HasInspectors<Traversals.Graph.DeepChildren.TraversalChild.Name, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Traversals.Graph.DeepChildren.TraversalChild.Name, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.DeepChildren.TraversalChild.Name, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Traversals.Graph.DeepChildren.TraversalChild.Name, TResult>(name, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Traversals.Graph.DeepChildren.TraversalChild.Name, TResult>(name, visitors));
                             }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateDeepChildrenTraversalChildNameLength<TResult>(name, root, value.Length));
@@ -403,9 +443,9 @@ internal static partial class Traversals
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var length = new Traversals.Graph.DeepChildren.TraversalChild.Name.Length(name, root, value);
 
-                            if (_provider.HasInspectors<Traversals.Graph.DeepChildren.TraversalChild.Name.Length, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Traversals.Graph.DeepChildren.TraversalChild.Name.Length, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.DeepChildren.TraversalChild.Name.Length, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Traversals.Graph.DeepChildren.TraversalChild.Name.Length, TResult>(length, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Traversals.Graph.DeepChildren.TraversalChild.Name.Length, TResult>(length, visitors));
                             }
 
                             return results;
@@ -436,6 +476,7 @@ internal static partial class Traversals
                         public static partial class Graph
                         {
                             public sealed partial class Title
+                                : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Traversals>
                             {
                                 internal Title(global::Graphify.Testing.Synchronous.Traversals root, string value)
                                 {
@@ -474,6 +515,7 @@ internal static partial class Traversals
                         public static partial class Graph
                         {
                             public sealed partial class Description
+                                : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Traversals>
                             {
                                 internal Description(global::Graphify.Testing.Synchronous.Traversals root, string value)
                                 {
@@ -514,6 +556,7 @@ internal static partial class Traversals
                             public partial class Description
                             {
                                 public sealed partial class Length
+                                    : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Traversals>
                                 {
                                     internal Length(Traversals.Graph.Description description, global::Graphify.Testing.Synchronous.Traversals root, int value)
                                     {
@@ -557,6 +600,7 @@ internal static partial class Traversals
                         public static partial class Graph
                         {
                             public sealed partial class ShallowChildren
+                                : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Traversals>
                             {
                                 internal ShallowChildren(global::Graphify.Testing.Synchronous.Traversals root, global::Graphify.Testing.Synchronous.TraversalChild[] value)
                                 {
@@ -597,6 +641,7 @@ internal static partial class Traversals
                             public partial class ShallowChildren
                             {
                                 public sealed partial class TraversalChild
+                                    : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Traversals>
                                 {
                                     internal TraversalChild(Traversals.Graph.ShallowChildren shallowChildren, int index, global::Graphify.Testing.Synchronous.Traversals root, global::Graphify.Testing.Synchronous.TraversalChild value)
                                     {
@@ -643,6 +688,7 @@ internal static partial class Traversals
                         public static partial class Graph
                         {
                             public sealed partial class DeepChildren
+                                : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Traversals>
                             {
                                 internal DeepChildren(global::Graphify.Testing.Synchronous.Traversals root, global::Graphify.Testing.Synchronous.TraversalChild[] value)
                                 {
@@ -683,6 +729,7 @@ internal static partial class Traversals
                             public partial class DeepChildren
                             {
                                 public sealed partial class TraversalChild
+                                    : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Traversals>
                                 {
                                     internal TraversalChild(Traversals.Graph.DeepChildren deepChildren, int index, global::Graphify.Testing.Synchronous.Traversals root, global::Graphify.Testing.Synchronous.TraversalChild value)
                                     {
@@ -733,6 +780,7 @@ internal static partial class Traversals
                                 public partial class TraversalChild
                                 {
                                     public sealed partial class Name
+                                        : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Traversals>
                                     {
                                         internal Name(Traversals.Graph.DeepChildren.TraversalChild traversalChild, global::Graphify.Testing.Synchronous.Traversals root, string value)
                                         {
@@ -783,6 +831,7 @@ internal static partial class Traversals
                                     public partial class Name
                                     {
                                         public sealed partial class Length
+                                            : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Traversals>
                                         {
                                             internal Length(Traversals.Graph.DeepChildren.TraversalChild.Name name, global::Graphify.Testing.Synchronous.Traversals root, int value)
                                             {

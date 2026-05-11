@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Asynchronous;
+namespace Graphify.Snippets.Declarations.Asynchronous;
 
 internal static partial class DepthLimited
 {
@@ -21,6 +21,7 @@ internal static partial class DepthLimited
                         public static partial class Graph
                         {
                             public sealed partial class Child
+                                : global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.DepthLimited>
                             {
                                 internal Child(global::Graphify.Testing.Asynchronous.DepthLimited root, global::Graphify.Testing.Asynchronous.DepthChild value)
                                 {
@@ -68,6 +69,33 @@ internal static partial class DepthLimited
                 """,
             "Graphify.Testing.Asynchronous.IDepthLimitedNavigator.g.cs");
 
+        public static readonly Generated Visitor = new(
+            """
+                namespace Graphify.Testing.Asynchronous
+                {
+                    using System;
+                    using System.Collections.Generic;
+                    using Graphify;
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    #nullable disable
+                    #endif
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    public interface IDepthLimitedVisitor<in T, out TResult>
+                        where T : class
+                    {
+                        global::System.Collections.Generic.IAsyncEnumerable<TResult> Observe(T instance, global::System.Threading.CancellationToken cancellationToken);
+                    }
+                    #endif
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    #nullable restore
+                    #endif
+                }
+                """,
+            "Graphify.Testing.Asynchronous.IDepthLimitedVisitor.g.cs");
+
         public static readonly Generated NavigatorChild = new(
             """
                 namespace Graphify.Testing.Asynchronous
@@ -88,9 +116,9 @@ internal static partial class DepthLimited
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
                             var child = new DepthLimited.Graph.Child(root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<DepthLimited.Graph.Child, TResult>> observers))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IDepthLimitedVisitor<DepthLimited.Graph.Child, TResult>> observers))
                             {
-                                results = _provider.Concat(results, _provider.Invoke<DepthLimited.Graph.Child, TResult>(child, observers, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, Invoke<DepthLimited.Graph.Child, TResult>(child, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
@@ -137,12 +165,28 @@ internal static partial class DepthLimited
                         {
                             var results = _provider.Empty<TResult>();
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.IVisitor<DepthLimited, TResult>> observers))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IDepthLimitedVisitor<DepthLimited, TResult>> observers))
                             {
-                                results = _provider.Invoke<DepthLimited, TResult>(root, observers, cancellationToken);
+                                results = Invoke<DepthLimited, TResult>(root, observers, cancellationToken);
                             }
 
                             results = _provider.Concat(results, NavigateChild<TResult>(root, root.Child, cancellationToken), cancellationToken);
+
+                            return results;
+                        }
+
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> Invoke<TInstance, TResult>(
+                            TInstance instance,
+                            global::System.Collections.Generic.IEnumerable<IDepthLimitedVisitor<TInstance, TResult>> visitors,
+                            global::System.Threading.CancellationToken cancellationToken)
+                            where TInstance : class
+                        {
+                            global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
+
+                            foreach (IDepthLimitedVisitor<TInstance, TResult> visitor in visitors)
+                            {
+                                results = _provider.Concat(results, visitor.Observe(instance, cancellationToken), cancellationToken);
+                            }
 
                             return results;
                         }

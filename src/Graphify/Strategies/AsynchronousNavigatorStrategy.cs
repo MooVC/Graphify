@@ -1,4 +1,4 @@
-﻿namespace Graphify.Strategies
+namespace Graphify.Strategies
 {
     using System;
     using System.Buffers;
@@ -154,7 +154,8 @@
                 name,
                 method,
                 element?.Type,
-                ToCamelCase(name));
+                ToCamelCase(name),
+                subject.Name);
 
             string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
             code = string.Format(GenerateContentNest, accessibility, @class, subject.Name, code.Indent());

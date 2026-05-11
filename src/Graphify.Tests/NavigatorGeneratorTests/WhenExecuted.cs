@@ -1,4 +1,4 @@
-﻿namespace Graphify.NavigatorExtensionsGeneratorTests;
+namespace Graphify.NavigatorExtensionsGeneratorTests;
 
 using Graphify.Snippets.Declarations;
 using Microsoft.CodeAnalysis.CSharp;
@@ -16,13 +16,11 @@ public sealed class WhenExecuted
             language,
             typeof(GraphifyAttributeGenerator),
             typeof(NavigatorExtensionsGenerator),
-            typeof(VisitorContractGenerator),
-            typeof(InspectorContractGenerator));
+            typeof(GraphContractGenerator));
 
         Boilerplate.Embedded.IsExpectedIn(test.TestState);
         Boilerplate.Graphify.IsExpectedIn(test.TestState);
         Boilerplate.Extensions.IsExpectedIn(test.TestState);
-        Boilerplate.Visitor.IsExpectedIn(test.TestState);
         Boilerplate.Inspector.IsExpectedIn(test.TestState);
 
         // Act

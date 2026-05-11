@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations;
+namespace Graphify.Snippets.Declarations;
 
 public static class Boilerplate
 {
@@ -27,17 +27,12 @@ public static class Boilerplate
         Generator: typeof(GraphifyAttributeGenerator));
 
     public static readonly Generated Inspector = new(
-        InspectorContractGenerator.Content,
-        $"{InspectorContractGenerator.Name}.g.cs",
-        Generator: typeof(InspectorContractGenerator));
+        GraphContractGenerator.Content,
+        GraphContractGenerator.Hint,
+        Generator: typeof(GraphContractGenerator));
 
     public static readonly Generated Traverse = new(
         TraverseAttributeGenerator.Content,
         $"{TraverseAttributeGenerator.Name}Attribute.g.cs",
         Generator: typeof(TraverseAttributeGenerator));
-
-    public static readonly Generated Visitor = new(
-        VisitorContractGenerator.Content,
-        $"{VisitorContractGenerator.Name}.g.cs",
-        Generator: typeof(VisitorContractGenerator));
 }

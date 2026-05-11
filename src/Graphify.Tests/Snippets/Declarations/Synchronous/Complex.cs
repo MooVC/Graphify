@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Synchronous;
+namespace Graphify.Snippets.Declarations.Synchronous;
 
 internal static partial class Complex
 {
@@ -30,6 +30,7 @@ internal static partial class Complex
             Expected.NavigatorName,
             Expected.NavigatorNameLength,
             Expected.Registration,
+            Expected.Visitor,
         ],
         nameof(Complex));
 }

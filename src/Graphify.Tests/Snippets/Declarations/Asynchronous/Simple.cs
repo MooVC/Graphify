@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Asynchronous;
+namespace Graphify.Snippets.Declarations.Asynchronous;
 
 internal static partial class Simple
 {
@@ -18,6 +18,7 @@ internal static partial class Simple
             Expected.NavigatorName,
             Expected.NavigatorNameLength,
             Expected.Registration,
+            Expected.Visitor,
             Expected.Age,
             Expected.IsAdult,
             Expected.Name,

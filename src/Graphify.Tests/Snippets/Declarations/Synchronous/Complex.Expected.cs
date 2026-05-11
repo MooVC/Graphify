@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Synchronous;
+namespace Graphify.Snippets.Declarations.Synchronous;
 
 internal static partial class Complex
 {
@@ -21,6 +21,7 @@ internal static partial class Complex
                         public static partial class Graph
                         {
                             public sealed partial class Age
+                                : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Complex>
                             {
                                 internal Age(global::Graphify.Testing.Synchronous.Complex root, int value)
                                 {
@@ -59,6 +60,7 @@ internal static partial class Complex
                         public static partial class Graph
                         {
                             public sealed partial class Children
+                                : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Complex>
                             {
                                 internal Children(global::Graphify.Testing.Synchronous.Complex root, global::Graphify.Testing.Synchronous.Child[] value)
                                 {
@@ -99,6 +101,7 @@ internal static partial class Complex
                             public partial class Children
                             {
                                 public sealed partial class Child
+                                    : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Complex>
                                 {
                                     internal Child(Complex.Graph.Children children, int index, global::Graphify.Testing.Synchronous.Complex root, global::Graphify.Testing.Synchronous.Child value)
                                     {
@@ -149,6 +152,7 @@ internal static partial class Complex
                                 public partial class Child
                                 {
                                     public sealed partial class Age
+                                        : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Complex>
                                     {
                                         internal Age(Complex.Graph.Children.Child child, global::Graphify.Testing.Synchronous.Complex root, int value)
                                         {
@@ -197,6 +201,7 @@ internal static partial class Complex
                                 public partial class Child
                                 {
                                     public sealed partial class Name
+                                        : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Complex>
                                     {
                                         internal Name(Complex.Graph.Children.Child child, global::Graphify.Testing.Synchronous.Complex root, string value)
                                         {
@@ -247,6 +252,7 @@ internal static partial class Complex
                                     public partial class Name
                                     {
                                         public sealed partial class Length
+                                            : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Complex>
                                         {
                                             internal Length(Complex.Graph.Children.Child.Name name, global::Graphify.Testing.Synchronous.Complex root, int value)
                                             {
@@ -299,6 +305,31 @@ internal static partial class Complex
                 """,
             "Graphify.Testing.Synchronous.IComplexNavigator.g.cs");
 
+        public static readonly Generated Visitor = new(
+            """
+                namespace Graphify.Testing.Synchronous
+                {
+                    using System;
+                    using System.Collections.Generic;
+                    using Graphify;
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    #nullable disable
+                    #endif
+
+                    public interface IComplexVisitor<in T, out TResult>
+                        where T : class
+                    {
+                        global::System.Collections.Generic.IEnumerable<TResult> Observe(T instance);
+                    }
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    #nullable restore
+                    #endif
+                }
+                """,
+            "Graphify.Testing.Synchronous.IComplexVisitor.g.cs");
+
         public static readonly Generated Name = new(
             """
                 namespace Graphify.Testing.Synchronous
@@ -316,6 +347,7 @@ internal static partial class Complex
                         public static partial class Graph
                         {
                             public sealed partial class Name
+                                : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Complex>
                             {
                                 internal Name(global::Graphify.Testing.Synchronous.Complex root, string value)
                                 {
@@ -356,6 +388,7 @@ internal static partial class Complex
                             public partial class Name
                             {
                                 public sealed partial class Length
+                                    : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Complex>
                                 {
                                     internal Length(Complex.Graph.Name name, global::Graphify.Testing.Synchronous.Complex root, int value)
                                     {
@@ -403,7 +436,7 @@ internal static partial class Complex
                         {
                             if (global::System.Object.ReferenceEquals(provider, null))
                             {
-                                throw new global::System.ArgumentNullException(nameof(provider));
+                                throw new global::System.ArgumentNullException("provider");
                             }
 
                             _provider = provider;
@@ -413,14 +446,29 @@ internal static partial class Complex
                         {
                             var results = global::System.Linq.Enumerable.Empty<TResult>();
 
-                            if (_provider.HasInspectors<Complex, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IComplexVisitor<Complex, TResult>> visitors))
                             {
-                                results = _provider.Invoke<Complex, TResult>(root, inspectors);
+                                results = Invoke<Complex, TResult>(root, visitors);
                             }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateAge<TResult>(root, root.Age));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateChildren<TResult>(root, root.Children));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateName<TResult>(root, root.Name));
+
+                            return results;
+                        }
+
+                        private global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(
+                            TInstance instance,
+                            global::System.Collections.Generic.IEnumerable<IComplexVisitor<TInstance, TResult>> visitors)
+                            where TInstance : class
+                        {
+                            global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
+
+                            foreach (IComplexVisitor<TInstance, TResult> visitor in visitors)
+                            {
+                                results = global::System.Linq.Enumerable.Concat(results, visitor.Observe(instance));
+                            }
 
                             return results;
                         }
@@ -452,9 +500,9 @@ internal static partial class Complex
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var age = new Complex.Graph.Age(root, value);
 
-                            if (_provider.HasInspectors<Complex.Graph.Age, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex.Graph.Age, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IComplexVisitor<Complex.Graph.Age, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Complex.Graph.Age, TResult>(age, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Complex.Graph.Age, TResult>(age, visitors));
                             }
 
                             return results;
@@ -487,9 +535,9 @@ internal static partial class Complex
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var children = new Complex.Graph.Children(root, value);
 
-                            if (_provider.HasInspectors<Complex.Graph.Children, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex.Graph.Children, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IComplexVisitor<Complex.Graph.Children, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Complex.Graph.Children, TResult>(children, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Complex.Graph.Children, TResult>(children, visitors));
                             }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateChildrenChild<TResult>(children, root, value));
@@ -523,7 +571,7 @@ internal static partial class Complex
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
 
-                            _ = _provider.HasInspectors<Complex.Graph.Children.Child, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex.Graph.Children.Child, TResult>> inspectors);
+                            _ = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IComplexVisitor<Complex.Graph.Children.Child, TResult>> visitors);
 
                             int index = 0;
 
@@ -531,7 +579,7 @@ internal static partial class Complex
                             {
                                 var child = new Complex.Graph.Children.Child(children, index, root, element);
 
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Complex.Graph.Children.Child, TResult>(child, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Complex.Graph.Children.Child, TResult>(child, visitors));
 
                                 results = global::System.Linq.Enumerable.Concat(results, NavigateChildrenChildAge<TResult>(child, root, element.Age));
                                 results = global::System.Linq.Enumerable.Concat(results, NavigateChildrenChildName<TResult>(child, root, element.Name));
@@ -569,9 +617,9 @@ internal static partial class Complex
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var age = new Complex.Graph.Children.Child.Age(child, root, value);
 
-                            if (_provider.HasInspectors<Complex.Graph.Children.Child.Age, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex.Graph.Children.Child.Age, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IComplexVisitor<Complex.Graph.Children.Child.Age, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Complex.Graph.Children.Child.Age, TResult>(age, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Complex.Graph.Children.Child.Age, TResult>(age, visitors));
                             }
 
                             return results;
@@ -604,9 +652,9 @@ internal static partial class Complex
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var name = new Complex.Graph.Children.Child.Name(child, root, value);
 
-                            if (_provider.HasInspectors<Complex.Graph.Children.Child.Name, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex.Graph.Children.Child.Name, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IComplexVisitor<Complex.Graph.Children.Child.Name, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Complex.Graph.Children.Child.Name, TResult>(name, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Complex.Graph.Children.Child.Name, TResult>(name, visitors));
                             }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateChildrenChildNameLength<TResult>(name, root, value.Length));
@@ -641,9 +689,9 @@ internal static partial class Complex
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var length = new Complex.Graph.Children.Child.Name.Length(name, root, value);
 
-                            if (_provider.HasInspectors<Complex.Graph.Children.Child.Name.Length, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex.Graph.Children.Child.Name.Length, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IComplexVisitor<Complex.Graph.Children.Child.Name.Length, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Complex.Graph.Children.Child.Name.Length, TResult>(length, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Complex.Graph.Children.Child.Name.Length, TResult>(length, visitors));
                             }
 
                             return results;
@@ -676,9 +724,9 @@ internal static partial class Complex
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var name = new Complex.Graph.Name(root, value);
 
-                            if (_provider.HasInspectors<Complex.Graph.Name, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex.Graph.Name, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IComplexVisitor<Complex.Graph.Name, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Complex.Graph.Name, TResult>(name, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Complex.Graph.Name, TResult>(name, visitors));
                             }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateNameLength<TResult>(name, root, value.Length));
@@ -713,9 +761,9 @@ internal static partial class Complex
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var length = new Complex.Graph.Name.Length(name, root, value);
 
-                            if (_provider.HasInspectors<Complex.Graph.Name.Length, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<Complex.Graph.Name.Length, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IComplexVisitor<Complex.Graph.Name.Length, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<Complex.Graph.Name.Length, TResult>(length, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Complex.Graph.Name.Length, TResult>(length, visitors));
                             }
 
                             return results;

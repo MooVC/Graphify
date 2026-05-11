@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Graphify {
+namespace Graphify.Strategies {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Graphify {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class VisitorContractGenerator_Resources {
+    internal class AsynchronousVisitorStrategy_Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal VisitorContractGenerator_Resources() {
+        internal AsynchronousVisitorStrategy_Resources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Graphify {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.VisitorContractGenerator.Resources", typeof(VisitorContractGenerator_Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.Strategies.AsynchronousVisitorStrategy.Resources", typeof(AsynchronousVisitorStrategy_Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -62,23 +62,16 @@ namespace Graphify {
         
         /// <summary>
         ///   Looks up a localized string similar to #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-        ///namespace Graphify
+        ///{0} interface I{1}Visitor&lt;in T, out TResult&gt;
+        ///    where T : class
         ///{{
-        ///    using System.Collections.Generic;
-        ///    using System.Threading;
-        ///    using System.Threading.Tasks;
-        ///
-        ///    public interface IVisitor&lt;in T, out TResult&gt;
-        ///        where T : class
-        ///    {{
-        ///        IAsyncEnumerable&lt;TResult&gt; Observe(T instance, CancellationToken cancellationToken);
-        ///    }}
+        ///    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Observe(T instance, global::System.Threading.CancellationToken cancellationToken);
         ///}}
         ///#endif.
         /// </summary>
-        internal static string Content {
+        internal static string GenerateContent {
             get {
-                return ResourceManager.GetString("Content", resourceCulture);
+                return ResourceManager.GetString("GenerateContent", resourceCulture);
             }
         }
     }

@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Synchronous;
+namespace Graphify.Snippets.Declarations.Synchronous;
 
 internal static partial class Traversals
 {
@@ -27,6 +27,7 @@ internal static partial class Traversals
             Expected.NavigatorDeepChildrenTraversalChildName,
             Expected.NavigatorDeepChildrenTraversalChildNameLength,
             Expected.Registration,
+            Expected.Visitor,
         ],
         nameof(Traversals));
 }

@@ -1,4 +1,4 @@
-﻿namespace Graphify.Console.Simple.Visitors;
+namespace Graphify.Console.Simple.Visitors;
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -8,7 +8,7 @@ using System.Threading;
 /// Represents a visitor that operates on <see cref="Simple.Graph.Name"/> instances and produces string results.
 /// </summary>
 internal sealed class Name
-    : IVisitor<Simple.Graph.Name, string>
+    : ISimpleVisitor<Simple.Graph.Name, string>
 {
     /// <summary>
     /// Asynchronously observes changes related to the specified graph name and yields updates as they occur.

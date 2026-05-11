@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Synchronous;
+namespace Graphify.Snippets.Declarations.Synchronous;
 
 internal static partial class DepthLimited
 {
@@ -21,6 +21,7 @@ internal static partial class DepthLimited
                         public static partial class Graph
                         {
                             public sealed partial class Child
+                                : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.DepthLimited>
                             {
                                 internal Child(global::Graphify.Testing.Synchronous.DepthLimited root, global::Graphify.Testing.Synchronous.DepthChild value)
                                 {
@@ -66,6 +67,31 @@ internal static partial class DepthLimited
                 """,
             "Graphify.Testing.Synchronous.IDepthLimitedNavigator.g.cs");
 
+        public static readonly Generated Visitor = new(
+            """
+                namespace Graphify.Testing.Synchronous
+                {
+                    using System;
+                    using System.Collections.Generic;
+                    using Graphify;
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    #nullable disable
+                    #endif
+
+                    public interface IDepthLimitedVisitor<in T, out TResult>
+                        where T : class
+                    {
+                        global::System.Collections.Generic.IEnumerable<TResult> Observe(T instance);
+                    }
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    #nullable restore
+                    #endif
+                }
+                """,
+            "Graphify.Testing.Synchronous.IDepthLimitedVisitor.g.cs");
+
         public static readonly Generated NavigatorChild = new(
             """
                 namespace Graphify.Testing.Synchronous
@@ -85,9 +111,9 @@ internal static partial class DepthLimited
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
                             var child = new DepthLimited.Graph.Child(root, value);
 
-                            if (_provider.HasInspectors<DepthLimited.Graph.Child, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<DepthLimited.Graph.Child, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IDepthLimitedVisitor<DepthLimited.Graph.Child, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, _provider.Invoke<DepthLimited.Graph.Child, TResult>(child, inspectors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<DepthLimited.Graph.Child, TResult>(child, visitors));
                             }
 
                             return results;
@@ -122,7 +148,7 @@ internal static partial class DepthLimited
                         {
                             if (global::System.Object.ReferenceEquals(provider, null))
                             {
-                                throw new global::System.ArgumentNullException(nameof(provider));
+                                throw new global::System.ArgumentNullException("provider");
                             }
 
                             _provider = provider;
@@ -132,12 +158,27 @@ internal static partial class DepthLimited
                         {
                             var results = global::System.Linq.Enumerable.Empty<TResult>();
 
-                            if (_provider.HasInspectors<DepthLimited, TResult>(out global::System.Collections.Generic.IEnumerable<global::Graphify.IInspector<DepthLimited, TResult>> inspectors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IDepthLimitedVisitor<DepthLimited, TResult>> visitors))
                             {
-                                results = _provider.Invoke<DepthLimited, TResult>(root, inspectors);
+                                results = Invoke<DepthLimited, TResult>(root, visitors);
                             }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateChild<TResult>(root, root.Child));
+
+                            return results;
+                        }
+
+                        private global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(
+                            TInstance instance,
+                            global::System.Collections.Generic.IEnumerable<IDepthLimitedVisitor<TInstance, TResult>> visitors)
+                            where TInstance : class
+                        {
+                            global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
+
+                            foreach (IDepthLimitedVisitor<TInstance, TResult> visitor in visitors)
+                            {
+                                results = global::System.Linq.Enumerable.Concat(results, visitor.Observe(instance));
+                            }
 
                             return results;
                         }

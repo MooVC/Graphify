@@ -1,4 +1,4 @@
-﻿namespace Graphify.Snippets.Declarations.Asynchronous;
+namespace Graphify.Snippets.Declarations.Asynchronous;
 
 internal static partial class Traversals
 {
@@ -18,6 +18,7 @@ internal static partial class Traversals
             Expected.NavigatorDeepChildrenTraversalChildName,
             Expected.NavigatorDeepChildrenTraversalChildNameLength,
             Expected.Registration,
+            Expected.Visitor,
             Expected.Title,
             Expected.Description,
             Expected.DescriptionLength,

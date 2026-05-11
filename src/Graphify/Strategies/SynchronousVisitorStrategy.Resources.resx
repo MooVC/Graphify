@@ -4,16 +4,9 @@
   <resheader name="version"><value>2.0</value></resheader>
   <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
   <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value></resheader>
-  <data name="Content" xml:space="preserve">
-    <value>namespace Graphify
+  <data name="GenerateContent" xml:space="preserve"><value>{0} interface I{1}Visitor&lt;in T, out TResult&gt;
+    where T : class
 {{
-    using System.Collections.Generic;
-
-    public interface I{0}&lt;in T, out TResult&gt;
-        where T : class
-    {{
-        IEnumerable&lt;TResult&gt; Observe(T instance);
-    }}
-}}</value>
-  </data>
+    global::System.Collections.Generic.IEnumerable&lt;TResult&gt; Observe(T instance);
+}}</value></data>
 </root>

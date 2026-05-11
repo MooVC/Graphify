@@ -117,21 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GenerateContent" xml:space="preserve">
-    <value>public static partial class ServiceCollectionExtensions
-{{
-    public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection Add{0}(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
-    {{
-        if (ReferenceEquals(services, null))
-        {{
-            throw new global::System.ArgumentNullException("services");
-        }}
-
-        _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton&lt;{1}&gt;(
-            services, (global::System.IServiceProvider provider) =&gt; ({1})provider.GetService(typeof({0})));
-
-        return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton&lt;{0}&gt;(services);
-    }}
-}}</value>
+  <data name="Content" xml:space="preserve">
+    <value>namespace Graphify
+{
+    public interface IGraph&lt;out T&gt;
+        where T : class
+    {
+        T Root { get; }
+    }
+}</value>
   </data>
 </root>

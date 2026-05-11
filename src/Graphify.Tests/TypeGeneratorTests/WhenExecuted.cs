@@ -1,4 +1,4 @@
-﻿namespace Graphify.TypeGeneratorTests;
+namespace Graphify.TypeGeneratorTests;
 
 using Graphify.Snippets;
 using Graphify.Snippets.Declarations;
@@ -10,11 +10,10 @@ public sealed class WhenExecuted
     private static readonly Type[] _generators =
     [
         typeof(GraphifyAttributeGenerator),
-        typeof(InspectorContractGenerator),
+        typeof(GraphContractGenerator),
         typeof(NavigatorExtensionsGenerator),
         typeof(TraverseAttributeGenerator),
         typeof(TypeGenerator),
-        typeof(VisitorContractGenerator),
     ];
 
     [Theory]
@@ -30,7 +29,6 @@ public sealed class WhenExecuted
         Boilerplate.Extensions.IsExpectedIn(test.TestState);
         Boilerplate.Traverse.IsExpectedIn(test.TestState);
         expectations.IsDeclaredIn(test.TestState);
-        Boilerplate.Visitor.IsExpectedIn(test.TestState);
 
         // Act
         Func<Task> act = () => test.RunAsync();

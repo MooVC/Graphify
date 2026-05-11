@@ -1,4 +1,4 @@
-﻿namespace Graphify.Console.Simple.Visitors;
+namespace Graphify.Console.Simple.Visitors;
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -8,7 +8,7 @@ using System.Threading;
 /// Provides a visitor that observes instances of the Simple.Graph.IsAdult type and yields their type name as a string.
 /// </summary>
 internal sealed class IsAdult
-    : IVisitor<Simple.Graph.IsAdult, string>
+    : ISimpleVisitor<Simple.Graph.IsAdult, string>
 {
     /// <summary>
     /// Observes the specified IsAdult instance and returns a sequence of related string identifiers.

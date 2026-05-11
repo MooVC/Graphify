@@ -1,4 +1,4 @@
-﻿namespace Graphify
+namespace Graphify
 {
     using System;
     using System.Collections.Generic;
@@ -23,10 +23,12 @@
             new AsynchronousContractStrategy(),
             new AsynchronousNavigatorStrategy(),
             new AsynchronousRegistrationStrategy(),
+            new AsynchronousVisitorStrategy(),
             new ModelStrategy(),
             new SynchronousContractStrategy(),
             new SynchronousNavigatorStrategy(),
             new SynchronousRegistrationStrategy(),
+            new SynchronousVisitorStrategy(),
         };
 
         /// <inheritdoc/>

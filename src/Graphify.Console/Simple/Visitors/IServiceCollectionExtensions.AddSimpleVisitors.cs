@@ -1,6 +1,5 @@
 namespace Graphify.Console.Simple.Visitors;
 
-using System;
 using Microsoft.Extensions.DependencyInjection;
 
 /// <summary>

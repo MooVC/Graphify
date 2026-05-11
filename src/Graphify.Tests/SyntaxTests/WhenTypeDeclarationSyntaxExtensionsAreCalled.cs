@@ -5,9 +5,7 @@ using System.Threading;
 using Graphify.Model;
 using Graphify.Syntax;
 using Graphify.Testing;
-using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 
 public sealed class WhenTypeDeclarationSyntaxExtensionsAreCalled

@@ -80,7 +80,7 @@ internal static partial class Simple
                     #endif
 
                     public interface ISimpleVisitor<in T, out TResult>
-                        where T : class
+                        where T : class, global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Simple>
                     {
                         global::System.Collections.Generic.IEnumerable<TResult> Observe(T instance);
                     }
@@ -282,10 +282,6 @@ internal static partial class Simple
                         {
                             var results = global::System.Linq.Enumerable.Empty<TResult>();
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ISimpleVisitor<Simple, TResult>> visitors))
-                            {
-                                results = Invoke<Simple, TResult>(root, visitors);
-                            }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateAge<TResult>(root, root.Age));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateIsAdult<TResult>(root, root.IsAdult));
@@ -297,7 +293,7 @@ internal static partial class Simple
                         private global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(
                             TInstance instance,
                             global::System.Collections.Generic.IEnumerable<ISimpleVisitor<TInstance, TResult>> visitors)
-                            where TInstance : class
+                            where TInstance : class, global::Graphify.IGraph<Simple>
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
 

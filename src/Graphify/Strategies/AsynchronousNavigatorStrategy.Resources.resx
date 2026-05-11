@@ -181,10 +181,6 @@
     {{
         var results = _provider.Empty&lt;TResult&gt;();
 
-        if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;I{3}Visitor&lt;{3}, TResult&gt;&gt; observers))
-        {{
-            results = Invoke&lt;{3}, TResult&gt;(root, observers, cancellationToken);
-        }}
 {4}
         return results;
     }}
@@ -193,7 +189,7 @@
         TInstance instance,
         global::System.Collections.Generic.IEnumerable&lt;I{3}Visitor&lt;TInstance, TResult&gt;&gt; visitors,
         global::System.Threading.CancellationToken cancellationToken)
-        where TInstance : class
+        where TInstance : class, global::Graphify.IGraph&lt;{3}&gt;
     {{
         global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = _provider.Empty&lt;TResult&gt;();
 

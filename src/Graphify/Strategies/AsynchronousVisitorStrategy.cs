@@ -23,7 +23,7 @@ namespace Graphify.Strategies
             }
 
             string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
-            string code = string.Format(GenerateContent, accessibility, subject.Name);
+            string code = string.Format(GenerateContent, accessibility, subject.Name, subject.Type);
 
             yield return new Source(code, $"I{subject.Name}Visitor");
         }

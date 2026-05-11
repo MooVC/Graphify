@@ -44,7 +44,7 @@ internal static partial class Traversals
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public interface ITraversalsVisitor<in T, out TResult>
-                        where T : class
+                        where T : class, global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Traversals>
                     {
                         global::System.Collections.Generic.IAsyncEnumerable<TResult> Observe(T instance, global::System.Threading.CancellationToken cancellationToken);
                     }
@@ -89,10 +89,6 @@ internal static partial class Traversals
                         {
                             var results = _provider.Empty<TResult>();
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals, TResult>> observers))
-                            {
-                                results = Invoke<Traversals, TResult>(root, observers, cancellationToken);
-                            }
 
                             results = _provider.Concat(results, NavigateTitle<TResult>(root, root.Title, cancellationToken), cancellationToken);
                             results = _provider.Concat(results, NavigateDescription<TResult>(root, root.Description, cancellationToken), cancellationToken);
@@ -106,7 +102,7 @@ internal static partial class Traversals
                             TInstance instance,
                             global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<TInstance, TResult>> visitors,
                             global::System.Threading.CancellationToken cancellationToken)
-                            where TInstance : class
+                            where TInstance : class, global::Graphify.IGraph<Traversals>
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
 

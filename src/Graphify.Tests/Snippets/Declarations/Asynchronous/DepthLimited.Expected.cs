@@ -83,7 +83,7 @@ internal static partial class DepthLimited
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public interface IDepthLimitedVisitor<in T, out TResult>
-                        where T : class
+                        where T : class, global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.DepthLimited>
                     {
                         global::System.Collections.Generic.IAsyncEnumerable<TResult> Observe(T instance, global::System.Threading.CancellationToken cancellationToken);
                     }
@@ -165,10 +165,6 @@ internal static partial class DepthLimited
                         {
                             var results = _provider.Empty<TResult>();
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IDepthLimitedVisitor<DepthLimited, TResult>> observers))
-                            {
-                                results = Invoke<DepthLimited, TResult>(root, observers, cancellationToken);
-                            }
 
                             results = _provider.Concat(results, NavigateChild<TResult>(root, root.Child, cancellationToken), cancellationToken);
 
@@ -179,7 +175,7 @@ internal static partial class DepthLimited
                             TInstance instance,
                             global::System.Collections.Generic.IEnumerable<IDepthLimitedVisitor<TInstance, TResult>> visitors,
                             global::System.Threading.CancellationToken cancellationToken)
-                            where TInstance : class
+                            where TInstance : class, global::Graphify.IGraph<DepthLimited>
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
 

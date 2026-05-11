@@ -120,7 +120,7 @@
   <data name="GenerateContent" xml:space="preserve">
     <value>#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
 {0} interface I{1}Visitor&lt;in T, out TResult&gt;
-    where T : class
+    where T : class, global::Graphify.IGraph&lt;{2}&gt;
 {{
     global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Observe(T instance, global::System.Threading.CancellationToken cancellationToken);
 }}

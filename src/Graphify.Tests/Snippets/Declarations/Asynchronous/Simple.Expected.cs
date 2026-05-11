@@ -83,7 +83,7 @@ internal static partial class Simple
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public interface ISimpleVisitor<in T, out TResult>
-                        where T : class
+                        where T : class, global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Simple>
                     {
                         global::System.Collections.Generic.IAsyncEnumerable<TResult> Observe(T instance, global::System.Threading.CancellationToken cancellationToken);
                     }
@@ -289,10 +289,6 @@ internal static partial class Simple
                         {
                             var results = _provider.Empty<TResult>();
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ISimpleVisitor<Simple, TResult>> observers))
-                            {
-                                results = Invoke<Simple, TResult>(root, observers, cancellationToken);
-                            }
 
                             results = _provider.Concat(results, NavigateAge<TResult>(root, root.Age, cancellationToken), cancellationToken);
                             results = _provider.Concat(results, NavigateIsAdult<TResult>(root, root.IsAdult, cancellationToken), cancellationToken);
@@ -305,7 +301,7 @@ internal static partial class Simple
                             TInstance instance,
                             global::System.Collections.Generic.IEnumerable<ISimpleVisitor<TInstance, TResult>> visitors,
                             global::System.Threading.CancellationToken cancellationToken)
-                            where TInstance : class
+                            where TInstance : class, global::Graphify.IGraph<Simple>
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
 

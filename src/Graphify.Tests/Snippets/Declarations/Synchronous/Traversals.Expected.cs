@@ -41,7 +41,7 @@ internal static partial class Traversals
                     #endif
 
                     public interface ITraversalsVisitor<in T, out TResult>
-                        where T : class
+                        where T : class, global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Traversals>
                     {
                         global::System.Collections.Generic.IEnumerable<TResult> Observe(T instance);
                     }
@@ -84,10 +84,6 @@ internal static partial class Traversals
                         {
                             var results = global::System.Linq.Enumerable.Empty<TResult>();
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals, TResult>> visitors))
-                            {
-                                results = Invoke<Traversals, TResult>(root, visitors);
-                            }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateTitle<TResult>(root, root.Title));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateDescription<TResult>(root, root.Description));
@@ -100,7 +96,7 @@ internal static partial class Traversals
                         private global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(
                             TInstance instance,
                             global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<TInstance, TResult>> visitors)
-                            where TInstance : class
+                            where TInstance : class, global::Graphify.IGraph<Traversals>
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
 

@@ -321,7 +321,7 @@ internal static partial class Complex
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public interface IComplexVisitor<in T, out TResult>
-                        where T : class
+                        where T : class, global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Complex>
                     {
                         global::System.Collections.Generic.IAsyncEnumerable<TResult> Observe(T instance, global::System.Threading.CancellationToken cancellationToken);
                     }
@@ -451,10 +451,6 @@ internal static partial class Complex
                         {
                             var results = _provider.Empty<TResult>();
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IComplexVisitor<Complex, TResult>> observers))
-                            {
-                                results = Invoke<Complex, TResult>(root, observers, cancellationToken);
-                            }
 
                             results = _provider.Concat(results, NavigateAge<TResult>(root, root.Age, cancellationToken), cancellationToken);
                             results = _provider.Concat(results, NavigateChildren<TResult>(root, root.Children, cancellationToken), cancellationToken);
@@ -467,7 +463,7 @@ internal static partial class Complex
                             TInstance instance,
                             global::System.Collections.Generic.IEnumerable<IComplexVisitor<TInstance, TResult>> visitors,
                             global::System.Threading.CancellationToken cancellationToken)
-                            where TInstance : class
+                            where TInstance : class, global::Graphify.IGraph<Complex>
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
 

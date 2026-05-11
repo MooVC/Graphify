@@ -318,7 +318,7 @@ internal static partial class Complex
                     #endif
 
                     public interface IComplexVisitor<in T, out TResult>
-                        where T : class
+                        where T : class, global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Complex>
                     {
                         global::System.Collections.Generic.IEnumerable<TResult> Observe(T instance);
                     }
@@ -446,10 +446,6 @@ internal static partial class Complex
                         {
                             var results = global::System.Linq.Enumerable.Empty<TResult>();
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IComplexVisitor<Complex, TResult>> visitors))
-                            {
-                                results = Invoke<Complex, TResult>(root, visitors);
-                            }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateAge<TResult>(root, root.Age));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateChildren<TResult>(root, root.Children));
@@ -461,7 +457,7 @@ internal static partial class Complex
                         private global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(
                             TInstance instance,
                             global::System.Collections.Generic.IEnumerable<IComplexVisitor<TInstance, TResult>> visitors)
-                            where TInstance : class
+                            where TInstance : class, global::Graphify.IGraph<Complex>
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
 

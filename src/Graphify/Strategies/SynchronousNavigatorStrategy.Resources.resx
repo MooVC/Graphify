@@ -178,10 +178,6 @@
     {{
         var results = global::System.Linq.Enumerable.Empty&lt;TResult&gt;();
 
-        if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;I{3}Visitor&lt;{3}, TResult&gt;&gt; visitors))
-        {{
-            results = Invoke&lt;{3}, TResult&gt;(root, visitors);
-        }}
 {4}
         return results;
     }}
@@ -189,7 +185,7 @@
     private global::System.Collections.Generic.IEnumerable&lt;TResult&gt; Invoke&lt;TInstance, TResult&gt;(
         TInstance instance,
         global::System.Collections.Generic.IEnumerable&lt;I{3}Visitor&lt;TInstance, TResult&gt;&gt; visitors)
-        where TInstance : class
+        where TInstance : class, global::Graphify.IGraph&lt;{3}&gt;
     {{
         global::System.Collections.Generic.IEnumerable&lt;TResult&gt; results = global::System.Linq.Enumerable.Empty&lt;TResult&gt;();
 

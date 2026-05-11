@@ -80,7 +80,7 @@ internal static partial class DepthLimited
                     #endif
 
                     public interface IDepthLimitedVisitor<in T, out TResult>
-                        where T : class
+                        where T : class, global::Graphify.IGraph<global::Graphify.Testing.Synchronous.DepthLimited>
                     {
                         global::System.Collections.Generic.IEnumerable<TResult> Observe(T instance);
                     }
@@ -158,10 +158,6 @@ internal static partial class DepthLimited
                         {
                             var results = global::System.Linq.Enumerable.Empty<TResult>();
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IDepthLimitedVisitor<DepthLimited, TResult>> visitors))
-                            {
-                                results = Invoke<DepthLimited, TResult>(root, visitors);
-                            }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateChild<TResult>(root, root.Child));
 
@@ -171,7 +167,7 @@ internal static partial class DepthLimited
                         private global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(
                             TInstance instance,
                             global::System.Collections.Generic.IEnumerable<IDepthLimitedVisitor<TInstance, TResult>> visitors)
-                            where TInstance : class
+                            where TInstance : class, global::Graphify.IGraph<DepthLimited>
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
 

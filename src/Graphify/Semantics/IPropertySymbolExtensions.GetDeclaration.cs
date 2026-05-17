@@ -19,8 +19,26 @@
         public static string GetDeclaration(this IPropertySymbol property)
         {
             return property.DeclaredAccessibility == Accessibility.Internal
+                || property.ContainingType.IsEffectivelyInternal()
+                || property.Type.IsEffectivelyInternal()
                 ? "internal"
                 : "public";
+        }
+
+        private static bool IsEffectivelyInternal(this INamedTypeSymbol type)
+        {
+            if (type.DeclaredAccessibility != Accessibility.Public)
+            {
+                return true;
+            }
+
+            return type.ContainingType is object && type.ContainingType.IsEffectivelyInternal();
+        }
+
+        private static bool IsEffectivelyInternal(this ITypeSymbol type)
+        {
+            return type.DeclaredAccessibility != Accessibility.NotApplicable
+                && type.DeclaredAccessibility != Accessibility.Public;
         }
     }
 }

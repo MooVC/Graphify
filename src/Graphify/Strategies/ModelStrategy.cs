@@ -7,6 +7,7 @@
     using System.Linq;
     using System.Text;
     using Graphify.Model;
+    using Microsoft.CodeAnalysis;
     using static Graphify.Strategies.ModelStrategy_Resources;
 
     /// <summary>
@@ -107,7 +108,12 @@
                 declaration);
 
             code = ApplyWrapper(code, wrapper, tier);
-            code = string.Format(GenerateContentNest, "public static", "partial class Graph", code.Indent());
+
+            string accessibility = subject.Accessibility == Accessibility.Internal
+                ? "internal static"
+                : "public static";
+
+            code = string.Format(GenerateContentNest, accessibility, "partial class Graph", code.Indent());
             code = string.Format(GenerateContentNest, subject.Declaration, subject.Qualification, code.Indent());
 
             next = $"{@namespace}.{name}";
@@ -127,7 +133,7 @@
 
             try
             {
-                pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
+                pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element, property.Declaration));
 
                 tier++;
                 string body = GeneratePropertyContent(@namespace, pool, tier, out string assignments, out string parameters);
@@ -290,7 +296,7 @@
                 Predecessor predecessor = preceding[index];
 
                 previous = previous.Indent();
-                previous = string.Format(GenerateWrapperDeclarationsContent, predecessor.Name, previous);
+                previous = string.Format(GenerateWrapperDeclarationsContent, predecessor.Name, previous, predecessor.Declaration);
             }
 
             return previous;

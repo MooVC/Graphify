@@ -80,6 +80,21 @@ public sealed class WhenSemanticExtensionsAreCalled
                 public int Value { get; set; }
             }
 
+            [Graphify(Depth = 4, Mode = Modes.Asynchronous)]
+            internal partial class Outer
+            {
+                public Inner Child { get; set; }
+
+                public Inner[] Children { get; set; } = Array.Empty<Inner>();
+
+                public string Name { get; set; } = string.Empty;
+            }
+
+            internal class Inner : Outer
+            {
+                public int Value { get; set; }
+            }
+
             public static class ServiceCollectionExtensions
             {
                 public static object AddRootNavigator(object services) => services;
@@ -139,6 +154,22 @@ public sealed class WhenSemanticExtensionsAreCalled
         properties.Any(property => property.Name == "PrivateChild").ShouldBeFalse();
         properties.First(property => property.Name == "InternalChild").Declaration.ShouldBe("internal");
         properties.First(property => property.Name == "PropertyOnly").Properties.ShouldBe([]);
+    }
+
+    [Fact]
+    public void GivenPublicPropertiesOnInternalTypeThenDeclarationsAreInternal()
+    {
+        // Arrange
+        var context = RoslynTestContext.Create(Source);
+        INamedTypeSymbol outer = context.GetTypeByMetadataName("Sample.Outer");
+
+        // Act
+        ImmutableArray<Property> properties = outer.GetProperties(depth: 4);
+
+        // Assert
+        properties.First(property => property.Name == "Child").Declaration.ShouldBe("internal");
+        properties.First(property => property.Name == "Children").Declaration.ShouldBe("internal");
+        properties.First(property => property.Name == "Name").Declaration.ShouldBe("internal");
     }
 
     [Fact]

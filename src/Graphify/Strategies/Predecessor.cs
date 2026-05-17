@@ -24,9 +24,20 @@
         /// <returns>A Predecessor instance initialized with the properties of the specified Element.</returns>
         public static Predecessor From(Element element)
         {
+            return From(element, "public");
+        }
+
+        /// <summary>
+        /// Creates a new instance of the Predecessor class based on the specified Element.
+        /// </summary>
+        /// <param name="element">The Element from which to create the Predecessor. Cannot be <see langword="null"/>.</param>
+        /// <param name="declaration">The declaration accessibility to apply.</param>
+        /// <returns>A Predecessor instance initialized with the properties of the specified Element.</returns>
+        public static Predecessor From(Element element, string declaration)
+        {
             return new Predecessor
             {
-                Declaration = "public",
+                Declaration = declaration,
                 IsIndex = true,
                 Name = element.Name,
                 Type = element.Type,

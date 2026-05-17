@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="GenerateContentForPropertyContent" xml:space="preserve">
-    <value>public sealed partial class {1}
+    <value>{7} sealed partial class {1}
     : global::Graphify.IGraph&lt;{2}&gt;
 {{
     internal {1}({3}{2} root, {4} value)
@@ -142,13 +142,13 @@
     <value>    {2} {0} {1} {{ get; private set; }}</value>
   </data>
   <data name="GenerateWrapperDeclarationsContent" xml:space="preserve">
-    <value>public partial class {0}
+    <value>{2} partial class {0}
 {{
     {1}
 }}</value>
   </data>
   <data name="GenerateContentForElementContent" xml:space="preserve">
-    <value>public sealed partial class {1}
+    <value>{7} sealed partial class {1}
     : global::Graphify.IGraph&lt;{2}&gt;
 {{
     internal {1}({3}int index, {2} root, {4} value)

@@ -1,6 +1,5 @@
 ﻿namespace Graphify.Semantics
 {
-    using System;
     using System.Collections.Immutable;
     using System.Linq;
     using Graphify.Strategies;
@@ -27,10 +26,9 @@
         /// </remarks>
         public static bool HasRegistration(this INamedTypeSymbol symbol)
         {
-            string name = ImplementationStrategy.GetName(symbol.Name);
+            string asynchronousName = $"Add{AsynchronousNavigatorStrategy.GetName(symbol.Name)}";
+            string synchronousName = $"Add{SynchronousNavigatorStrategy.GetName(symbol.Name)}";
             ImmutableArray<INamedTypeSymbol> types = symbol.ContainingNamespace.GetTypeMembers(ExtensionClassName);
-
-            name = $"Add{name}";
 
             foreach (INamedTypeSymbol type in types)
             {
@@ -40,9 +38,11 @@
                 }
 
                 bool hasMatch = type
-                    .GetMembers(name)
+                                        .GetMembers()
                     .OfType<IMethodSymbol>()
-                    .Any(method => method.Parameters.Length == ExpectedParametersForRegistration);
+                    .Any(method =>
+                        method.Parameters.Length == ExpectedParametersForRegistration &&
+                        (method.Name == asynchronousName || method.Name == synchronousName));
 
                 if (hasMatch)
                 {

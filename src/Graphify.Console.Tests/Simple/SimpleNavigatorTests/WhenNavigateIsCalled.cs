@@ -37,7 +37,6 @@ public sealed class WhenNavigateIsCalled
 
         string[] expectedObservations =
         [
-            $"Simple: {name}",
             $"Simple.Graph.Age: {age}",
             $"Simple.Graph.IsAdult: {isAdult}",
             $"Simple.Graph.Name: {name}",

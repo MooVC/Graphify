@@ -1,4 +1,4 @@
-﻿namespace Graphify.Console.Complex.Visitors;
+namespace Graphify.Console.Complex.Visitors;
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 /// Provides a visitor implementation for processing instances of Complex.Graph.Children and producing string results.
 /// </summary>
 internal sealed class Children
-    : IVisitor<Complex.Graph.Children, string>
+    : IComplexVisitor<Complex.Graph.Children, string>
 {
     /// <summary>
     /// Observes the specified graph children instance and produces a sequence of string values asynchronously.

@@ -1,4 +1,4 @@
-﻿namespace Graphify
+namespace Graphify
 {
     using System;
     using System.Collections.Generic;
@@ -20,10 +20,15 @@
     {
         private static readonly IStrategy[] _strategies = new IStrategy[]
         {
-            new ContractStrategy(),
-            new ImplementationStrategy(),
+            new AsynchronousContractStrategy(),
+            new AsynchronousNavigatorStrategy(),
+            new AsynchronousRegistrationStrategy(),
+            new AsynchronousVisitorStrategy(),
             new ModelStrategy(),
-            new RegistrationStrategy(),
+            new SynchronousContractStrategy(),
+            new SynchronousNavigatorStrategy(),
+            new SynchronousRegistrationStrategy(),
+            new SynchronousVisitorStrategy(),
         };
 
         /// <inheritdoc/>

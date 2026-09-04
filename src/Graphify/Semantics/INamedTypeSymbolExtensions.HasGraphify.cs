@@ -1,5 +1,6 @@
 ﻿namespace Graphify.Semantics
 {
+    using System;
     using Graphify.Model;
     using Microsoft.CodeAnalysis;
     using static Graphify.GraphifyAttributeGenerator;
@@ -14,12 +15,10 @@
         /// <summary>
         /// Determines whether or not the <paramref name="symbol"/> provided is annotated with the Graphify attribute.
         /// </summary>
-        /// <param name="symbol">The symbol for the record to be checked for the presence of the Graphify attribute.</param>
-        /// <param name="depth">The depth configured on the Graphify attribute, or the default value.</param>
-        /// <returns>True if the Graphify attribute is present on the <paramref name="symbol"/>, otherwise False.</returns>
-        public static bool HasGraphify(this INamedTypeSymbol symbol, out byte depth)
+        public static bool HasGraphify(this INamedTypeSymbol symbol, out byte depth, out Modes mode)
         {
             depth = DefaultDepth;
+            mode = Modes.Asynchronous;
 
             AttributeData attribute = symbol.GetAttribute(Name);
 
@@ -32,6 +31,8 @@
             {
                 depth = DefaultDepth;
             }
+
+            _ = TryGetMode(attribute, out mode);
 
             return true;
         }
@@ -53,6 +54,29 @@
             depth = value;
 
             return true;
+        }
+
+        private static bool TryGetMode(AttributeData attribute, out Modes mode)
+        {
+            mode = Modes.Asynchronous;
+
+            if (!attribute.TryGetArgumentText(nameof(Subject.Mode), out string argumentText))
+            {
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(argumentText))
+            {
+                return false;
+            }
+
+            int separator = argumentText.LastIndexOf(".", StringComparison.Ordinal);
+
+            argumentText = separator >= 0
+                ? argumentText.Substring(separator + 1)
+                : argumentText;
+
+            return Enum.TryParse(argumentText, ignoreCase: false, out mode);
         }
     }
 }

@@ -162,4 +162,13 @@
   <data name="GenericTypeRuleTitle" xml:space="preserve">
     <value>Type has generic parameters</value>
   </data>
+  <data name="TypeAccessibilityRuleDescription" xml:space="preserve">
+    <value>The Graphify attribute only supports public and internal type declarations.</value>
+  </data>
+  <data name="TypeAccessibilityRuleMessageFormat" xml:space="preserve">
+    <value>Type `{0}` is not public or internal and cannot be used with Graphify.</value>
+  </data>
+  <data name="TypeAccessibilityRuleTitle" xml:space="preserve">
+    <value>Type has unsupported accessibility</value>
+  </data>
 </root>

@@ -1,4 +1,4 @@
-﻿namespace Graphify.Console.Complex.Visitors;
+namespace Graphify.Console.Complex.Visitors;
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -8,7 +8,7 @@ using System.Threading;
 /// Provides a visitor that observes and returns the name of the length component in a simple graph name structure.
 /// </summary>
 internal sealed class NameLength
-    : IVisitor<Complex.Graph.Name.Length, string>
+    : IComplexVisitor<Complex.Graph.Name.Length, string>
 {
     /// <summary>
     /// Observes the specified instance and asynchronously yields related string values.

@@ -1,6 +1,5 @@
 ﻿namespace Graphify.Console;
 
-using System;
 using Graphify.Console.Complex;
 using Graphify.Console.Complex.Visitors;
 using Graphify.Console.Simple;
@@ -60,16 +59,25 @@ internal static class Program
             Name = "Avery Brooks",
         };
 
-        await Enumerate(simple, provider);
-        await Enumerate(complex, provider);
+        await EnumerateSimple(simple, provider);
+        await EnumerateComplex(complex, provider);
 
         _ = ReadLine();
     }
 
-    private static async Task Enumerate<T>(T instance, IServiceProvider provider)
-        where T : class
+    private static async Task EnumerateComplex(Complex.Complex instance, IServiceProvider provider)
     {
-        INavigator<T> navigator = provider.GetRequiredService<INavigator<T>>();
+        IComplexNavigator navigator = provider.GetRequiredService<IComplexNavigator>();
+
+        await foreach (string item in navigator.Navigate<string>(instance, CancellationToken.None))
+        {
+            WriteLine(item);
+        }
+    }
+
+    private static async Task EnumerateSimple(Simple.Simple instance, IServiceProvider provider)
+    {
+        ISimpleNavigator navigator = provider.GetRequiredService<ISimpleNavigator>();
 
         await foreach (string item in navigator.Navigate<string>(instance, CancellationToken.None))
         {

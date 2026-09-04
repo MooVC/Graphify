@@ -56,7 +56,10 @@
                         continue;
                     }
 
-                    property.Properties = property.Symbol.GetAllProperties(depth, level);
+                    if (!property.Symbol.Equals(current, SymbolEqualityComparer.Default))
+                    {
+                        property.Properties = property.Symbol.GetAllProperties(depth, level);
+                    }
                 }
 
                 all.AddRange(properties);
@@ -74,7 +77,9 @@
                 .GetMembers()
                 .OfType<IPropertySymbol>()
                 .Where(property => !(property.IsStatic || property.IsIndexer)
-                                && property.ExplicitInterfaceImplementations.Length == 0)
+                                && property.ExplicitInterfaceImplementations.Length == 0
+                                && (property.DeclaredAccessibility == Accessibility.Public
+                                 || property.DeclaredAccessibility == Accessibility.Internal))
                 .Select(property => new
                 {
                     Property = property,

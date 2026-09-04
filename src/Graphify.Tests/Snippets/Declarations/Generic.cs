@@ -1,8 +1,5 @@
 ﻿namespace Graphify.Snippets.Declarations;
 
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.CodeAnalysis.CSharp;
 
 internal static class Generic

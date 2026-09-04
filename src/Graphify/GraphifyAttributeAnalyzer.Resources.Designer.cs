@@ -194,5 +194,32 @@ namespace Graphify {
                 return ResourceManager.GetString("SelfReferenceTitle", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to The Graphify attribute only supports public and internal type declarations..
+        /// </summary>
+        public static string TypeAccessibilityRuleDescription {
+            get {
+                return ResourceManager.GetString("TypeAccessibilityRuleDescription", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Type `{0}` is not public or internal and cannot be used with Graphify..
+        /// </summary>
+        public static string TypeAccessibilityRuleMessageFormat {
+            get {
+                return ResourceManager.GetString("TypeAccessibilityRuleMessageFormat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Type has unsupported accessibility.
+        /// </summary>
+        public static string TypeAccessibilityRuleTitle {
+            get {
+                return ResourceManager.GetString("TypeAccessibilityRuleTitle", resourceCulture);
+            }
+        }
     }
 }

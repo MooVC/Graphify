@@ -1,4 +1,4 @@
-﻿namespace Graphify.Console.Complex.Visitors;
+namespace Graphify.Console.Complex.Visitors;
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -8,7 +8,7 @@ using System.Threading;
 /// Visits the complex child age graph node.
 /// </summary>
 internal sealed class ChildrenChildAge
-    : IVisitor<Complex.Graph.Children.Child.Age, string>
+    : IComplexVisitor<Complex.Graph.Children.Child.Age, string>
 {
     /// <summary>
     /// Observes a child age value and yields a formatted message.

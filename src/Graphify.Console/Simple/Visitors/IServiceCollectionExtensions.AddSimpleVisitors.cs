@@ -1,6 +1,5 @@
-﻿namespace Graphify.Console.Simple.Visitors;
+namespace Graphify.Console.Simple.Visitors;
 
-using System;
 using Microsoft.Extensions.DependencyInjection;
 
 /// <summary>
@@ -16,10 +15,9 @@ public static partial class IServiceCollectionExtensions
     public static IServiceCollection AddSimpleVisitors(this IServiceCollection services)
     {
         return services
-            .AddSingleton<IVisitor<Simple, string>, Root>()
-            .AddSingleton<IVisitor<Simple.Graph.Age, string>, Age>()
-            .AddSingleton<IVisitor<Simple.Graph.IsAdult, string>, IsAdult>()
-            .AddSingleton<IVisitor<Simple.Graph.Name, string>, Name>()
-            .AddSingleton<IVisitor<Simple.Graph.Name.Length, string>, NameLength>();
+            .AddSingleton<ISimpleVisitor<Simple.Graph.Age, string>, Age>()
+            .AddSingleton<ISimpleVisitor<Simple.Graph.IsAdult, string>, IsAdult>()
+            .AddSingleton<ISimpleVisitor<Simple.Graph.Name, string>, Name>()
+            .AddSingleton<ISimpleVisitor<Simple.Graph.Name.Length, string>, NameLength>();
     }
 }

@@ -101,7 +101,7 @@ namespace Graphify.Strategies {
         ///{{
         ///    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = _provider.Empty&lt;TResult&gt;();
         ///
-        ///    _ = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;I{10}Visitor&lt;{3}, TResult&gt;&gt; observers);
+        ///    bool hasVisitors = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;I{10}Visitor&lt;{3}, TResult&gt;&gt; observers);
         ///
         ///    int index = 0;
         ///

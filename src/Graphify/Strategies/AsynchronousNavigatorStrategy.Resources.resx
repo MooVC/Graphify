@@ -136,7 +136,7 @@
 {{
     global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = _provider.Empty&lt;TResult&gt;();
 
-    _ = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;I{10}Visitor&lt;{3}, TResult&gt;&gt; observers);
+    bool hasVisitors = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;I{10}Visitor&lt;{3}, TResult&gt;&gt; observers);
 
     int index = 0;
 
@@ -144,7 +144,10 @@
     {{
         var {9} = new {3}({4}index, root, element);
 
-        results = _provider.Concat(results, Invoke&lt;{3}, TResult&gt;({9}, observers, cancellationToken), cancellationToken);
+        if (hasVisitors)
+        {{
+            results = _provider.Concat(results, Invoke&lt;{3}, TResult&gt;({9}, observers, cancellationToken), cancellationToken);
+        }}
 {5}
         index++;
     }}

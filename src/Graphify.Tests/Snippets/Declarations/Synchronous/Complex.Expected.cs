@@ -567,7 +567,7 @@ internal static partial class Complex
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
 
-                            _ = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IComplexVisitor<Complex.Graph.Children.Child, TResult>> visitors);
+                            bool hasVisitors = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IComplexVisitor<Complex.Graph.Children.Child, TResult>> visitors);
 
                             int index = 0;
 
@@ -575,7 +575,10 @@ internal static partial class Complex
                             {
                                 var child = new Complex.Graph.Children.Child(children, index, root, element);
 
-                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Complex.Graph.Children.Child, TResult>(child, visitors));
+                                if (hasVisitors)
+                                {
+                                    results = global::System.Linq.Enumerable.Concat(results, Invoke<Complex.Graph.Children.Child, TResult>(child, visitors));
+                                }
 
                                 results = global::System.Linq.Enumerable.Concat(results, NavigateChildrenChildAge<TResult>(child, root, element.Age));
                                 results = global::System.Linq.Enumerable.Concat(results, NavigateChildrenChildName<TResult>(child, root, element.Name));

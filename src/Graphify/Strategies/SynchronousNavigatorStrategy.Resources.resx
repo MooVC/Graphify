@@ -136,7 +136,7 @@
 {{
     global::System.Collections.Generic.IEnumerable&lt;TResult&gt; results = global::System.Linq.Enumerable.Empty&lt;TResult&gt;();
 
-    _ = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;I{10}Visitor&lt;{3}, TResult&gt;&gt; visitors);
+    bool hasVisitors = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;I{10}Visitor&lt;{3}, TResult&gt;&gt; visitors);
 
     int index = 0;
 
@@ -144,7 +144,10 @@
     {{
         var {9} = new {3}({4}index, root, element);
 
-        results = global::System.Linq.Enumerable.Concat(results, Invoke&lt;{3}, TResult&gt;({9}, visitors));
+        if (hasVisitors)
+        {{
+            results = global::System.Linq.Enumerable.Concat(results, Invoke&lt;{3}, TResult&gt;({9}, visitors));
+        }}
 {5}
         index++;
     }}

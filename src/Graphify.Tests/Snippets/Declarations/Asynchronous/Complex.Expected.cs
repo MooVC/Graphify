@@ -579,7 +579,7 @@ internal static partial class Complex
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
 
-                            _ = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IComplexVisitor<Complex.Graph.Children.Child, TResult>> observers);
+                            bool hasVisitors = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IComplexVisitor<Complex.Graph.Children.Child, TResult>> observers);
 
                             int index = 0;
 
@@ -587,7 +587,10 @@ internal static partial class Complex
                             {
                                 var child = new Complex.Graph.Children.Child(children, index, root, element);
 
-                                results = _provider.Concat(results, Invoke<Complex.Graph.Children.Child, TResult>(child, observers, cancellationToken), cancellationToken);
+                                if (hasVisitors)
+                                {
+                                    results = _provider.Concat(results, Invoke<Complex.Graph.Children.Child, TResult>(child, observers, cancellationToken), cancellationToken);
+                                }
 
                                 results = _provider.Concat(results, NavigateChildrenChildAge<TResult>(child, root, element.Age, cancellationToken), cancellationToken);
                                 results = _provider.Concat(results, NavigateChildrenChildName<TResult>(child, root, element.Name, cancellationToken), cancellationToken);

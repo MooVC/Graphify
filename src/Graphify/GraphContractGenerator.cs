@@ -3,6 +3,7 @@ namespace Graphify
     using System.Text;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.Text;
+    using static Graphify.Names;
 
     /// <summary>
     /// Generates the graph contract.
@@ -21,7 +22,7 @@ namespace Graphify
         /// <summary>
         /// Gets the generated graph contract content.
         /// </summary>
-        internal static string Content { get; } = GraphContractGenerator_Resources.Content;
+        internal static string Content { get; } = string.Format(GraphContractGenerator_Resources.Content, RootPropertyName);
 
         /// <inheritdoc/>
         public void Initialize(IncrementalGeneratorInitializationContext context)

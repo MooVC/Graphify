@@ -62,13 +62,13 @@ namespace Graphify {
 
         /// <summary>
         ///   Looks up a localized string similar to namespace Graphify
-        ///{
+        ///{{
         ///    public interface IGraph&lt;out T&gt;
         ///        where T : class
-        ///    {
-        ///        T Root { get; }
-        ///    }
-        ///}.
+        ///    {{
+        ///        T {0} {{ get; }}
+        ///    }}
+        ///}}.
         /// </summary>
         internal static string Content {
             get {

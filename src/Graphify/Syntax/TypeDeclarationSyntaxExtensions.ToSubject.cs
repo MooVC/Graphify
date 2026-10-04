@@ -8,6 +8,7 @@
     using Graphify.Semantics;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using static Graphify.Names;
 
     /// <summary>
     /// Provides extensions relating to <see cref="TypeDeclarationSyntax"/>.
@@ -54,8 +55,37 @@
             }
 
             bool hasRegistration = GetRegistration(type.ContainingAssembly, compilation);
+            string graphName = GetStringOption(type, model, nameof(Subject.GraphName), DefaultGraphTypeName, cancellationToken);
+            string propertyPrefix = GetStringOption(type, model, nameof(Subject.PropertyPrefix), string.Empty, cancellationToken);
 
-            return type.ToSubject(depth, mode, ImmutableArray.ToImmutableArray(nesting), hasRegistration);
+            return type.ToSubject(depth, mode, ImmutableArray.ToImmutableArray(nesting), hasRegistration, propertyPrefix, graphName);
+        }
+
+        private static string GetStringOption(INamedTypeSymbol type, SemanticModel model, string name, string defaultValue, CancellationToken cancellationToken)
+        {
+            AttributeData attribute = type.GetAttribute(GraphifyAttributeGenerator.Name);
+
+            if (!(attribute?.ApplicationSyntaxReference?.GetSyntax(cancellationToken) is AttributeSyntax syntax)
+                || syntax.ArgumentList is null)
+            {
+                return defaultValue;
+            }
+
+            foreach (AttributeArgumentSyntax argument in syntax.ArgumentList.Arguments)
+            {
+                if (argument.NameEquals?.Name.Identifier.ValueText != name)
+                {
+                    continue;
+                }
+
+                Optional<object> constant = model.GetConstantValue(argument.Expression, cancellationToken);
+
+                return constant.HasValue && constant.Value is string value
+                    ? value
+                    : defaultValue;
+            }
+
+            return defaultValue;
         }
 
         private static bool GetRegistration(IAssemblySymbol assembly, Compilation compilation)

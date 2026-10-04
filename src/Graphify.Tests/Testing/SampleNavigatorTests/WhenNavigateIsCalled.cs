@@ -9,8 +9,28 @@ using Microsoft.Extensions.DependencyInjection;
 
 public sealed class WhenNavigateIsCalled
 {
+    private const string DefaultGraphName = "Graph";
     private const int FirstAge = 10;
     private const int SecondAge = 20;
+
+    [Theory]
+    [InlineData(false, "N")]
+    [InlineData(true, "N")]
+    [InlineData(false, "ObjectGraph")]
+    [InlineData(true, "ObjectGraph")]
+    public async Task GivenGraphNameThenDescendantsAreVisitedInOrder(bool asynchronous, string graphName)
+    {
+        // Arrange
+        const int firstIndex = 0;
+        const int secondIndex = 1;
+        Func<bool, bool, bool, Task<int[]>> navigate = CreateNavigation(asynchronous, graphName);
+
+        // Act
+        int[] results = await navigate(false, true, true);
+
+        // Assert
+        results.ShouldBe([firstIndex, FirstAge + firstIndex, secondIndex, SecondAge + secondIndex]);
+    }
 
     [Theory]
     [InlineData(false, false)]
@@ -51,7 +71,7 @@ public sealed class WhenNavigateIsCalled
         results.ShouldBe(expected);
     }
 
-    private static Func<bool, bool, bool, Task<int[]>> CreateNavigation(bool asynchronous)
+    private static Func<bool, bool, bool, Task<int[]>> CreateNavigation(bool asynchronous, string graphName = DefaultGraphName)
     {
         string mode = asynchronous ? "Asynchronous" : "Synchronous";
         string returnType = asynchronous ? "IAsyncEnumerable<int>" : "IEnumerable<int>";
@@ -68,7 +88,7 @@ public sealed class WhenNavigateIsCalled
                 using System.Threading;
                 using System.Threading.Tasks;
 
-                [Graphify(Mode = Modes.{{mode}})]
+                [Graphify(GraphName = "{{graphName}}", Mode = Modes.{{mode}})]
                 public sealed partial class Sample
                 {
                     public Child[] Children { get; set; }
@@ -79,9 +99,9 @@ public sealed class WhenNavigateIsCalled
                     public int Age { get; set; }
                 }
 
-                public sealed class ElementVisitor : ISampleVisitor<Sample.Graph.Children.Child, int>
+                public sealed class ElementVisitor : ISampleVisitor<Sample.{{graphName}}.Children.Child, int>
                 {
-                    public {{returnType}} Observe(Sample.Graph.Children.Child instance{{parameters}})
+                    public {{returnType}} Observe(Sample.{{graphName}}.Children.Child instance{{parameters}})
                     {
                         return Results(instance.Index);
                     }
@@ -93,9 +113,9 @@ public sealed class WhenNavigateIsCalled
                     }
                 }
 
-                public sealed class PropertyVisitor : ISampleVisitor<Sample.Graph.Children.Child.Age, int>
+                public sealed class PropertyVisitor : ISampleVisitor<Sample.{{graphName}}.Children.Child.Age, int>
                 {
-                    public {{returnType}} Observe(Sample.Graph.Children.Child.Age instance{{parameters}})
+                    public {{returnType}} Observe(Sample.{{graphName}}.Children.Child.Age instance{{parameters}})
                     {
                         return Results(instance.Value + instance.Child.Index);
                     }
@@ -117,14 +137,14 @@ public sealed class WhenNavigateIsCalled
 
                     public object GetService(Type serviceType)
                     {
-                        if (ElementVisitors && serviceType == typeof(IEnumerable<ISampleVisitor<Sample.Graph.Children.Child, int>>))
+                        if (ElementVisitors && serviceType == typeof(IEnumerable<ISampleVisitor<Sample.{{graphName}}.Children.Child, int>>))
                         {
-                            return new ISampleVisitor<Sample.Graph.Children.Child, int>[] { new ElementVisitor() };
+                            return new ISampleVisitor<Sample.{{graphName}}.Children.Child, int>[] { new ElementVisitor() };
                         }
 
-                        if (PropertyVisitors && serviceType == typeof(IEnumerable<ISampleVisitor<Sample.Graph.Children.Child.Age, int>>))
+                        if (PropertyVisitors && serviceType == typeof(IEnumerable<ISampleVisitor<Sample.{{graphName}}.Children.Child.Age, int>>))
                         {
-                            return new ISampleVisitor<Sample.Graph.Children.Child.Age, int>[] { new PropertyVisitor() };
+                            return new ISampleVisitor<Sample.{{graphName}}.Children.Child.Age, int>[] { new PropertyVisitor() };
                         }
 
                         return EmptyVisitors ? Array.CreateInstance(serviceType.GenericTypeArguments[0], 0) : null;

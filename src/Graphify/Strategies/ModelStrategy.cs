@@ -8,6 +8,7 @@
     using System.Text;
     using Graphify.Model;
     using Microsoft.CodeAnalysis;
+    using static Graphify.Names;
     using static Graphify.Strategies.ModelStrategy_Resources;
 
     /// <summary>
@@ -17,6 +18,7 @@
         : IStrategy
     {
         private const string Declaration = "__DECLARATION__";
+        private const string GraphDeclarationPrefix = "partial class ";
 
         /// <summary>
         /// Generates a collection of source code representations for the specified subject and its properties.
@@ -59,7 +61,7 @@
                 yield break;
             }
 
-            string body = GeneratePropertyContent(@namespace, preceding, tier, out string assignments, out string parameters);
+            string body = GeneratePropertyContent(@namespace, preceding, subject, tier, out string assignments, out string parameters);
             string wrapper = GenerateWrapperDeclarations(preceding, tier);
 
             foreach (Property property in properties)
@@ -96,6 +98,10 @@
             string wrapper,
             out string next)
         {
+            string rootContract = string.IsNullOrEmpty(subject.PropertyPrefix)
+                ? string.Empty
+                : string.Format(GenerateRootContractContent, subject.Type, subject.PropertyPrefix, RootPropertyName);
+
             string code = string.Format(
                 template,
                 @namespace,
@@ -105,7 +111,12 @@
                 type,
                 assignments,
                 body,
-                declaration);
+                declaration,
+                subject.PropertyPrefix,
+                rootContract,
+                RootPropertyName,
+                ValuePropertyName,
+                IndexPropertyName);
 
             code = ApplyWrapper(code, wrapper, tier);
 
@@ -113,7 +124,8 @@
                 ? "internal static"
                 : "public static";
 
-            code = string.Format(GenerateContentNest, accessibility, "partial class Graph", code.Indent());
+            string graphDeclaration = string.Concat(GraphDeclarationPrefix, subject.GraphName);
+            code = string.Format(GenerateContentNest, accessibility, graphDeclaration, code.Indent());
             code = string.Format(GenerateContentNest, subject.Declaration, subject.Qualification, code.Indent());
 
             next = $"{@namespace}.{name}";
@@ -136,7 +148,7 @@
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element, property.Declaration));
 
                 tier++;
-                string body = GeneratePropertyContent(@namespace, pool, tier, out string assignments, out string parameters);
+                string body = GeneratePropertyContent(@namespace, pool, subject, tier, out string assignments, out string parameters);
 
                 string wrapper = GenerateWrapperDeclarations(pool, tier);
 
@@ -227,7 +239,7 @@
             return wrapper.Replace(Declaration, code);
         }
 
-        private static string GeneratePropertyContent(string @namespace, Predecessor[] preceding, int tier, out string assignments, out string parameters)
+        private static string GeneratePropertyContent(string @namespace, Predecessor[] preceding, Subject subject, int tier, out string assignments, out string parameters)
         {
             if (tier == 1)
             {
@@ -237,19 +249,31 @@
                 return string.Empty;
             }
 
+            string propertyPrefix = subject.PropertyPrefix;
             Predecessor predecessor = preceding[tier - 2];
-            string parameterName = ToCamelCase(predecessor.Name);
-            string type = ToGraphType(@namespace);
+            string propertyName = string.Concat(propertyPrefix, predecessor.Name);
+
+            if (!string.IsNullOrEmpty(propertyPrefix)
+                && (predecessor.Name == IndexPropertyName || predecessor.Name == RootPropertyName || predecessor.Name == ValuePropertyName))
+            {
+                propertyName = string.Concat(propertyName, ParentReferenceSuffix);
+            }
+
+            string parameterName = string.IsNullOrEmpty(propertyPrefix)
+                ? ToCamelCase(predecessor.Name)
+                : CollisionSafeParentParameterName;
+
+            string type = ToGraphType(@namespace, subject.GraphName);
             var assignmentBuilder = new StringBuilder();
             var declarationBuilder = new StringBuilder();
 
             _ = assignmentBuilder
                 .AppendLine()
-                .AppendLine(string.Format(GeneratePropertyContentAssignment, predecessor.Name, parameterName));
+                .AppendLine(string.Format(GeneratePropertyContentAssignment, propertyName, parameterName));
 
             _ = declarationBuilder
                 .AppendLine()
-                .AppendLine(string.Format(GeneratePropertyContentDeclaration, type, predecessor.Name, predecessor.Declaration));
+                .AppendLine(string.Format(GeneratePropertyContentDeclaration, type, propertyName, predecessor.Declaration));
 
             assignments = assignmentBuilder.ToString();
 
@@ -258,16 +282,17 @@
             return declarationBuilder.ToString();
         }
 
-        private static string ToGraphType(string @namespace)
+        private static string ToGraphType(string @namespace, string graphName)
         {
+            string graphNamespaceSegment = string.Concat(".", graphName);
             int separator = @namespace.IndexOf(".", StringComparison.Ordinal);
 
             if (separator < 0)
             {
-                return string.Concat(@namespace, ".Graph");
+                return string.Concat(@namespace, graphNamespaceSegment);
             }
 
-            return @namespace.Insert(separator, ".Graph");
+            return @namespace.Insert(separator, graphNamespaceSegment);
         }
 
         private static string ToCamelCase(string name)

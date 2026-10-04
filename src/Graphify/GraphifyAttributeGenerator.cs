@@ -3,6 +3,7 @@
     using System.Text;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.Text;
+    using static Graphify.Names;
 
     /// <summary>
     /// Generates the Graphify attribute, used to denote when a type should serve as a wrapper for a single value.
@@ -29,7 +30,7 @@
         /// <value>
         /// The generated source content as a formatted string.
         /// </value>
-        internal static string Content { get; } = string.Format(GraphifyAttributeGenerator_Resources.Content, Name);
+        internal static string Content { get; } = string.Format(GraphifyAttributeGenerator_Resources.Content, Name, DefaultGraphTypeName);
 
         /// <inheritdoc/>
         public void Initialize(IncrementalGeneratorInitializationContext context)

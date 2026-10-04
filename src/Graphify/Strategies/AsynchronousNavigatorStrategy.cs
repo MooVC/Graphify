@@ -8,6 +8,7 @@ namespace Graphify.Strategies
     using System.Linq;
     using System.Text;
     using Graphify.Model;
+    using static Graphify.Names;
     using static Graphify.Strategies.AsynchronousNavigatorStrategy_Resources;
 
     /// <summary>
@@ -16,8 +17,6 @@ namespace Graphify.Strategies
     internal sealed class AsynchronousNavigatorStrategy
         : IStrategy
     {
-        private const int GraphNamespaceLength = 7;
-
         /// <summary>
         /// Generates a standardized navigator name for the specified subject.
         /// </summary>
@@ -25,7 +24,7 @@ namespace Graphify.Strategies
         /// <returns>A string representing the navigator name in the format "{subject}Navigator".</returns>
         public static string GetName(string subject)
         {
-            return $"{subject}Navigator";
+            return string.Concat(subject, NavigatorTypeSuffix);
         }
 
         /// <summary>
@@ -43,7 +42,7 @@ namespace Graphify.Strategies
             }
 
             string name = GetName(subject.Name);
-            string @namespace = string.Concat(subject.Qualification, ".Graph");
+            string @namespace = subject.GraphQualification;
 
             yield return GenerateNavigator(name, subject);
 
@@ -86,7 +85,7 @@ namespace Graphify.Strategies
                 yield break;
             }
 
-            GeneratePropertyContent(@namespace, preceding, tier, out string arguments, out string parameters);
+            GeneratePropertyContent(@namespace, preceding, subject.PropertyPrefix, tier, out string arguments, out string parameters);
 
             foreach (Property property in properties)
             {
@@ -154,12 +153,12 @@ namespace Graphify.Strategies
                 name,
                 method,
                 element?.Type,
-                ToCamelCase(name),
+                GetNodeName(name, subject),
                 subject.Name);
 
             string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
             code = string.Format(GenerateContentNest, accessibility, @class, subject.Name, code.Indent());
-            string hint = next.Substring(subject.Name.Length + GraphNamespaceLength);
+            string hint = next.Substring(string.Concat(subject.GraphQualification, ".").Length);
 
             return new Source(code, $"{@class}.{hint}");
         }
@@ -181,9 +180,9 @@ namespace Graphify.Strategies
             {
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element));
                 tier++;
-                string name = ToCamelCase(element.Name);
+                string name = GetNodeName(element.Name, subject);
                 string body = GenerateConcatenationsForElement(moniker, element.Properties, name, subject, tier);
-                GeneratePropertyContent(@namespace, pool, tier, out string arguments, out string parameters);
+                GeneratePropertyContent(@namespace, pool, subject.PropertyPrefix, tier, out string arguments, out string parameters);
 
                 yield return GenerateContent(
                     arguments,
@@ -221,7 +220,7 @@ namespace Graphify.Strategies
             int tier,
             out string next)
         {
-            string body = GenerateConcatenationsForProperty(property.Element, method, property.Properties, ToCamelCase(property.Name), subject, tier);
+            string body = GenerateConcatenationsForProperty(property.Element, method, property.Properties, GetNodeName(property.Name, subject), subject, tier);
 
             return GenerateContent(
                 arguments,
@@ -359,7 +358,7 @@ namespace Graphify.Strategies
             return GenerateConcatenations(default, string.Empty, properties, string.Empty, subject, GenerateConcatenationsForSubjectContent, 0);
         }
 
-        private static void GeneratePropertyContent(string @namespace, Predecessor[] preceding, int tier, out string arguments, out string parameters)
+        private static void GeneratePropertyContent(string @namespace, Predecessor[] preceding, string propertyPrefix, int tier, out string arguments, out string parameters)
         {
             if (tier == 1)
             {
@@ -369,10 +368,19 @@ namespace Graphify.Strategies
                 return;
             }
 
-            string parameterName = ToCamelCase(preceding[tier - 2].Name);
+            string parameterName = string.IsNullOrEmpty(propertyPrefix)
+                ? ToCamelCase(preceding[tier - 2].Name)
+                : CollisionSafeParentParameterName;
 
             arguments = string.Concat(parameterName, ", ");
             parameters = string.Concat(@namespace, " ", parameterName, ", ");
+        }
+
+        private static string GetNodeName(string name, Subject subject)
+        {
+            return string.IsNullOrEmpty(subject.PropertyPrefix)
+                ? ToCamelCase(name)
+                : CollisionSafeNodeVariableName;
         }
 
         private static string ToCamelCase(string name)

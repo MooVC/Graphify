@@ -96,6 +96,42 @@ partial class Order
 }
 ```
 
+### Graph type name
+
+Set `GraphName` on the `Graphify` attribute to customize the type that contains the generated graph nodes:
+
+```csharp
+[Graphify(GraphName = "Nodes", PropertyPrefix = "_")]
+public sealed partial class Order
+{
+    public decimal Total { get; init; }
+}
+```
+
+The generated node is `Order.Nodes.Total`, with properties such as `_Root` and `_Value`. `GraphName` can be used independently of `PropertyPrefix`; it changes the graph container name used by nodes and navigators.
+
+The default name is `"Graph"`, preserving existing type names. An explicit `null` name uses the default. Names must be valid C# identifiers and cannot be reserved keywords; invalid names, including an empty string, produce [GRAFY07](docs/rules/GRAFY07.md). Like `PropertyPrefix`, `GraphName` accepts compile-time string constants, including `nameof` expressions.
+
+### Property prefixes
+
+Set `PropertyPrefix` on the `Graphify` attribute to avoid collisions between generated properties and graph node types:
+
+```csharp
+[Graphify(PropertyPrefix = "_")]
+public sealed partial class Order
+{
+    public Customer Customer { get; init; } = new();
+
+    public decimal Total { get; init; }
+}
+```
+
+The prefix applies to `Root`, `Value`, `Index` on collection element nodes, and parent references. With the example above, visitors use `instance._Root`, `instance._Value`, and parent references such as `instance._Customer`. A prefix of `"Graph"` produces `GraphRoot`, `GraphValue`, `GraphIndex`, and `GraphCustomer`. Graph node type names remain unchanged.
+
+When a parent node is named `Root`, `Value`, or `Index`, its prefixed reference receives a `Parent` suffix, such as `_ValueParent`, to keep it distinct from the generated metadata properties. `IGraph<T>.Root` remains available through an explicit interface implementation when a nonempty prefix is used.
+
+The default prefix is `string.Empty`, preserving existing property names. An explicit empty or `null` prefix has the same behavior. Prefixes must form valid C# identifiers when prepended to property names; invalid prefixes, such as `"$"`, produce [GRAFY06](docs/rules/GRAFY06.md).
+
 ### Traverse
 
 Use the `Traverse` attribute to control how Graphify walks specific properties. The `Scope` property defaults to `TraverseScope.All`, which behaves the same as if the attribute is not present. Set `Scope` to `TraverseScope.None` to exclude the property entirely, or to `TraverseScope.Property` to include the property itself while skipping any child properties (for collections, elements are still enumerated, but their child properties are not traversed).
@@ -183,6 +219,8 @@ Rule ID                         | Category | Severity | Description
 [GRAFY01](docs/rules/GRAFY01.md)| Usage    | Warning  | Type is not compatible with Graphify
 [GRAFY02](docs/rules/GRAFY02.md)| Usage    | Warning  | Type is not Partial
 [GRAFY03](docs/rules/GRAFY03.md)| Usage    | Info     | Type does not utilize Graphify
+[GRAFY06](docs/rules/GRAFY06.md)| Usage    | Error    | Property prefix is not valid
+[GRAFY07](docs/rules/GRAFY07.md)| Usage    | Error    | Graph name is not valid
 
 ## Contributing
 

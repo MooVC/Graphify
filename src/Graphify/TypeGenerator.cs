@@ -8,7 +8,9 @@ namespace Graphify
     using Graphify.Strategies;
     using Graphify.Syntax;
     using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using static Graphify.Names;
     using static Graphify.TypeGenerator_Resources;
 
     /// <summary>
@@ -18,6 +20,11 @@ namespace Graphify
     public sealed class TypeGenerator
         : IIncrementalGenerator
     {
+        private const string GeneratedSourceSuffix = ".g.cs";
+        private const string GraphNameRuleIdentifier = "GRAFY07";
+        private const string PropertyPrefixRuleIdentifier = "GRAFY06";
+        private const string UsageCategoryName = "Usage";
+
         private static readonly IStrategy[] _strategies = new IStrategy[]
         {
             new AsynchronousContractStrategy(),
@@ -30,6 +37,34 @@ namespace Graphify
             new SynchronousRegistrationStrategy(),
             new SynchronousVisitorStrategy(),
         };
+
+        /// <summary>
+        /// Gets the descriptor associated with the graph name rule (GRAFY07).
+        /// </summary>
+        /// <value>
+        /// The descriptor associated with the graph name rule (GRAFY07).
+        /// </value>
+        internal static DiagnosticDescriptor GraphNameRule { get; } = new DiagnosticDescriptor(
+            GraphNameRuleIdentifier,
+            new LocalizableResourceString(nameof(GenerateGraphNameRuleTitle), ResourceManager, typeof(TypeGenerator_Resources)),
+            new LocalizableResourceString(nameof(GenerateGraphNameRuleMessageFormat), ResourceManager, typeof(TypeGenerator_Resources)),
+            UsageCategoryName,
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
+
+        /// <summary>
+        /// Gets the descriptor associated with the property prefix rule (GRAFY06).
+        /// </summary>
+        /// <value>
+        /// The descriptor associated with the property prefix rule (GRAFY06).
+        /// </value>
+        internal static DiagnosticDescriptor PropertyPrefixRule { get; } = new DiagnosticDescriptor(
+            PropertyPrefixRuleIdentifier,
+            new LocalizableResourceString(nameof(GeneratePropertyPrefixRuleTitle), ResourceManager, typeof(TypeGenerator_Resources)),
+            new LocalizableResourceString(nameof(GeneratePropertyPrefixRuleMessageFormat), ResourceManager, typeof(TypeGenerator_Resources)),
+            UsageCategoryName,
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
 
         /// <inheritdoc/>
         public void Initialize(IncrementalGeneratorInitializationContext context)
@@ -49,6 +84,20 @@ namespace Graphify
         {
             if (subject is null)
             {
+                return;
+            }
+
+            if (!SyntaxFacts.IsValidIdentifier(subject.GraphName) || SyntaxFacts.GetKeywordKind(subject.GraphName) != SyntaxKind.None)
+            {
+                context.ReportDiagnostic(Diagnostic.Create(GraphNameRule, Location.None, subject.GraphName));
+
+                return;
+            }
+
+            if (!SyntaxFacts.IsValidIdentifier(string.Concat(subject.PropertyPrefix, RootPropertyName)))
+            {
+                context.ReportDiagnostic(Diagnostic.Create(PropertyPrefixRule, Location.None, subject.PropertyPrefix));
+
                 return;
             }
 #if DEBUG
@@ -89,7 +138,7 @@ namespace Graphify
                 ? string.Empty
                 : ".";
 
-            return $"{name}{separator}{source.Hint}.g.cs";
+            return string.Concat(name, separator, source.Hint, GeneratedSourceSuffix);
         }
 
         private static bool IsMatch(SyntaxNode node, CancellationToken cancellationToken)

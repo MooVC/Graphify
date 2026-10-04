@@ -119,12 +119,12 @@
   </resheader>
   <data name="Content" xml:space="preserve">
     <value>namespace Graphify
-{
+{{
     public interface IGraph&lt;out T&gt;
         where T : class
-    {
-        T Root { get; }
-    }
-}</value>
+    {{
+        T {0} {{ get; }}
+    }}
+}}</value>
   </data>
 </root>

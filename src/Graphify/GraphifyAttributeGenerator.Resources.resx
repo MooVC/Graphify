@@ -138,16 +138,22 @@
         public {0}Attribute()
         {{
             Depth = 16;
+            GraphName = "{1}";
 #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
             Mode = Modes.Asynchronous;
 #else
             Mode = Modes.Synchronous;
 #endif
+            PropertyPrefix = string.Empty;
         }}
 
         public byte Depth {{ get; set; }}
 
+        public string GraphName {{ get; set; }}
+
         public Modes Mode {{ get; set; }}
+
+        public string PropertyPrefix {{ get; set; }}
     }}
 }}</value>
   </data>

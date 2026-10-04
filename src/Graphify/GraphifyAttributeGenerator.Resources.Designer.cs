@@ -81,6 +81,7 @@ namespace Graphify {
         ///        public {0}Attribute()
         ///        {{
         ///            Depth = 16;
+        ///            GraphName = &quot;{1}&quot;;
         ///#if NET5_0_OR_GREATER || NET [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content {

@@ -61,6 +61,42 @@ namespace Graphify {
         }
         
         /// <summary>
+        ///   Looks up the diagnostic message for an invalid graph name.
+        /// </summary>
+        internal static string GenerateGraphNameRuleMessageFormat {
+            get {
+                return ResourceManager.GetString("GenerateGraphNameRuleMessageFormat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up the diagnostic title for an invalid graph name.
+        /// </summary>
+        internal static string GenerateGraphNameRuleTitle {
+            get {
+                return ResourceManager.GetString("GenerateGraphNameRuleTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up the diagnostic message for an invalid property prefix.
+        /// </summary>
+        internal static string GeneratePropertyPrefixRuleMessageFormat {
+            get {
+                return ResourceManager.GetString("GeneratePropertyPrefixRuleMessageFormat", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up the diagnostic title for an invalid property prefix.
+        /// </summary>
+        internal static string GeneratePropertyPrefixRuleTitle {
+            get {
+                return ResourceManager.GetString("GeneratePropertyPrefixRuleTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
         ///   Looks up a localized string similar to {0} {1}
         ///{{
         ///    {2}

@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using Graphify.Model;
+    using static Graphify.Names;
     using static Graphify.Strategies.SynchronousContractStrategy_Resources;
 
     /// <summary>
@@ -12,7 +13,7 @@
     {
         public static string GetName(string subject)
         {
-            return $"I{subject}Navigator";
+            return string.Concat(InterfaceNamePrefix, subject, NavigatorTypeSuffix);
         }
 
         public IEnumerable<Source> Generate(Subject subject)

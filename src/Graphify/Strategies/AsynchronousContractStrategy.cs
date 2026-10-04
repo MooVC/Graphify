@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using Graphify.Model;
+    using static Graphify.Names;
     using static Graphify.Strategies.AsynchronousContractStrategy_Resources;
 
     /// <summary>
@@ -17,7 +18,7 @@
         /// <returns>A string representing the navigator interface name in the format "I{subject}Navigator".</returns>
         public static string GetName(string subject)
         {
-            return $"I{subject}Navigator";
+            return string.Concat(InterfaceNamePrefix, subject, NavigatorTypeSuffix);
         }
 
         /// <summary>

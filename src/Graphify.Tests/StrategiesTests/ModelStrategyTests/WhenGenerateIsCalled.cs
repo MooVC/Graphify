@@ -7,8 +7,11 @@ using Microsoft.CodeAnalysis;
 
 public sealed class WhenGenerateIsCalled
 {
-    [Fact]
-    public void GivenInternalPropertyThenGraphAndValueDeclarationsAreInternal()
+    [Theory]
+    [InlineData(null)]
+    [InlineData("_")]
+    [InlineData("Graph")]
+    public void GivenInternalPropertyThenGraphAndValueDeclarationsAreInternal(string? prefix)
     {
         // Arrange
         var strategy = new ModelStrategy();
@@ -28,6 +31,7 @@ public sealed class WhenGenerateIsCalled
                     Type = "int",
                 },
             ],
+            PropertyPrefix = prefix ?? string.Empty,
             Qualification = "Root",
             Type = "global::Sample.Root",
         };
@@ -38,7 +42,7 @@ public sealed class WhenGenerateIsCalled
         // Assert
         generated.Code.ShouldContain("internal static partial class Graph");
         generated.Code.ShouldContain("internal sealed partial class Secret");
-        generated.Code.ShouldContain("internal int Value { get; private set; }");
+        generated.Code.ShouldContain($"internal int {prefix}Value {{ get; private set; }}");
     }
 
     [Fact]

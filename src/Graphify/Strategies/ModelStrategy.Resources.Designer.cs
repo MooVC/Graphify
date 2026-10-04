@@ -61,20 +61,20 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to public sealed partial class {1}
+        ///   Looks up a localized string similar to {7} sealed partial class {1}
         ///{{
         ///    internal {1}({3}int index, {2} root, {4} value)
         ///    {{{5}
-        ///        Index = index;
-        ///        Root = root;
-        ///        Value = value;
+        ///        {8}{12} = index;
+        ///        {8}{10} = root;
+        ///        {8}{11} = value;
         ///    }}
         ///{6}
-        ///    public int Index {{ get; private set; }}
+        ///    public int {8}{12} {{ get; private set; }}
         ///
-        ///    public {2} Root {{ get; private set; }}
+        ///    public {2} {8}{10} {{ get; private set; }}
         ///
-        ///    public {4} Value {{ get; private set; }}
+        ///    {7} {4} {8}{11} {{ get; private set; }}{9}
         ///}}.
         /// </summary>
         internal static string GenerateContentForElementContent {
@@ -84,17 +84,17 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to public sealed partial class {1}
+        ///   Looks up a localized string similar to {7} sealed partial class {1}
         ///{{
         ///    internal {1}({3}{2} root, {4} value)
         ///    {{{5}
-        ///        Root = root;
-        ///        Value = value;
+        ///        {8}{10} = root;
+        ///        {8}{11} = value;
         ///    }}
         ///{6}
-        ///    public {2} Root {{ get; private set; }}
+        ///    public {2} {8}{10} {{ get; private set; }}
         ///
-        ///    public {4} Value {{ get; private set; }}
+        ///    {7} {4} {8}{11} {{ get; private set; }}{9}
         ///}}.
         /// </summary>
         internal static string GenerateContentForPropertyContent {
@@ -139,6 +139,15 @@ namespace Graphify.Strategies {
         internal static string GeneratePropertyContentDeclaration {
             get {
                 return ResourceManager.GetString("GeneratePropertyContentDeclaration", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up the explicit implementation of the graph root contract.
+        /// </summary>
+        internal static string GenerateRootContractContent {
+            get {
+                return ResourceManager.GetString("GenerateRootContractContent", resourceCulture);
             }
         }
         

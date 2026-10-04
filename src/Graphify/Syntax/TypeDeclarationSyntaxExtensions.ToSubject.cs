@@ -54,8 +54,36 @@
             }
 
             bool hasRegistration = GetRegistration(type.ContainingAssembly, compilation);
+            string propertyPrefix = GetPropertyPrefix(type, model, cancellationToken);
 
-            return type.ToSubject(depth, mode, ImmutableArray.ToImmutableArray(nesting), hasRegistration);
+            return type.ToSubject(depth, mode, ImmutableArray.ToImmutableArray(nesting), hasRegistration, propertyPrefix);
+        }
+
+        private static string GetPropertyPrefix(INamedTypeSymbol type, SemanticModel model, CancellationToken cancellationToken)
+        {
+            AttributeData attribute = type.GetAttribute(GraphifyAttributeGenerator.Name);
+
+            if (!(attribute?.ApplicationSyntaxReference?.GetSyntax(cancellationToken) is AttributeSyntax syntax)
+                || syntax.ArgumentList is null)
+            {
+                return string.Empty;
+            }
+
+            foreach (AttributeArgumentSyntax argument in syntax.ArgumentList.Arguments)
+            {
+                if (argument.NameEquals?.Name.Identifier.ValueText != nameof(Subject.PropertyPrefix))
+                {
+                    continue;
+                }
+
+                Optional<object> constant = model.GetConstantValue(argument.Expression, cancellationToken);
+
+                return constant.HasValue && constant.Value is string prefix
+                    ? prefix
+                    : string.Empty;
+            }
+
+            return string.Empty;
         }
 
         private static bool GetRegistration(IAssemblySymbol assembly, Compilation compilation)

@@ -24,13 +24,16 @@
         /// <param name="hasRegistration">
         /// Indictaes whether or not the assembly within which <paramref name="subject"/> resides has registration references.
         /// </param>
+        /// <param name="propertyPrefix">
+        /// The prefix applied to generated graph properties.
+        /// </param>
         /// <returns>
         /// An instance of <see cref="Subject"/> containing the required semantics.
         /// </returns>
         /// <remarks>
         /// If the declaration associated with the type cannot be determined, the method will return <see langword="null" />.
         /// </remarks>
-        public static Subject ToSubject(this INamedTypeSymbol subject, byte depth, Modes mode, in ImmutableArray<Nesting> nesting, bool hasRegistration)
+        public static Subject ToSubject(this INamedTypeSymbol subject, byte depth, Modes mode, in ImmutableArray<Nesting> nesting, bool hasRegistration, string propertyPrefix = default)
         {
             string @namespace = subject.ContainingNamespace.IsGlobalNamespace
                ? string.Empty
@@ -56,6 +59,7 @@
                 Namespace = @namespace,
                 Nesting = nesting,
                 Properties = subject.GetProperties(depth),
+                PropertyPrefix = propertyPrefix ?? string.Empty,
                 Qualification = subject.ToDisplayString(SymbolDisplayFormat.MinimallyQualifiedFormat),
                 Type = subject.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat),
             };

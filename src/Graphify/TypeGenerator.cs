@@ -8,7 +8,9 @@ namespace Graphify
     using Graphify.Strategies;
     using Graphify.Syntax;
     using Microsoft.CodeAnalysis;
+    using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using static Graphify.GeneratedNames;
     using static Graphify.TypeGenerator_Resources;
 
     /// <summary>
@@ -18,6 +20,10 @@ namespace Graphify
     public sealed class TypeGenerator
         : IIncrementalGenerator
     {
+        private const string GeneratedSourceSuffix = ".g.cs";
+        private const string PropertyPrefixRuleIdentifier = "GRAFY06";
+        private const string UsageCategoryName = "Usage";
+
         private static readonly IStrategy[] _strategies = new IStrategy[]
         {
             new AsynchronousContractStrategy(),
@@ -30,6 +36,20 @@ namespace Graphify
             new SynchronousRegistrationStrategy(),
             new SynchronousVisitorStrategy(),
         };
+
+        /// <summary>
+        /// Gets the descriptor associated with the property prefix rule (GRAFY06).
+        /// </summary>
+        /// <value>
+        /// The descriptor associated with the property prefix rule (GRAFY06).
+        /// </value>
+        internal static DiagnosticDescriptor PropertyPrefixRule { get; } = new DiagnosticDescriptor(
+            PropertyPrefixRuleIdentifier,
+            new LocalizableResourceString(nameof(GeneratePropertyPrefixRuleTitle), ResourceManager, typeof(TypeGenerator_Resources)),
+            new LocalizableResourceString(nameof(GeneratePropertyPrefixRuleMessageFormat), ResourceManager, typeof(TypeGenerator_Resources)),
+            UsageCategoryName,
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
 
         /// <inheritdoc/>
         public void Initialize(IncrementalGeneratorInitializationContext context)
@@ -49,6 +69,13 @@ namespace Graphify
         {
             if (subject is null)
             {
+                return;
+            }
+
+            if (!SyntaxFacts.IsValidIdentifier(string.Concat(subject.PropertyPrefix, RootPropertyName)))
+            {
+                context.ReportDiagnostic(Diagnostic.Create(PropertyPrefixRule, Location.None, subject.PropertyPrefix));
+
                 return;
             }
 #if DEBUG
@@ -89,7 +116,7 @@ namespace Graphify
                 ? string.Empty
                 : ".";
 
-            return $"{name}{separator}{source.Hint}.g.cs";
+            return string.Concat(name, separator, source.Hint, GeneratedSourceSuffix);
         }
 
         private static bool IsMatch(SyntaxNode node, CancellationToken cancellationToken)

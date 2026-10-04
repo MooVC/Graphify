@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [Unreleased]
 
+## Added
+
+- Add `GraphifyAttribute.PropertyPrefix` to customize generated graph property names while preserving existing names by default and the `IGraph<T>.Root` contract. Nonempty prefixes also distinguish parent references named `Root`, `Value`, or `Index` with a `Parent` suffix.
+- Report `GRAFY06` when a property prefix cannot form valid C# identifiers.
+
 # [1.0.3] - 2026-09-09
 
 ## Fixed

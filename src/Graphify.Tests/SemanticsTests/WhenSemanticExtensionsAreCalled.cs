@@ -5,6 +5,7 @@ using Graphify.Model;
 using Graphify.Semantics;
 using Graphify.Testing;
 using Microsoft.CodeAnalysis;
+using Microsoft.Extensions.DependencyInjection;
 
 public sealed class WhenSemanticExtensionsAreCalled
 {
@@ -136,7 +137,7 @@ public sealed class WhenSemanticExtensionsAreCalled
     public void GivenAnnotatedTypeThenToSubjectAndGetPropertiesMapExpectedGraph()
     {
         // Arrange
-        var context = RoslynTestContext.Create(Source, typeof(Microsoft.Extensions.DependencyInjection.IServiceCollection).Assembly);
+        var context = RoslynTestContext.Create(Source, typeof(IServiceCollection).Assembly);
         INamedTypeSymbol root = context.GetTypeByMetadataName("Sample.Root");
 
         // Act

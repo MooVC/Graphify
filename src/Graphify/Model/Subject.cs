@@ -108,6 +108,14 @@
         public ImmutableArray<Property> Properties { get; set; } = ImmutableArray<Property>.Empty;
 
         /// <summary>
+        /// Gets or sets the prefix applied to generated graph properties.
+        /// </summary>
+        /// <value>
+        /// The prefix applied to generated graph properties.
+        /// </value>
+        public string PropertyPrefix { get; set; } = string.Empty;
+
+        /// <summary>
         /// Gets or sets the qualified name of the subject, which includes any generic arguments.
         /// </summary>
         /// <value>

@@ -4,13 +4,13 @@
     using System.Linq;
     using Graphify.Strategies;
     using Microsoft.CodeAnalysis;
+    using static Graphify.GeneratedNames;
 
     /// <summary>
     /// Provides extensions relating to <see cref="INamedTypeSymbol"/>.
     /// </summary>
     internal static partial class INamedTypeSymbolExtensions
     {
-        private const string ExtensionClassName = "ServiceCollectionExtensions";
         private const int ExpectedParametersForRegistration = 1;
 
         /// <summary>
@@ -26,9 +26,9 @@
         /// </remarks>
         public static bool HasRegistration(this INamedTypeSymbol symbol)
         {
-            string asynchronousName = $"Add{AsynchronousNavigatorStrategy.GetName(symbol.Name)}";
-            string synchronousName = $"Add{SynchronousNavigatorStrategy.GetName(symbol.Name)}";
-            ImmutableArray<INamedTypeSymbol> types = symbol.ContainingNamespace.GetTypeMembers(ExtensionClassName);
+            string asynchronousName = string.Concat(RegistrationMethodPrefix, AsynchronousNavigatorStrategy.GetName(symbol.Name));
+            string synchronousName = string.Concat(RegistrationMethodPrefix, SynchronousNavigatorStrategy.GetName(symbol.Name));
+            ImmutableArray<INamedTypeSymbol> types = symbol.ContainingNamespace.GetTypeMembers(RegistrationClassName);
 
             foreach (INamedTypeSymbol type in types)
             {

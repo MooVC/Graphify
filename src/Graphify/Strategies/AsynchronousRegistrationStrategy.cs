@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using Graphify.Model;
+    using static Graphify.GeneratedNames;
     using static Graphify.Strategies.AsynchronousRegistrationStrategy_Resources;
 
     /// <summary>
@@ -25,7 +26,7 @@
             string contract = AsynchronousContractStrategy.GetName(subject.Name);
             string implementation = AsynchronousNavigatorStrategy.GetName(subject.Name);
             string content = string.Format(GenerateContent, implementation, contract, subject.Name);
-            string hint = $"ServiceCollectionExtensions.Add{implementation}";
+            string hint = string.Concat(RegistrationClassName, ".", RegistrationMethodPrefix, implementation);
 
             yield return new Source(content, hint);
         }

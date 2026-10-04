@@ -2,6 +2,7 @@ namespace Graphify.Strategies
 {
     using System.Collections.Generic;
     using Graphify.Model;
+    using static Graphify.GeneratedNames;
     using static Graphify.Strategies.SynchronousVisitorStrategy_Resources;
 
     /// <summary>
@@ -25,7 +26,7 @@ namespace Graphify.Strategies
             string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
             string code = string.Format(GenerateContent, accessibility, subject.Name, subject.Type);
 
-            yield return new Source(code, $"I{subject.Name}Visitor");
+            yield return new Source(code, string.Concat(InterfaceNamePrefix, subject.Name, VisitorTypeSuffix));
         }
     }
 }

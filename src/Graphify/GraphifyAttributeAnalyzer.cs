@@ -15,6 +15,12 @@
     public sealed class GraphifyAttributeAnalyzer
         : AttributeAnalyzer<GraphifyAttributeAnalyzer_Resources>
     {
+        private const string CompatibleTargetTypeRuleIdentifier = "GRAFY01";
+        private const string GenericTypeRuleIdentifier = "GRAFY04";
+        private const string PartialTypeRuleIdentifier = "GRAFY02";
+        private const string TypeAccessibilityRuleIdentifier = "GRAFY05";
+        private const string UsageCategoryName = "Usage";
+
         /// <inheritdoc/>
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get; } = ImmutableArray.Create(
             CompatibleTargetTypeRule,
@@ -29,14 +35,14 @@
         /// The descriptor associated with the compatible target type rule (GRAFY01).
         /// </value>
         internal static DiagnosticDescriptor CompatibleTargetTypeRule { get; } = new DiagnosticDescriptor(
-            "GRAFY01",
+            CompatibleTargetTypeRuleIdentifier,
             GetResourceString(ResourceManager, nameof(CompatibleTargetTypeRuleTitle)),
             GetResourceString(ResourceManager, nameof(CompatibleTargetTypeRuleMessageFormat)),
-            "Usage",
+            UsageCategoryName,
             DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: GetResourceString(ResourceManager, nameof(CompatibleTargetTypeRuleDescription)),
-            helpLinkUri: GetHelpLinkUri("GRAFY01"));
+            helpLinkUri: GetHelpLinkUri(CompatibleTargetTypeRuleIdentifier));
 
         /// <summary>
         /// Gets the descriptor associated with the partial type rule (GRAFY02).
@@ -45,14 +51,14 @@
         /// The descriptor associated with the partial type rule (GRAFY02).
         /// </value>
         internal static DiagnosticDescriptor PartialTypeRule { get; } = new DiagnosticDescriptor(
-            "GRAFY02",
+            PartialTypeRuleIdentifier,
             GetResourceString(ResourceManager, nameof(PartialTypeRuleTitle)),
             GetResourceString(ResourceManager, nameof(PartialTypeRuleMessageFormat)),
-            "Usage",
+            UsageCategoryName,
             DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: GetResourceString(ResourceManager, nameof(PartialTypeRuleDescription)),
-            helpLinkUri: GetHelpLinkUri("GRAFY02"));
+            helpLinkUri: GetHelpLinkUri(PartialTypeRuleIdentifier));
 
         /// <summary>
         /// Gets the descriptor associated with the generic type rule (GRAFY04).
@@ -61,14 +67,14 @@
         /// The descriptor associated with the generic type rule (GRAFY04).
         /// </value>
         internal static DiagnosticDescriptor GenericTypeRule { get; } = new DiagnosticDescriptor(
-            "GRAFY04",
+            GenericTypeRuleIdentifier,
             GetResourceString(ResourceManager, nameof(GenericTypeRuleTitle)),
             GetResourceString(ResourceManager, nameof(GenericTypeRuleMessageFormat)),
-            "Usage",
+            UsageCategoryName,
             DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: GetResourceString(ResourceManager, nameof(GenericTypeRuleDescription)),
-            helpLinkUri: GetHelpLinkUri("GRAFY04"));
+            helpLinkUri: GetHelpLinkUri(GenericTypeRuleIdentifier));
 
         /// <summary>
         /// Gets the descriptor associated with the type accessibility rule (GRAFY05).
@@ -77,14 +83,14 @@
         /// The descriptor associated with the type accessibility rule (GRAFY05).
         /// </value>
         internal static DiagnosticDescriptor TypeAccessibilityRule { get; } = new DiagnosticDescriptor(
-            "GRAFY05",
+            TypeAccessibilityRuleIdentifier,
             GetResourceString(ResourceManager, nameof(TypeAccessibilityRuleTitle)),
             GetResourceString(ResourceManager, nameof(TypeAccessibilityRuleMessageFormat)),
-            "Usage",
+            UsageCategoryName,
             DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
             description: GetResourceString(ResourceManager, nameof(TypeAccessibilityRuleDescription)),
-            helpLinkUri: GetHelpLinkUri("GRAFY05"));
+            helpLinkUri: GetHelpLinkUri(TypeAccessibilityRuleIdentifier));
 
         /// <inheritdoc/>
         protected override void Analyze(AttributeSyntax attribute, SyntaxNodeAnalysisContext context, Location location)

@@ -3,6 +3,7 @@
     using System.Collections.Immutable;
     using Graphify.Model;
     using Microsoft.CodeAnalysis;
+    using static Graphify.Names;
 
     /// <summary>
     /// Provides extensions relating to <see cref="INamedTypeSymbol"/>.
@@ -27,13 +28,16 @@
         /// <param name="propertyPrefix">
         /// The prefix applied to generated graph properties.
         /// </param>
+        /// <param name="graphName">
+        /// The name of the type containing generated graph nodes.
+        /// </param>
         /// <returns>
         /// An instance of <see cref="Subject"/> containing the required semantics.
         /// </returns>
         /// <remarks>
         /// If the declaration associated with the type cannot be determined, the method will return <see langword="null" />.
         /// </remarks>
-        public static Subject ToSubject(this INamedTypeSymbol subject, byte depth, Modes mode, in ImmutableArray<Nesting> nesting, bool hasRegistration, string propertyPrefix = default)
+        public static Subject ToSubject(this INamedTypeSymbol subject, byte depth, Modes mode, in ImmutableArray<Nesting> nesting, bool hasRegistration, string propertyPrefix = default, string graphName = default)
         {
             string @namespace = subject.ContainingNamespace.IsGlobalNamespace
                ? string.Empty
@@ -52,6 +56,7 @@
                 CanRegister = hasRegistration,
                 Declaration = subject.GetDeclaration(),
                 Depth = depth,
+                GraphName = graphName ?? DefaultGraphTypeName,
                 HasContract = subject.HasContract(),
                 HasRegistration = subject.HasRegistration(),
                 Mode = mode,

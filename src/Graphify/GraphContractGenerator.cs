@@ -3,7 +3,7 @@ namespace Graphify
     using System.Text;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.Text;
-    using static Graphify.GeneratedNames;
+    using static Graphify.Names;
 
     /// <summary>
     /// Generates the graph contract.

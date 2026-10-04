@@ -3,6 +3,7 @@
     using System.Collections.Immutable;
     using Microsoft.CodeAnalysis;
     using Valuify;
+    using static Graphify.Names;
 
     /// <summary>
     /// The definition of the <see cref="Subject"/> type, which is used to capture information relating to a subject
@@ -42,6 +43,22 @@
         /// The maximum depth to which graph generation should proceed.
         /// </value>
         public byte Depth { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the type containing generated graph nodes.
+        /// </summary>
+        /// <value>
+        /// The name of the type containing generated graph nodes.
+        /// </value>
+        public string GraphName { get; set; } = DefaultGraphTypeName;
+
+        /// <summary>
+        /// Gets the qualified name of the type containing generated graph nodes.
+        /// </summary>
+        /// <value>
+        /// The qualified name of the type containing generated graph nodes.
+        /// </value>
+        public string GraphQualification => string.Concat(Qualification, ".", GraphName);
 
         /// <summary>
         /// Gets or sets a value indicating whether a contract is associated with the current entity.

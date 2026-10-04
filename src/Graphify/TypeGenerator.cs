@@ -10,7 +10,7 @@ namespace Graphify
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
-    using static Graphify.GeneratedNames;
+    using static Graphify.Names;
     using static Graphify.TypeGenerator_Resources;
 
     /// <summary>
@@ -21,6 +21,7 @@ namespace Graphify
         : IIncrementalGenerator
     {
         private const string GeneratedSourceSuffix = ".g.cs";
+        private const string GraphNameRuleIdentifier = "GRAFY07";
         private const string PropertyPrefixRuleIdentifier = "GRAFY06";
         private const string UsageCategoryName = "Usage";
 
@@ -36,6 +37,20 @@ namespace Graphify
             new SynchronousRegistrationStrategy(),
             new SynchronousVisitorStrategy(),
         };
+
+        /// <summary>
+        /// Gets the descriptor associated with the graph name rule (GRAFY07).
+        /// </summary>
+        /// <value>
+        /// The descriptor associated with the graph name rule (GRAFY07).
+        /// </value>
+        internal static DiagnosticDescriptor GraphNameRule { get; } = new DiagnosticDescriptor(
+            GraphNameRuleIdentifier,
+            new LocalizableResourceString(nameof(GenerateGraphNameRuleTitle), ResourceManager, typeof(TypeGenerator_Resources)),
+            new LocalizableResourceString(nameof(GenerateGraphNameRuleMessageFormat), ResourceManager, typeof(TypeGenerator_Resources)),
+            UsageCategoryName,
+            DiagnosticSeverity.Error,
+            isEnabledByDefault: true);
 
         /// <summary>
         /// Gets the descriptor associated with the property prefix rule (GRAFY06).
@@ -69,6 +84,13 @@ namespace Graphify
         {
             if (subject is null)
             {
+                return;
+            }
+
+            if (!SyntaxFacts.IsValidIdentifier(subject.GraphName) || SyntaxFacts.GetKeywordKind(subject.GraphName) != SyntaxKind.None)
+            {
+                context.ReportDiagnostic(Diagnostic.Create(GraphNameRule, Location.None, subject.GraphName));
+
                 return;
             }
 

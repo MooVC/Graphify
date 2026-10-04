@@ -8,7 +8,7 @@
     using System.Text;
     using Graphify.Model;
     using Microsoft.CodeAnalysis;
-    using static Graphify.GeneratedNames;
+    using static Graphify.Names;
     using static Graphify.Strategies.ModelStrategy_Resources;
 
     /// <summary>
@@ -18,7 +18,7 @@
         : IStrategy
     {
         private const string Declaration = "__DECLARATION__";
-        private const string GraphDeclaration = "partial class " + GraphTypeName;
+        private const string GraphDeclarationPrefix = "partial class ";
 
         /// <summary>
         /// Generates a collection of source code representations for the specified subject and its properties.
@@ -61,7 +61,7 @@
                 yield break;
             }
 
-            string body = GeneratePropertyContent(@namespace, preceding, subject.PropertyPrefix, tier, out string assignments, out string parameters);
+            string body = GeneratePropertyContent(@namespace, preceding, subject, tier, out string assignments, out string parameters);
             string wrapper = GenerateWrapperDeclarations(preceding, tier);
 
             foreach (Property property in properties)
@@ -124,7 +124,8 @@
                 ? "internal static"
                 : "public static";
 
-            code = string.Format(GenerateContentNest, accessibility, GraphDeclaration, code.Indent());
+            string graphDeclaration = string.Concat(GraphDeclarationPrefix, subject.GraphName);
+            code = string.Format(GenerateContentNest, accessibility, graphDeclaration, code.Indent());
             code = string.Format(GenerateContentNest, subject.Declaration, subject.Qualification, code.Indent());
 
             next = $"{@namespace}.{name}";
@@ -147,7 +148,7 @@
                 pool = AppendCurrentForNextTier(preceding, tier, Predecessor.From(property), Predecessor.From(element, property.Declaration));
 
                 tier++;
-                string body = GeneratePropertyContent(@namespace, pool, subject.PropertyPrefix, tier, out string assignments, out string parameters);
+                string body = GeneratePropertyContent(@namespace, pool, subject, tier, out string assignments, out string parameters);
 
                 string wrapper = GenerateWrapperDeclarations(pool, tier);
 
@@ -238,7 +239,7 @@
             return wrapper.Replace(Declaration, code);
         }
 
-        private static string GeneratePropertyContent(string @namespace, Predecessor[] preceding, string propertyPrefix, int tier, out string assignments, out string parameters)
+        private static string GeneratePropertyContent(string @namespace, Predecessor[] preceding, Subject subject, int tier, out string assignments, out string parameters)
         {
             if (tier == 1)
             {
@@ -248,6 +249,7 @@
                 return string.Empty;
             }
 
+            string propertyPrefix = subject.PropertyPrefix;
             Predecessor predecessor = preceding[tier - 2];
             string propertyName = string.Concat(propertyPrefix, predecessor.Name);
 
@@ -261,7 +263,7 @@
                 ? ToCamelCase(predecessor.Name)
                 : CollisionSafeParentParameterName;
 
-            string type = ToGraphType(@namespace);
+            string type = ToGraphType(@namespace, subject.GraphName);
             var assignmentBuilder = new StringBuilder();
             var declarationBuilder = new StringBuilder();
 
@@ -280,16 +282,17 @@
             return declarationBuilder.ToString();
         }
 
-        private static string ToGraphType(string @namespace)
+        private static string ToGraphType(string @namespace, string graphName)
         {
+            string graphNamespaceSegment = string.Concat(".", graphName);
             int separator = @namespace.IndexOf(".", StringComparison.Ordinal);
 
             if (separator < 0)
             {
-                return string.Concat(@namespace, GraphNamespaceSegment);
+                return string.Concat(@namespace, graphNamespaceSegment);
             }
 
-            return @namespace.Insert(separator, GraphNamespaceSegment);
+            return @namespace.Insert(separator, graphNamespaceSegment);
         }
 
         private static string ToCamelCase(string name)

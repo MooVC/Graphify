@@ -4,7 +4,7 @@
     using System.Linq;
     using Graphify.Strategies;
     using Microsoft.CodeAnalysis;
-    using static Graphify.GeneratedNames;
+    using static Graphify.Names;
 
     /// <summary>
     /// Provides extensions relating to <see cref="INamedTypeSymbol"/>.

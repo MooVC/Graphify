@@ -8,7 +8,7 @@ namespace Graphify.Strategies
     using System.Linq;
     using System.Text;
     using Graphify.Model;
-    using static Graphify.GeneratedNames;
+    using static Graphify.Names;
     using static Graphify.Strategies.AsynchronousNavigatorStrategy_Resources;
 
     /// <summary>
@@ -42,7 +42,7 @@ namespace Graphify.Strategies
             }
 
             string name = GetName(subject.Name);
-            string @namespace = string.Concat(subject.Qualification, GraphNamespaceSegment);
+            string @namespace = subject.GraphQualification;
 
             yield return GenerateNavigator(name, subject);
 
@@ -158,7 +158,7 @@ namespace Graphify.Strategies
 
             string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
             code = string.Format(GenerateContentNest, accessibility, @class, subject.Name, code.Indent());
-            string hint = next.Substring(subject.Name.Length + GraphNamespaceQualifier.Length);
+            string hint = next.Substring(string.Concat(subject.GraphQualification, ".").Length);
 
             return new Source(code, $"{@class}.{hint}");
         }

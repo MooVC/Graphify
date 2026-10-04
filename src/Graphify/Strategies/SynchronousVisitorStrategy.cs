@@ -2,7 +2,7 @@ namespace Graphify.Strategies
 {
     using System.Collections.Generic;
     using Graphify.Model;
-    using static Graphify.GeneratedNames;
+    using static Graphify.Names;
     using static Graphify.Strategies.SynchronousVisitorStrategy_Resources;
 
     /// <summary>

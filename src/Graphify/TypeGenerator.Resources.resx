@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="GenerateGraphNameRuleMessageFormat" xml:space="preserve">
+    <value>GraphName '{0}' must be a valid C# identifier and cannot be a reserved keyword.</value>
+  </data>
+  <data name="GenerateGraphNameRuleTitle" xml:space="preserve">
+    <value>Graph name is not valid</value>
+  </data>
   <data name="GeneratePropertyPrefixRuleMessageFormat" xml:space="preserve">
     <value>PropertyPrefix '{0}' must form a valid C# identifier when prepended to a generated property name.</value>
   </data>

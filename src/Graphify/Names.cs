@@ -3,7 +3,7 @@ namespace Graphify
     /// <summary>
     /// Defines the fixed names used when generating graph members and related types.
     /// </summary>
-    internal static class GeneratedNames
+    internal static class Names
     {
         /// <summary>
         /// The node variable name used to avoid collisions with model member names.
@@ -16,19 +16,9 @@ namespace Graphify
         internal const string CollisionSafeParentParameterName = "parent";
 
         /// <summary>
-        /// The namespace qualifier preceding a nested graph node's name.
+        /// The default name of the type containing generated graph nodes.
         /// </summary>
-        internal const string GraphNamespaceQualifier = GraphNamespaceSegment + ".";
-
-        /// <summary>
-        /// The namespace segment used to enter the generated graph type.
-        /// </summary>
-        internal const string GraphNamespaceSegment = "." + GraphTypeName;
-
-        /// <summary>
-        /// The name of the type containing generated graph nodes.
-        /// </summary>
-        internal const string GraphTypeName = "Graph";
+        internal const string DefaultGraphTypeName = "Graph";
 
         /// <summary>
         /// The name of the property containing a collection element's position.

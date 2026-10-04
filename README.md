@@ -96,6 +96,22 @@ partial class Order
 }
 ```
 
+### Graph type name
+
+Set `GraphName` on the `Graphify` attribute to customize the type that contains the generated graph nodes:
+
+```csharp
+[Graphify(GraphName = "Nodes", PropertyPrefix = "_")]
+public sealed partial class Order
+{
+    public decimal Total { get; init; }
+}
+```
+
+The generated node is `Order.Nodes.Total`, with properties such as `_Root` and `_Value`. `GraphName` can be used independently of `PropertyPrefix`; it changes the graph container name used by nodes and navigators.
+
+The default name is `"Graph"`, preserving existing type names. An explicit `null` name uses the default. Names must be valid C# identifiers and cannot be reserved keywords; invalid names, including an empty string, produce [GRAFY07](docs/rules/GRAFY07.md). Like `PropertyPrefix`, `GraphName` accepts compile-time string constants, including `nameof` expressions.
+
 ### Property prefixes
 
 Set `PropertyPrefix` on the `Graphify` attribute to avoid collisions between generated properties and graph node types:
@@ -204,6 +220,7 @@ Rule ID                         | Category | Severity | Description
 [GRAFY02](docs/rules/GRAFY02.md)| Usage    | Warning  | Type is not Partial
 [GRAFY03](docs/rules/GRAFY03.md)| Usage    | Info     | Type does not utilize Graphify
 [GRAFY06](docs/rules/GRAFY06.md)| Usage    | Error    | Property prefix is not valid
+[GRAFY07](docs/rules/GRAFY07.md)| Usage    | Error    | Graph name is not valid
 
 ## Contributing
 

@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using Graphify.Model;
-    using static Graphify.GeneratedNames;
+    using static Graphify.Names;
     using static Graphify.Strategies.SynchronousContractStrategy_Resources;
 
     /// <summary>

@@ -9,8 +9,38 @@ namespace Graphify.TypeGeneratorTests
     public sealed class WhenInitializeIsCalled
     {
         private const int Amount = 42;
+        private const string DefaultGraphName = "Graph";
         private const string DependencyInjectionAssembly = "Microsoft.Extensions.DependencyInjection.Abstractions.dll";
         private const int FirstIndex = 0;
+
+        [Theory]
+        [InlineData("\"Graph\"")]
+        [InlineData("null")]
+        public void GivenDefaultOrNullGraphNameThenExistingSourceIsPreserved(string expression)
+        {
+            // Arrange
+            const string source = """
+                using Graphify;
+
+                [Graphify]
+                public sealed partial class Sample
+                {
+                    public int Number { get; set; }
+                }
+                """;
+            GeneratorDriverRunResult expected = Generate(source, out _);
+            string configuredSource = source.Replace("[Graphify]", $"[Graphify(GraphName = {expression})]", StringComparison.Ordinal);
+
+            // Act
+            GeneratorDriverRunResult result = Generate(configuredSource, out Compilation compilation);
+            using var stream = new MemoryStream();
+            EmitResult emitted = compilation.Emit(stream);
+
+            // Assert
+            result.Diagnostics.ShouldBeEmpty();
+            emitted.Success.ShouldBeTrue(string.Join(Environment.NewLine, emitted.Diagnostics));
+            result.GeneratedTrees.Select(tree => tree.ToString()).ShouldBe(expected.GeneratedTrees.Select(tree => tree.ToString()));
+        }
 
         [Theory]
         [InlineData("\"\"")]
@@ -39,6 +69,63 @@ namespace Graphify.TypeGeneratorTests
             result.Diagnostics.ShouldBeEmpty();
             emitted.Success.ShouldBeTrue(string.Join(Environment.NewLine, emitted.Diagnostics));
             result.GeneratedTrees.Select(tree => tree.ToString()).ShouldBe(expected.GeneratedTrees.Select(tree => tree.ToString()));
+        }
+
+        [Theory]
+        [InlineData(false, "\"Nodes\"", "Nodes")]
+        [InlineData(true, "\"Nodes\"", "Nodes")]
+        [InlineData(false, "\"N\"", "N")]
+        [InlineData(true, "\"ObjectGraph\"", "ObjectGraph")]
+        [InlineData(false, "Prefixes.Nodes", "Nodes")]
+        [InlineData(true, "nameof(Prefixes.Nodes)", "Nodes")]
+        [InlineData(false, "\"No\" + \"des\"", "Nodes")]
+        [InlineData(true, "@\"Nodes\"", "Nodes")]
+        [InlineData(false, "\"\\u004Eodes\"", "Nodes")]
+        public async Task GivenGraphNameAndPropertyPrefixThenNodesCompileAndNavigationPreservesValues(bool asynchronous, string expression, string graphName)
+        {
+            // Arrange
+            const string prefix = "_";
+            const string prefixExpression = "\"_\"";
+            string source = CreateSource(asynchronous, prefixExpression, prefix, expression, graphName);
+
+            // Act
+            GeneratorDriverRunResult result = Generate(source, out Compilation compilation);
+            using var stream = new MemoryStream();
+            EmitResult emitted = compilation.Emit(stream);
+
+            // Assert
+            result.Diagnostics.ShouldBeEmpty();
+            emitted.Success.ShouldBeTrue(string.Join(Environment.NewLine, emitted.Diagnostics));
+            var assembly = Assembly.Load(stream.ToArray());
+            MethodInfo method = assembly.GetType("Graphify.Testing.Probe")!.GetMethod("Navigate")!;
+            Func<Task<int[]>> navigate = method.CreateDelegate<Func<Task<int[]>>>();
+            int[] observations = await navigate();
+            observations.ShouldBe([FirstIndex, Amount]);
+        }
+
+        [Fact]
+        public void GivenGraphNameWhenGraphMemberExistsThenNodesCompile()
+        {
+            // Arrange
+            const string source = """
+                using Graphify;
+
+                [Graphify(GraphName = "Nodes")]
+                public sealed partial class Sample
+                {
+                    public int Graph { get; set; }
+                }
+                """;
+
+            // Act
+            GeneratorDriverRunResult result = Generate(source, out Compilation compilation);
+            using var stream = new MemoryStream();
+            EmitResult emitted = compilation.Emit(stream);
+
+            // Assert
+            result.Diagnostics.ShouldBeEmpty();
+            emitted.Success.ShouldBeTrue(string.Join(Environment.NewLine, emitted.Diagnostics));
+            compilation.GetTypeByMetadataName("Sample")!.GetTypeMembers(DefaultGraphName).ShouldBeEmpty();
         }
 
         [Theory]
@@ -71,6 +158,39 @@ namespace Graphify.TypeGeneratorTests
         }
 
         [Theory]
+        [InlineData("")]
+        [InlineData("$Nodes")]
+        [InlineData("1Nodes")]
+        [InlineData("Order.Nodes")]
+        [InlineData("Nodes ")]
+        [InlineData("Nodes-")]
+        [InlineData("class")]
+        public void GivenInvalidGraphNameThenDiagnosticIsReported(string graphName)
+        {
+            // Arrange
+            const string diagnosticIdentifier = "GRAFY07";
+            string source = $$"""
+                using Graphify;
+
+                [Graphify(GraphName = "{{graphName}}")]
+                public sealed partial class Sample
+                {
+                    public int Number { get; set; }
+                }
+                """;
+
+            // Act
+            GeneratorDriverRunResult result = Generate(source, out _);
+
+            // Assert
+            Diagnostic diagnostic = result.Diagnostics.ShouldHaveSingleItem();
+            diagnostic.Id.ShouldBe(diagnosticIdentifier);
+            diagnostic.Severity.ShouldBe(DiagnosticSeverity.Error);
+            diagnostic.GetMessage().ShouldContain($"'{graphName}'");
+            result.Results.Single(generated => generated.Diagnostics.Any(candidate => candidate.Id == diagnosticIdentifier)).GeneratedSources.ShouldBeEmpty();
+        }
+
+        [Theory]
         [InlineData("$")]
         [InlineData("1")]
         [InlineData("Graph ")]
@@ -100,8 +220,9 @@ namespace Graphify.TypeGeneratorTests
             result.Results.Single(generated => generated.Diagnostics.Any(candidate => candidate.Id == diagnosticIdentifier)).GeneratedSources.ShouldBeEmpty();
         }
 
-        private static string CreateSource(bool asynchronous, string expression, string prefix)
+        private static string CreateSource(bool asynchronous, string expression, string prefix, string? graphExpression = default, string graphName = DefaultGraphName)
         {
+            string graphOption = graphExpression is null ? string.Empty : $", GraphName = {graphExpression}";
             string mode = asynchronous ? "Asynchronous" : "Synchronous";
             string returnType = asynchronous ? "IAsyncEnumerable<int>" : "IEnumerable<int>";
             string parameters = asynchronous ? ", CancellationToken cancellationToken" : string.Empty;
@@ -121,9 +242,11 @@ namespace Graphify.TypeGeneratorTests
                     public static class Prefixes
                     {
                         public const string Graph = "Graph";
+
+                        public const string Nodes = "Nodes";
                     }
 
-                    [Graphify(Depth = 3, Mode = Modes.{{mode}}, PropertyPrefix = {{expression}})]
+                    [Graphify(Depth = 3, Mode = Modes.{{mode}}, PropertyPrefix = {{expression}}{{graphOption}})]
                     public sealed partial class Sample
                     {
                         public Index[] Children { get; set; }
@@ -143,9 +266,9 @@ namespace Graphify.TypeGeneratorTests
                         public int Amount { get; set; }
                     }
 
-                    public sealed class ElementVisitor : ISampleVisitor<Sample.Graph.Children.Index, int>
+                    public sealed class ElementVisitor : ISampleVisitor<Sample.{{graphName}}.Children.Index, int>
                     {
-                        public {{returnType}} Observe(Sample.Graph.Children.Index instance{{parameters}})
+                        public {{returnType}} Observe(Sample.{{graphName}}.Children.Index instance{{parameters}})
                         {
                             if (!ReferenceEquals(instance.{{prefix}}Children.{{prefix}}Value[instance.{{prefix}}Index], instance.{{prefix}}Value)
                                 || !ReferenceEquals(((IGraph<Sample>)instance).Root, instance.{{prefix}}Root))
@@ -163,9 +286,9 @@ namespace Graphify.TypeGeneratorTests
                         }
                     }
 
-                    public sealed class PropertyVisitor : ISampleVisitor<Sample.Graph.Children.Index.Amount, int>
+                    public sealed class PropertyVisitor : ISampleVisitor<Sample.{{graphName}}.Children.Index.Amount, int>
                     {
-                        public {{returnType}} Observe(Sample.Graph.Children.Index.Amount instance{{parameters}})
+                        public {{returnType}} Observe(Sample.{{graphName}}.Children.Index.Amount instance{{parameters}})
                         {
                             if (instance.{{prefix}}IndexParent.{{prefix}}Value.Amount != instance.{{prefix}}Value)
                             {
@@ -186,14 +309,14 @@ namespace Graphify.TypeGeneratorTests
                     {
                         public object GetService(Type serviceType)
                         {
-                            if (serviceType == typeof(IEnumerable<ISampleVisitor<Sample.Graph.Children.Index, int>>))
+                            if (serviceType == typeof(IEnumerable<ISampleVisitor<Sample.{{graphName}}.Children.Index, int>>))
                             {
-                                return new ISampleVisitor<Sample.Graph.Children.Index, int>[] { new ElementVisitor() };
+                                return new ISampleVisitor<Sample.{{graphName}}.Children.Index, int>[] { new ElementVisitor() };
                             }
 
-                            if (serviceType == typeof(IEnumerable<ISampleVisitor<Sample.Graph.Children.Index.Amount, int>>))
+                            if (serviceType == typeof(IEnumerable<ISampleVisitor<Sample.{{graphName}}.Children.Index.Amount, int>>))
                             {
-                                return new ISampleVisitor<Sample.Graph.Children.Index.Amount, int>[] { new PropertyVisitor() };
+                                return new ISampleVisitor<Sample.{{graphName}}.Children.Index.Amount, int>[] { new PropertyVisitor() };
                             }
 
                             return null;
@@ -210,10 +333,10 @@ namespace Graphify.TypeGeneratorTests
                                 Root = new Model { Amount = {{Amount}} },
                                 Value = new Model { Amount = {{Amount}} },
                             };
-                            var rootNode = new Sample.Graph.Root(root, root.Root);
-                            var rootAmount = new Sample.Graph.Root.Amount(rootNode, root, root.Root.Amount);
-                            var valueNode = new Sample.Graph.Value(root, root.Value);
-                            var valueAmount = new Sample.Graph.Value.Amount(valueNode, root, root.Value.Amount);
+                            var rootNode = new Sample.{{graphName}}.Root(root, root.Root);
+                            var rootAmount = new Sample.{{graphName}}.Root.Amount(rootNode, root, root.Root.Amount);
+                            var valueNode = new Sample.{{graphName}}.Value(root, root.Value);
+                            var valueAmount = new Sample.{{graphName}}.Value.Amount(valueNode, root, root.Value.Amount);
 
                             if (!ReferenceEquals(rootAmount.{{prefix}}RootParent, rootNode)
                                 || !ReferenceEquals(valueAmount.{{prefix}}ValueParent, valueNode)

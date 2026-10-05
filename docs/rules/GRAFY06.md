@@ -13,7 +13,7 @@
 
 ## Rule description
 
-Graphify prepends `PropertyPrefix` to generated graph properties, including `Root`, `Value`, `Index`, and parent references. A prefix containing unsupported characters, such as `$`, spaces, or hyphens, or beginning with a digit, makes these declarations invalid. The source generator reports this error and skips generation for the annotated type.
+Graphify prepends `PropertyPrefix` only to the fixed graph properties `Root`, `Value`, and `Index`. Parent references retain their node names. A prefix containing unsupported characters, such as `$`, spaces, or hyphens, or beginning with a digit, makes these fixed property declarations invalid. The source generator reports this error and skips generation for the annotated type.
 
 ## How to fix violations
 

@@ -126,9 +126,9 @@ public sealed partial class Order
 }
 ```
 
-The prefix applies to `Root`, `Value`, `Index` on collection element nodes, and parent references. With the example above, visitors use `instance._Root`, `instance._Value`, and parent references such as `instance._Customer`. A prefix of `"Graph"` produces `GraphRoot`, `GraphValue`, `GraphIndex`, and `GraphCustomer`. Graph node type names remain unchanged.
+The prefix applies only to the fixed `Root` and `Value` properties and the fixed `Index` property on collection element nodes. With the example above, visitors use `instance._Root` and `instance._Value`. A prefix of `"Graph"` produces `GraphRoot`, `GraphValue`, and `GraphIndex`. Parent references retain their node names, such as `instance.Customer`.
 
-When a parent node is named `Root`, `Value`, or `Index`, its prefixed reference receives a `Parent` suffix, such as `_ValueParent`, to keep it distinct from the generated metadata properties. `IGraph<T>.Root` remains available through an explicit interface implementation when a nonempty prefix is used.
+Parent references named `Root`, `Value`, or `Index` also retain their names. For example, with the `"_"` prefix, a parent reference named `Value` is distinct from the fixed `_Value` property. `IGraph<T>.Root` remains available through an explicit interface implementation when a nonempty prefix is used.
 
 The default prefix is `string.Empty`, preserving existing property names. An explicit empty or `null` prefix has the same behavior. Prefixes must form valid C# identifiers when prepended to property names; invalid prefixes, such as `"$"`, produce [GRAFY06](docs/rules/GRAFY06.md).
 

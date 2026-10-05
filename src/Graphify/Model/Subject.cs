@@ -125,10 +125,10 @@
         public ImmutableArray<Property> Properties { get; set; } = ImmutableArray<Property>.Empty;
 
         /// <summary>
-        /// Gets or sets the prefix applied to generated graph properties.
+        /// Gets or sets the prefix applied to fixed graph properties.
         /// </summary>
         /// <value>
-        /// The prefix applied to generated graph properties.
+        /// The prefix applied to fixed graph properties.
         /// </value>
         public string PropertyPrefix { get; set; } = string.Empty;
 

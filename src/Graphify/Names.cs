@@ -36,11 +36,6 @@ namespace Graphify
         internal const string NavigatorTypeSuffix = "Navigator";
 
         /// <summary>
-        /// The suffix distinguishing parent references from graph metadata properties.
-        /// </summary>
-        internal const string ParentReferenceSuffix = "Parent";
-
-        /// <summary>
         /// The name of the class containing navigator registration methods.
         /// </summary>
         internal const string RegistrationClassName = "ServiceCollectionExtensions";

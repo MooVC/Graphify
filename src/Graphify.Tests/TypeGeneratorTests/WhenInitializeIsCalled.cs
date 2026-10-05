@@ -137,7 +137,7 @@ namespace Graphify.TypeGeneratorTests
         [InlineData(true, "nameof(Prefixes.Graph)", "Graph")]
         [InlineData(false, "@\"_\"", "_")]
         [InlineData(true, "\"\\u005F\"", "_")]
-        public async Task GivenPropertyPrefixWhenNamesCollideThenNodesCompileAndNavigationPreservesValues(bool asynchronous, string expression, string prefix)
+        public async Task GivenPropertyPrefixWhenNamesCollideThenOnlyFixedPropertiesAreRenamedAndNavigationPreservesValues(bool asynchronous, string expression, string prefix)
         {
             // Arrange
             string source = CreateSource(asynchronous, expression, prefix);
@@ -270,7 +270,7 @@ namespace Graphify.TypeGeneratorTests
                     {
                         public {{returnType}} Observe(Sample.{{graphName}}.Children.Index instance{{parameters}})
                         {
-                            if (!ReferenceEquals(instance.{{prefix}}Children.{{prefix}}Value[instance.{{prefix}}Index], instance.{{prefix}}Value)
+                            if (!ReferenceEquals(instance.Children.{{prefix}}Value[instance.{{prefix}}Index], instance.{{prefix}}Value)
                                 || !ReferenceEquals(((IGraph<Sample>)instance).Root, instance.{{prefix}}Root))
                             {
                                 throw new InvalidOperationException();
@@ -290,12 +290,12 @@ namespace Graphify.TypeGeneratorTests
                     {
                         public {{returnType}} Observe(Sample.{{graphName}}.Children.Index.Amount instance{{parameters}})
                         {
-                            if (instance.{{prefix}}IndexParent.{{prefix}}Value.Amount != instance.{{prefix}}Value)
+                            if (instance.Index.{{prefix}}Value.Amount != instance.{{prefix}}Value)
                             {
                                 throw new InvalidOperationException();
                             }
 
-                            return Results(instance.{{prefix}}Value + instance.{{prefix}}IndexParent.{{prefix}}Index);
+                            return Results(instance.{{prefix}}Value + instance.Index.{{prefix}}Index);
                         }
 
                         private static {{(asynchronous ? "async " : string.Empty)}}{{returnType}} Results(int value)
@@ -338,8 +338,8 @@ namespace Graphify.TypeGeneratorTests
                             var valueNode = new Sample.{{graphName}}.Value(root, root.Value);
                             var valueAmount = new Sample.{{graphName}}.Value.Amount(valueNode, root, root.Value.Amount);
 
-                            if (!ReferenceEquals(rootAmount.{{prefix}}RootParent, rootNode)
-                                || !ReferenceEquals(valueAmount.{{prefix}}ValueParent, valueNode)
+                            if (!ReferenceEquals(rootAmount.Root, rootNode)
+                                || !ReferenceEquals(valueAmount.Value, valueNode)
                                 || !ReferenceEquals(((IGraph<Sample>)rootAmount).Root, root)
                                 || !ReferenceEquals(((IGraph<Sample>)valueAmount).Root, root)
                                 || rootAmount.{{prefix}}Value != {{Amount}}

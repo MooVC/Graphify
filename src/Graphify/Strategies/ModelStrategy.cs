@@ -249,17 +249,9 @@
                 return string.Empty;
             }
 
-            string propertyPrefix = subject.PropertyPrefix;
             Predecessor predecessor = preceding[tier - 2];
-            string propertyName = string.Concat(propertyPrefix, predecessor.Name);
-
-            if (!string.IsNullOrEmpty(propertyPrefix)
-                && (predecessor.Name == IndexPropertyName || predecessor.Name == RootPropertyName || predecessor.Name == ValuePropertyName))
-            {
-                propertyName = string.Concat(propertyName, ParentReferenceSuffix);
-            }
-
-            string parameterName = string.IsNullOrEmpty(propertyPrefix)
+            string propertyName = predecessor.Name;
+            string parameterName = string.IsNullOrEmpty(subject.PropertyPrefix)
                 ? ToCamelCase(predecessor.Name)
                 : CollisionSafeParentParameterName;
 

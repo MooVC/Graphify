@@ -26,7 +26,7 @@
         /// Indictaes whether or not the assembly within which <paramref name="subject"/> resides has registration references.
         /// </param>
         /// <param name="propertyPrefix">
-        /// The prefix applied to generated graph properties.
+        /// The prefix applied to fixed graph properties.
         /// </param>
         /// <param name="graphName">
         /// The name of the type containing generated graph nodes.

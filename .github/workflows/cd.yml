@@ -17,6 +17,7 @@ env:
   solution: 'Graphify.slnx'
 
 permissions:
+  contents: read
   packages: write
 
 jobs:
@@ -24,6 +25,10 @@ jobs:
   build:
     name: Build, Test & Publish
     runs-on: windows-2025
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
 
     steps:
     - name: Checkout
@@ -90,13 +95,23 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
+    # Configure NUGET_USER and a nuget.org trusted publishing policy for this repository and cd.yml.
+    - name: Log in to NuGet
+      if: ${{ github.event_name != 'workflow_dispatch' || inputs.unlist_only != 'true' }}
+      uses: NuGet/login@v1
+      id: nuget_login
+      with:
+        user: ${{ vars.NUGET_USER }}
+
     - name: Publish Packages to NuGet
       if: ${{ github.event_name != 'workflow_dispatch' || inputs.unlist_only != 'true' }}
-      run: dotnet nuget push **/Graphify*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
+      run: dotnet nuget push **/Graphify*.nupkg --api-key ${{ steps.nuget_login.outputs.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json --skip-duplicate
 
   unlist:
     name: Unlist Previous Pre-release Package Versions
     runs-on: windows-2025
+    permissions:
+      id-token: write
     needs: build
     if: ${{ needs.build.result == 'success' }}
 
@@ -124,9 +139,15 @@ jobs:
         name: nuget-packages
         path: ./artifacts
 
+    - name: Log in to NuGet
+      uses: NuGet/login@v1
+      id: nuget_login
+      with:
+        user: ${{ vars.NUGET_USER }}
+
     - name: Unlist Previous Pre-release Versions on NuGet
       env:
-        NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        NUGET_API_KEY: ${{ steps.nuget_login.outputs.NUGET_API_KEY }}
       run: |
         $ErrorActionPreference = 'Stop'
         $currentVersion = '${{ env.semantic }}'

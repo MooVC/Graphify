@@ -13,9 +13,9 @@ namespace Graphify.TypeGeneratorTests
         private const string DependencyInjectionAssembly = "Microsoft.Extensions.DependencyInjection.Abstractions.dll";
         private const int FirstIndex = 0;
 
-        [Theory]
-        [InlineData("\"Graph\"")]
-        [InlineData("null")]
+        [Test]
+        [Arguments("\"Graph\"")]
+        [Arguments("null")]
         public void GivenDefaultOrNullGraphNameThenExistingSourceIsPreserved(string expression)
         {
             // Arrange
@@ -42,9 +42,9 @@ namespace Graphify.TypeGeneratorTests
             result.GeneratedTrees.Select(tree => tree.ToString()).ShouldBe(expected.GeneratedTrees.Select(tree => tree.ToString()));
         }
 
-        [Theory]
-        [InlineData("\"\"")]
-        [InlineData("null")]
+        [Test]
+        [Arguments("\"\"")]
+        [Arguments("null")]
         public void GivenEmptyOrNullPropertyPrefixThenExistingSourceIsPreserved(string expression)
         {
             // Arrange
@@ -71,16 +71,16 @@ namespace Graphify.TypeGeneratorTests
             result.GeneratedTrees.Select(tree => tree.ToString()).ShouldBe(expected.GeneratedTrees.Select(tree => tree.ToString()));
         }
 
-        [Theory]
-        [InlineData(false, "\"Nodes\"", "Nodes")]
-        [InlineData(true, "\"Nodes\"", "Nodes")]
-        [InlineData(false, "\"N\"", "N")]
-        [InlineData(true, "\"ObjectGraph\"", "ObjectGraph")]
-        [InlineData(false, "Prefixes.Nodes", "Nodes")]
-        [InlineData(true, "nameof(Prefixes.Nodes)", "Nodes")]
-        [InlineData(false, "\"No\" + \"des\"", "Nodes")]
-        [InlineData(true, "@\"Nodes\"", "Nodes")]
-        [InlineData(false, "\"\\u004Eodes\"", "Nodes")]
+        [Test]
+        [Arguments(false, "\"Nodes\"", "Nodes")]
+        [Arguments(true, "\"Nodes\"", "Nodes")]
+        [Arguments(false, "\"N\"", "N")]
+        [Arguments(true, "\"ObjectGraph\"", "ObjectGraph")]
+        [Arguments(false, "Prefixes.Nodes", "Nodes")]
+        [Arguments(true, "nameof(Prefixes.Nodes)", "Nodes")]
+        [Arguments(false, "\"No\" + \"des\"", "Nodes")]
+        [Arguments(true, "@\"Nodes\"", "Nodes")]
+        [Arguments(false, "\"\\u004Eodes\"", "Nodes")]
         public async Task GivenGraphNameAndPropertyPrefixThenNodesCompileAndNavigationPreservesValues(bool asynchronous, string expression, string graphName)
         {
             // Arrange
@@ -103,7 +103,7 @@ namespace Graphify.TypeGeneratorTests
             observations.ShouldBe([FirstIndex, Amount]);
         }
 
-        [Fact]
+        [Test]
         public void GivenGraphNameWhenGraphMemberExistsThenNodesCompile()
         {
             // Arrange
@@ -128,15 +128,15 @@ namespace Graphify.TypeGeneratorTests
             compilation.GetTypeByMetadataName("Sample")!.GetTypeMembers(DefaultGraphName).ShouldBeEmpty();
         }
 
-        [Theory]
-        [InlineData(false, "\"_\"", "_")]
-        [InlineData(true, "\"_\"", "_")]
-        [InlineData(false, "Prefixes.Graph", "Graph")]
-        [InlineData(true, "Prefixes.Graph", "Graph")]
-        [InlineData(false, "\"Gr\" + \"aph\"", "Graph")]
-        [InlineData(true, "nameof(Prefixes.Graph)", "Graph")]
-        [InlineData(false, "@\"_\"", "_")]
-        [InlineData(true, "\"\\u005F\"", "_")]
+        [Test]
+        [Arguments(false, "\"_\"", "_")]
+        [Arguments(true, "\"_\"", "_")]
+        [Arguments(false, "Prefixes.Graph", "Graph")]
+        [Arguments(true, "Prefixes.Graph", "Graph")]
+        [Arguments(false, "\"Gr\" + \"aph\"", "Graph")]
+        [Arguments(true, "nameof(Prefixes.Graph)", "Graph")]
+        [Arguments(false, "@\"_\"", "_")]
+        [Arguments(true, "\"\\u005F\"", "_")]
         public async Task GivenPropertyPrefixWhenNamesCollideThenOnlyFixedPropertiesAreRenamedAndNavigationPreservesValues(bool asynchronous, string expression, string prefix)
         {
             // Arrange
@@ -157,14 +157,14 @@ namespace Graphify.TypeGeneratorTests
             observations.ShouldBe([FirstIndex, Amount]);
         }
 
-        [Theory]
-        [InlineData("")]
-        [InlineData("$Nodes")]
-        [InlineData("1Nodes")]
-        [InlineData("Order.Nodes")]
-        [InlineData("Nodes ")]
-        [InlineData("Nodes-")]
-        [InlineData("class")]
+        [Test]
+        [Arguments("")]
+        [Arguments("$Nodes")]
+        [Arguments("1Nodes")]
+        [Arguments("Order.Nodes")]
+        [Arguments("Nodes ")]
+        [Arguments("Nodes-")]
+        [Arguments("class")]
         public void GivenInvalidGraphNameThenDiagnosticIsReported(string graphName)
         {
             // Arrange
@@ -190,11 +190,11 @@ namespace Graphify.TypeGeneratorTests
             result.Results.Single(generated => generated.Diagnostics.Any(candidate => candidate.Id == diagnosticIdentifier)).GeneratedSources.ShouldBeEmpty();
         }
 
-        [Theory]
-        [InlineData("$")]
-        [InlineData("1")]
-        [InlineData("Graph ")]
-        [InlineData("Graph-")]
+        [Test]
+        [Arguments("$")]
+        [Arguments("1")]
+        [Arguments("Graph ")]
+        [Arguments("Graph-")]
         public void GivenInvalidPropertyPrefixThenDiagnosticIsReported(string prefix)
         {
             // Arrange

@@ -13,11 +13,11 @@ public sealed class WhenNavigateIsCalled
     private const int FirstAge = 10;
     private const int SecondAge = 20;
 
-    [Theory]
-    [InlineData(false, "N")]
-    [InlineData(true, "N")]
-    [InlineData(false, "ObjectGraph")]
-    [InlineData(true, "ObjectGraph")]
+    [Test]
+    [Arguments(false, "N")]
+    [Arguments(true, "N")]
+    [Arguments(false, "ObjectGraph")]
+    [Arguments(true, "ObjectGraph")]
     public async Task GivenGraphNameThenDescendantsAreVisitedInOrder(bool asynchronous, string graphName)
     {
         // Arrange
@@ -32,11 +32,11 @@ public sealed class WhenNavigateIsCalled
         results.ShouldBe([firstIndex, FirstAge + firstIndex, secondIndex, SecondAge + secondIndex]);
     }
 
-    [Theory]
-    [InlineData(false, false)]
-    [InlineData(false, true)]
-    [InlineData(true, false)]
-    [InlineData(true, true)]
+    [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
     public async Task GivenNoVisitorsThenResultsAreEmpty(bool asynchronous, bool emptyVisitors)
     {
         // Arrange
@@ -49,11 +49,11 @@ public sealed class WhenNavigateIsCalled
         results.ShouldBeEmpty();
     }
 
-    [Theory]
-    [InlineData(false, false)]
-    [InlineData(false, true)]
-    [InlineData(true, false)]
-    [InlineData(true, true)]
+    [Test]
+    [Arguments(false, false)]
+    [Arguments(false, true)]
+    [Arguments(true, false)]
+    [Arguments(true, true)]
     public async Task GivenPropertyVisitorsThenDescendantsAreVisitedInOrder(bool asynchronous, bool elementVisitors)
     {
         // Arrange

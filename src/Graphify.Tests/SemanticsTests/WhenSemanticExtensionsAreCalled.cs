@@ -117,7 +117,7 @@ public sealed class WhenSemanticExtensionsAreCalled
         }
         """;
 
-    [Fact]
+    [Test]
     public void GivenAnnotatedTypeThenHasGraphifyResolvesDepthAndMode()
     {
         // Arrange
@@ -133,7 +133,7 @@ public sealed class WhenSemanticExtensionsAreCalled
         mode.ShouldBe(Modes.Synchronous);
     }
 
-    [Fact]
+    [Test]
     public void GivenAnnotatedTypeThenToSubjectAndGetPropertiesMapExpectedGraph()
     {
         // Arrange
@@ -157,7 +157,7 @@ public sealed class WhenSemanticExtensionsAreCalled
         properties.First(property => property.Name == "PropertyOnly").Properties.ShouldBe([]);
     }
 
-    [Fact]
+    [Test]
     public void GivenPublicPropertiesOnInternalTypeThenDeclarationsAreInternal()
     {
         // Arrange
@@ -173,7 +173,7 @@ public sealed class WhenSemanticExtensionsAreCalled
         properties.First(property => property.Name == "Name").Declaration.ShouldBe("internal");
     }
 
-    [Fact]
+    [Test]
     public void GivenATypeAndContainerThenToElementReturnsEmptyPropertiesWhenMatchingContainer()
     {
         // Arrange
@@ -188,7 +188,7 @@ public sealed class WhenSemanticExtensionsAreCalled
         element.Properties.ShouldBe(ImmutableArray<Property>.Empty);
     }
 
-    [Fact]
+    [Test]
     public void GivenAttributeQueriesThenGetAttributeAndPredicatesMatch()
     {
         // Arrange
@@ -211,7 +211,7 @@ public sealed class WhenSemanticExtensionsAreCalled
         traverseAttribute.IsAttribute(TraverseAttributeGenerator.Name).ShouldBeTrue();
     }
 
-    [Fact]
+    [Test]
     public void GivenCollectionAndStringPropertiesThenIsSequenceHandlesBothCases()
     {
         // Arrange
@@ -232,7 +232,7 @@ public sealed class WhenSemanticExtensionsAreCalled
         ignored.ShouldBeNull();
     }
 
-    [Fact]
+    [Test]
     public void GivenNamedArgumentsThenTryGetArgumentTextFindsExpectedValues()
     {
         // Arrange
@@ -256,7 +256,7 @@ public sealed class WhenSemanticExtensionsAreCalled
         scopeText.ShouldBe("TraverseScope.Property");
     }
 
-    [Fact]
+    [Test]
     public void GivenNullAttributeThenTryGetArgumentTextThrows()
     {
         // Arrange
@@ -269,7 +269,7 @@ public sealed class WhenSemanticExtensionsAreCalled
         _ = act.ShouldThrow<ArgumentNullException>();
     }
 
-    [Fact]
+    [Test]
     public void GivenPropertySymbolThenToPropertyMapsElementAndMetadata()
     {
         // Arrange
@@ -289,7 +289,7 @@ public sealed class WhenSemanticExtensionsAreCalled
         property.Type.ShouldContain("int[]");
     }
 
-    [Fact]
+    [Test]
     public void GivenTraverseAttributeThenScopeIsResolved()
     {
         // Arrange
@@ -310,7 +310,7 @@ public sealed class WhenSemanticExtensionsAreCalled
         ignoredScope.ShouldBe(TraverseScope.None);
     }
 
-    [Fact]
+    [Test]
     public void GivenTypeSymbolsThenDeclarationAccessibilityAndContractsAreResolved()
     {
         // Arrange
@@ -329,7 +329,7 @@ public sealed class WhenSemanticExtensionsAreCalled
         privateAnnotated.HasSupportedAccessibility().ShouldBeFalse();
     }
 
-    [Fact]
+    [Test]
     public void GivenUnannotatedTypeThenHasGraphifyReturnsFalseWithDefaults()
     {
         // Arrange

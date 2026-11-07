@@ -7,10 +7,10 @@ using Microsoft.CodeAnalysis;
 
 public sealed class WhenGenerateIsCalled
 {
-    [Theory]
-    [InlineData(null)]
-    [InlineData("_")]
-    [InlineData("Graph")]
+    [Test]
+    [Arguments((string?)null)]
+    [Arguments("_")]
+    [Arguments("Graph")]
     public void GivenInternalPropertyThenGraphAndValueDeclarationsAreInternal(string? prefix)
     {
         // Arrange
@@ -45,7 +45,7 @@ public sealed class WhenGenerateIsCalled
         generated.Code.ShouldContain($"internal int {prefix}Value {{ get; private set; }}");
     }
 
-    [Fact]
+    [Test]
     public void GivenInternalPropertyWithChildPropertyThenWrapperDeclarationIsInternal()
     {
         // Arrange

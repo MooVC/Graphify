@@ -10,8 +10,23 @@ using AnalyzerTest = Graphify.AnalyzerTest<Graphify.GraphifyAttributeAnalyzer>;
 
 public sealed class WhenExecuted
 {
-    [Theory]
-    [Snippets(inclusions: [typeof(Generic)])]
+    public static IEnumerable<TestDataRow<(ReferenceAssemblies Assembly, Expectations Expectations, LanguageVersion Language)>> GenericTypeCases()
+    {
+        return SnippetCases.Create(inclusions: [typeof(Generic)]);
+    }
+
+    public static IEnumerable<TestDataRow<(ReferenceAssemblies Assembly, Expectations Expectations, LanguageVersion Language)>> InaccessibleTypeCases()
+    {
+        return SnippetCases.Create(inclusions: [typeof(Inaccessible)]);
+    }
+
+    public static IEnumerable<TestDataRow<(ReferenceAssemblies Assembly, Expectations Expectations, LanguageVersion Language)>> NonPartialTypeCases()
+    {
+        return SnippetCases.Create(inclusions: [typeof(Unsupported)]);
+    }
+
+    [Test]
+    [MethodDataSource(nameof(GenericTypeCases))]
     public async Task GivenATypeWhenGenericThenGenericTypeRuleIsRaised(ReferenceAssemblies assembly, Expectations expectations, LanguageVersion language)
     {
         // Arrange
@@ -27,8 +42,8 @@ public sealed class WhenExecuted
         await act.ShouldNotThrowAsync();
     }
 
-    [Theory]
-    [Snippets(inclusions: [typeof(Unsupported)])]
+    [Test]
+    [MethodDataSource(nameof(NonPartialTypeCases))]
     public async Task GivenATypeWhenNotPartialThenPartialTypeRuleIsRaised(ReferenceAssemblies assembly, Expectations expectations, LanguageVersion language)
     {
         // Arrange
@@ -44,8 +59,8 @@ public sealed class WhenExecuted
         await act.ShouldNotThrowAsync();
     }
 
-    [Theory]
-    [Snippets(inclusions: [typeof(Inaccessible)])]
+    [Test]
+    [MethodDataSource(nameof(InaccessibleTypeCases))]
     public async Task GivenATypeWhenAccessibilityIsNotSupportedThenTypeAccessibilityRuleIsRaised(ReferenceAssemblies assembly, Expectations expectations, LanguageVersion language)
     {
         // Arrange

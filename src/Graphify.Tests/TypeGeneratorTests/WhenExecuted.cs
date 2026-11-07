@@ -16,8 +16,13 @@ public sealed class WhenExecuted
         typeof(TypeGenerator),
     ];
 
-    [Theory]
-    [Snippets(exclusions: [typeof(Unannotated)])]
+    public static IEnumerable<TestDataRow<(ReferenceAssemblies Assembly, Expectations Expectations, LanguageVersion Language)>> TypeGenerationCases()
+    {
+        return SnippetCases.Create(exclusions: [typeof(Unannotated)]);
+    }
+
+    [Test]
+    [MethodDataSource(nameof(TypeGenerationCases))]
     public async Task GivenAClassTheExpectedSourceIsGenerated(ReferenceAssemblies assembly, Expectations expectations, LanguageVersion language)
     {
         // Arrange

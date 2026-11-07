@@ -11,7 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 public sealed class WhenNavigateIsCalled
 {
-    [Fact]
+    [Test]
     public async Task GivenComplexInstanceThenAllVisitorsAreObserved()
     {
         // Arrange

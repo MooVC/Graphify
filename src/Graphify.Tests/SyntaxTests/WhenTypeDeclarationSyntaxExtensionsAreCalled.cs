@@ -51,7 +51,7 @@ public sealed class WhenTypeDeclarationSyntaxExtensionsAreCalled
         }
         """;
 
-    [Fact]
+    [Test]
     public void GivenTypeWithGenericParametersThenHasGenericsReturnsTrue()
     {
         // Arrange
@@ -65,7 +65,7 @@ public sealed class WhenTypeDeclarationSyntaxExtensionsAreCalled
         hasGenerics.ShouldBeTrue();
     }
 
-    [Fact]
+    [Test]
     public void GivenTypeWithoutGenericParametersThenHasGenericsReturnsFalse()
     {
         // Arrange
@@ -79,7 +79,7 @@ public sealed class WhenTypeDeclarationSyntaxExtensionsAreCalled
         hasGenerics.ShouldBeFalse();
     }
 
-    [Fact]
+    [Test]
     public void GivenPartialTypeThenIsPartialReturnsTrue()
     {
         // Arrange
@@ -93,7 +93,7 @@ public sealed class WhenTypeDeclarationSyntaxExtensionsAreCalled
         isPartial.ShouldBeTrue();
     }
 
-    [Fact]
+    [Test]
     public void GivenNonPartialTypeThenIsPartialReturnsFalse()
     {
         // Arrange
@@ -107,7 +107,7 @@ public sealed class WhenTypeDeclarationSyntaxExtensionsAreCalled
         isPartial.ShouldBeFalse();
     }
 
-    [Fact]
+    [Test]
     public void GivenGraphifyPartialTypeThenToSubjectMapsExpectedValues()
     {
         // Arrange
@@ -127,7 +127,7 @@ public sealed class WhenTypeDeclarationSyntaxExtensionsAreCalled
         subject.Nesting.ShouldBe(ImmutableArray<Nesting>.Empty);
     }
 
-    [Fact]
+    [Test]
     public void GivenTypeThatIsNotPartialThenToSubjectReturnsNull()
     {
         // Arrange
@@ -141,7 +141,7 @@ public sealed class WhenTypeDeclarationSyntaxExtensionsAreCalled
         subject.ShouldBeNull();
     }
 
-    [Fact]
+    [Test]
     public void GivenGenericTypeThenToSubjectReturnsNull()
     {
         // Arrange

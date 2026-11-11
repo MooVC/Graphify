@@ -2,9 +2,6 @@
 {
     using Microsoft.CodeAnalysis;
 
-    /// <summary>
-    /// Provides extensions relating to <see cref="IPropertySymbol"/>.
-    /// </summary>
     internal static partial class IPropertySymbolExtensions
     {
         /// <summary>
@@ -18,9 +15,7 @@
         /// </returns>
         public static string GetDeclaration(this IPropertySymbol property)
         {
-            return property.DeclaredAccessibility == Accessibility.Internal
-                || property.ContainingType.IsEffectivelyInternal()
-                || property.Type.IsEffectivelyInternal()
+            return property.DeclaredAccessibility == Accessibility.Internal || property.ContainingType.IsEffectivelyInternal() || property.Type.IsEffectivelyInternal()
                 ? "internal"
                 : "public";
         }

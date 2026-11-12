@@ -8,20 +8,12 @@ public sealed class WhenExecuted
 {
     [Test]
     [MethodDataSource(typeof(Frameworks), nameof(Frameworks.DefaultCases))]
-    public async Task GivenAnAssemblyThenTheAttributeIsGenerated(ReferenceAssemblies assemblies, LanguageVersion language)
+    public async Task GivenAnAssemblyThenTheClassIsGenerated(ReferenceAssemblies assemblies, LanguageVersion language)
     {
         // Arrange
-        var test = new GeneratorTest<NavigatorExtensionsGenerator>(
-            assemblies,
-            language,
-            typeof(GraphifyAttributeGenerator),
-            typeof(NavigatorExtensionsGenerator),
-            typeof(GraphContractGenerator));
+        var test = new GeneratorTest<NavigatorExtensionsGenerator>(assemblies, language);
 
-        Boilerplate.Embedded.IsExpectedIn(test.TestState);
-        Boilerplate.Graphify.IsExpectedIn(test.TestState);
         Boilerplate.Extensions.IsExpectedIn(test.TestState);
-        Boilerplate.Inspector.IsExpectedIn(test.TestState);
 
         // Act
         Func<Task> act = () => test.RunAsync();
@@ -40,6 +32,25 @@ public sealed class WhenExecuted
         var test = new GeneratorTest<NavigatorExtensionsGenerator>(assemblies, language);
 
         test.TestState.Sources.Add(Declaration);
+
+        // Act
+        Func<Task> act = () => test.RunAsync();
+
+        // Assert
+        await act.ShouldNotThrowAsync();
+    }
+
+    [Test]
+    public async Task GivenAnInternalClassInAReferencedAssemblyThenTheClassIsGenerated()
+    {
+        // Arrange
+        const string Declaration = "namespace Graphify { internal static class NavigatorExtensions { } }";
+        const string Dependency = "Dependency";
+        var test = new GeneratorTest<NavigatorExtensionsGenerator>(ReferenceAssemblies.Net.Net100, LanguageVersion.CSharp14);
+
+        test.TestState.AdditionalProjects[Dependency].Sources.Add(Declaration);
+        test.TestState.AdditionalProjectReferences.Add(Dependency);
+        Boilerplate.Extensions.IsExpectedIn(test.TestState);
 
         // Act
         Func<Task> act = () => test.RunAsync();

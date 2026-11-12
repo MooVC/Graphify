@@ -63,7 +63,6 @@ namespace Graphify {
         /// <summary>
         ///   Looks up a localized string similar to namespace Graphify
         ///{{
-        ///    [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
         ///    internal static partial class {0}
         ///    {{
         ///#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER

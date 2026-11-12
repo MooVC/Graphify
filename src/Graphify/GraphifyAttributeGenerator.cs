@@ -35,20 +35,7 @@
         /// <inheritdoc/>
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
-            context.RegisterPostInitializationOutput(Generate);
             context.RegisterSourceOutput(context.CompilationProvider, Generate);
-        }
-
-        private static void Generate(IncrementalGeneratorPostInitializationContext context)
-        {
-            string source = GraphifyAttributeGenerator_Resources.EmbeddedAttributeSource
-                .TrimEnd()
-                .Replace("\r\n", "\n")
-                .Replace("\n", "\r\n");
-
-            context.AddSource(
-                "Microsoft.CodeAnalysis.EmbeddedAttribute.cs",
-                SourceText.From(source, Encoding.UTF8));
         }
 
         private static void Generate(SourceProductionContext context, Compilation compilation)

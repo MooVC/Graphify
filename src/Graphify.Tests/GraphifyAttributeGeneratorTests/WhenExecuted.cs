@@ -13,7 +13,6 @@ public sealed class WhenExecuted
         // Arrange
         var test = new GeneratorTest<GraphifyAttributeGenerator>(assemblies, language);
 
-        Boilerplate.Embedded.IsExpectedIn(test.TestState);
         Boilerplate.Graphify.IsExpectedIn(test.TestState);
 
         // Act

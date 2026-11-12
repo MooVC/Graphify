@@ -89,10 +89,5 @@ namespace Graphify {
                 return ResourceManager.GetString("Content", resourceCulture);
             }
         }
-        internal static string EmbeddedAttributeSource {
-            get {
-                return ResourceManager.GetString("EmbeddedAttributeSource", resourceCulture);
-            }
-        }
     }
 }

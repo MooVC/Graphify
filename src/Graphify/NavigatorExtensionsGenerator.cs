@@ -36,7 +36,9 @@
 
         private static void Generate(SourceProductionContext context, Compilation compilation)
         {
-            if (compilation.GetTypeByMetadataName(NavigatorMetadataName) is null)
+            INamedTypeSymbol navigator = compilation.GetTypeByMetadataName(NavigatorMetadataName);
+
+            if (navigator is null || !compilation.IsSymbolAccessibleWithin(navigator, compilation.Assembly))
             {
                 var text = SourceText.From(Content, Encoding.UTF8);
 

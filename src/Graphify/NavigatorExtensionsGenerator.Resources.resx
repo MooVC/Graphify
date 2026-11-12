@@ -120,7 +120,6 @@
   <data name="Content" xml:space="preserve">
     <value>namespace Graphify
 {{
-    [global::Microsoft.CodeAnalysis.EmbeddedAttribute]
     internal static partial class {0}
     {{
 #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER

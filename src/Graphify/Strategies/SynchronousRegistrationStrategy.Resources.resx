@@ -122,15 +122,15 @@
 {{
     public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection Add{0}(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
     {{
-        if (ReferenceEquals(services, null))
+        if (global::System.Object.ReferenceEquals(services, null))
         {{
             throw new global::System.ArgumentNullException("services");
         }}
 
         _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton&lt;{1}&gt;(
-            services, (global::System.IServiceProvider provider) =&gt; ({1})provider.GetService(typeof({0})));
+            services, (global::System.IServiceProvider provider) =&gt; ({1})provider.GetService(typeof({2})));
 
-        return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton&lt;{0}&gt;(services);
+        return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton&lt;{2}&gt;(services);
     }}
 }}</value>
   </data>

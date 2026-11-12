@@ -4,7 +4,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
-using Microsoft.Extensions.DependencyInjection;
 
 public sealed class GeneratorTest<TGenerator>
     : CSharpSourceGeneratorTest<TGenerator, DefaultVerifier>
@@ -24,7 +23,11 @@ public sealed class GeneratorTest<TGenerator>
 
         if (includeDependencyInjection)
         {
-            TestState.AdditionalReferences.Add(typeof(IServiceCollection).Assembly);
+            string path = Path.Combine(
+                AppContext.BaseDirectory,
+                "ReferenceAssemblies",
+                "Microsoft.Extensions.DependencyInjection.Abstractions.dll");
+            TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(path));
         }
     }
 

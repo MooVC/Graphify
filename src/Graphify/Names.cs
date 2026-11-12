@@ -59,5 +59,15 @@ namespace Graphify
         /// The suffix used for generated visitor interface names.
         /// </summary>
         internal const string VisitorTypeSuffix = "Visitor";
+
+        internal static string GetNavigatorContractName(string subject)
+        {
+            return string.Concat(InterfaceNamePrefix, subject, NavigatorTypeSuffix);
+        }
+
+        internal static string GetNavigatorName(string subject)
+        {
+            return string.Concat(subject, NavigatorTypeSuffix);
+        }
     }
 }

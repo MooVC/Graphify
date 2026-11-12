@@ -120,8 +120,6 @@
   <data name="Content" xml:space="preserve">
     <value>namespace Graphify
 {{
-    using System;
-
     public enum TraverseScope
     {{
         None,
@@ -129,9 +127,9 @@
         Property,
     }}
 
-    [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
+    [global::System.AttributeUsage(global::System.AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
     public sealed class TraverseAttribute
-        : Attribute
+        : global::System.Attribute
     {{
         public TraverseScope Scope {{ get; set; }} = TraverseScope.All;
     }}

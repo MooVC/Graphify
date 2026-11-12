@@ -8,9 +8,7 @@ internal static partial class DepthLimited
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -47,9 +45,7 @@ internal static partial class DepthLimited
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -57,7 +53,7 @@ internal static partial class DepthLimited
 
                     public partial interface IDepthLimitedNavigator
                     {
-                        global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(DepthLimited root);
+                        global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(global::Graphify.Testing.Synchronous.DepthLimited root);
                     }
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
@@ -71,9 +67,7 @@ internal static partial class DepthLimited
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -96,9 +90,7 @@ internal static partial class DepthLimited
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -109,11 +101,11 @@ internal static partial class DepthLimited
                         private global::System.Collections.Generic.IEnumerable<TResult> NavigateChild<TResult>(global::Graphify.Testing.Synchronous.DepthLimited root, global::Graphify.Testing.Synchronous.DepthChild value)
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
-                            var child = new DepthLimited.Graph.Child(root, value);
+                            var child = new global::Graphify.Testing.Synchronous.DepthLimited.Graph.Child(root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IDepthLimitedVisitor<DepthLimited.Graph.Child, TResult>> visitors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Synchronous.IDepthLimitedVisitor<global::Graphify.Testing.Synchronous.DepthLimited.Graph.Child, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, Invoke<DepthLimited.Graph.Child, TResult>(child, visitors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<global::Graphify.Testing.Synchronous.DepthLimited.Graph.Child, TResult>(child, visitors));
                             }
 
                             return results;
@@ -131,16 +123,14 @@ internal static partial class DepthLimited
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
                     #endif
 
                     public sealed partial class DepthLimitedNavigator
-                        : IDepthLimitedNavigator
+                        : global::Graphify.Testing.Synchronous.IDepthLimitedNavigator
                     {
                         private readonly global::System.IServiceProvider _provider;
 
@@ -154,7 +144,7 @@ internal static partial class DepthLimited
                             _provider = provider;
                         }
 
-                        public global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(DepthLimited root)
+                        public global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(global::Graphify.Testing.Synchronous.DepthLimited root)
                         {
                             var results = global::System.Linq.Enumerable.Empty<TResult>();
 
@@ -166,12 +156,12 @@ internal static partial class DepthLimited
 
                         private global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(
                             TInstance instance,
-                            global::System.Collections.Generic.IEnumerable<IDepthLimitedVisitor<TInstance, TResult>> visitors)
-                            where TInstance : class, global::Graphify.IGraph<DepthLimited>
+                            global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Synchronous.IDepthLimitedVisitor<TInstance, TResult>> visitors)
+                            where TInstance : class, global::Graphify.IGraph<global::Graphify.Testing.Synchronous.DepthLimited>
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
 
-                            foreach (IDepthLimitedVisitor<TInstance, TResult> visitor in visitors)
+                            foreach (global::Graphify.Testing.Synchronous.IDepthLimitedVisitor<TInstance, TResult> visitor in visitors)
                             {
                                 results = global::System.Linq.Enumerable.Concat(results, visitor.Observe(instance));
                             }
@@ -191,9 +181,7 @@ internal static partial class DepthLimited
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -203,15 +191,15 @@ internal static partial class DepthLimited
                     {
                         public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection AddDepthLimitedNavigator(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
                         {
-                            if (ReferenceEquals(services, null))
+                            if (global::System.Object.ReferenceEquals(services, null))
                             {
                                 throw new global::System.ArgumentNullException("services");
                             }
 
-                            _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<IDepthLimitedNavigator>(
-                                services, (global::System.IServiceProvider provider) => (IDepthLimitedNavigator)provider.GetService(typeof(DepthLimitedNavigator)));
+                            _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Graphify.Testing.Synchronous.IDepthLimitedNavigator>(
+                                services, (global::System.IServiceProvider provider) => (global::Graphify.Testing.Synchronous.IDepthLimitedNavigator)provider.GetService(typeof(global::Graphify.Testing.Synchronous.DepthLimitedNavigator)));
 
-                            return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<DepthLimitedNavigator>(services);
+                            return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Graphify.Testing.Synchronous.DepthLimitedNavigator>(services);
                         }
                     }
 

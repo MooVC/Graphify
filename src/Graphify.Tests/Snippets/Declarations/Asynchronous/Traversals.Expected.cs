@@ -8,9 +8,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -19,7 +17,7 @@ internal static partial class Traversals
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public partial interface ITraversalsNavigator
                     {
-                        global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(Traversals root, global::System.Threading.CancellationToken cancellationToken);
+                        global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(global::Graphify.Testing.Asynchronous.Traversals root, global::System.Threading.CancellationToken cancellationToken);
                     }
                     #endif
 
@@ -34,9 +32,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -61,9 +57,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -71,7 +65,7 @@ internal static partial class Traversals
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class TraversalsNavigator
-                        : ITraversalsNavigator
+                        : global::Graphify.Testing.Asynchronous.ITraversalsNavigator
                     {
                         private readonly global::System.IServiceProvider _provider;
 
@@ -85,7 +79,7 @@ internal static partial class Traversals
                             _provider = provider;
                         }
 
-                        public global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(Traversals root, global::System.Threading.CancellationToken cancellationToken)
+                        public global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(global::Graphify.Testing.Asynchronous.Traversals root, global::System.Threading.CancellationToken cancellationToken)
                         {
                             var results = _provider.Empty<TResult>();
 
@@ -100,13 +94,13 @@ internal static partial class Traversals
 
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> Invoke<TInstance, TResult>(
                             TInstance instance,
-                            global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<TInstance, TResult>> visitors,
+                            global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.ITraversalsVisitor<TInstance, TResult>> visitors,
                             global::System.Threading.CancellationToken cancellationToken)
-                            where TInstance : class, global::Graphify.IGraph<Traversals>
+                            where TInstance : class, global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Traversals>
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
 
-                            foreach (ITraversalsVisitor<TInstance, TResult> visitor in visitors)
+                            foreach (global::Graphify.Testing.Asynchronous.ITraversalsVisitor<TInstance, TResult> visitor in visitors)
                             {
                                 results = _provider.Concat(results, visitor.Observe(instance, cancellationToken), cancellationToken);
                             }
@@ -127,9 +121,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -141,11 +133,11 @@ internal static partial class Traversals
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateTitle<TResult>(global::Graphify.Testing.Asynchronous.Traversals root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
-                            var title = new Traversals.Graph.Title(root, value);
+                            var title = new global::Graphify.Testing.Asynchronous.Traversals.Graph.Title(root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.Title, TResult>> observers))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.ITraversalsVisitor<global::Graphify.Testing.Asynchronous.Traversals.Graph.Title, TResult>> observers))
                             {
-                                results = _provider.Concat(results, Invoke<Traversals.Graph.Title, TResult>(title, observers, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, Invoke<global::Graphify.Testing.Asynchronous.Traversals.Graph.Title, TResult>(title, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
@@ -164,9 +156,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -178,11 +168,11 @@ internal static partial class Traversals
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDescription<TResult>(global::Graphify.Testing.Asynchronous.Traversals root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
-                            var description = new Traversals.Graph.Description(root, value);
+                            var description = new global::Graphify.Testing.Asynchronous.Traversals.Graph.Description(root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.Description, TResult>> observers))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.ITraversalsVisitor<global::Graphify.Testing.Asynchronous.Traversals.Graph.Description, TResult>> observers))
                             {
-                                results = _provider.Concat(results, Invoke<Traversals.Graph.Description, TResult>(description, observers, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, Invoke<global::Graphify.Testing.Asynchronous.Traversals.Graph.Description, TResult>(description, observers, cancellationToken), cancellationToken);
                             }
 
                             results = _provider.Concat(results, NavigateDescriptionLength<TResult>(description, root, value.Length, cancellationToken), cancellationToken);
@@ -203,9 +193,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -214,14 +202,14 @@ internal static partial class Traversals
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDescriptionLength<TResult>(Traversals.Graph.Description description, global::Graphify.Testing.Asynchronous.Traversals root, int value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDescriptionLength<TResult>(global::Graphify.Testing.Asynchronous.Traversals.Graph.Description description, global::Graphify.Testing.Asynchronous.Traversals root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
-                            var length = new Traversals.Graph.Description.Length(description, root, value);
+                            var length = new global::Graphify.Testing.Asynchronous.Traversals.Graph.Description.Length(description, root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.Description.Length, TResult>> observers))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.ITraversalsVisitor<global::Graphify.Testing.Asynchronous.Traversals.Graph.Description.Length, TResult>> observers))
                             {
-                                results = _provider.Concat(results, Invoke<Traversals.Graph.Description.Length, TResult>(length, observers, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, Invoke<global::Graphify.Testing.Asynchronous.Traversals.Graph.Description.Length, TResult>(length, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
@@ -240,9 +228,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -254,11 +240,11 @@ internal static partial class Traversals
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateShallowChildren<TResult>(global::Graphify.Testing.Asynchronous.Traversals root, global::Graphify.Testing.Asynchronous.TraversalChild[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
-                            var shallowChildren = new Traversals.Graph.ShallowChildren(root, value);
+                            var shallowChildren = new global::Graphify.Testing.Asynchronous.Traversals.Graph.ShallowChildren(root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.ShallowChildren, TResult>> observers))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.ITraversalsVisitor<global::Graphify.Testing.Asynchronous.Traversals.Graph.ShallowChildren, TResult>> observers))
                             {
-                                results = _provider.Concat(results, Invoke<Traversals.Graph.ShallowChildren, TResult>(shallowChildren, observers, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, Invoke<global::Graphify.Testing.Asynchronous.Traversals.Graph.ShallowChildren, TResult>(shallowChildren, observers, cancellationToken), cancellationToken);
                             }
 
                             results = _provider.Concat(results, NavigateShallowChildrenTraversalChild<TResult>(shallowChildren, root, value, cancellationToken), cancellationToken);
@@ -279,9 +265,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -290,21 +274,21 @@ internal static partial class Traversals
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateShallowChildrenTraversalChild<TResult>(Traversals.Graph.ShallowChildren shallowChildren, global::Graphify.Testing.Asynchronous.Traversals root, global::Graphify.Testing.Asynchronous.TraversalChild[] value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateShallowChildrenTraversalChild<TResult>(global::Graphify.Testing.Asynchronous.Traversals.Graph.ShallowChildren shallowChildren, global::Graphify.Testing.Asynchronous.Traversals root, global::Graphify.Testing.Asynchronous.TraversalChild[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
 
-                            bool hasVisitors = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.ShallowChildren.TraversalChild, TResult>> observers);
+                            bool hasVisitors = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.ITraversalsVisitor<global::Graphify.Testing.Asynchronous.Traversals.Graph.ShallowChildren.TraversalChild, TResult>> observers);
 
                             int index = 0;
 
                             foreach (global::Graphify.Testing.Asynchronous.TraversalChild element in value)
                             {
-                                var traversalChild = new Traversals.Graph.ShallowChildren.TraversalChild(shallowChildren, index, root, element);
+                                var traversalChild = new global::Graphify.Testing.Asynchronous.Traversals.Graph.ShallowChildren.TraversalChild(shallowChildren, index, root, element);
 
                                 if (hasVisitors)
                                 {
-                                    results = _provider.Concat(results, Invoke<Traversals.Graph.ShallowChildren.TraversalChild, TResult>(traversalChild, observers, cancellationToken), cancellationToken);
+                                    results = _provider.Concat(results, Invoke<global::Graphify.Testing.Asynchronous.Traversals.Graph.ShallowChildren.TraversalChild, TResult>(traversalChild, observers, cancellationToken), cancellationToken);
                                 }
 
                                 index++;
@@ -326,9 +310,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -340,11 +322,11 @@ internal static partial class Traversals
                         private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildren<TResult>(global::Graphify.Testing.Asynchronous.Traversals root, global::Graphify.Testing.Asynchronous.TraversalChild[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
-                            var deepChildren = new Traversals.Graph.DeepChildren(root, value);
+                            var deepChildren = new global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren(root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.DeepChildren, TResult>> observers))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.ITraversalsVisitor<global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren, TResult>> observers))
                             {
-                                results = _provider.Concat(results, Invoke<Traversals.Graph.DeepChildren, TResult>(deepChildren, observers, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, Invoke<global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren, TResult>(deepChildren, observers, cancellationToken), cancellationToken);
                             }
 
                             results = _provider.Concat(results, NavigateDeepChildrenTraversalChild<TResult>(deepChildren, root, value, cancellationToken), cancellationToken);
@@ -365,9 +347,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -376,21 +356,21 @@ internal static partial class Traversals
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraversalChild<TResult>(Traversals.Graph.DeepChildren deepChildren, global::Graphify.Testing.Asynchronous.Traversals root, global::Graphify.Testing.Asynchronous.TraversalChild[] value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraversalChild<TResult>(global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren deepChildren, global::Graphify.Testing.Asynchronous.Traversals root, global::Graphify.Testing.Asynchronous.TraversalChild[] value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
 
-                            bool hasVisitors = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.DeepChildren.TraversalChild, TResult>> observers);
+                            bool hasVisitors = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.ITraversalsVisitor<global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren.TraversalChild, TResult>> observers);
 
                             int index = 0;
 
                             foreach (global::Graphify.Testing.Asynchronous.TraversalChild element in value)
                             {
-                                var traversalChild = new Traversals.Graph.DeepChildren.TraversalChild(deepChildren, index, root, element);
+                                var traversalChild = new global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren.TraversalChild(deepChildren, index, root, element);
 
                                 if (hasVisitors)
                                 {
-                                    results = _provider.Concat(results, Invoke<Traversals.Graph.DeepChildren.TraversalChild, TResult>(traversalChild, observers, cancellationToken), cancellationToken);
+                                    results = _provider.Concat(results, Invoke<global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren.TraversalChild, TResult>(traversalChild, observers, cancellationToken), cancellationToken);
                                 }
 
                                 results = _provider.Concat(results, NavigateDeepChildrenTraversalChildName<TResult>(traversalChild, root, element.Name, cancellationToken), cancellationToken);
@@ -414,9 +394,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -425,14 +403,14 @@ internal static partial class Traversals
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraversalChildName<TResult>(Traversals.Graph.DeepChildren.TraversalChild traversalChild, global::Graphify.Testing.Asynchronous.Traversals root, string value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraversalChildName<TResult>(global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren.TraversalChild traversalChild, global::Graphify.Testing.Asynchronous.Traversals root, string value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
-                            var name = new Traversals.Graph.DeepChildren.TraversalChild.Name(traversalChild, root, value);
+                            var name = new global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren.TraversalChild.Name(traversalChild, root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.DeepChildren.TraversalChild.Name, TResult>> observers))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.ITraversalsVisitor<global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren.TraversalChild.Name, TResult>> observers))
                             {
-                                results = _provider.Concat(results, Invoke<Traversals.Graph.DeepChildren.TraversalChild.Name, TResult>(name, observers, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, Invoke<global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren.TraversalChild.Name, TResult>(name, observers, cancellationToken), cancellationToken);
                             }
 
                             results = _provider.Concat(results, NavigateDeepChildrenTraversalChildNameLength<TResult>(name, root, value.Length, cancellationToken), cancellationToken);
@@ -453,9 +431,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -464,14 +440,14 @@ internal static partial class Traversals
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public sealed partial class TraversalsNavigator
                     {
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraversalChildNameLength<TResult>(Traversals.Graph.DeepChildren.TraversalChild.Name name, global::Graphify.Testing.Asynchronous.Traversals root, int value, global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> NavigateDeepChildrenTraversalChildNameLength<TResult>(global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren.TraversalChild.Name name, global::Graphify.Testing.Asynchronous.Traversals root, int value, global::System.Threading.CancellationToken cancellationToken)
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();
-                            var length = new Traversals.Graph.DeepChildren.TraversalChild.Name.Length(name, root, value);
+                            var length = new global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren.TraversalChild.Name.Length(name, root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph.DeepChildren.TraversalChild.Name.Length, TResult>> observers))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.ITraversalsVisitor<global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren.TraversalChild.Name.Length, TResult>> observers))
                             {
-                                results = _provider.Concat(results, Invoke<Traversals.Graph.DeepChildren.TraversalChild.Name.Length, TResult>(length, observers, cancellationToken), cancellationToken);
+                                results = _provider.Concat(results, Invoke<global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren.TraversalChild.Name.Length, TResult>(length, observers, cancellationToken), cancellationToken);
                             }
 
                             return results;
@@ -490,9 +466,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -529,9 +503,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -568,9 +540,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -585,7 +555,7 @@ internal static partial class Traversals
                                 public sealed partial class Length
                                     : global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Traversals>
                                 {
-                                    internal Length(Traversals.Graph.Description description, global::Graphify.Testing.Asynchronous.Traversals root, int value)
+                                    internal Length(global::Graphify.Testing.Asynchronous.Traversals.Graph.Description description, global::Graphify.Testing.Asynchronous.Traversals root, int value)
                                     {
                                         Description = description;
 
@@ -593,7 +563,7 @@ internal static partial class Traversals
                                         Value = value;
                                     }
 
-                                    public Traversals.Graph.Description Description { get; private set; }
+                                    public global::Graphify.Testing.Asynchronous.Traversals.Graph.Description Description { get; private set; }
 
                                     public global::Graphify.Testing.Asynchronous.Traversals Root { get; private set; }
 
@@ -614,9 +584,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -653,9 +621,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -670,7 +636,7 @@ internal static partial class Traversals
                                 public sealed partial class TraversalChild
                                     : global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Traversals>
                                 {
-                                    internal TraversalChild(Traversals.Graph.ShallowChildren shallowChildren, int index, global::Graphify.Testing.Asynchronous.Traversals root, global::Graphify.Testing.Asynchronous.TraversalChild value)
+                                    internal TraversalChild(global::Graphify.Testing.Asynchronous.Traversals.Graph.ShallowChildren shallowChildren, int index, global::Graphify.Testing.Asynchronous.Traversals root, global::Graphify.Testing.Asynchronous.TraversalChild value)
                                     {
                                         ShallowChildren = shallowChildren;
 
@@ -679,7 +645,7 @@ internal static partial class Traversals
                                         Value = value;
                                     }
 
-                                    public Traversals.Graph.ShallowChildren ShallowChildren { get; private set; }
+                                    public global::Graphify.Testing.Asynchronous.Traversals.Graph.ShallowChildren ShallowChildren { get; private set; }
 
                                     public int Index { get; private set; }
 
@@ -702,9 +668,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -741,9 +705,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -758,7 +720,7 @@ internal static partial class Traversals
                                 public sealed partial class TraversalChild
                                     : global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Traversals>
                                 {
-                                    internal TraversalChild(Traversals.Graph.DeepChildren deepChildren, int index, global::Graphify.Testing.Asynchronous.Traversals root, global::Graphify.Testing.Asynchronous.TraversalChild value)
+                                    internal TraversalChild(global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren deepChildren, int index, global::Graphify.Testing.Asynchronous.Traversals root, global::Graphify.Testing.Asynchronous.TraversalChild value)
                                     {
                                         DeepChildren = deepChildren;
 
@@ -767,7 +729,7 @@ internal static partial class Traversals
                                         Value = value;
                                     }
 
-                                    public Traversals.Graph.DeepChildren DeepChildren { get; private set; }
+                                    public global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren DeepChildren { get; private set; }
 
                                     public int Index { get; private set; }
 
@@ -790,9 +752,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -809,7 +769,7 @@ internal static partial class Traversals
                                     public sealed partial class Name
                                         : global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Traversals>
                                     {
-                                        internal Name(Traversals.Graph.DeepChildren.TraversalChild traversalChild, global::Graphify.Testing.Asynchronous.Traversals root, string value)
+                                        internal Name(global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren.TraversalChild traversalChild, global::Graphify.Testing.Asynchronous.Traversals root, string value)
                                         {
                                             TraversalChild = traversalChild;
 
@@ -817,7 +777,7 @@ internal static partial class Traversals
                                             Value = value;
                                         }
 
-                                        public Traversals.Graph.DeepChildren.TraversalChild TraversalChild { get; private set; }
+                                        public global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren.TraversalChild TraversalChild { get; private set; }
 
                                         public global::Graphify.Testing.Asynchronous.Traversals Root { get; private set; }
 
@@ -839,9 +799,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -860,7 +818,7 @@ internal static partial class Traversals
                                         public sealed partial class Length
                                             : global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Traversals>
                                         {
-                                            internal Length(Traversals.Graph.DeepChildren.TraversalChild.Name name, global::Graphify.Testing.Asynchronous.Traversals root, int value)
+                                            internal Length(global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren.TraversalChild.Name name, global::Graphify.Testing.Asynchronous.Traversals root, int value)
                                             {
                                                 Name = name;
 
@@ -868,7 +826,7 @@ internal static partial class Traversals
                                                 Value = value;
                                             }
 
-                                            public Traversals.Graph.DeepChildren.TraversalChild.Name Name { get; private set; }
+                                            public global::Graphify.Testing.Asynchronous.Traversals.Graph.DeepChildren.TraversalChild.Name Name { get; private set; }
 
                                             public global::Graphify.Testing.Asynchronous.Traversals Root { get; private set; }
 
@@ -891,9 +849,7 @@ internal static partial class Traversals
             """
                 namespace Graphify.Testing.Asynchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -904,15 +860,15 @@ internal static partial class Traversals
                     {
                         public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection AddTraversalsNavigator(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
                         {
-                            if (ReferenceEquals(services, null))
+                            if (global::System.Object.ReferenceEquals(services, null))
                             {
                                 throw new global::System.ArgumentNullException("services");
                             }
 
-                            _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<ITraversalsNavigator>(
-                                services, (global::System.IServiceProvider provider) => (ITraversalsNavigator)provider.GetService(typeof(TraversalsNavigator)));
+                            _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Graphify.Testing.Asynchronous.ITraversalsNavigator>(
+                                services, (global::System.IServiceProvider provider) => (global::Graphify.Testing.Asynchronous.ITraversalsNavigator)provider.GetService(typeof(global::Graphify.Testing.Asynchronous.TraversalsNavigator)));
 
-                            return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<TraversalsNavigator>(services);
+                            return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Graphify.Testing.Asynchronous.TraversalsNavigator>(services);
                         }
                     }
                     #endif

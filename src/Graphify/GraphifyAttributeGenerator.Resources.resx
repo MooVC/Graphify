@@ -120,9 +120,6 @@
   <data name="Content" xml:space="preserve">
     <value>namespace Graphify
 {{
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-
     public enum Modes
     {{
         Synchronous,
@@ -131,9 +128,9 @@
 #endif
     }}
 
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false, AllowMultiple = false)]
+    [global::System.AttributeUsage(global::System.AttributeTargets.Class | global::System.AttributeTargets.Struct, Inherited = false, AllowMultiple = false)]
     public sealed class {0}Attribute
-        : Attribute
+        : global::System.Attribute
     {{
         public {0}Attribute()
         {{
@@ -156,5 +153,14 @@
         public string PropertyPrefix {{ get; set; }}
     }}
 }}</value>
+  </data>
+  <data name="EmbeddedAttributeSource" xml:space="preserve">
+    <value>// &lt;auto-generated/&gt;
+namespace Microsoft.CodeAnalysis
+{
+    internal sealed partial class EmbeddedAttribute : global::System.Attribute
+    {
+    }
+}</value>
   </data>
 </root>

@@ -101,7 +101,7 @@ namespace Graphify.Strategies {
         ///{{
         ///    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = _provider.Empty&lt;TResult&gt;();
         ///
-        ///    bool hasVisitors = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;I{10}Visitor&lt;{3}, TResult&gt;&gt; observers);
+        ///    bool hasVisitors = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;{10}&lt;{3}, TResult&gt;&gt; observers);
         ///
         ///    int index = 0;
         ///
@@ -121,7 +121,7 @@ namespace Graphify.Strategies {
         ///    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = _provider.Empty&lt;TResult&gt;();
         ///    var {9} = new {3}({4}root, value);
         ///
-        ///    if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;I{10}Visitor&lt;{3}, TResult&gt;&gt; observers))
+        ///    if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;{10}&lt;{3}, TResult&gt;&gt; observers))
         ///    {{
         ///        results = _provider.Concat(results [rest of string was truncated]&quot;;.
         /// </summary>
@@ -133,10 +133,7 @@ namespace Graphify.Strategies {
 
         /// <summary>
         ///   Looks up a localized string similar to #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-        ///{0} sealed partial class {1}
-        ///{{
-        ///    {3}
-        ///}}
+        ///{0}
         ///#endif.
         /// </summary>
         internal static string GenerateContentNest {

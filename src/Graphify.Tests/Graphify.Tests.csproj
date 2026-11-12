@@ -1,5 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <!-- Tests deliberately use a newer Roslyn than the generator targets. -->
+    <NoWarn>$(NoWarn);NU1608</NoWarn>
     <RoslynVersion>5.9.0</RoslynVersion>
     <TargetFrameworks>net10.0</TargetFrameworks>
   </PropertyGroup>
@@ -14,6 +16,13 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" VersionOverride="$(RoslynVersion)" />
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" VersionOverride="$(RoslynVersion)" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" VersionOverride="10.0.15" GeneratePathProperty="true" />
+    <PackageReference Include="MooVC.Syntax.CSharp" PrivateAssets="all" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Simulated compilations include frameworks older than the test host. -->
+    <None Include="$(PkgMicrosoft_Extensions_DependencyInjection_Abstractions)/lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll"
+          Link="ReferenceAssemblies/Microsoft.Extensions.DependencyInjection.Abstractions.dll"
+          CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

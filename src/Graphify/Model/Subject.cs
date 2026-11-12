@@ -9,6 +9,7 @@
     /// The definition of the <see cref="Subject"/> type, which is used to capture information relating to a subject
     /// upon which the Graphify attribute has been placed.
     /// </summary>
+    [Graphify(Depth = 2, Mode = global::Graphify.Modes.Synchronous, PropertyPrefix = "_")]
     [Valuify]
     internal sealed partial class Subject
     {
@@ -18,6 +19,7 @@
         /// <value>
         /// The accessibility level of the type.
         /// </value>
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
         public Accessibility Accessibility { get; set; }
 
         /// <summary>
@@ -26,6 +28,7 @@
         /// <value>
         /// A value indicating whether registration is possible, meaning the required libraries are referenced.
         /// </value>
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
         public bool CanRegister { get; set; }
 
         /// <summary>
@@ -34,6 +37,7 @@
         /// <value>
         /// The kind associated with the type, be it a class, record etc.
         /// </value>
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
         public string Declaration { get; set; } = string.Empty;
 
         /// <summary>
@@ -42,6 +46,7 @@
         /// <value>
         /// The maximum depth to which graph generation should proceed.
         /// </value>
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
         public byte Depth { get; set; }
 
         /// <summary>
@@ -50,6 +55,7 @@
         /// <value>
         /// The name of the type containing generated graph nodes.
         /// </value>
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
         public string GraphName { get; set; } = DefaultGraphTypeName;
 
         /// <summary>
@@ -58,7 +64,8 @@
         /// <value>
         /// The qualified name of the type containing generated graph nodes.
         /// </value>
-        public string GraphQualification => string.Concat(Qualification, ".", GraphName);
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
+        public string GraphQualification => string.Concat(Type, ".", GraphName);
 
         /// <summary>
         /// Gets or sets a value indicating whether a contract is associated with the current entity.
@@ -66,6 +73,7 @@
         /// <value>
         /// A value indicating whether a contract is associated with the current entity.
         /// </value>
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
         public bool HasContract { get; set; }
 
         /// <summary>
@@ -74,6 +82,7 @@
         /// <value>
         /// A value indicating whether a registration extension exists for the current instance.
         /// </value>
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
         public bool HasRegistration { get; set; }
 
         /// <summary>
@@ -82,6 +91,7 @@
         /// <value>
         /// The configured generation mode.
         /// </value>
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
         public Modes Mode { get; set; } = Modes.Asynchronous;
 
         /// <summary>
@@ -90,6 +100,7 @@
         /// <value>
         /// A value indicating whether or not the subject belongs to the global namespace.
         /// </value>
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
         public bool IsGlobal => string.IsNullOrEmpty(Namespace);
 
         /// <summary>
@@ -98,6 +109,7 @@
         /// <value>
         /// The name of the subject.
         /// </value>
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
         public string Name { get; set; } = string.Empty;
 
         /// <summary>
@@ -106,6 +118,7 @@
         /// <value>
         /// The globally qualified namespace for the subject.
         /// </value>
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
         public string Namespace { get; set; } = string.Empty;
 
         /// <summary>
@@ -114,7 +127,15 @@
         /// <value>
         /// The declarations associated with the parent types in order of declaration.
         /// </value>
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
         public ImmutableArray<Nesting> Nesting { get; set; } = ImmutableArray<Nesting>.Empty;
+
+        /// <summary>
+        /// Gets the graph nodes in traversal order.
+        /// </summary>
+        [Traverse(Scope = global::Graphify.TraverseScope.Property)]
+        [Valuify.Ignore]
+        public ImmutableArray<Node> Nodes => Node.Create(Properties, Depth);
 
         /// <summary>
         /// Gets or sets the collection of properties associated with the current instance.
@@ -122,6 +143,7 @@
         /// <value>
         /// The collection of properties associated with the current instance.
         /// </value>
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
         public ImmutableArray<Property> Properties { get; set; } = ImmutableArray<Property>.Empty;
 
         /// <summary>
@@ -130,6 +152,7 @@
         /// <value>
         /// The prefix applied to fixed graph properties.
         /// </value>
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
         public string PropertyPrefix { get; set; } = string.Empty;
 
         /// <summary>
@@ -138,7 +161,15 @@
         /// <value>
         /// The qualified name of the subject, which includes any generic arguments.
         /// </value>
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
         public string Qualification { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Exposes the subject as a terminal node to generation visitors.
+        /// </summary>
+        [Traverse(Scope = global::Graphify.TraverseScope.Property)]
+        [Valuify.Ignore]
+        public Subject Self => this;
 
         /// <summary>
         /// Gets or sets the fully qualified name of the property type.
@@ -146,6 +177,12 @@
         /// <value>
         /// The fully qualified name of the property type.
         /// </value>
+        [Traverse(Scope = global::Graphify.TraverseScope.None)]
         public string Type { get; set; } = string.Empty;
+
+        public string Qualify(string name)
+        {
+            return IsGlobal ? $"global::{name}" : $"global::{Namespace}.{name}";
+        }
     }
 }

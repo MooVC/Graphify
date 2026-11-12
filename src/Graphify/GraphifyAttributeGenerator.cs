@@ -41,7 +41,13 @@
 
         private static void Generate(IncrementalGeneratorPostInitializationContext context)
         {
-            context.AddEmbeddedAttributeDefinition();
+            context.AddSource(
+                "Microsoft.CodeAnalysis.EmbeddedAttribute.cs",
+                SourceText.From(GraphifyAttributeGenerator_Resources.EmbeddedAttributeSource
+                    .TrimEnd()
+                    .Replace("\r\n", "\n")
+                    .Replace("\n", "\r\n"),
+                Encoding.UTF8));
         }
 
         private static void Generate(SourceProductionContext context, Compilation compilation)

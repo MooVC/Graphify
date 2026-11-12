@@ -1,11 +1,10 @@
-﻿namespace Graphify.StrategiesTests.ModelStrategyTests;
+namespace Graphify.Visitors.GenerateGraphNodeWhenNodeVisitedTests;
 
 using System.Collections.Immutable;
 using Graphify.Model;
-using Graphify.Strategies;
 using Microsoft.CodeAnalysis;
 
-public sealed class WhenGenerateIsCalled
+public sealed class WhenObserveIsCalled
 {
     [Test]
     [Arguments((string?)null)]
@@ -14,7 +13,7 @@ public sealed class WhenGenerateIsCalled
     public void GivenInternalPropertyThenGraphAndValueDeclarationsAreInternal(string? prefix)
     {
         // Arrange
-        var strategy = new ModelStrategy();
+        var visitor = new GenerateGraphNodeWhenNodeVisited();
         var subject = new Subject
         {
             Accessibility = Accessibility.Internal,
@@ -35,9 +34,12 @@ public sealed class WhenGenerateIsCalled
             Qualification = "Root",
             Type = "global::Sample.Root",
         };
+        ImmutableArray<Node> nodes = subject.Nodes;
+        var graphNodes = new Subject.Graph.Nodes(subject, nodes);
+        var node = new Subject.Graph.Nodes.Node(graphNodes, 0, subject, nodes[0]);
 
         // Act
-        Source generated = strategy.Generate(subject).Single();
+        Source generated = visitor.Observe(node).Single();
 
         // Assert
         generated.Code.ShouldContain("internal static partial class Graph");
@@ -49,7 +51,7 @@ public sealed class WhenGenerateIsCalled
     public void GivenInternalPropertyWithChildPropertyThenWrapperDeclarationIsInternal()
     {
         // Arrange
-        var strategy = new ModelStrategy();
+        var visitor = new GenerateGraphNodeWhenNodeVisited();
         var subject = new Subject
         {
             Declaration = "partial class",
@@ -77,9 +79,13 @@ public sealed class WhenGenerateIsCalled
             Qualification = "Root",
             Type = "global::Sample.Root",
         };
+        ImmutableArray<Node> nodes = subject.Nodes;
+        int index = nodes.Length - 1;
+        var graphNodes = new Subject.Graph.Nodes(subject, nodes);
+        var node = new Subject.Graph.Nodes.Node(graphNodes, index, subject, nodes[index]);
 
         // Act
-        Source generated = strategy.Generate(subject).Last();
+        Source generated = visitor.Observe(node).Single();
 
         // Assert
         generated.Code.ShouldContain("internal partial class Secret");

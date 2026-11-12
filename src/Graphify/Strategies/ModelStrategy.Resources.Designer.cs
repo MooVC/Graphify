@@ -104,18 +104,6 @@ namespace Graphify.Strategies {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} {1}
-        ///{{
-        ///    {2}
-        ///}}.
-        /// </summary>
-        internal static string GenerateContentNest {
-            get {
-                return ResourceManager.GetString("GenerateContentNest", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} {1}, .
         /// </summary>
         internal static string GeneratePropertyContentArgument {
@@ -148,18 +136,6 @@ namespace Graphify.Strategies {
         internal static string GenerateRootContractContent {
             get {
                 return ResourceManager.GetString("GenerateRootContractContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to public partial class {0}
-        ///{{
-        ///    {1}
-        ///}}.
-        /// </summary>
-        internal static string GenerateWrapperDeclarationsContent {
-            get {
-                return ResourceManager.GetString("GenerateWrapperDeclarationsContent", resourceCulture);
             }
         }
     }

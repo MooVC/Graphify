@@ -368,7 +368,9 @@ namespace Graphify.TypeGeneratorTests
         {
             var options = new CSharpParseOptions(LanguageVersion.CSharp14, preprocessorSymbols: ["NET5_0_OR_GREATER"]);
             string[] assemblyPaths = ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!).Split(Path.PathSeparator);
+            string generatorPath = typeof(TypeGenerator).Assembly.Location;
             IEnumerable<PortableExecutableReference> references = assemblyPaths
+                .Where(path => !string.Equals(path, generatorPath, StringComparison.OrdinalIgnoreCase))
                 .Where(path => !string.Equals(Path.GetFileName(path), DependencyInjectionAssembly, StringComparison.OrdinalIgnoreCase))
                 .Distinct()
                 .Select(path => MetadataReference.CreateFromFile(path));

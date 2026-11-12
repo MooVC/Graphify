@@ -134,18 +134,6 @@ namespace Graphify.Strategies {
 
         /// <summary>
         ///   Looks up a localized string similar to {0} sealed partial class {1}
-        ///{{
-        ///    {3}
-        ///}}.
-        /// </summary>
-        internal static string GenerateContentNest {
-            get {
-                return ResourceManager.GetString("GenerateContentNest", resourceCulture);
-            }
-        }
-
-        /// <summary>
-        ///   Looks up a localized string similar to {0} sealed partial class {1}
         ///    : {2}
         ///{{
         ///    private readonly global::System.IServiceProvider _provider;

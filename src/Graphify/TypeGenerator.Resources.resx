@@ -129,16 +129,8 @@
   <data name="GeneratePropertyPrefixRuleTitle" xml:space="preserve">
     <value>Property prefix is not valid</value>
   </data>
-  <data name="NestContent" xml:space="preserve">
-    <value>{0} {1}
-{{
-    {2}
-}}</value>
-  </data>
   <data name="WrapContent" xml:space="preserve">
-    <value>using System;
-using System.Collections.Generic;
-using Graphify;
+    <value>using global::Graphify;
 
 #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
 #nullable disable
@@ -149,11 +141,5 @@ using Graphify;
 #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
 #nullable restore
 #endif</value>
-  </data>
-  <data name="WrapNamespace" xml:space="preserve">
-    <value>namespace {0}
-{{
-    {1}
-}}</value>
   </data>
 </root>

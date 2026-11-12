@@ -10,6 +10,6 @@
     <PackageReference Include="System.Collections.Immutable" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Graphify\Graphify.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\Graphify\Graphify.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" AdditionalProperties="IncludeAnalyzerDependencies=true" />
   </ItemGroup>
 </Project>

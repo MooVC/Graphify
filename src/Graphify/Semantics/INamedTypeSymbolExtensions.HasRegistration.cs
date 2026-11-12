@@ -2,7 +2,6 @@
 {
     using System.Collections.Immutable;
     using System.Linq;
-    using Graphify.Strategies;
     using Microsoft.CodeAnalysis;
     using static Graphify.Names;
 
@@ -26,8 +25,7 @@
         /// </remarks>
         public static bool HasRegistration(this INamedTypeSymbol symbol)
         {
-            string asynchronousName = string.Concat(RegistrationMethodPrefix, AsynchronousNavigatorStrategy.GetName(symbol.Name));
-            string synchronousName = string.Concat(RegistrationMethodPrefix, SynchronousNavigatorStrategy.GetName(symbol.Name));
+            string registrationName = string.Concat(RegistrationMethodPrefix, GetNavigatorName(symbol.Name));
             ImmutableArray<INamedTypeSymbol> types = symbol.ContainingNamespace.GetTypeMembers(RegistrationClassName);
 
             foreach (INamedTypeSymbol type in types)
@@ -42,7 +40,7 @@
                     .OfType<IMethodSymbol>()
                     .Any(method =>
                         method.Parameters.Length == ExpectedParametersForRegistration &&
-                        (method.Name == asynchronousName || method.Name == synchronousName));
+                        method.Name == registrationName);
 
                 if (hasMatch)
                 {

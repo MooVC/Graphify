@@ -1,10 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <DebugType>embedded</DebugType>
     <Description>Graphify, a .NET Roslyn source generator, allows for the efficient navigation of a class hierarchy, without the use of reflection.</Description>
+    <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetAnalyzerDependencyTargetPaths</GetTargetPathDependsOn>
+    <GraphifyBootstrapVersion>1.1.3</GraphifyBootstrapVersion>
+    <!-- Keep the bootstrap-generated contracts in the analyzer load context. -->
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <IncludeSymbols>false</IncludeSymbols>
     <NoWarn>$(NoWarn);NU1608</NoWarn>
+    <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+    <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);PackAnalyzerDependencies</TargetsForTfmSpecificContentInPackage>
   </PropertyGroup>
   <ItemGroup>
+    <!-- Download the published generator without creating a NuGet dependency on Graphify itself. -->
+    <PackageDownload Include="Graphify" Version="[$(GraphifyBootstrapVersion)]" />
+    <Analyzer Include="$(NuGetPackageRoot)/graphify/$(GraphifyBootstrapVersion)/analyzers/dotnet/cs/Graphify.dll" />
+    <PackageReference Include="MooVC.Syntax.CSharp" PrivateAssets="all" />
     <PackageReference Include="Valuify">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -156,4 +168,22 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+  <Target Name="ResolveAnalyzerDependencies" DependsOnTargets="ResolveReferences">
+    <ItemGroup>
+      <_AnalyzerDependency Include="@(ReferenceCopyLocalPaths)" Condition="'%(ReferenceCopyLocalPaths.Extension)' == '.dll'
+                                      AND '%(ReferenceCopyLocalPaths.Filename)' != '$(AssemblyName)'
+                                      AND '%(ReferenceCopyLocalPaths.Filename)' != 'Valuify'
+                                      AND !$([System.String]::Copy('%(ReferenceCopyLocalPaths.Filename)').StartsWith('Microsoft.CodeAnalysis'))" />
+    </ItemGroup>
+  </Target>
+  <Target Name="GetAnalyzerDependencyTargetPaths" Condition="'$(IncludeAnalyzerDependencies)' == 'true'" DependsOnTargets="ResolveAnalyzerDependencies">
+    <ItemGroup>
+      <TargetPathWithTargetPlatformMoniker Include="@(_AnalyzerDependency)" IncludeRuntimeDependency="false" />
+    </ItemGroup>
+  </Target>
+  <Target Name="PackAnalyzerDependencies" DependsOnTargets="ResolveAnalyzerDependencies">
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="@(_AnalyzerDependency)" PackagePath="analyzers/dotnet/cs" />
+    </ItemGroup>
+  </Target>
 </Project>

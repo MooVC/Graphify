@@ -3,7 +3,7 @@ namespace Graphify.Visitors
     using System.Collections.Generic;
     using Graphify.Model;
     using Graphify.Syntax;
-    using static Graphify.Strategies.SynchronousNavigatorStrategy_Resources;
+    using static Graphify.Visitors.GenerateSynchronousNavigatorWhenNodeVisited_Resources;
     using ModelMode = Graphify.Model.Modes;
 
     /// <summary>
@@ -24,9 +24,10 @@ namespace Graphify.Visitors
 
                 yield return node.ToNavigatorSource(
                     subject,
-                    isElement ? GenerateContentForElementContent : GenerateContentForPropertyContent,
+                    isElement ? GenerateElementBody : GeneratePropertyBody,
                     isElement ? GenerateConcatenationsForElementContent : GenerateConcatenationsForPropertyContent,
-                    GenerateConcatenationsForPropertyElement);
+                    GenerateConcatenationsForPropertyElement,
+                    asynchronous: false);
             }
         }
     }

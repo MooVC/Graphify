@@ -129,6 +129,34 @@ namespace Graphify.TypeGeneratorTests
         }
 
         [Test]
+        public void GivenAttributeSuffixedTypesThenGraphNodesCompile()
+        {
+            // Arrange
+            const string source = """
+                using Graphify;
+
+                [Graphify(Mode = Modes.Synchronous)]
+                public sealed partial class SampleAttribute
+                {
+                    public PayloadAttribute Payload { get; set; }
+                }
+
+                public sealed class PayloadAttribute
+                {
+                }
+                """;
+
+            // Act
+            GeneratorDriverRunResult result = Generate(source, out Compilation compilation);
+            using var stream = new MemoryStream();
+            EmitResult emitted = compilation.Emit(stream);
+
+            // Assert
+            result.Diagnostics.ShouldBeEmpty();
+            emitted.Success.ShouldBeTrue(string.Join(Environment.NewLine, emitted.Diagnostics));
+        }
+
+        [Test]
         [Arguments(false, "\"_\"", "_")]
         [Arguments(true, "\"_\"", "_")]
         [Arguments(false, "Prefixes.Graph", "Graph")]

@@ -1,8 +1,14 @@
 ﻿namespace Graphify
 {
+    using System;
+    using System.Runtime.CompilerServices;
     using System.Text;
+    using Graphify.Syntax;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.Text;
+    using MooVC.Syntax;
+    using MooVC.Syntax.CSharp;
+    using static Graphify.NavigatorExtensionsGenerator_Resources;
 
     /// <summary>
     /// Generates navigator helper extensions.
@@ -26,12 +32,47 @@
         /// <summary>
         /// Gets the generated content as a formatted string for use by the generator.
         /// </summary>
-        internal static string Content { get; } = string.Format(NavigatorExtensionsGenerator_Resources.Content, Name);
+        internal static string Content { get; } = CreateContent();
 
         /// <inheritdoc/>
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
             context.RegisterSourceOutput(context.CompilationProvider, Generate);
+        }
+
+        private static string CreateContent()
+        {
+            Symbol resultType = (Qualification)"TResult";
+            Symbol sequence = resultType.ToSequence(asynchronous: true);
+            Result result = Result.Void.OfType(sequence).WithMode(Result.Modes.Asynchronous);
+            Parameter cancellation = NavigatorDeclarations.Cancellation.AttributedWith(attribute => attribute.Named(typeof(EnumeratorCancellationAttribute)));
+
+            Method concat = CreateExtension("Concat", "TResult", ConcatBody)
+                .Accepts(parameter => parameter.Named("First").OfType(sequence))
+                .Accepts(parameter => parameter.Named("Second").OfType(sequence))
+                .Accepts(cancellation)
+                .Returns(result);
+            Method empty = CreateExtension("Empty", "TResult", "yield break;").Returns(result);
+
+            Symbol visitorType = (Qualification)"TVisitor";
+            Method hasVisitors = CreateExtension("HasVisitors", "TVisitor", HasVisitorsBody)
+                .Accepts(parameter => parameter.Named("Visitors").OfType(visitorType.ToSequence()).WithModifier(Parameter.Modes.Out))
+                .Returns(Result.Void.OfType(typeof(bool)));
+            Snippet asynchronous = concat.ToSnippet(Configuration.Options)
+                .Append(Configuration.Options, Snippet.Blank, empty.ToSnippet(Configuration.Options));
+            Snippet methods = asynchronous.GuardAsync()
+                .Append(Configuration.Options, Snippet.Blank, hasVisitors.ToSnippet(Configuration.Options));
+
+            return methods.Block(Configuration.Options, $"internal static partial class {Name}")
+                .Block(Configuration.Options, "namespace Graphify");
+        }
+
+        private static Method CreateExtension(string name, string argument, string body)
+        {
+            return Method.Undefined.Named(((Declaration)name).WithArguments(Generic.Undefined.Named(argument)))
+                .WithExtensibility(Modifiers.Static)
+                .Accepts(parameter => parameter.Named("Provider").OfType(typeof(IServiceProvider)).WithModifier(Parameter.Modes.This))
+                .WithBody(Snippet.From(Configuration.Options, body));
         }
 
         private static void Generate(SourceProductionContext context, Compilation compilation)

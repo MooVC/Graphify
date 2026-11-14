@@ -23,11 +23,7 @@ public sealed class GeneratorTest<TGenerator>
 
         if (includeDependencyInjection)
         {
-            string path = Path.Combine(
-                AppContext.BaseDirectory,
-                "ReferenceAssemblies",
-                "Microsoft.Extensions.DependencyInjection.Abstractions.dll");
-            TestState.AdditionalReferences.Add(MetadataReference.CreateFromFile(path));
+            SolutionTransforms.Add(AddDependencyInjectionReference);
         }
     }
 
@@ -44,5 +40,21 @@ public sealed class GeneratorTest<TGenerator>
     protected sealed override IEnumerable<Type> GetSourceGenerators()
     {
         return _generators;
+    }
+
+    private static Solution AddDependencyInjectionReference(Solution solution, ProjectId projectId)
+    {
+        const string FileName = "Microsoft.Extensions.DependencyInjection.Abstractions.dll";
+        Project project = solution.GetProject(projectId)!;
+
+        if (project.MetadataReferences.OfType<PortableExecutableReference>().Any(reference =>
+            string.Equals(Path.GetFileName(reference.FilePath), FileName, StringComparison.OrdinalIgnoreCase)))
+        {
+            return solution;
+        }
+
+        string path = Path.Combine(AppContext.BaseDirectory, "ReferenceAssemblies", FileName);
+
+        return solution.AddMetadataReference(projectId, MetadataReference.CreateFromFile(path));
     }
 }

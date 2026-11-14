@@ -77,6 +77,7 @@ internal static partial class Simple
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public interface ISimpleVisitor<in T, out TResult>
+
                         where T : class, global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Simple>
                     {
                         global::System.Collections.Generic.IAsyncEnumerable<TResult> Observe(T instance, global::System.Threading.CancellationToken cancellationToken);
@@ -186,7 +187,6 @@ internal static partial class Simple
                                     internal Length(global::Graphify.Testing.Asynchronous.Simple.Graph.Name name, global::Graphify.Testing.Asynchronous.Simple root, int value)
                                     {
                                         Name = name;
-
                                         Root = root;
                                         Value = value;
                                     }
@@ -273,18 +273,13 @@ internal static partial class Simple
                         {
                             var results = _provider.Empty<TResult>();
 
-
                             results = _provider.Concat(results, NavigateAge<TResult>(root, root.Age, cancellationToken), cancellationToken);
                             results = _provider.Concat(results, NavigateIsAdult<TResult>(root, root.IsAdult, cancellationToken), cancellationToken);
                             results = _provider.Concat(results, NavigateName<TResult>(root, root.Name, cancellationToken), cancellationToken);
-
                             return results;
                         }
 
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> Invoke<TInstance, TResult>(
-                            TInstance instance,
-                            global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.ISimpleVisitor<TInstance, TResult>> visitors,
-                            global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> Invoke<TInstance, TResult>(TInstance instance, global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.ISimpleVisitor<TInstance, TResult>> visitors, global::System.Threading.CancellationToken cancellationToken)
                             where TInstance : class, global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Simple>
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();

@@ -1,8 +1,12 @@
 ﻿namespace Graphify
 {
+    using System;
     using System.Text;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.Text;
+    using MooVC.Syntax;
+    using MooVC.Syntax.CSharp;
+    using Attribute = System.Attribute;
 
     /// <summary>
     /// Generates the Traverse attribute, used to denote how a property of a class should be traversed.
@@ -29,12 +33,37 @@
         /// <value>
         /// The generated content as a formatted string for use by the traverse attribute generator.
         /// </value>
-        internal static string Content { get; } = string.Format(TraverseAttributeGenerator_Resources.Content, Name);
+        internal static string Content { get; } = CreateContent();
 
         /// <inheritdoc/>
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
             context.RegisterSourceOutput(context.CompilationProvider, Generate);
+        }
+
+        private static string CreateContent()
+        {
+            Symbol targets = typeof(AttributeTargets);
+            Symbol scope = (Name: "TraverseScope", Qualifier: "Graphify");
+            Snippet code = Class.Undefined.Named($"{Name}Attribute")
+                .DerivesFrom(typeof(Attribute))
+                .WithExtensibility(Modifiers.Sealed)
+                .IsPartial(false)
+                .AttributedWith(usage => usage
+                    .Named(typeof(AttributeUsageAttribute))
+                    .WithArguments(
+                        (Name: string.Empty, Value: $"{targets.ToSnippet(Configuration.Options)}.Property"),
+                        (Name: nameof(AttributeUsageAttribute.Inherited), Value: "false"),
+                        (Name: nameof(AttributeUsageAttribute.AllowMultiple), Value: "false")))
+                .WithProperties(property => property
+                    .Named("Scope")
+                    .OfType(scope)
+                    .WithBehaviours(accessors => accessors.WithSet(setter => setter.WithMode(Property.Methods.Setter.Modes.Set)))
+                    .WithDefault($"{scope.ToSnippet(Configuration.Options)}.All;"))
+                .ToSnippet(Configuration.Options);
+
+            return code.Prepend(Configuration.Options, Snippet.From(TraverseAttributeGenerator_Resources.Scope), Snippet.Blank)
+                .Block(Configuration.Options, "namespace Graphify");
         }
 
         private static void Generate(SourceProductionContext context, Compilation compilation)

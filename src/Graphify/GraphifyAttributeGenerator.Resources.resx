@@ -117,41 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Content" xml:space="preserve">
-    <value>namespace Graphify
-{{
-    public enum Modes
-    {{
-        Synchronous,
+  <data name="Modes" xml:space="preserve">
+    <value>public enum Modes
+{
+    Synchronous,
 #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-        Asynchronous,
+    Asynchronous,
 #endif
-    }}
-
-    [global::System.AttributeUsage(global::System.AttributeTargets.Class | global::System.AttributeTargets.Struct, Inherited = false, AllowMultiple = false)]
-    public sealed class {0}Attribute
-        : global::System.Attribute
-    {{
-        public {0}Attribute()
-        {{
-            Depth = 16;
-            GraphName = "{1}";
+}</value>
+  </data>
+  <data name="ConstructorBody" xml:space="preserve">
+    <value>Depth = 16;
+GraphName = "{0}";
 #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-            Mode = Modes.Asynchronous;
+Mode = global::Graphify.Modes.Asynchronous;
 #else
-            Mode = Modes.Synchronous;
+Mode = global::Graphify.Modes.Synchronous;
 #endif
-            PropertyPrefix = string.Empty;
-        }}
-
-        public byte Depth {{ get; set; }}
-
-        public string GraphName {{ get; set; }}
-
-        public Modes Mode {{ get; set; }}
-
-        public string PropertyPrefix {{ get; set; }}
-    }}
-}}</value>
+PropertyPrefix = string.Empty;</value>
   </data>
 </root>

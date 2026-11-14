@@ -2,8 +2,7 @@ namespace Graphify.Visitors
 {
     using System.Collections.Generic;
     using Graphify.Model;
-    using static Graphify.Names;
-    using static Graphify.Strategies.SynchronousRegistrationStrategy_Resources;
+    using Graphify.Syntax;
 
     /// <summary>
     /// Generates the synchronous registration for the subject.
@@ -21,12 +20,7 @@ namespace Graphify.Visitors
                 yield break;
             }
 
-            string name = GetNavigatorName(subject.Name);
-            string contract = subject.Qualify(GetNavigatorContractName(subject.Name));
-            string code = string.Format(GenerateContent, name, contract, subject.Qualify(name));
-            string hint = string.Concat(RegistrationClassName, ".", RegistrationMethodPrefix, name);
-
-            yield return new Source(code, hint);
+            yield return subject.ToRegistrationSource(asynchronous: false);
         }
     }
 }

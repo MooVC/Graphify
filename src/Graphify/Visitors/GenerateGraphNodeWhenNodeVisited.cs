@@ -3,9 +3,10 @@ namespace Graphify.Visitors
     using System.Collections.Generic;
     using Graphify.Model;
     using Graphify.Syntax;
-    using Microsoft.CodeAnalysis;
+    using MooVC.Syntax;
+    using MooVC.Syntax.CSharp;
     using static Graphify.Names;
-    using static Graphify.Strategies.ModelStrategy_Resources;
+    using Property = MooVC.Syntax.CSharp.Property;
 
     /// <summary>
     /// Generates the class that represents a property or sequence element in the graph.
@@ -13,49 +14,28 @@ namespace Graphify.Visitors
     internal sealed class GenerateGraphNodeWhenNodeVisited
         : ISubjectVisitor<Subject.Graph.Nodes.Node, Source>
     {
-        private const string NewLine = "\n";
-
         /// <inheritdoc/>
         public IEnumerable<Source> Observe(Subject.Graph.Nodes.Node instance)
         {
             Node node = instance._Value;
             Subject subject = instance._Root;
-            string body = GenerateParentContent(node, subject, out string assignments, out string parameters);
-
-            string rootContract = string.IsNullOrEmpty(subject.PropertyPrefix)
-                ? string.Empty
-                : string.Format(GenerateRootContractContent, subject.Type, subject.PropertyPrefix, RootPropertyName);
-
-            string template = node.Element is null
-                ? GenerateContentForPropertyContent
-                : GenerateContentForElementContent;
-
-            string code = string.Format(
-                template,
-                node.ParentPath,
-                node.Name,
-                subject.Type,
-                parameters,
-                node.Type,
-                assignments,
-                body,
-                node.Property.Declaration,
-                subject.PropertyPrefix,
-                rootContract,
-                RootPropertyName,
-                ValuePropertyName,
-                IndexPropertyName);
+            Class graphNode = DeclareNode(node, subject);
 
             for (int index = node.Ancestors.Length - 1; index >= 0; index--)
             {
                 Predecessor predecessor = node.Ancestors[index];
-                code = GenerationSyntax.Block(code, $"{predecessor.Declaration} partial class {predecessor.Name}");
+                graphNode = Class.Undefined.Named(predecessor.Name)
+                    .WithScope(GetScope(predecessor.Declaration))
+                    .WithExtensibility(Modifiers.Implicit)
+                    .Containing(graphNode);
             }
 
-            string accessibility = subject.Accessibility == Accessibility.Internal ? "internal" : "public";
-
-            code = GenerationSyntax.Block(code, $"{accessibility} static partial class {subject.GraphName}");
-            code = GenerationSyntax.Block(code, $"{subject.Declaration} {subject.Qualification}");
+            Snippet code = Class.Undefined.Named(subject.GraphName)
+                .WithScope(subject.Accessibility.ToScope())
+                .IsStatic(true)
+                .Containing(graphNode)
+                .ToSnippet(Configuration.Options)
+                .Block(Configuration.Options, $"{subject.Declaration} {subject.Qualification}");
 
             string hint = node.Tier == 1
                 ? $"{subject.Name}.{node.Name}"
@@ -64,28 +44,76 @@ namespace Graphify.Visitors
             yield return new Source(code, hint);
         }
 
-        private static string GenerateParentContent(Node node, Subject subject, out string assignments, out string parameters)
+        private static Class DeclareNode(Node node, Subject subject)
         {
-            if (node.Tier == 1)
-            {
-                assignments = string.Empty;
-                parameters = string.Empty;
+            Scopes scope = GetScope(node.Property.Declaration);
+            var root = subject.Type.ToSymbol();
+            var value = node.Type.ToSymbol();
+            Symbol contract = root.ToGraph();
+            string prefix = subject.PropertyPrefix;
+            var assignments = new List<string>();
+            var parameters = new List<Parameter>();
+            var properties = new List<Property>();
 
-                return string.Empty;
+            if (node.Ancestors.Length > 0)
+            {
+                Predecessor parent = node.Ancestors[node.Ancestors.Length - 1];
+                string parameter = string.IsNullOrEmpty(prefix) ? parent.Name.ToCamelCase() : CollisionSafeParentParameterName;
+                var type = $"{subject.GraphQualification}.{node.ParentPath}".ToSymbol();
+
+                assignments.Add($"{parent.Name} = {parameter};");
+                parameters.Add(Parameter.Undefined.Named(parameter).OfType(type));
+                properties.Add(CreateProperty(parent.Name, type, GetScope(parent.Declaration)));
             }
 
-            Predecessor predecessor = node.Ancestors[node.Ancestors.Length - 1];
+            if (node.Element is object)
+            {
+                assignments.Add($"{prefix}{IndexPropertyName} = index;");
+                parameters.Add(Parameter.Undefined.Named("Index").OfType(typeof(int)));
+                properties.Add(CreateProperty(prefix + IndexPropertyName, typeof(int), Scopes.Public));
+            }
 
-            string parameterName = string.IsNullOrEmpty(subject.PropertyPrefix)
-                ? predecessor.Name.ToCamelCase()
-                : CollisionSafeParentParameterName;
+            assignments.Add($"{prefix}{RootPropertyName} = root;");
+            assignments.Add($"{prefix}{ValuePropertyName} = value;");
+            parameters.Add(Parameter.Undefined.Named("Root").OfType(root));
+            parameters.Add(Parameter.Undefined.Named("Value").OfType(value));
+            properties.Add(CreateProperty(prefix + RootPropertyName, root, Scopes.Public));
+            properties.Add(CreateProperty(prefix + ValuePropertyName, value, scope));
 
-            string type = $"{subject.GraphQualification}.{node.ParentPath}";
+            if (!string.IsNullOrEmpty(prefix))
+            {
+                properties.Add(Property.Undefined
+                    .Named($"{contract.ToSnippet(Configuration.Options)}.{RootPropertyName}")
+                    .OfType(root)
+                    .WithScope(Scopes.Unspecified)
+                    .WithBehaviours(accessors => accessors
+                        .WithGet($"{prefix}{RootPropertyName};")
+                        .WithSet(setter => setter.WithMode(Property.Methods.Setter.Modes.ReadOnly))));
+            }
 
-            assignments = string.Concat(NewLine, string.Format(GeneratePropertyContentAssignment, predecessor.Name, parameterName), NewLine);
-            parameters = string.Format(GeneratePropertyContentArgument, type, parameterName);
+            return Class.Undefined.Named(node.Name)
+                .WithScope(scope)
+                .WithExtensibility(Modifiers.Sealed)
+                .Implements(contract)
+                .WithConstructors(constructor => constructor
+                    .WithScope(Scopes.Internal)
+                    .WithParameters(parameters.ToArray())
+                    .WithBody(Snippet.From(assignments.ToArray())))
+                .WithProperties(properties.ToArray());
+        }
 
-            return string.Concat(NewLine, string.Format(GeneratePropertyContentDeclaration, type, predecessor.Name, predecessor.Declaration), NewLine);
+        private static Property CreateProperty(string name, Symbol type, Scopes scope)
+        {
+            return Property.Undefined.Named(name)
+                .OfType(type)
+                .WithScope(scope)
+                .WithBehaviours(accessors => accessors
+                    .WithSet(setter => setter.WithMode(Property.Methods.Setter.Modes.Set).WithScope(Scopes.Private)));
+        }
+
+        private static Scopes GetScope(string declaration)
+        {
+            return declaration == "internal" ? Scopes.Internal : Scopes.Public;
         }
     }
 }

@@ -100,7 +100,6 @@ internal static partial class Complex
                                     internal Child(global::Graphify.Testing.Asynchronous.Complex.Graph.Children children, int index, global::Graphify.Testing.Asynchronous.Complex root, global::Graphify.Testing.Asynchronous.Child value)
                                     {
                                         Children = children;
-
                                         Index = index;
                                         Root = root;
                                         Value = value;
@@ -149,7 +148,6 @@ internal static partial class Complex
                                         internal Age(global::Graphify.Testing.Asynchronous.Complex.Graph.Children.Child child, global::Graphify.Testing.Asynchronous.Complex root, int value)
                                         {
                                             Child = child;
-
                                             Root = root;
                                             Value = value;
                                         }
@@ -196,7 +194,6 @@ internal static partial class Complex
                                         internal Name(global::Graphify.Testing.Asynchronous.Complex.Graph.Children.Child child, global::Graphify.Testing.Asynchronous.Complex root, string value)
                                         {
                                             Child = child;
-
                                             Root = root;
                                             Value = value;
                                         }
@@ -245,7 +242,6 @@ internal static partial class Complex
                                             internal Length(global::Graphify.Testing.Asynchronous.Complex.Graph.Children.Child.Name name, global::Graphify.Testing.Asynchronous.Complex root, int value)
                                             {
                                                 Name = name;
-
                                                 Root = root;
                                                 Value = value;
                                             }
@@ -305,6 +301,7 @@ internal static partial class Complex
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public interface IComplexVisitor<in T, out TResult>
+
                         where T : class, global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Complex>
                     {
                         global::System.Collections.Generic.IAsyncEnumerable<TResult> Observe(T instance, global::System.Threading.CancellationToken cancellationToken);
@@ -377,7 +374,6 @@ internal static partial class Complex
                                     internal Length(global::Graphify.Testing.Asynchronous.Complex.Graph.Name name, global::Graphify.Testing.Asynchronous.Complex root, int value)
                                     {
                                         Name = name;
-
                                         Root = root;
                                         Value = value;
                                     }
@@ -429,18 +425,13 @@ internal static partial class Complex
                         {
                             var results = _provider.Empty<TResult>();
 
-
                             results = _provider.Concat(results, NavigateAge<TResult>(root, root.Age, cancellationToken), cancellationToken);
                             results = _provider.Concat(results, NavigateChildren<TResult>(root, root.Children, cancellationToken), cancellationToken);
                             results = _provider.Concat(results, NavigateName<TResult>(root, root.Name, cancellationToken), cancellationToken);
-
                             return results;
                         }
 
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> Invoke<TInstance, TResult>(
-                            TInstance instance,
-                            global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.IComplexVisitor<TInstance, TResult>> visitors,
-                            global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> Invoke<TInstance, TResult>(TInstance instance, global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.IComplexVisitor<TInstance, TResult>> visitors, global::System.Threading.CancellationToken cancellationToken)
                             where TInstance : class, global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Complex>
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();

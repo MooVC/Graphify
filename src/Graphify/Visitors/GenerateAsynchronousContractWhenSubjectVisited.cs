@@ -2,8 +2,10 @@ namespace Graphify.Visitors
 {
     using System.Collections.Generic;
     using Graphify.Model;
+    using Graphify.Syntax;
+    using MooVC.Syntax;
+    using MooVC.Syntax.CSharp;
     using static Graphify.Names;
-    using static Graphify.Strategies.AsynchronousContractStrategy_Resources;
 
     /// <summary>
     /// Generates the asynchronous contract for the subject.
@@ -22,10 +24,19 @@ namespace Graphify.Visitors
             }
 
             string name = GetNavigatorContractName(subject.Name);
-            string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
-            string code = string.Format(GenerateContent, accessibility, name, subject.Type);
+            var root = subject.Type.ToSymbol();
 
-            yield return new Source(code, name);
+            Method navigate = "Navigate".ToNavigationMethod(asynchronous: true)
+                .Accepts(parameter => parameter.Named("Root").OfType(root));
+
+            navigate = navigate.Accepts(NavigatorDeclarations.Cancellation);
+
+            Snippet code = Interface.Undefined.Named(name)
+                .WithScope(subject.Accessibility.ToScope())
+                .WithMethods(navigate)
+                .ToSnippet(Configuration.Options);
+
+            yield return new Source(code.GuardAsync(), name);
         }
     }
 }

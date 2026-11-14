@@ -13,7 +13,17 @@ public static class Boilerplate
         Generator: typeof(GraphifyAttributeGenerator));
 
     public static readonly Generated Inspector = new(
-        GraphContractGenerator.Content,
+        """
+        namespace Graphify
+        {
+            public interface IGraph<out T>
+
+                where T : class
+            {
+                T Root { get; }
+            }
+        }
+        """,
         GraphContractGenerator.Hint,
         Generator: typeof(GraphContractGenerator));
 

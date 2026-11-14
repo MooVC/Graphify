@@ -37,6 +37,7 @@ internal static partial class Traversals
                     #endif
 
                     public interface ITraversalsVisitor<in T, out TResult>
+
                         where T : class, global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Traversals>
                     {
                         global::System.Collections.Generic.IEnumerable<TResult> Observe(T instance);
@@ -78,18 +79,14 @@ internal static partial class Traversals
                         {
                             var results = global::System.Linq.Enumerable.Empty<TResult>();
 
-
                             results = global::System.Linq.Enumerable.Concat(results, NavigateTitle<TResult>(root, root.Title));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateDescription<TResult>(root, root.Description));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateShallowChildren<TResult>(root, root.ShallowChildren));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateDeepChildren<TResult>(root, root.DeepChildren));
-
                             return results;
                         }
 
-                        private global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(
-                            TInstance instance,
-                            global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Synchronous.ITraversalsVisitor<TInstance, TResult>> visitors)
+                        private global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(TInstance instance, global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Synchronous.ITraversalsVisitor<TInstance, TResult>> visitors)
                             where TInstance : class, global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Traversals>
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
@@ -533,7 +530,6 @@ internal static partial class Traversals
                                     internal Length(global::Graphify.Testing.Synchronous.Traversals.Graph.Description description, global::Graphify.Testing.Synchronous.Traversals root, int value)
                                     {
                                         Description = description;
-
                                         Root = root;
                                         Value = value;
                                     }
@@ -614,17 +610,16 @@ internal static partial class Traversals
                                     internal TraversalChild(global::Graphify.Testing.Synchronous.Traversals.Graph.ShallowChildren shallowChildren, int index, global::Graphify.Testing.Synchronous.Traversals root, global::Graphify.Testing.Synchronous.TraversalChild value)
                                     {
                                         ShallowChildren = shallowChildren;
-
                                         Index = index;
                                         Root = root;
                                         Value = value;
                                     }
 
-                                    public global::Graphify.Testing.Synchronous.Traversals.Graph.ShallowChildren ShallowChildren { get; private set; }
-
                                     public int Index { get; private set; }
 
                                     public global::Graphify.Testing.Synchronous.Traversals Root { get; private set; }
+
+                                    public global::Graphify.Testing.Synchronous.Traversals.Graph.ShallowChildren ShallowChildren { get; private set; }
 
                                     public global::Graphify.Testing.Synchronous.TraversalChild Value { get; private set; }
                                 }
@@ -698,7 +693,6 @@ internal static partial class Traversals
                                     internal TraversalChild(global::Graphify.Testing.Synchronous.Traversals.Graph.DeepChildren deepChildren, int index, global::Graphify.Testing.Synchronous.Traversals root, global::Graphify.Testing.Synchronous.TraversalChild value)
                                     {
                                         DeepChildren = deepChildren;
-
                                         Index = index;
                                         Root = root;
                                         Value = value;
@@ -747,14 +741,13 @@ internal static partial class Traversals
                                         internal Name(global::Graphify.Testing.Synchronous.Traversals.Graph.DeepChildren.TraversalChild traversalChild, global::Graphify.Testing.Synchronous.Traversals root, string value)
                                         {
                                             TraversalChild = traversalChild;
-
                                             Root = root;
                                             Value = value;
                                         }
 
-                                        public global::Graphify.Testing.Synchronous.Traversals.Graph.DeepChildren.TraversalChild TraversalChild { get; private set; }
-
                                         public global::Graphify.Testing.Synchronous.Traversals Root { get; private set; }
+
+                                        public global::Graphify.Testing.Synchronous.Traversals.Graph.DeepChildren.TraversalChild TraversalChild { get; private set; }
 
                                         public string Value { get; private set; }
                                     }
@@ -796,7 +789,6 @@ internal static partial class Traversals
                                             internal Length(global::Graphify.Testing.Synchronous.Traversals.Graph.DeepChildren.TraversalChild.Name name, global::Graphify.Testing.Synchronous.Traversals root, int value)
                                             {
                                                 Name = name;
-
                                                 Root = root;
                                                 Value = value;
                                             }

@@ -10,8 +10,8 @@
 
 namespace Graphify {
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -23,15 +23,15 @@ namespace Graphify {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class GraphifyAttributeGenerator_Resources {
-        
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal GraphifyAttributeGenerator_Resources() {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -45,7 +45,7 @@ namespace Graphify {
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -59,34 +59,22 @@ namespace Graphify {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to namespace Graphify
-        ///{{
-        ///    using System;
-        ///    using System.Diagnostics.CodeAnalysis;
-        ///
-        ///    public enum Modes
-        ///    {{
-        ///        Synchronous,
-        ///#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-        ///        Asynchronous,
-        ///#endif
-        ///    }}
-        ///
-        ///    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, Inherited = false, AllowMultiple = false)]
-        ///    public sealed class {0}Attribute
-        ///        : Attribute
-        ///    {{
-        ///        public {0}Attribute()
-        ///        {{
-        ///            Depth = 16;
-        ///            GraphName = &quot;{1}&quot;;
-        ///#if NET5_0_OR_GREATER || NET [rest of string was truncated]&quot;;.
+        ///   Gets the ConstructorBody resource.
         /// </summary>
-        internal static string Content {
+        internal static string ConstructorBody {
             get {
-                return ResourceManager.GetString("Content", resourceCulture);
+                return ResourceManager.GetString("ConstructorBody", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Gets the Modes resource.
+        /// </summary>
+        internal static string Modes {
+            get {
+                return ResourceManager.GetString("Modes", resourceCulture);
             }
         }
     }

@@ -100,7 +100,6 @@ internal static partial class Complex
                                     internal Child(global::Graphify.Testing.Synchronous.Complex.Graph.Children children, int index, global::Graphify.Testing.Synchronous.Complex root, global::Graphify.Testing.Synchronous.Child value)
                                     {
                                         Children = children;
-
                                         Index = index;
                                         Root = root;
                                         Value = value;
@@ -149,7 +148,6 @@ internal static partial class Complex
                                         internal Age(global::Graphify.Testing.Synchronous.Complex.Graph.Children.Child child, global::Graphify.Testing.Synchronous.Complex root, int value)
                                         {
                                             Child = child;
-
                                             Root = root;
                                             Value = value;
                                         }
@@ -196,7 +194,6 @@ internal static partial class Complex
                                         internal Name(global::Graphify.Testing.Synchronous.Complex.Graph.Children.Child child, global::Graphify.Testing.Synchronous.Complex root, string value)
                                         {
                                             Child = child;
-
                                             Root = root;
                                             Value = value;
                                         }
@@ -245,7 +242,6 @@ internal static partial class Complex
                                             internal Length(global::Graphify.Testing.Synchronous.Complex.Graph.Children.Child.Name name, global::Graphify.Testing.Synchronous.Complex root, int value)
                                             {
                                                 Name = name;
-
                                                 Root = root;
                                                 Value = value;
                                             }
@@ -302,6 +298,7 @@ internal static partial class Complex
                     #endif
 
                     public interface IComplexVisitor<in T, out TResult>
+
                         where T : class, global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Complex>
                     {
                         global::System.Collections.Generic.IEnumerable<TResult> Observe(T instance);
@@ -373,7 +370,6 @@ internal static partial class Complex
                                     internal Length(global::Graphify.Testing.Synchronous.Complex.Graph.Name name, global::Graphify.Testing.Synchronous.Complex root, int value)
                                     {
                                         Name = name;
-
                                         Root = root;
                                         Value = value;
                                     }
@@ -424,17 +420,13 @@ internal static partial class Complex
                         {
                             var results = global::System.Linq.Enumerable.Empty<TResult>();
 
-
                             results = global::System.Linq.Enumerable.Concat(results, NavigateAge<TResult>(root, root.Age));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateChildren<TResult>(root, root.Children));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateName<TResult>(root, root.Name));
-
                             return results;
                         }
 
-                        private global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(
-                            TInstance instance,
-                            global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Synchronous.IComplexVisitor<TInstance, TResult>> visitors)
+                        private global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(TInstance instance, global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Synchronous.IComplexVisitor<TInstance, TResult>> visitors)
                             where TInstance : class, global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Complex>
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();

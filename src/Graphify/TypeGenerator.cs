@@ -8,6 +8,7 @@ namespace Graphify
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using MooVC.Syntax;
     using static Graphify.Names;
     using static Graphify.TypeGenerator_Resources;
 
@@ -92,9 +93,9 @@ namespace Graphify
 
             foreach (Source source in navigator.Navigate<Source>(subject))
             {
-                string code = Wrap(source.Code, subject);
+                Snippet code = Wrap(source.Code, subject);
                 string hint = GetHint(source, subject);
-                context.AddSource(hint, code);
+                context.AddSource(hint, code.ToString());
             }
         }
 
@@ -132,27 +133,27 @@ namespace Graphify
             return context.Node as TypeDeclarationSyntax;
         }
 
-        private static string Nest(string code, Subject subject)
+        private static Snippet Nest(Snippet code, Subject subject)
         {
             foreach (Nesting parent in subject.Nesting.Reverse())
             {
-                code = GenerationSyntax.Block(code, $"{parent.Declaration} {parent.Qualification}");
+                code = code.Block(Configuration.Options, $"{parent.Declaration} {parent.Qualification}");
             }
 
             return code;
         }
 
-        private static string Wrap(string code, Subject subject)
+        private static Snippet Wrap(Snippet code, Subject subject)
         {
             code = Nest(code, subject);
-            code = string.Format(WrapContent, code);
+            code = Snippet.From(Configuration.Options, string.Format(WrapContent, code));
 
             if (subject.IsGlobal)
             {
                 return code;
             }
 
-            return GenerationSyntax.Block(code, $"namespace {subject.Namespace}");
+            return code.Block(Configuration.Options, $"namespace {subject.Namespace}");
         }
     }
 }

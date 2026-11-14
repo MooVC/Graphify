@@ -8,7 +8,7 @@ public sealed class WhenExecuted
 {
     [Test]
     [MethodDataSource(typeof(Frameworks), nameof(Frameworks.DefaultCases))]
-    public async Task GivenAnAssemblyThenTheAttributeIsGenerated(ReferenceAssemblies assemblies, LanguageVersion language)
+    public async Task GivenAnAssemblyThenTheContractIsGenerated(ReferenceAssemblies assemblies, LanguageVersion language)
     {
         // Arrange
         var test = new GeneratorTest<GraphContractGenerator>(assemblies, language);

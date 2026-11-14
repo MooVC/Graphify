@@ -2,8 +2,10 @@ namespace Graphify.Visitors
 {
     using System.Collections.Generic;
     using Graphify.Model;
+    using Graphify.Syntax;
+    using MooVC.Syntax;
+    using MooVC.Syntax.CSharp;
     using static Graphify.Names;
-    using static Graphify.Strategies.SynchronousVisitorStrategy_Resources;
 
     /// <summary>
     /// Generates the synchronous visitor for the subject.
@@ -21,10 +23,25 @@ namespace Graphify.Visitors
                 yield break;
             }
 
-            string accessibility = subject.Accessibility.ToString().ToLowerInvariant();
-            string code = string.Format(GenerateContent, accessibility, subject.Name, subject.Type);
+            string name = string.Concat(InterfaceNamePrefix, subject.Name, VisitorTypeSuffix);
+            Symbol root = subject.Type.ToSymbol();
+            Symbol instanceType = (Qualification)"T";
+            Symbol result = (Qualification)"TResult";
+            Constraint constraint = root.ToGraphConstraint();
+            Declaration declaration = ((Declaration)name).WithArguments(
+                Generic.Undefined.Named("T").WithVariance(Generic.Variances.In).WithConstraints(constraint),
+                Generic.Undefined.Named("TResult").WithVariance(Generic.Variances.Out));
 
-            yield return new Source(code, string.Concat(InterfaceNamePrefix, subject.Name, VisitorTypeSuffix));
+            Method observe = Method.Undefined.Named("Observe")
+                .Accepts(parameter => parameter.Named("Instance").OfType(instanceType))
+                .Returns(Result.Void.OfType(result.ToSequence(asynchronous: false)));
+            Snippet code = Interface.Undefined.Named(declaration)
+                .WithScope(subject.Accessibility.ToScope())
+                .IsPartial(false)
+                .WithMethods(observe)
+                .ToSnippet(Configuration.Options);
+
+            yield return new Source(code, name);
         }
     }
 }

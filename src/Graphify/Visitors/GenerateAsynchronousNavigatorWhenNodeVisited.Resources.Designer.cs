@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Graphify {
+namespace Graphify.Visitors {
     using System;
 
 
@@ -22,14 +22,14 @@ namespace Graphify {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "18.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class GraphContractGenerator_Resources {
+    internal class GenerateAsynchronousNavigatorWhenNodeVisited_Resources {
 
         private static global::System.Resources.ResourceManager resourceMan;
 
         private static global::System.Globalization.CultureInfo resourceCulture;
 
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal GraphContractGenerator_Resources() {
+        internal GenerateAsynchronousNavigatorWhenNodeVisited_Resources() {
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Graphify {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.GraphContractGenerator.Resources", typeof(GraphContractGenerator_Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Graphify.Visitors.GenerateAsynchronousNavigatorWhenNodeVisited.Resources", typeof(GenerateAsynchronousNavigatorWhenNodeVisited_Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,18 +61,47 @@ namespace Graphify {
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to namespace Graphify
-        ///{{
-        ///    public interface IGraph&lt;out T&gt;
-        ///        where T : class
-        ///    {{
-        ///        T {0} {{ get; }}
-        ///    }}
-        ///}}.
+        ///   Gets the GenerateConcatenationsForElementContent resource.
         /// </summary>
-        internal static string Content {
+        internal static string GenerateConcatenationsForElementContent {
             get {
-                return ResourceManager.GetString("Content", resourceCulture);
+                return ResourceManager.GetString("GenerateConcatenationsForElementContent", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Gets the GenerateConcatenationsForPropertyContent resource.
+        /// </summary>
+        internal static string GenerateConcatenationsForPropertyContent {
+            get {
+                return ResourceManager.GetString("GenerateConcatenationsForPropertyContent", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Gets the GenerateConcatenationsForPropertyElement resource.
+        /// </summary>
+        internal static string GenerateConcatenationsForPropertyElement {
+            get {
+                return ResourceManager.GetString("GenerateConcatenationsForPropertyElement", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Gets the GenerateElementBody resource.
+        /// </summary>
+        internal static string GenerateElementBody {
+            get {
+                return ResourceManager.GetString("GenerateElementBody", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Gets the GeneratePropertyBody resource.
+        /// </summary>
+        internal static string GeneratePropertyBody {
+            get {
+                return ResourceManager.GetString("GeneratePropertyBody", resourceCulture);
             }
         }
     }

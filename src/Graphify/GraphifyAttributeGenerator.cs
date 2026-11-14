@@ -1,9 +1,13 @@
 ﻿namespace Graphify
 {
+    using System;
     using System.Text;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.Text;
+    using MooVC.Syntax;
+    using MooVC.Syntax.CSharp;
     using static Graphify.Names;
+    using Attribute = System.Attribute;
 
     /// <summary>
     /// Generates the Graphify attribute, used to denote when a type should serve as a wrapper for a single value.
@@ -30,12 +34,47 @@
         /// <value>
         /// The generated source content as a formatted string.
         /// </value>
-        internal static string Content { get; } = string.Format(GraphifyAttributeGenerator_Resources.Content, Name, DefaultGraphTypeName);
+        internal static string Content { get; } = CreateContent();
 
         /// <inheritdoc/>
         public void Initialize(IncrementalGeneratorInitializationContext context)
         {
             context.RegisterSourceOutput(context.CompilationProvider, Generate);
+        }
+
+        private static string CreateContent()
+        {
+            Symbol targets = typeof(AttributeTargets);
+            string targetType = targets.ToSnippet(Configuration.Options);
+            Symbol modes = (Name: "Modes", Qualifier: "Graphify");
+            Snippet code = Class.Undefined.Named($"{Name}Attribute")
+                .DerivesFrom(typeof(Attribute))
+                .WithExtensibility(Modifiers.Sealed)
+                .IsPartial(false)
+                .AttributedWith(usage => usage
+                    .Named(typeof(AttributeUsageAttribute))
+                    .WithArguments(
+                        (Name: string.Empty, Value: $"{targetType}.Class | {targetType}.Struct"),
+                        (Name: nameof(AttributeUsageAttribute.Inherited), Value: "false"),
+                        (Name: nameof(AttributeUsageAttribute.AllowMultiple), Value: "false")))
+                .WithConstructors(constructor => constructor.WithBody(
+                    Snippet.From(Configuration.Options, string.Format(GraphifyAttributeGenerator_Resources.ConstructorBody, DefaultGraphTypeName))))
+                .WithProperties(
+                    DeclareProperty("Depth", typeof(byte)),
+                    DeclareProperty("GraphName", typeof(string)),
+                    DeclareProperty("Mode", modes),
+                    DeclareProperty("PropertyPrefix", typeof(string)))
+                .ToSnippet(Configuration.Options);
+
+            return code.Prepend(Configuration.Options, Snippet.From(GraphifyAttributeGenerator_Resources.Modes), Snippet.Blank)
+                .Block(Configuration.Options, "namespace Graphify");
+        }
+
+        private static Property DeclareProperty(string name, Symbol type)
+        {
+            return Property.Undefined.Named(name)
+                .OfType(type)
+                .WithBehaviours(accessors => accessors.WithSet(setter => setter.WithMode(Property.Methods.Setter.Modes.Set)));
         }
 
         private static void Generate(SourceProductionContext context, Compilation compilation)

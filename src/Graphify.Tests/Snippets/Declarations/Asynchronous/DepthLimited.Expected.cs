@@ -77,6 +77,7 @@ internal static partial class DepthLimited
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     public interface IDepthLimitedVisitor<in T, out TResult>
+
                         where T : class, global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.DepthLimited>
                     {
                         global::System.Collections.Generic.IAsyncEnumerable<TResult> Observe(T instance, global::System.Threading.CancellationToken cancellationToken);
@@ -155,16 +156,11 @@ internal static partial class DepthLimited
                         {
                             var results = _provider.Empty<TResult>();
 
-
                             results = _provider.Concat(results, NavigateChild<TResult>(root, root.Child, cancellationToken), cancellationToken);
-
                             return results;
                         }
 
-                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> Invoke<TInstance, TResult>(
-                            TInstance instance,
-                            global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.IDepthLimitedVisitor<TInstance, TResult>> visitors,
-                            global::System.Threading.CancellationToken cancellationToken)
+                        private global::System.Collections.Generic.IAsyncEnumerable<TResult> Invoke<TInstance, TResult>(TInstance instance, global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.IDepthLimitedVisitor<TInstance, TResult>> visitors, global::System.Threading.CancellationToken cancellationToken)
                             where TInstance : class, global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.DepthLimited>
                         {
                             global::System.Collections.Generic.IAsyncEnumerable<TResult> results = _provider.Empty<TResult>();

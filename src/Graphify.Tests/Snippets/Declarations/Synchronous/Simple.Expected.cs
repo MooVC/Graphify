@@ -74,6 +74,7 @@ internal static partial class Simple
                     #endif
 
                     public interface ISimpleVisitor<in T, out TResult>
+
                         where T : class, global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Simple>
                     {
                         global::System.Collections.Generic.IEnumerable<TResult> Observe(T instance);
@@ -182,7 +183,6 @@ internal static partial class Simple
                                     internal Length(global::Graphify.Testing.Synchronous.Simple.Graph.Name name, global::Graphify.Testing.Synchronous.Simple root, int value)
                                     {
                                         Name = name;
-
                                         Root = root;
                                         Value = value;
                                     }
@@ -266,17 +266,13 @@ internal static partial class Simple
                         {
                             var results = global::System.Linq.Enumerable.Empty<TResult>();
 
-
                             results = global::System.Linq.Enumerable.Concat(results, NavigateAge<TResult>(root, root.Age));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateIsAdult<TResult>(root, root.IsAdult));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateName<TResult>(root, root.Name));
-
                             return results;
                         }
 
-                        private global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(
-                            TInstance instance,
-                            global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Synchronous.ISimpleVisitor<TInstance, TResult>> visitors)
+                        private global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(TInstance instance, global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Synchronous.ISimpleVisitor<TInstance, TResult>> visitors)
                             where TInstance : class, global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Simple>
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();

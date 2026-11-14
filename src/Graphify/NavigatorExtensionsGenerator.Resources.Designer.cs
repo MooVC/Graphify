@@ -10,8 +10,8 @@
 
 namespace Graphify {
     using System;
-    
-    
+
+
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -23,15 +23,15 @@ namespace Graphify {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class NavigatorExtensionsGenerator_Resources {
-        
+
         private static global::System.Resources.ResourceManager resourceMan;
-        
+
         private static global::System.Globalization.CultureInfo resourceCulture;
-        
+
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal NavigatorExtensionsGenerator_Resources() {
         }
-        
+
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -45,7 +45,7 @@ namespace Graphify {
                 return resourceMan;
             }
         }
-        
+
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -59,22 +59,22 @@ namespace Graphify {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
-        ///   Looks up a localized string similar to namespace Graphify
-        ///{{
-        ///    internal static partial class {0}
-        ///    {{
-        ///#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-        ///        public static async global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Concat&lt;TResult&gt;(
-        ///            this global::System.IServiceProvider provider,
-        ///            global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; first,
-        ///            global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; second,
-        ///    [rest of string was truncated]&quot;;.
+        ///   Gets the ConcatBody resource.
         /// </summary>
-        internal static string Content {
+        internal static string ConcatBody {
             get {
-                return ResourceManager.GetString("Content", resourceCulture);
+                return ResourceManager.GetString("ConcatBody", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Gets the HasVisitorsBody resource.
+        /// </summary>
+        internal static string HasVisitorsBody {
+            get {
+                return ResourceManager.GetString("HasVisitorsBody", resourceCulture);
             }
         }
     }

@@ -117,21 +117,45 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GenerateContent" xml:space="preserve">
-    <value>public static partial class ServiceCollectionExtensions
+  <data name="GeneratePropertyBody" xml:space="preserve">
+    <value>global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = _provider.Empty&lt;TResult&gt;();
+var {4} = new {0}({1}root, value);
+
+if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;{5}&lt;{0}, TResult&gt;&gt; observers))
 {{
-    public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection Add{0}(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
+    results = _provider.Concat(results, Invoke&lt;{0}, TResult&gt;({4}, observers, cancellationToken), cancellationToken);
+}}
+{2}
+return results;</value>
+  </data>
+  <data name="GenerateElementBody" xml:space="preserve">
+    <value>global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = _provider.Empty&lt;TResult&gt;();
+
+bool hasVisitors = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;{5}&lt;{0}, TResult&gt;&gt; observers);
+
+int index = 0;
+
+foreach ({3} element in value)
+{{
+    var {4} = new {0}({1}index, root, element);
+
+    if (hasVisitors)
     {{
-        if (global::System.Object.ReferenceEquals(services, null))
-        {{
-            throw new global::System.ArgumentNullException("services");
-        }}
-
-        _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton&lt;{1}&gt;(
-            services, (global::System.IServiceProvider provider) =&gt; ({1})provider.GetService(typeof({2})));
-
-        return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton&lt;{2}&gt;(services);
+        results = _provider.Concat(results, Invoke&lt;{0}, TResult&gt;({4}, observers, cancellationToken), cancellationToken);
     }}
-}}</value>
+{2}
+    index++;
+}}
+
+return results;</value>
+  </data>
+  <data name="GenerateConcatenationsForElementContent" xml:space="preserve">
+    <value>results = _provider.Concat(results, Navigate{0}&lt;TResult&gt;({1}root, element.{2}, cancellationToken), cancellationToken);</value>
+  </data>
+  <data name="GenerateConcatenationsForPropertyContent" xml:space="preserve">
+    <value>results = _provider.Concat(results, Navigate{0}&lt;TResult&gt;({1}root, value.{2}, cancellationToken), cancellationToken);</value>
+  </data>
+  <data name="GenerateConcatenationsForPropertyElement" xml:space="preserve">
+    <value>results = _provider.Concat(results, Navigate{0}&lt;TResult&gt;({1}root, value, cancellationToken), cancellationToken);</value>
   </data>
 </root>

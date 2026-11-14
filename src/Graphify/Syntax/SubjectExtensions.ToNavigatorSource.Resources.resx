@@ -117,102 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="GenerateContentForPropertyContent" xml:space="preserve">
-    <value>private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({1}{0} root, {2} value, global::System.Threading.CancellationToken cancellationToken)
-{{
-    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = _provider.Empty&lt;TResult&gt;();
-    var {9} = new {3}({4}root, value);
+  <data name="GenerateConstructorBody" xml:space="preserve">
+    <value>if (global::System.Object.ReferenceEquals(provider, null))
+{
+    throw new global::System.ArgumentNullException("provider");
+}
 
-    if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;{10}&lt;{3}, TResult&gt;&gt; observers))
-    {{
-        results = _provider.Concat(results, Invoke&lt;{3}, TResult&gt;({9}, observers, cancellationToken), cancellationToken);
-    }}
-{5}
-    return results;
-}}</value>
-  </data>
-  <data name="GenerateContentForElementContent" xml:space="preserve">
-    <value>private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate{7}&lt;TResult&gt;({1}{0} root, {2} value, global::System.Threading.CancellationToken cancellationToken)
-{{
-    global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = _provider.Empty&lt;TResult&gt;();
-
-    bool hasVisitors = _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;{10}&lt;{3}, TResult&gt;&gt; observers);
-
-    int index = 0;
-
-    foreach ({8} element in value)
-    {{
-        var {9} = new {3}({4}index, root, element);
-
-        if (hasVisitors)
-        {{
-            results = _provider.Concat(results, Invoke&lt;{3}, TResult&gt;({9}, observers, cancellationToken), cancellationToken);
-        }}
-{5}
-        index++;
-    }}
-
-    return results;
-}}</value>
-  </data>
-  <data name="GenerateContentNest" xml:space="preserve">
-    <value>#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-{0}
-#endif</value>
-  </data>
-  <data name="GenerateNavigatorContent" xml:space="preserve">
-    <value>#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
-{0} sealed partial class {1}
-    : {2}
-{{
-    private readonly global::System.IServiceProvider _provider;
-
-    public {1}(global::System.IServiceProvider provider)
-    {{
-        if (global::System.Object.ReferenceEquals(provider, null))
-        {{
-            throw new global::System.ArgumentNullException("provider");
-        }}
-
-        _provider = provider;
-    }}
-
-    public global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Navigate&lt;TResult&gt;({3} root, global::System.Threading.CancellationToken cancellationToken)
-    {{
-        var results = _provider.Empty&lt;TResult&gt;();
-
-{4}
-        return results;
-    }}
-
-    private global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; Invoke&lt;TInstance, TResult&gt;(
-        TInstance instance,
-        global::System.Collections.Generic.IEnumerable&lt;{5}&lt;TInstance, TResult&gt;&gt; visitors,
-        global::System.Threading.CancellationToken cancellationToken)
-        where TInstance : class, global::Graphify.IGraph&lt;{3}&gt;
-    {{
-        global::System.Collections.Generic.IAsyncEnumerable&lt;TResult&gt; results = _provider.Empty&lt;TResult&gt;();
-
-        foreach ({5}&lt;TInstance, TResult&gt; visitor in visitors)
-        {{
-            results = _provider.Concat(results, visitor.Observe(instance, cancellationToken), cancellationToken);
-        }}
-
-        return results;
-    }}
-}}
-#endif</value>
-  </data>
-  <data name="GenerateConcatenationsForElementContent" xml:space="preserve">
-    <value>results = _provider.Concat(results, Navigate{0}&lt;TResult&gt;({1}root, element.{2}, cancellationToken), cancellationToken);</value>
-  </data>
-  <data name="GenerateConcatenationsForPropertyContent" xml:space="preserve">
-    <value>results = _provider.Concat(results, Navigate{0}&lt;TResult&gt;({1}root, value.{2}, cancellationToken), cancellationToken);</value>
-  </data>
-  <data name="GenerateConcatenationsForSubjectContent" xml:space="preserve">
-    <value>results = _provider.Concat(results, Navigate{0}&lt;TResult&gt;(root, root.{2}, cancellationToken), cancellationToken);</value>
-  </data>
-  <data name="GenerateConcatenationsForPropertyElement" xml:space="preserve">
-    <value>results = _provider.Concat(results, Navigate{0}&lt;TResult&gt;({1}root, value, cancellationToken), cancellationToken);</value>
+_provider = provider;</value>
   </data>
 </root>

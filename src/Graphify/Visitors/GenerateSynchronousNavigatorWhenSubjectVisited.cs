@@ -3,7 +3,7 @@ namespace Graphify.Visitors
     using System.Collections.Generic;
     using Graphify.Model;
     using Graphify.Syntax;
-    using static Graphify.Strategies.SynchronousNavigatorStrategy_Resources;
+    using static Graphify.Visitors.GenerateSynchronousNavigatorWhenSubjectVisited_Resources;
     using ModelMode = Graphify.Model.Modes;
 
     /// <summary>
@@ -19,7 +19,7 @@ namespace Graphify.Visitors
 
             if (subject.Mode == ModelMode.Synchronous)
             {
-                yield return subject.ToNavigatorSource(GenerateNavigatorContent, GenerateConcatenationsForSubjectContent);
+                yield return subject.ToNavigatorSource(GenerateNavigateBody, GenerateInvokeBody, GenerateConcatenationsForSubjectContent, asynchronous: false);
             }
         }
     }

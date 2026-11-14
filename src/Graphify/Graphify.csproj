@@ -3,7 +3,6 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <DebugType>embedded</DebugType>
     <Description>Graphify, a .NET Roslyn source generator, allows for the efficient navigation of a class hierarchy, without the use of reflection.</Description>
-    <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetAnalyzerDependencyTargetPaths</GetTargetPathDependsOn>
     <GraphifyBootstrapVersion>1.2.0</GraphifyBootstrapVersion>
     <!-- Keep the bootstrap-generated contracts in the analyzer load context. -->
     <IncludeBuildOutput>false</IncludeBuildOutput>
@@ -140,11 +139,7 @@
                                       AND !$([System.String]::Copy('%(ReferenceCopyLocalPaths.Filename)').StartsWith('Microsoft.CodeAnalysis'))" />
     </ItemGroup>
   </Target>
-  <Target Name="GetAnalyzerDependencyTargetPaths" Condition="'$(IncludeAnalyzerDependencies)' == 'true'" DependsOnTargets="ResolveAnalyzerDependencies">
-    <ItemGroup>
-      <TargetPathWithTargetPlatformMoniker Include="@(_AnalyzerDependency)" IncludeRuntimeDependency="false" />
-    </ItemGroup>
-  </Target>
+  <Target Name="GetAnalyzerDependencyTargetPaths" DependsOnTargets="ResolveAnalyzerDependencies" Returns="@(_AnalyzerDependency)" />
   <Target Name="PackAnalyzerDependencies" DependsOnTargets="ResolveAnalyzerDependencies">
     <ItemGroup>
       <TfmSpecificPackageFile Include="@(_AnalyzerDependency)" PackagePath="analyzers/dotnet/cs" />

@@ -10,6 +10,20 @@
     <PackageReference Include="System.Collections.Immutable" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Graphify\Graphify.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" AdditionalProperties="IncludeAnalyzerDependencies=true" />
+    <ProjectReference Include="..\Graphify\Graphify.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
   </ItemGroup>
+  <!-- Query analyzer dependencies using the same build properties as the project reference. -->
+  <Target Name="ResolveAnalyzerProjectDependencies" AfterTargets="ResolveProjectReferences">
+    <ItemGroup>
+      <_AnalyzerProjectReference Include="@(_MSBuildProjectReferenceExistent->WithMetadataValue('OutputItemType', 'Analyzer')->WithMetadataValue('BuildReference', 'true'))" />
+    </ItemGroup>
+    <MSBuild Projects="@(_AnalyzerProjectReference)"
+             Targets="GetAnalyzerDependencyTargetPaths"
+             Properties="%(_AnalyzerProjectReference.SetConfiguration);%(_AnalyzerProjectReference.SetPlatform);%(_AnalyzerProjectReference.SetTargetFramework)"
+             RemoveProperties="%(_AnalyzerProjectReference.GlobalPropertiesToRemove)$(_GlobalPropertiesToRemoveFromProjectReferences)"
+             ContinueOnError="!$(BuildingProject)"
+             Condition="'@(_AnalyzerProjectReference)' != ''">
+      <Output TaskParameter="TargetOutputs" ItemName="Analyzer" />
+    </MSBuild>
+  </Target>
 </Project>

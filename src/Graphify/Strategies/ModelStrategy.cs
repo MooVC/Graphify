@@ -29,7 +29,12 @@
         /// </returns>
         public IEnumerable<Source> Generate(Subject subject)
         {
-            return GenerateContent(subject.Name, Array.Empty<Predecessor>(), subject.Properties, subject, 0);
+            yield return GenerateRoot(subject);
+
+            foreach (Source source in GenerateContent(subject.Name, Array.Empty<Predecessor>(), subject.Properties, subject, 0))
+            {
+                yield return source;
+            }
         }
 
         private static Predecessor[] AppendCurrentForNextTier(Predecessor[] preceding, int tier, params Predecessor[] predecessors)
@@ -98,9 +103,19 @@
             string wrapper,
             out string next)
         {
-            string rootContract = string.IsNullOrEmpty(subject.PropertyPrefix)
+            string rootProperty = string.Concat(subject.PropertyPrefix, RootPropertyName);
+            string parentName = tier > 1 ? @namespace.Substring(@namespace.LastIndexOf('.') + 1) : string.Empty;
+            int prefixLength = 0;
+
+            while (rootProperty == name || rootProperty == parentName)
+            {
+                prefixLength++;
+                rootProperty = new string('_', prefixLength) + subject.PropertyPrefix + RootPropertyName;
+            }
+
+            string rootContract = rootProperty == RootPropertyName
                 ? string.Empty
-                : string.Format(GenerateRootContractContent, subject.Type, subject.PropertyPrefix, RootPropertyName);
+                : string.Format(GenerateRootContractContent, subject.Type, rootProperty, RootPropertyName);
 
             string code = string.Format(
                 template,
@@ -114,23 +129,48 @@
                 declaration,
                 subject.PropertyPrefix,
                 rootContract,
-                RootPropertyName,
+                rootProperty,
                 ValuePropertyName,
                 IndexPropertyName);
 
             code = ApplyWrapper(code, wrapper, tier);
 
-            string accessibility = subject.Accessibility == Accessibility.Internal
-                ? "internal static"
-                : "public static";
-
             string graphDeclaration = string.Concat(GraphDeclarationPrefix, subject.GraphName);
-            code = string.Format(GenerateContentNest, accessibility, graphDeclaration, code.Indent());
+            code = string.Format(GenerateContentNest, GetGraphAccessibility(subject), graphDeclaration, code.Indent());
             code = string.Format(GenerateContentNest, subject.Declaration, subject.Qualification, code.Indent());
 
             next = $"{@namespace}.{name}";
 
             return new Source(code, next);
+        }
+
+        private static Source GenerateRoot(Subject subject)
+        {
+            string field = "_root";
+            int prefixLength = 1;
+
+            while (field == subject.GraphName || subject.Properties.Any(property => property.Name == field))
+            {
+                prefixLength++;
+                field = new string('_', prefixLength) + "root";
+            }
+
+            string code = string.Format(
+                GenerateRootContent,
+                GetGraphAccessibility(subject),
+                subject.GraphName,
+                subject.Type,
+                RootPropertyName,
+                field);
+
+            code = string.Format(GenerateContentNest, subject.Declaration, subject.Qualification, code.Indent());
+
+            return new Source(code, subject.GraphQualification);
+        }
+
+        private static string GetGraphAccessibility(Subject subject)
+        {
+            return subject.Accessibility == Accessibility.Internal ? "internal" : "public";
         }
 
         private static IEnumerable<Source> GenerateContentForElement(
@@ -251,8 +291,10 @@
 
             Predecessor predecessor = preceding[tier - 2];
             string propertyName = predecessor.Name;
-            string parameterName = string.IsNullOrEmpty(subject.PropertyPrefix)
-                ? ToCamelCase(predecessor.Name)
+            string parentName = ToCamelCase(predecessor.Name);
+
+            string parameterName = string.IsNullOrEmpty(subject.PropertyPrefix) && parentName != "root"
+                ? parentName
                 : CollisionSafeParentParameterName;
 
             string type = ToGraphType(@namespace, subject.GraphName);

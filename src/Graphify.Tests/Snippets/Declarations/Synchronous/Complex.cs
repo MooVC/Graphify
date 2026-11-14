@@ -11,6 +11,7 @@ internal static partial class Complex
         ],
         Declarations.Main,
         [
+            Boilerplate.Root(nameof(Complex), "Graphify.Testing.Synchronous"),
             Expected.Age,
             Expected.Children,
             Expected.ChildrenChild,

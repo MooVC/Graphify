@@ -275,7 +275,8 @@ namespace Graphify.Strategies
                 name,
                 contract,
                 subject.Name,
-                body.Indent(skip: 0, times: 2, trim: false));
+                body.Indent(skip: 0, times: 2, trim: false),
+                subject.GraphQualification);
 
             return new Source(code, $"{GetName(subject.Name)}");
         }
@@ -368,8 +369,10 @@ namespace Graphify.Strategies
                 return;
             }
 
-            string parameterName = string.IsNullOrEmpty(propertyPrefix)
-                ? ToCamelCase(preceding[tier - 2].Name)
+            string name = ToCamelCase(preceding[tier - 2].Name);
+
+            string parameterName = string.IsNullOrEmpty(propertyPrefix) && name != "root"
+                ? name
                 : CollisionSafeParentParameterName;
 
             arguments = string.Concat(parameterName, ", ");
@@ -378,8 +381,10 @@ namespace Graphify.Strategies
 
         private static string GetNodeName(string name, Subject subject)
         {
-            return string.IsNullOrEmpty(subject.PropertyPrefix)
-                ? ToCamelCase(name)
+            string variable = ToCamelCase(name);
+
+            return string.IsNullOrEmpty(subject.PropertyPrefix) && variable != "root"
+                ? variable
                 : CollisionSafeNodeVariableName;
         }
 

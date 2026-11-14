@@ -66,13 +66,13 @@ namespace Graphify.Strategies {
         ///    internal {1}({3}int index, {2} root, {4} value)
         ///    {{{5}
         ///        {8}{12} = index;
-        ///        {8}{10} = root;
+        ///        {10} = root;
         ///        {8}{11} = value;
         ///    }}
         ///{6}
         ///    public int {8}{12} {{ get; private set; }}
         ///
-        ///    public {2} {8}{10} {{ get; private set; }}
+        ///    public {2} {10} {{ get; private set; }}
         ///
         ///    {7} {4} {8}{11} {{ get; private set; }}{9}
         ///}}.
@@ -88,11 +88,11 @@ namespace Graphify.Strategies {
         ///{{
         ///    internal {1}({3}{2} root, {4} value)
         ///    {{{5}
-        ///        {8}{10} = root;
+        ///        {10} = root;
         ///        {8}{11} = value;
         ///    }}
         ///{6}
-        ///    public {2} {8}{10} {{ get; private set; }}
+        ///    public {2} {10} {{ get; private set; }}
         ///
         ///    {7} {4} {8}{11} {{ get; private set; }}{9}
         ///}}.
@@ -139,6 +139,15 @@ namespace Graphify.Strategies {
         internal static string GeneratePropertyContentDeclaration {
             get {
                 return ResourceManager.GetString("GeneratePropertyContentDeclaration", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up the declaration for the graph root node.
+        /// </summary>
+        internal static string GenerateRootContent {
+            get {
+                return ResourceManager.GetString("GenerateRootContent", resourceCulture);
             }
         }
 

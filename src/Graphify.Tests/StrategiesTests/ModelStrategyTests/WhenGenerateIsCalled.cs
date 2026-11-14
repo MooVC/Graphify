@@ -37,12 +37,13 @@ public sealed class WhenGenerateIsCalled
         };
 
         // Act
-        Source generated = strategy.Generate(subject).Single();
+        Source[] generated = strategy.Generate(subject).ToArray();
 
         // Assert
-        generated.Code.ShouldContain("internal static partial class Graph");
-        generated.Code.ShouldContain("internal sealed partial class Secret");
-        generated.Code.ShouldContain($"internal int {prefix}Value {{ get; private set; }}");
+        generated[0].Code.ShouldContain("internal sealed partial class Graph");
+        generated[1].Code.ShouldContain("internal partial class Graph");
+        generated[1].Code.ShouldContain("internal sealed partial class Secret");
+        generated[1].Code.ShouldContain($"internal int {prefix}Value {{ get; private set; }}");
     }
 
     [Test]

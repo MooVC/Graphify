@@ -84,6 +84,11 @@ internal static partial class Traversals
                         {
                             var results = global::System.Linq.Enumerable.Empty<TResult>();
 
+                            if (!global::System.Object.ReferenceEquals(root, null)
+                                && _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ITraversalsVisitor<Traversals.Graph, TResult>> visitors))
+                            {
+                                results = Invoke<Traversals.Graph, TResult>(new Traversals.Graph(root), visitors);
+                            }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateTitle<TResult>(root, root.Title));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateDescription<TResult>(root, root.Description));
@@ -475,7 +480,7 @@ internal static partial class Traversals
 
                     partial class Traversals
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class Title
                                 : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Traversals>
@@ -514,7 +519,7 @@ internal static partial class Traversals
 
                     partial class Traversals
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class Description
                                 : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Traversals>
@@ -553,7 +558,7 @@ internal static partial class Traversals
 
                     partial class Traversals
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Description
                             {
@@ -599,7 +604,7 @@ internal static partial class Traversals
 
                     partial class Traversals
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class ShallowChildren
                                 : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Traversals>
@@ -638,7 +643,7 @@ internal static partial class Traversals
 
                     partial class Traversals
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class ShallowChildren
                             {
@@ -687,7 +692,7 @@ internal static partial class Traversals
 
                     partial class Traversals
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class DeepChildren
                                 : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Traversals>
@@ -726,7 +731,7 @@ internal static partial class Traversals
 
                     partial class Traversals
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class DeepChildren
                             {
@@ -775,7 +780,7 @@ internal static partial class Traversals
 
                     partial class Traversals
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class DeepChildren
                             {
@@ -824,7 +829,7 @@ internal static partial class Traversals
 
                     partial class Traversals
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class DeepChildren
                             {

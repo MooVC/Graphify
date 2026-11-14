@@ -148,6 +148,8 @@ public sealed class Customer
 
 Visitors allows for the observation of specific nodes within the heirarchy. You implement a visitor by targeting the node type you care about and returning the appropriate observation(s). This makes it easy to capture the exact data points you need without manual tree-walking.
 
+To observe the root object, register a visitor for the generated graph type, such as `IOrderVisitor<Order.Graph, string>`. Read the original order through `((IGraph<Order>)instance).Root`. If you set `GraphName`, use that name in place of `Graph`.
+
 The following demonstrates a visitor that observes the `Email` value from the `Customer` node:
 
 ```csharp
@@ -169,6 +171,8 @@ public sealed class CustomerEmailVisitor(IBlacklist blacklist)
 ### Navigator
 
 The navigator is the generated entry point for scanning the graph. It coordinates traversal from the root node through child nodes, invoking any visitors registered for each node. Because the traversal logic is generated, there is no reflection and no runtime discovery cost. The navigator is specific to the type annotated with `Graphify` with an `interface` and implementation generated alongside the annotated type.
+
+Both navigator modes visit the root before any property or collection element, including when the root has no traversable properties. The generated graph type is a sealed partial class. If your code provides a `static partial` declaration for it, remove the `static` modifier.
 
 For the `Order` example, the following navigator `interface` will be `IOrderNavigator` with the internal implementation being `OrderNavigator`. The implementation uses the `IServiceProvider` to resolve visitors as it traverses the graph.
 

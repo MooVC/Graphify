@@ -18,7 +18,7 @@ internal static partial class Simple
 
                     partial class Simple
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class Age
                                 : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Simple>
@@ -106,7 +106,7 @@ internal static partial class Simple
 
                     partial class Simple
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class IsAdult
                                 : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Simple>
@@ -145,7 +145,7 @@ internal static partial class Simple
 
                     partial class Simple
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class Name
                                 : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Simple>
@@ -184,7 +184,7 @@ internal static partial class Simple
 
                     partial class Simple
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Name
                             {
@@ -282,6 +282,11 @@ internal static partial class Simple
                         {
                             var results = global::System.Linq.Enumerable.Empty<TResult>();
 
+                            if (!global::System.Object.ReferenceEquals(root, null)
+                                && _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ISimpleVisitor<Simple.Graph, TResult>> visitors))
+                            {
+                                results = Invoke<Simple.Graph, TResult>(new Simple.Graph(root), visitors);
+                            }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateAge<TResult>(root, root.Age));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateIsAdult<TResult>(root, root.IsAdult));

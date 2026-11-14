@@ -6,6 +6,7 @@ internal static partial class DepthLimited
         [],
         Declarations.Main,
         [
+            Boilerplate.Root(nameof(DepthLimited), "Graphify.Testing.Synchronous"),
             Expected.Child,
             Expected.Contract,
             Expected.Navigator,

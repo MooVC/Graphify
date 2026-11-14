@@ -10,8 +10,13 @@ using Microsoft.Extensions.DependencyInjection;
 public sealed class WhenNavigateIsCalled
 {
     private const string DefaultGraphName = "Graph";
+    private const string DefaultPropertyPrefix = "";
     private const int FirstAge = 10;
+    private const int RootObservation = -1;
+    private const int RootPropertyValue = 30;
     private const int SecondAge = 20;
+
+    private delegate Task<int[]> Navigation(bool emptyVisitors, bool elementVisitors, bool propertyVisitors, bool rootVisitor = false);
 
     [Test]
     [Arguments(false, "N")]
@@ -23,7 +28,7 @@ public sealed class WhenNavigateIsCalled
         // Arrange
         const int firstIndex = 0;
         const int secondIndex = 1;
-        Func<bool, bool, bool, Task<int[]>> navigate = CreateNavigation(asynchronous, graphName);
+        Navigation navigate = CreateNavigation(asynchronous, graphName);
 
         // Act
         int[] results = await navigate(false, true, true);
@@ -40,7 +45,7 @@ public sealed class WhenNavigateIsCalled
     public async Task GivenNoVisitorsThenResultsAreEmpty(bool asynchronous, bool emptyVisitors)
     {
         // Arrange
-        Func<bool, bool, bool, Task<int[]>> navigate = CreateNavigation(asynchronous);
+        Navigation navigate = CreateNavigation(asynchronous);
 
         // Act
         int[] results = await navigate(emptyVisitors, false, false);
@@ -59,7 +64,7 @@ public sealed class WhenNavigateIsCalled
         // Arrange
         const int firstIndex = 0;
         const int secondIndex = 1;
-        Func<bool, bool, bool, Task<int[]>> navigate = CreateNavigation(asynchronous);
+        Navigation navigate = CreateNavigation(asynchronous);
         int[] expected = elementVisitors
             ? [firstIndex, FirstAge + firstIndex, secondIndex, SecondAge + secondIndex]
             : [FirstAge + firstIndex, SecondAge + secondIndex];
@@ -71,29 +76,98 @@ public sealed class WhenNavigateIsCalled
         results.ShouldBe(expected);
     }
 
-    private static Func<bool, bool, bool, Task<int[]>> CreateNavigation(bool asynchronous, string graphName = DefaultGraphName)
+    [Test]
+    [Arguments(false, DefaultGraphName, DefaultPropertyPrefix)]
+    [Arguments(true, DefaultGraphName, DefaultPropertyPrefix)]
+    [Arguments(false, "ObjectGraph", "_")]
+    [Arguments(true, "ObjectGraph", "_")]
+    public async Task GivenRootVisitorThenRootIsVisitedBeforeDescendants(bool asynchronous, string graphName, string propertyPrefix)
+    {
+        // Arrange
+        const int firstIndex = 0;
+        const int secondIndex = 1;
+        Navigation navigate = CreateNavigation(asynchronous, graphName, propertyPrefix);
+
+        // Act
+        int[] results = await navigate(emptyVisitors: false, elementVisitors: true, propertyVisitors: true, rootVisitor: true);
+
+        // Assert
+        results.ShouldBe([RootObservation, firstIndex, FirstAge + firstIndex, secondIndex, SecondAge + secondIndex, RootPropertyValue]);
+    }
+
+    [Test]
+    [Arguments(false)]
+    [Arguments(true)]
+    public async Task GivenRootVisitorWhenThereAreNoDescendantsThenRootIsVisited(bool asynchronous)
+    {
+        // Arrange
+        Navigation navigate = CreateNavigation(asynchronous, hasDescendants: false);
+
+        // Act
+        int[] results = await navigate(emptyVisitors: false, elementVisitors: false, propertyVisitors: false, rootVisitor: true);
+
+        // Assert
+        results.ShouldBe([RootObservation]);
+    }
+
+    private static Navigation CreateNavigation(
+        bool asynchronous,
+        string graphName = DefaultGraphName,
+        string propertyPrefix = DefaultPropertyPrefix,
+        bool hasDescendants = true)
     {
         string mode = asynchronous ? "Asynchronous" : "Synchronous";
         string returnType = asynchronous ? "IAsyncEnumerable<int>" : "IEnumerable<int>";
         string parameters = asynchronous ? ", CancellationToken cancellationToken" : string.Empty;
+        string iteratorParameters = asynchronous ? ", [EnumeratorCancellation] CancellationToken cancellationToken" : string.Empty;
         string navigate = asynchronous
             ? "navigator.Navigate<int>(root, CancellationToken.None)"
             : "navigator.Navigate<int>(root)";
         string iteration = asynchronous ? "await foreach" : "foreach";
+        string asyncModifier = asynchronous ? "async " : string.Empty;
+        string asyncAwait = asynchronous ? "await Task.CompletedTask;" : string.Empty;
         string source = $$"""
             namespace Graphify.Testing
             {
                 using System;
                 using System.Collections.Generic;
+                using System.Runtime.CompilerServices;
                 using System.Threading;
                 using System.Threading.Tasks;
 
-                [Graphify(GraphName = "{{graphName}}", Mode = Modes.{{mode}})]
+                [Graphify(GraphName = "{{graphName}}", Mode = Modes.{{mode}}, PropertyPrefix = "{{propertyPrefix}}")]
                 public sealed partial class Sample
                 {
+            #if DESCENDANTS
                     public Child[] Children { get; set; }
+            #else
+                    [Traverse(Scope = TraverseScope.None)]
+            #endif
+                    public int Root { get; set; }
                 }
 
+                public sealed class RootVisitor : ISampleVisitor<Sample.{{graphName}}, int>
+                {
+                    private readonly Sample _expectedRoot;
+
+                    public RootVisitor(Sample expectedRoot)
+                    {
+                        _expectedRoot = expectedRoot;
+                    }
+
+                    public {{asyncModifier}}{{returnType}} Observe(Sample.{{graphName}} instance{{iteratorParameters}})
+                    {
+                        if (!ReferenceEquals(((IGraph<Sample>)instance).Root, _expectedRoot))
+                        {
+                            throw new InvalidOperationException("Root visitor received the wrong model.");
+                        }
+
+                        {{asyncAwait}}
+                        yield return {{RootObservation}};
+                    }
+                }
+
+            #if DESCENDANTS
                 public sealed class Child
                 {
                     public int Age { get; set; }
@@ -103,12 +177,12 @@ public sealed class WhenNavigateIsCalled
                 {
                     public {{returnType}} Observe(Sample.{{graphName}}.Children.Child instance{{parameters}})
                     {
-                        return Results(instance.Index);
+                        return Results(instance.{{propertyPrefix}}Index);
                     }
 
-                    private static {{(asynchronous ? "async " : string.Empty)}}{{returnType}} Results(int value)
+                    private static {{asyncModifier}}{{returnType}} Results(int value)
                     {
-                        {{(asynchronous ? "await Task.CompletedTask;" : string.Empty)}}
+                        {{asyncAwait}}
                         yield return value;
                     }
                 }
@@ -117,15 +191,25 @@ public sealed class WhenNavigateIsCalled
                 {
                     public {{returnType}} Observe(Sample.{{graphName}}.Children.Child.Age instance{{parameters}})
                     {
-                        return Results(instance.Value + instance.Child.Index);
+                        return Results(instance.{{propertyPrefix}}Value + instance.Child.{{propertyPrefix}}Index);
                     }
 
-                    private static {{(asynchronous ? "async " : string.Empty)}}{{returnType}} Results(int value)
+                    private static {{asyncModifier}}{{returnType}} Results(int value)
                     {
-                        {{(asynchronous ? "await Task.CompletedTask;" : string.Empty)}}
+                        {{asyncAwait}}
                         yield return value;
                     }
                 }
+
+                public sealed class RootPropertyVisitor : ISampleVisitor<Sample.{{graphName}}.Root, int>
+                {
+                    public {{asyncModifier}}{{returnType}} Observe(Sample.{{graphName}}.Root instance{{iteratorParameters}})
+                    {
+                        {{asyncAwait}}
+                        yield return instance.{{propertyPrefix}}Value;
+                    }
+                }
+            #endif
 
                 public sealed class Provider : IServiceProvider
                 {
@@ -135,8 +219,23 @@ public sealed class WhenNavigateIsCalled
 
                     public bool PropertyVisitors { get; set; }
 
+                    public Sample Root { get; set; }
+
+                    public bool RootVisitor { get; set; }
+
                     public object GetService(Type serviceType)
                     {
+                        if (RootVisitor && serviceType == typeof(IEnumerable<ISampleVisitor<Sample.{{graphName}}, int>>))
+                        {
+                            return new ISampleVisitor<Sample.{{graphName}}, int>[] { new RootVisitor(Root) };
+                        }
+
+            #if DESCENDANTS
+                        if (RootVisitor && PropertyVisitors && serviceType == typeof(IEnumerable<ISampleVisitor<Sample.{{graphName}}.Root, int>>))
+                        {
+                            return new ISampleVisitor<Sample.{{graphName}}.Root, int>[] { new RootPropertyVisitor() };
+                        }
+
                         if (ElementVisitors && serviceType == typeof(IEnumerable<ISampleVisitor<Sample.{{graphName}}.Children.Child, int>>))
                         {
                             return new ISampleVisitor<Sample.{{graphName}}.Children.Child, int>[] { new ElementVisitor() };
@@ -146,6 +245,7 @@ public sealed class WhenNavigateIsCalled
                         {
                             return new ISampleVisitor<Sample.{{graphName}}.Children.Child.Age, int>[] { new PropertyVisitor() };
                         }
+            #endif
 
                         return EmptyVisitors ? Array.CreateInstance(serviceType.GenericTypeArguments[0], 0) : null;
                     }
@@ -153,19 +253,24 @@ public sealed class WhenNavigateIsCalled
 
                 public static class Probe
                 {
-                    public static async Task<int[]> Navigate(bool emptyVisitors, bool elementVisitors, bool propertyVisitors)
+                    public static async Task<int[]> Navigate(bool emptyVisitors, bool elementVisitors, bool propertyVisitors, bool rootVisitor)
                     {
+                        var root = new Sample
+                        {
+            #if DESCENDANTS
+                            Children = new Child[] { new Child { Age = {{FirstAge}} }, new Child { Age = {{SecondAge}} } },
+            #endif
+                            Root = {{RootPropertyValue}},
+                        };
                         var provider = new Provider
                         {
                             EmptyVisitors = emptyVisitors,
                             ElementVisitors = elementVisitors,
                             PropertyVisitors = propertyVisitors,
+                            Root = root,
+                            RootVisitor = rootVisitor,
                         };
                         var navigator = new SampleNavigator(provider);
-                        var root = new Sample
-                        {
-                            Children = new Child[] { new Child { Age = {{FirstAge}} }, new Child { Age = {{SecondAge}} } },
-                        };
                         var results = new List<int>();
 
                         {{iteration}} (int result in {{navigate}})
@@ -180,7 +285,8 @@ public sealed class WhenNavigateIsCalled
             }
             """;
 
-        var options = new CSharpParseOptions(LanguageVersion.CSharp14, preprocessorSymbols: ["NET5_0_OR_GREATER"]);
+        string[] symbols = hasDescendants ? ["NET5_0_OR_GREATER", "DESCENDANTS"] : ["NET5_0_OR_GREATER"];
+        var options = new CSharpParseOptions(LanguageVersion.CSharp14, preprocessorSymbols: symbols);
         string[] assemblyPaths = ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!).Split(Path.PathSeparator);
 
         IEnumerable<PortableExecutableReference> references = assemblyPaths
@@ -211,6 +317,6 @@ public sealed class WhenNavigateIsCalled
         var assembly = Assembly.Load(stream.ToArray());
         MethodInfo method = assembly.GetType("Graphify.Testing.Probe")!.GetMethod("Navigate")!;
 
-        return method.CreateDelegate<Func<bool, bool, bool, Task<int[]>>>();
+        return method.CreateDelegate<Navigation>();
     }
 }

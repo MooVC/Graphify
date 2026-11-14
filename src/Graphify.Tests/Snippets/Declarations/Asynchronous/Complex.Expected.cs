@@ -18,7 +18,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class Age
                                 : global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Complex>
@@ -57,7 +57,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class Children
                                 : global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Complex>
@@ -96,7 +96,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Children
                             {
@@ -145,7 +145,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Children
                             {
@@ -194,7 +194,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Children
                             {
@@ -243,7 +243,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Children
                             {
@@ -348,7 +348,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class Name
                                 : global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Complex>
@@ -387,7 +387,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Name
                             {
@@ -451,6 +451,11 @@ internal static partial class Complex
                         {
                             var results = _provider.Empty<TResult>();
 
+                            if (!global::System.Object.ReferenceEquals(root, null)
+                                && _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<IComplexVisitor<Complex.Graph, TResult>> visitors))
+                            {
+                                results = Invoke<Complex.Graph, TResult>(new Complex.Graph(root), visitors, cancellationToken);
+                            }
 
                             results = _provider.Concat(results, NavigateAge<TResult>(root, root.Age, cancellationToken), cancellationToken);
                             results = _provider.Concat(results, NavigateChildren<TResult>(root, root.Children, cancellationToken), cancellationToken);

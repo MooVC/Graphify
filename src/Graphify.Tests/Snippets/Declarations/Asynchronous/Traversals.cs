@@ -6,6 +6,7 @@ internal static partial class Traversals
         [],
         Declarations.Main,
         [
+            Boilerplate.Root(nameof(Traversals), "Graphify.Testing.Asynchronous"),
             Expected.Contract,
             Expected.Navigator,
             Expected.NavigatorTitle,

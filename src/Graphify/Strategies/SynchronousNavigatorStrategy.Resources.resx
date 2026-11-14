@@ -181,6 +181,11 @@
     {{
         var results = global::System.Linq.Enumerable.Empty&lt;TResult&gt;();
 
+        if (!global::System.Object.ReferenceEquals(root, null)
+            &amp;&amp; _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;I{3}Visitor&lt;{5}, TResult&gt;&gt; visitors))
+        {{
+            results = Invoke&lt;{5}, TResult&gt;(new {5}(root), visitors);
+        }}
 {4}
         return results;
     }}

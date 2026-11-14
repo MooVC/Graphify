@@ -35,4 +35,42 @@ public static class Boilerplate
         TraverseAttributeGenerator.Content,
         $"{TraverseAttributeGenerator.Name}Attribute.g.cs",
         Generator: typeof(TraverseAttributeGenerator));
+
+    public static Generated Root(string name, string @namespace)
+    {
+        return new(
+            $$"""
+                namespace {{@namespace}}
+                {
+                    using System;
+                    using System.Collections.Generic;
+                    using Graphify;
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    #nullable disable
+                    #endif
+
+                    partial class {{name}}
+                    {
+                        public sealed partial class Graph
+                            : global::Graphify.IGraph<global::{{@namespace}}.{{name}}>
+                        {
+                            private readonly global::{{@namespace}}.{{name}} _root;
+
+                            internal Graph(global::{{@namespace}}.{{name}} root)
+                            {
+                                _root = root;
+                            }
+
+                            global::{{@namespace}}.{{name}} global::Graphify.IGraph<global::{{@namespace}}.{{name}}>.Root { get { return _root; } }
+                        }
+                    }
+
+                    #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
+                    #nullable restore
+                    #endif
+                }
+                """,
+            $"{@namespace}.{name}.Graph.g.cs");
+    }
 }

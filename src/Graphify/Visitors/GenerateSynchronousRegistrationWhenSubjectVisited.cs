@@ -8,12 +8,12 @@ namespace Graphify.Visitors
     /// Generates the synchronous registration for the subject.
     /// </summary>
     internal sealed class GenerateSynchronousRegistrationWhenSubjectVisited
-        : ISubjectVisitor<Subject.Graph.Self, Source>
+        : ISubjectVisitor<Subject.Graph, Source>
     {
         /// <inheritdoc/>
-        public IEnumerable<Source> Observe(Subject.Graph.Self instance)
+        public IEnumerable<Source> Observe(Subject.Graph instance)
         {
-            Subject subject = instance._Value;
+            Subject subject = ((IGraph<Subject>)instance).Root;
 
             if (subject.Mode != Model.Modes.Synchronous || subject.HasRegistration || !subject.CanRegister)
             {

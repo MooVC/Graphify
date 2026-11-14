@@ -16,7 +16,7 @@ internal static partial class DepthLimited
 
                     partial class DepthLimited
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class Child
                                 : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.DepthLimited>
@@ -148,6 +148,12 @@ internal static partial class DepthLimited
                         public global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(global::Graphify.Testing.Synchronous.DepthLimited root)
                         {
                             var results = global::System.Linq.Enumerable.Empty<TResult>();
+
+                            if (!global::System.Object.ReferenceEquals(root, null)
+                                && _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Synchronous.IDepthLimitedVisitor<global::Graphify.Testing.Synchronous.DepthLimited.Graph, TResult>> visitors))
+                            {
+                                results = Invoke<global::Graphify.Testing.Synchronous.DepthLimited.Graph, TResult>(new global::Graphify.Testing.Synchronous.DepthLimited.Graph(root), visitors);
+                            }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateChild<TResult>(root, root.Child));
                             return results;

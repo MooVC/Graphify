@@ -4,7 +4,7 @@
     <DebugType>embedded</DebugType>
     <Description>Graphify, a .NET Roslyn source generator, allows for the efficient navigation of a class hierarchy, without the use of reflection.</Description>
     <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetAnalyzerDependencyTargetPaths</GetTargetPathDependsOn>
-    <GraphifyBootstrapVersion>1.1.3</GraphifyBootstrapVersion>
+    <GraphifyBootstrapVersion>1.2.0</GraphifyBootstrapVersion>
     <!-- Keep the bootstrap-generated contracts in the analyzer load context. -->
     <IncludeBuildOutput>false</IncludeBuildOutput>
     <IncludeSymbols>false</IncludeSymbols>

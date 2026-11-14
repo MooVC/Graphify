@@ -16,7 +16,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class Age
                                 : global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Complex>
@@ -53,7 +53,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class Children
                                 : global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Complex>
@@ -90,7 +90,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Children
                             {
@@ -136,7 +136,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Children
                             {
@@ -182,7 +182,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Children
                             {
@@ -228,7 +228,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Children
                             {
@@ -327,7 +327,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class Name
                                 : global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Complex>
@@ -364,7 +364,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Name
                             {
@@ -424,6 +424,12 @@ internal static partial class Complex
                         public global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(global::Graphify.Testing.Asynchronous.Complex root, global::System.Threading.CancellationToken cancellationToken)
                         {
                             var results = _provider.Empty<TResult>();
+
+                            if (!global::System.Object.ReferenceEquals(root, null)
+                                && _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.IComplexVisitor<global::Graphify.Testing.Asynchronous.Complex.Graph, TResult>> visitors))
+                            {
+                                results = Invoke<global::Graphify.Testing.Asynchronous.Complex.Graph, TResult>(new global::Graphify.Testing.Asynchronous.Complex.Graph(root), visitors, cancellationToken);
+                            }
 
                             results = _provider.Concat(results, NavigateAge<TResult>(root, root.Age, cancellationToken), cancellationToken);
                             results = _provider.Concat(results, NavigateChildren<TResult>(root, root.Children, cancellationToken), cancellationToken);

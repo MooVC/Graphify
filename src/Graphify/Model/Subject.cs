@@ -165,13 +165,6 @@
         public string Qualification { get; set; } = string.Empty;
 
         /// <summary>
-        /// Exposes the subject as a terminal node to generation visitors.
-        /// </summary>
-        [Traverse(Scope = global::Graphify.TraverseScope.Property)]
-        [Valuify.Ignore]
-        public Subject Self => this;
-
-        /// <summary>
         /// Gets or sets the fully qualified name of the property type.
         /// </summary>
         /// <value>

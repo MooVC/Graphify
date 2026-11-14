@@ -11,6 +11,7 @@ internal static partial class Simple
         ],
         Declarations.Main,
         [
+            Boilerplate.Root(nameof(Simple), "Graphify.Testing.Synchronous"),
             Expected.Age,
             Expected.IsAdult,
             Expected.Name,

@@ -11,7 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed the `EmbeddedAttribute` marker and definition from generated source.
 - Migrated code generation to the typed syntax builders in `MooVC.Syntax.CSharp` 10.1.0.
 
-# [1.2.0] - 2026-11-12
+# [1.2.0] - 2026-11-14
+
+## Added
+
+- Synchronous and asynchronous navigators visit the root through the generated graph type before visiting descendants.
 
 ## Changed
 

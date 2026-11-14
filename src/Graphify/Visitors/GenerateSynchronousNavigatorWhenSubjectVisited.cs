@@ -10,12 +10,12 @@ namespace Graphify.Visitors
     /// Generates the synchronous navigator for a subject.
     /// </summary>
     internal sealed class GenerateSynchronousNavigatorWhenSubjectVisited
-        : ISubjectVisitor<Subject.Graph.Self, Source>
+        : ISubjectVisitor<Subject.Graph, Source>
     {
         /// <inheritdoc/>
-        public IEnumerable<Source> Observe(Subject.Graph.Self instance)
+        public IEnumerable<Source> Observe(Subject.Graph instance)
         {
-            Subject subject = instance._Value;
+            Subject subject = ((IGraph<Subject>)instance).Root;
 
             if (subject.Mode == ModelMode.Synchronous)
             {

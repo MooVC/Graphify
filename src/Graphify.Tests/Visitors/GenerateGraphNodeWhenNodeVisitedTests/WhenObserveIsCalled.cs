@@ -42,8 +42,8 @@ public sealed class WhenObserveIsCalled
         Source generated = visitor.Observe(node).Single();
 
         // Assert
-        string code = generated.Code;
-        code.ShouldContain("internal static partial class Graph");
+        string code = generated.Code.ToString();
+        code.ShouldContain("internal partial class Graph");
         code.ShouldContain("internal sealed partial class Secret");
         code.ShouldContain($"internal int {prefix}Value {{ get; private set; }}");
     }

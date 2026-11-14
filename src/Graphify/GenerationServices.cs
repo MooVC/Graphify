@@ -24,12 +24,13 @@ namespace Graphify
         {
             var visitors = new Dictionary<Type, object>();
 
-            Register<Subject.Graph.Self>(
+            Register<Subject.Graph>(
                 visitors,
                 new GenerateAsynchronousContractWhenSubjectVisited(),
                 new GenerateAsynchronousNavigatorWhenSubjectVisited(),
                 new GenerateAsynchronousRegistrationWhenSubjectVisited(),
                 new GenerateAsynchronousVisitorWhenSubjectVisited(),
+                new GenerateGraphRootWhenSubjectVisited(),
                 new GenerateSynchronousContractWhenSubjectVisited(),
                 new GenerateSynchronousNavigatorWhenSubjectVisited(),
                 new GenerateSynchronousRegistrationWhenSubjectVisited(),

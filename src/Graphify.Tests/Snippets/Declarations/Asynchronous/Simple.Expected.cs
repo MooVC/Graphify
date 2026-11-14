@@ -16,7 +16,7 @@ internal static partial class Simple
 
                     partial class Simple
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class Age
                                 : global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Simple>
@@ -103,7 +103,7 @@ internal static partial class Simple
 
                     partial class Simple
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class IsAdult
                                 : global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Simple>
@@ -140,7 +140,7 @@ internal static partial class Simple
 
                     partial class Simple
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class Name
                                 : global::Graphify.IGraph<global::Graphify.Testing.Asynchronous.Simple>
@@ -177,7 +177,7 @@ internal static partial class Simple
 
                     partial class Simple
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Name
                             {
@@ -272,6 +272,12 @@ internal static partial class Simple
                         public global::System.Collections.Generic.IAsyncEnumerable<TResult> Navigate<TResult>(global::Graphify.Testing.Asynchronous.Simple root, global::System.Threading.CancellationToken cancellationToken)
                         {
                             var results = _provider.Empty<TResult>();
+
+                            if (!global::System.Object.ReferenceEquals(root, null)
+                                && _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Asynchronous.ISimpleVisitor<global::Graphify.Testing.Asynchronous.Simple.Graph, TResult>> visitors))
+                            {
+                                results = Invoke<global::Graphify.Testing.Asynchronous.Simple.Graph, TResult>(new global::Graphify.Testing.Asynchronous.Simple.Graph(root), visitors, cancellationToken);
+                            }
 
                             results = _provider.Concat(results, NavigateAge<TResult>(root, root.Age, cancellationToken), cancellationToken);
                             results = _provider.Concat(results, NavigateIsAdult<TResult>(root, root.IsAdult, cancellationToken), cancellationToken);

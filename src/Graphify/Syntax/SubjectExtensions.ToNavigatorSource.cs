@@ -15,6 +15,7 @@ namespace Graphify.Syntax
         public static Source ToNavigatorSource(this Subject subject, string navigateBody, string invokeBody, string propertyCall, bool asynchronous)
         {
             string name = GetNavigatorName(subject.Name);
+            string visitor = subject.Qualify($"{InterfaceNamePrefix}{subject.Name}{VisitorTypeSuffix}");
             var root = subject.Type.ToSymbol();
             var contract = subject.Qualify(GetNavigatorContractName(subject.Name)).ToSymbol();
 
@@ -22,11 +23,16 @@ namespace Graphify.Syntax
                 ? subject.Properties.ToNavigatorCalls(string.Empty, string.Empty, propertyCall).Trim()
                 : string.Empty;
 
-            Method navigate = "Navigate".ToNavigationMethod(asynchronous)
-                .Accepts(parameter => parameter.Named("Root").OfType(root))
-                .WithBody(Snippet.From(Configuration.Options, string.Format(navigateBody, calls)));
+            if (calls.Length > 0)
+            {
+                calls = string.Concat("\n\n", calls);
+            }
 
-            Method invoke = CreateInvoke(subject, root, invokeBody, asynchronous);
+            Method navigate = "Navigate".ToNavigationMethod(asynchronous)
+                .Accepts(parameter => parameter.Named(RootPropertyName).OfType(root))
+                .WithBody(Snippet.From(Configuration.Options, string.Format(navigateBody, calls, subject.GraphQualification, visitor)));
+
+            Method invoke = CreateInvoke(subject, root, invokeBody, visitor, asynchronous);
 
             if (asynchronous)
             {
@@ -46,7 +52,7 @@ namespace Graphify.Syntax
             return new Source(asynchronous ? code.GuardAsync() : code, name);
         }
 
-        private static Method CreateInvoke(Subject subject, Symbol root, string body, bool asynchronous)
+        private static Method CreateInvoke(Subject subject, Symbol root, string body, string visitor, bool asynchronous)
         {
             const string InstanceName = "TInstance";
             const string ResultName = "TResult";
@@ -58,8 +64,6 @@ namespace Graphify.Syntax
             Declaration declaration = ((Declaration)"Invoke").WithArguments(
                 Generic.Undefined.Named(InstanceName).WithConstraints(constraint),
                 Generic.Undefined.Named(ResultName));
-
-            string visitor = subject.Qualify($"{InterfaceNamePrefix}{subject.Name}{VisitorTypeSuffix}");
 
             return Method.Undefined.Named(declaration)
                 .WithScope(Scopes.Private)

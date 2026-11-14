@@ -16,7 +16,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class Age
                                 : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Complex>
@@ -53,7 +53,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class Children
                                 : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Complex>
@@ -90,7 +90,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Children
                             {
@@ -136,7 +136,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Children
                             {
@@ -182,7 +182,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Children
                             {
@@ -228,7 +228,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Children
                             {
@@ -323,7 +323,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public sealed partial class Name
                                 : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Complex>
@@ -360,7 +360,7 @@ internal static partial class Complex
 
                     partial class Complex
                     {
-                        public static partial class Graph
+                        public partial class Graph
                         {
                             public partial class Name
                             {
@@ -419,6 +419,12 @@ internal static partial class Complex
                         public global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(global::Graphify.Testing.Synchronous.Complex root)
                         {
                             var results = global::System.Linq.Enumerable.Empty<TResult>();
+
+                            if (!global::System.Object.ReferenceEquals(root, null)
+                                && _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Synchronous.IComplexVisitor<global::Graphify.Testing.Synchronous.Complex.Graph, TResult>> visitors))
+                            {
+                                results = Invoke<global::Graphify.Testing.Synchronous.Complex.Graph, TResult>(new global::Graphify.Testing.Synchronous.Complex.Graph(root), visitors);
+                            }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateAge<TResult>(root, root.Age));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateChildren<TResult>(root, root.Children));

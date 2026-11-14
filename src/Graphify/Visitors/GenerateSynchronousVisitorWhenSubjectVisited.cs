@@ -11,12 +11,12 @@ namespace Graphify.Visitors
     /// Generates the synchronous visitor for the subject.
     /// </summary>
     internal sealed class GenerateSynchronousVisitorWhenSubjectVisited
-        : ISubjectVisitor<Subject.Graph.Self, Source>
+        : ISubjectVisitor<Subject.Graph, Source>
     {
         /// <inheritdoc/>
-        public IEnumerable<Source> Observe(Subject.Graph.Self instance)
+        public IEnumerable<Source> Observe(Subject.Graph instance)
         {
-            Subject subject = instance._Value;
+            Subject subject = ((IGraph<Subject>)instance).Root;
 
             if (subject.Mode != Model.Modes.Synchronous)
             {

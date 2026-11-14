@@ -29,16 +29,14 @@ namespace Graphify.Syntax
 
             if (node.Ancestors.Length > 0)
             {
-                string parameter = string.IsNullOrEmpty(subject.PropertyPrefix)
-                    ? node.Ancestors[node.Ancestors.Length - 1].Name.ToCamelCase()
-                    : CollisionSafeParentParameterName;
+                string parameter = GetVariableName(subject, node.Ancestors[node.Ancestors.Length - 1].Name, CollisionSafeParentParameterName);
 
                 arguments = $"{parameter}, ";
                 var parent = $"{graph}.{node.ParentPath}".ToSymbol();
                 method = method.Accepts(argument => argument.Named(parameter).OfType(parent));
             }
 
-            method = method.Accepts(parameter => parameter.Named("Root").OfType(root))
+            method = method.Accepts(parameter => parameter.Named(RootPropertyName).OfType(root))
                 .Accepts(parameter => parameter.Named("Value").OfType(node.Property.Type.ToSymbol()));
 
             if (asynchronous)
@@ -47,7 +45,7 @@ namespace Graphify.Syntax
             }
 
             Element element = node.Element ?? node.Property.Element;
-            string variable = string.IsNullOrEmpty(subject.PropertyPrefix) ? node.Name.ToCamelCase() : CollisionSafeNodeVariableName;
+            string variable = GetVariableName(subject, node.Name, CollisionSafeNodeVariableName);
 
             string calls = node.Tier < subject.Depth
                 ? GetChildCalls(node, variable, propertyCall, elementCall)
@@ -81,6 +79,15 @@ namespace Graphify.Syntax
             }
 
             return node.Property.Properties.ToNavigatorCalls(node.Method, arguments, propertyCall, node.Property.Element, elementCall);
+        }
+
+        private static string GetVariableName(Subject subject, string member, string collisionSafeName)
+        {
+            string name = member.ToCamelCase();
+
+            return string.IsNullOrEmpty(subject.PropertyPrefix) && name != RootPropertyName.ToCamelCase()
+                ? name
+                : collisionSafeName;
         }
     }
 }

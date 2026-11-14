@@ -32,7 +32,7 @@ namespace Graphify.Visitors
 
             Snippet code = Class.Undefined.Named(subject.GraphName)
                 .WithScope(subject.Accessibility.ToScope())
-                .IsStatic(true)
+                .WithExtensibility(Modifiers.Implicit)
                 .Containing(graphNode)
                 .ToSnippet(Configuration.Options)
                 .Block(Configuration.Options, $"{subject.Declaration} {subject.Qualification}");
@@ -51,6 +51,16 @@ namespace Graphify.Visitors
             var value = node.Type.ToSymbol();
             Symbol contract = root.ToGraph();
             string prefix = subject.PropertyPrefix;
+            string rootProperty = prefix + RootPropertyName;
+            string parentName = node.Ancestors.Length > 0 ? node.Ancestors[node.Ancestors.Length - 1].Name : string.Empty;
+            int prefixLength = 0;
+
+            while (rootProperty == node.Name || rootProperty == parentName)
+            {
+                prefixLength++;
+                rootProperty = new string('_', prefixLength) + prefix + RootPropertyName;
+            }
+
             var assignments = new List<string>();
             var parameters = new List<Parameter>();
             var properties = new List<Property>();
@@ -58,7 +68,8 @@ namespace Graphify.Visitors
             if (node.Ancestors.Length > 0)
             {
                 Predecessor parent = node.Ancestors[node.Ancestors.Length - 1];
-                string parameter = string.IsNullOrEmpty(prefix) ? parent.Name.ToCamelCase() : CollisionSafeParentParameterName;
+                string name = parent.Name.ToCamelCase();
+                string parameter = string.IsNullOrEmpty(prefix) && name != "root" ? name : CollisionSafeParentParameterName;
                 var type = $"{subject.GraphQualification}.{node.ParentPath}".ToSymbol();
 
                 assignments.Add($"{parent.Name} = {parameter};");
@@ -73,21 +84,21 @@ namespace Graphify.Visitors
                 properties.Add(CreateProperty(prefix + IndexPropertyName, typeof(int), Scopes.Public));
             }
 
-            assignments.Add($"{prefix}{RootPropertyName} = root;");
+            assignments.Add($"{rootProperty} = root;");
             assignments.Add($"{prefix}{ValuePropertyName} = value;");
             parameters.Add(Parameter.Undefined.Named("Root").OfType(root));
             parameters.Add(Parameter.Undefined.Named("Value").OfType(value));
-            properties.Add(CreateProperty(prefix + RootPropertyName, root, Scopes.Public));
+            properties.Add(CreateProperty(rootProperty, root, Scopes.Public));
             properties.Add(CreateProperty(prefix + ValuePropertyName, value, scope));
 
-            if (!string.IsNullOrEmpty(prefix))
+            if (rootProperty != RootPropertyName)
             {
                 properties.Add(Property.Undefined
-                    .Named($"{contract.ToSnippet(Configuration.Options)}.{RootPropertyName}")
+                    .Named(RootPropertyName)
+                    .WithExplicitInterface(contract)
                     .OfType(root)
-                    .WithScope(Scopes.Unspecified)
                     .WithBehaviours(accessors => accessors
-                        .WithGet($"{prefix}{RootPropertyName};")
+                        .WithGet($"{rootProperty};")
                         .WithSet(setter => setter.WithMode(Property.Methods.Setter.Modes.ReadOnly))));
             }
 

@@ -120,7 +120,11 @@
   <data name="GenerateNavigateBody" xml:space="preserve">
     <value>var results = _provider.Empty&lt;TResult&gt;();
 
-{0}
+if (!global::System.Object.ReferenceEquals(root, null)
+    &amp;&amp; _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable&lt;{2}&lt;{1}, TResult&gt;&gt; visitors))
+{{
+    results = Invoke&lt;{1}, TResult&gt;(new {1}(root), visitors, cancellationToken);
+}}{0}
 return results;</value>
   </data>
   <data name="GenerateConcatenationsForSubjectContent" xml:space="preserve">

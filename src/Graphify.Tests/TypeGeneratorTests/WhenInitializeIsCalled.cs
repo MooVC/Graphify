@@ -129,6 +129,34 @@ namespace Graphify.TypeGeneratorTests
         }
 
         [Test]
+        public void GivenAttributeSuffixedTypesThenGraphNodesCompile()
+        {
+            // Arrange
+            const string source = """
+                using Graphify;
+
+                [Graphify(Mode = Modes.Synchronous)]
+                public sealed partial class SampleAttribute
+                {
+                    public PayloadAttribute Payload { get; set; }
+                }
+
+                public sealed class PayloadAttribute
+                {
+                }
+                """;
+
+            // Act
+            GeneratorDriverRunResult result = Generate(source, out Compilation compilation);
+            using var stream = new MemoryStream();
+            EmitResult emitted = compilation.Emit(stream);
+
+            // Assert
+            result.Diagnostics.ShouldBeEmpty();
+            emitted.Success.ShouldBeTrue(string.Join(Environment.NewLine, emitted.Diagnostics));
+        }
+
+        [Test]
         [Arguments(false, "\"_\"", "_")]
         [Arguments(true, "\"_\"", "_")]
         [Arguments(false, "Prefixes.Graph", "Graph")]
@@ -368,7 +396,9 @@ namespace Graphify.TypeGeneratorTests
         {
             var options = new CSharpParseOptions(LanguageVersion.CSharp14, preprocessorSymbols: ["NET5_0_OR_GREATER"]);
             string[] assemblyPaths = ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!).Split(Path.PathSeparator);
+            string generatorPath = typeof(TypeGenerator).Assembly.Location;
             IEnumerable<PortableExecutableReference> references = assemblyPaths
+                .Where(path => !string.Equals(path, generatorPath, StringComparison.OrdinalIgnoreCase))
                 .Where(path => !string.Equals(Path.GetFileName(path), DependencyInjectionAssembly, StringComparison.OrdinalIgnoreCase))
                 .Distinct()
                 .Select(path => MetadataReference.CreateFromFile(path));

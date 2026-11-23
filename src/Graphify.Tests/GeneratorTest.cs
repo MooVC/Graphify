@@ -4,7 +4,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
-using Microsoft.Extensions.DependencyInjection;
 
 public sealed class GeneratorTest<TGenerator>
     : CSharpSourceGeneratorTest<TGenerator, DefaultVerifier>
@@ -24,7 +23,7 @@ public sealed class GeneratorTest<TGenerator>
 
         if (includeDependencyInjection)
         {
-            TestState.AdditionalReferences.Add(typeof(IServiceCollection).Assembly);
+            SolutionTransforms.Add(AddDependencyInjectionReference);
         }
     }
 
@@ -41,5 +40,21 @@ public sealed class GeneratorTest<TGenerator>
     protected sealed override IEnumerable<Type> GetSourceGenerators()
     {
         return _generators;
+    }
+
+    private static Solution AddDependencyInjectionReference(Solution solution, ProjectId projectId)
+    {
+        const string FileName = "Microsoft.Extensions.DependencyInjection.Abstractions.dll";
+        Project project = solution.GetProject(projectId)!;
+
+        if (project.MetadataReferences.OfType<PortableExecutableReference>().Any(reference =>
+            string.Equals(Path.GetFileName(reference.FilePath), FileName, StringComparison.OrdinalIgnoreCase)))
+        {
+            return solution;
+        }
+
+        string path = Path.Combine(AppContext.BaseDirectory, "ReferenceAssemblies", FileName);
+
+        return solution.AddMetadataReference(projectId, MetadataReference.CreateFromFile(path));
     }
 }

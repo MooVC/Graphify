@@ -1,8 +1,8 @@
 ﻿namespace Graphify.Semantics
 {
     using System.Linq;
-    using Graphify.Strategies;
     using Microsoft.CodeAnalysis;
+    using static Graphify.Names;
 
     /// <summary>
     /// Provides extensions relating to <see cref="INamedTypeSymbol"/>.
@@ -16,14 +16,13 @@
         /// </summary>
         public static bool HasContract(this INamedTypeSymbol symbol)
         {
-            string asynchronous = AsynchronousContractStrategy.GetName(symbol.Name);
-            string synchronous = SynchronousContractStrategy.GetName(symbol.Name);
+            string contract = GetNavigatorContractName(symbol.Name);
 
             return symbol.ContainingNamespace
                 .GetTypeMembers()
                 .Any(type =>
                     type.Arity == ExpectedArityForContract &&
-                    (type.Name == asynchronous || type.Name == synchronous));
+                    type.Name == contract);
         }
     }
 }

@@ -97,21 +97,7 @@ namespace Graphify {
         }
 
         /// <summary>
-        ///   Looks up a localized string similar to {0} {1}
-        ///{{
-        ///    {2}
-        ///}}.
-        /// </summary>
-        internal static string NestContent {
-            get {
-                return ResourceManager.GetString("NestContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to using System;
-        ///using System.Collections.Generic;
-        ///using Graphify;
+        ///   Looks up a localized string similar to using global::Graphify;
         ///
         ///#if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
         ///#nullable disable
@@ -126,18 +112,6 @@ namespace Graphify {
         internal static string WrapContent {
             get {
                 return ResourceManager.GetString("WrapContent", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to namespace {0}
-        ///{{
-        ///    {1}
-        ///}}.
-        /// </summary>
-        internal static string WrapNamespace {
-            get {
-                return ResourceManager.GetString("WrapNamespace", resourceCulture);
             }
         }
     }

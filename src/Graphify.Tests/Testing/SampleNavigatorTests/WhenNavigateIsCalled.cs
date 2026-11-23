@@ -288,8 +288,10 @@ public sealed class WhenNavigateIsCalled
         string[] symbols = hasDescendants ? ["NET5_0_OR_GREATER", "DESCENDANTS"] : ["NET5_0_OR_GREATER"];
         var options = new CSharpParseOptions(LanguageVersion.CSharp14, preprocessorSymbols: symbols);
         string[] assemblyPaths = ((string)AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES")!).Split(Path.PathSeparator);
+        string generatorPath = typeof(TypeGenerator).Assembly.Location;
 
         IEnumerable<PortableExecutableReference> references = assemblyPaths
+            .Where(path => !string.Equals(path, generatorPath, StringComparison.OrdinalIgnoreCase))
             .Append(typeof(IServiceCollection).Assembly.Location)
             .Distinct()
             .Select(path => MetadataReference.CreateFromFile(path));

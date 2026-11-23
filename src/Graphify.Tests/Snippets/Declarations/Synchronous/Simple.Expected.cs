@@ -8,9 +8,7 @@ internal static partial class Simple
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -47,9 +45,7 @@ internal static partial class Simple
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -57,7 +53,7 @@ internal static partial class Simple
 
                     public partial interface ISimpleNavigator
                     {
-                        global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(Simple root);
+                        global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(global::Graphify.Testing.Synchronous.Simple root);
                     }
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
@@ -71,15 +67,14 @@ internal static partial class Simple
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
                     #endif
 
                     public interface ISimpleVisitor<in T, out TResult>
+
                         where T : class, global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Simple>
                     {
                         global::System.Collections.Generic.IEnumerable<TResult> Observe(T instance);
@@ -96,9 +91,7 @@ internal static partial class Simple
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -135,9 +128,7 @@ internal static partial class Simple
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -174,9 +165,7 @@ internal static partial class Simple
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -191,15 +180,14 @@ internal static partial class Simple
                                 public sealed partial class Length
                                     : global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Simple>
                                 {
-                                    internal Length(Simple.Graph.Name name, global::Graphify.Testing.Synchronous.Simple root, int value)
+                                    internal Length(global::Graphify.Testing.Synchronous.Simple.Graph.Name name, global::Graphify.Testing.Synchronous.Simple root, int value)
                                     {
                                         Name = name;
-
                                         Root = root;
                                         Value = value;
                                     }
 
-                                    public Simple.Graph.Name Name { get; private set; }
+                                    public global::Graphify.Testing.Synchronous.Simple.Graph.Name Name { get; private set; }
 
                                     public global::Graphify.Testing.Synchronous.Simple Root { get; private set; }
 
@@ -220,9 +208,7 @@ internal static partial class Simple
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -233,11 +219,11 @@ internal static partial class Simple
                         private global::System.Collections.Generic.IEnumerable<TResult> NavigateAge<TResult>(global::Graphify.Testing.Synchronous.Simple root, int value)
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
-                            var age = new Simple.Graph.Age(root, value);
+                            var age = new global::Graphify.Testing.Synchronous.Simple.Graph.Age(root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ISimpleVisitor<Simple.Graph.Age, TResult>> visitors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Synchronous.ISimpleVisitor<global::Graphify.Testing.Synchronous.Simple.Graph.Age, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Simple.Graph.Age, TResult>(age, visitors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<global::Graphify.Testing.Synchronous.Simple.Graph.Age, TResult>(age, visitors));
                             }
 
                             return results;
@@ -255,16 +241,14 @@ internal static partial class Simple
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
                     #endif
 
                     public sealed partial class SimpleNavigator
-                        : ISimpleNavigator
+                        : global::Graphify.Testing.Synchronous.ISimpleNavigator
                     {
                         private readonly global::System.IServiceProvider _provider;
 
@@ -278,31 +262,28 @@ internal static partial class Simple
                             _provider = provider;
                         }
 
-                        public global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(Simple root)
+                        public global::System.Collections.Generic.IEnumerable<TResult> Navigate<TResult>(global::Graphify.Testing.Synchronous.Simple root)
                         {
                             var results = global::System.Linq.Enumerable.Empty<TResult>();
 
                             if (!global::System.Object.ReferenceEquals(root, null)
-                                && _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ISimpleVisitor<Simple.Graph, TResult>> visitors))
+                                && _provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Synchronous.ISimpleVisitor<global::Graphify.Testing.Synchronous.Simple.Graph, TResult>> visitors))
                             {
-                                results = Invoke<Simple.Graph, TResult>(new Simple.Graph(root), visitors);
+                                results = Invoke<global::Graphify.Testing.Synchronous.Simple.Graph, TResult>(new global::Graphify.Testing.Synchronous.Simple.Graph(root), visitors);
                             }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateAge<TResult>(root, root.Age));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateIsAdult<TResult>(root, root.IsAdult));
                             results = global::System.Linq.Enumerable.Concat(results, NavigateName<TResult>(root, root.Name));
-
                             return results;
                         }
 
-                        private global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(
-                            TInstance instance,
-                            global::System.Collections.Generic.IEnumerable<ISimpleVisitor<TInstance, TResult>> visitors)
-                            where TInstance : class, global::Graphify.IGraph<Simple>
+                        private global::System.Collections.Generic.IEnumerable<TResult> Invoke<TInstance, TResult>(TInstance instance, global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Synchronous.ISimpleVisitor<TInstance, TResult>> visitors)
+                            where TInstance : class, global::Graphify.IGraph<global::Graphify.Testing.Synchronous.Simple>
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
 
-                            foreach (ISimpleVisitor<TInstance, TResult> visitor in visitors)
+                            foreach (global::Graphify.Testing.Synchronous.ISimpleVisitor<TInstance, TResult> visitor in visitors)
                             {
                                 results = global::System.Linq.Enumerable.Concat(results, visitor.Observe(instance));
                             }
@@ -322,9 +303,7 @@ internal static partial class Simple
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -335,11 +314,11 @@ internal static partial class Simple
                         private global::System.Collections.Generic.IEnumerable<TResult> NavigateIsAdult<TResult>(global::Graphify.Testing.Synchronous.Simple root, bool value)
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
-                            var isAdult = new Simple.Graph.IsAdult(root, value);
+                            var isAdult = new global::Graphify.Testing.Synchronous.Simple.Graph.IsAdult(root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ISimpleVisitor<Simple.Graph.IsAdult, TResult>> visitors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Synchronous.ISimpleVisitor<global::Graphify.Testing.Synchronous.Simple.Graph.IsAdult, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Simple.Graph.IsAdult, TResult>(isAdult, visitors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<global::Graphify.Testing.Synchronous.Simple.Graph.IsAdult, TResult>(isAdult, visitors));
                             }
 
                             return results;
@@ -357,9 +336,7 @@ internal static partial class Simple
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -370,11 +347,11 @@ internal static partial class Simple
                         private global::System.Collections.Generic.IEnumerable<TResult> NavigateName<TResult>(global::Graphify.Testing.Synchronous.Simple root, string value)
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
-                            var name = new Simple.Graph.Name(root, value);
+                            var name = new global::Graphify.Testing.Synchronous.Simple.Graph.Name(root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ISimpleVisitor<Simple.Graph.Name, TResult>> visitors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Synchronous.ISimpleVisitor<global::Graphify.Testing.Synchronous.Simple.Graph.Name, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Simple.Graph.Name, TResult>(name, visitors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<global::Graphify.Testing.Synchronous.Simple.Graph.Name, TResult>(name, visitors));
                             }
 
                             results = global::System.Linq.Enumerable.Concat(results, NavigateNameLength<TResult>(name, root, value.Length));
@@ -394,9 +371,7 @@ internal static partial class Simple
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -404,14 +379,14 @@ internal static partial class Simple
 
                     public sealed partial class SimpleNavigator
                     {
-                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateNameLength<TResult>(Simple.Graph.Name name, global::Graphify.Testing.Synchronous.Simple root, int value)
+                        private global::System.Collections.Generic.IEnumerable<TResult> NavigateNameLength<TResult>(global::Graphify.Testing.Synchronous.Simple.Graph.Name name, global::Graphify.Testing.Synchronous.Simple root, int value)
                         {
                             global::System.Collections.Generic.IEnumerable<TResult> results = global::System.Linq.Enumerable.Empty<TResult>();
-                            var length = new Simple.Graph.Name.Length(name, root, value);
+                            var length = new global::Graphify.Testing.Synchronous.Simple.Graph.Name.Length(name, root, value);
 
-                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<ISimpleVisitor<Simple.Graph.Name.Length, TResult>> visitors))
+                            if (_provider.HasVisitors(out global::System.Collections.Generic.IEnumerable<global::Graphify.Testing.Synchronous.ISimpleVisitor<global::Graphify.Testing.Synchronous.Simple.Graph.Name.Length, TResult>> visitors))
                             {
-                                results = global::System.Linq.Enumerable.Concat(results, Invoke<Simple.Graph.Name.Length, TResult>(length, visitors));
+                                results = global::System.Linq.Enumerable.Concat(results, Invoke<global::Graphify.Testing.Synchronous.Simple.Graph.Name.Length, TResult>(length, visitors));
                             }
 
                             return results;
@@ -429,9 +404,7 @@ internal static partial class Simple
             """
                 namespace Graphify.Testing.Synchronous
                 {
-                    using System;
-                    using System.Collections.Generic;
-                    using Graphify;
+                    using global::Graphify;
 
                     #if NET5_0_OR_GREATER || NETSTANDARD2_1_OR_GREATER
                     #nullable disable
@@ -441,15 +414,15 @@ internal static partial class Simple
                     {
                         public static global::Microsoft.Extensions.DependencyInjection.IServiceCollection AddSimpleNavigator(this global::Microsoft.Extensions.DependencyInjection.IServiceCollection services)
                         {
-                            if (ReferenceEquals(services, null))
+                            if (global::System.Object.ReferenceEquals(services, null))
                             {
                                 throw new global::System.ArgumentNullException("services");
                             }
 
-                            _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<ISimpleNavigator>(
-                                services, (global::System.IServiceProvider provider) => (ISimpleNavigator)provider.GetService(typeof(SimpleNavigator)));
+                            _ = global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Graphify.Testing.Synchronous.ISimpleNavigator>(
+                                services, (global::System.IServiceProvider provider) => (global::Graphify.Testing.Synchronous.ISimpleNavigator)provider.GetService(typeof(global::Graphify.Testing.Synchronous.SimpleNavigator)));
 
-                            return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<SimpleNavigator>(services);
+                            return global::Microsoft.Extensions.DependencyInjection.ServiceCollectionServiceExtensions.AddSingleton<global::Graphify.Testing.Synchronous.SimpleNavigator>(services);
                         }
                     }
 

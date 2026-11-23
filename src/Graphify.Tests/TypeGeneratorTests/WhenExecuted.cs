@@ -28,7 +28,6 @@ public sealed class WhenExecuted
         // Arrange
         var test = new GeneratorTest<TypeGenerator>(assembly, language, _generators);
 
-        Boilerplate.Embedded.IsExpectedIn(test.TestState);
         Boilerplate.Graphify.IsExpectedIn(test.TestState);
         Boilerplate.Inspector.IsExpectedIn(test.TestState);
         Boilerplate.Extensions.IsExpectedIn(test.TestState);

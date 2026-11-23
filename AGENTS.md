@@ -8,7 +8,7 @@ This repository hosts **Graphify**, a .NET source generator and analyzers soluti
 
 ## Build and Test
 
-- Use the .NET SDK **10.0**. The latest SDK can be found at [dotnet.microsoft.com](https://dotnet.microsoft.com/).
+- Use the .NET SDK **11.0**. The latest SDK can be found at [dotnet.microsoft.com](https://dotnet.microsoft.com/).
 - Restore packages with `dotnet restore`.
 - Run `dotnet test` to execute the test suite. This is the primary check before committing.
 - Tests use TUnit on Microsoft.Testing.Platform. `dotnet test` collects Cobertura coverage using `instrumentation.config.xml`.
@@ -16,12 +16,11 @@ This repository hosts **Graphify**, a .NET source generator and analyzers soluti
 - If `dotnet` is not available in the current container/session, install SDKs before running checks.
   - Linux/macOS bootstrap:
     - `curl -fsSL https://dot.net/v1/dotnet-install.sh -o /tmp/dotnet-install.sh`
-    - `bash /tmp/dotnet-install.sh --channel 8.0 --install-dir "$HOME/.dotnet"`
-    - `bash /tmp/dotnet-install.sh --channel 9.0 --install-dir "$HOME/.dotnet"`
-    - `bash /tmp/dotnet-install.sh --channel 10.0 --install-dir "$HOME/.dotnet"`
+    - `bash /tmp/dotnet-install.sh --channel 11.0 --install-dir "$HOME/.dotnet"`
+    - `bash /tmp/dotnet-install.sh --channel 10.0 --runtime dotnet --install-dir "$HOME/.dotnet"`
     - `export PATH="$HOME/.dotnet:$PATH"`
     - `dotnet --list-sdks`
-  - Match CI SDK coverage (`8.0.x`, `9.0.x`, `10.0.x`) when validating the full solution.
+  - Build with SDK 11 and install the .NET 10 runtime for the retained consumer tests when validating the full solution.
 
 ## Coding Style
 

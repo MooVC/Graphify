@@ -1,15 +1,14 @@
 namespace Graphify
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using Graphify.Model;
-    using Graphify.Strategies;
     using Graphify.Syntax;
     using Microsoft.CodeAnalysis;
     using Microsoft.CodeAnalysis.CSharp;
     using Microsoft.CodeAnalysis.CSharp.Syntax;
+    using MooVC.Syntax;
     using static Graphify.Names;
     using static Graphify.TypeGenerator_Resources;
 
@@ -25,18 +24,7 @@ namespace Graphify
         private const string PropertyPrefixRuleIdentifier = "GRAFY06";
         private const string UsageCategoryName = "Usage";
 
-        private static readonly IStrategy[] _strategies = new IStrategy[]
-        {
-            new AsynchronousContractStrategy(),
-            new AsynchronousNavigatorStrategy(),
-            new AsynchronousRegistrationStrategy(),
-            new AsynchronousVisitorStrategy(),
-            new ModelStrategy(),
-            new SynchronousContractStrategy(),
-            new SynchronousNavigatorStrategy(),
-            new SynchronousRegistrationStrategy(),
-            new SynchronousVisitorStrategy(),
-        };
+        private static readonly IServiceProvider _services = new GenerationServices();
 
         /// <summary>
         /// Gets the descriptor associated with the graph name rule (GRAFY07).
@@ -100,25 +88,14 @@ namespace Graphify
 
                 return;
             }
-#if DEBUG
-            var files = new Dictionary<string, string>();
-#endif
 
-            foreach (IStrategy strategy in _strategies)
+            var navigator = new SubjectNavigator(_services);
+
+            foreach (Source source in navigator.Navigate<Source>(subject))
             {
-                IEnumerable<Source> sources = strategy.Generate(subject);
-
-                foreach (Source source in sources)
-                {
-                    string code = Wrap(source.Code, subject);
-                    string hint = GetHint(source, subject);
-
-#if DEBUG
-                    files[hint] = code;
-#endif
-
-                    context.AddSource(hint, code);
-                }
+                Snippet code = Wrap(source.Code, subject);
+                string hint = GetHint(source, subject);
+                context.AddSource(hint, code.ToString());
             }
         }
 
@@ -156,28 +133,27 @@ namespace Graphify
             return context.Node as TypeDeclarationSyntax;
         }
 
-        private static string Nest(string code, Subject subject)
+        private static Snippet Nest(Snippet code, Subject subject)
         {
             foreach (Nesting parent in subject.Nesting.Reverse())
             {
-                code = code.Indent();
-                code = string.Format(NestContent, parent.Declaration, parent.Qualification, code);
+                code = code.Block(Configuration.Options, $"{parent.Declaration} {parent.Qualification}");
             }
 
             return code;
         }
 
-        private static string Wrap(string code, Subject subject)
+        private static Snippet Wrap(Snippet code, Subject subject)
         {
             code = Nest(code, subject);
-            code = string.Format(WrapContent, code);
+            code = Snippet.From(Configuration.Options, string.Format(WrapContent, code));
 
             if (subject.IsGlobal)
             {
                 return code;
             }
 
-            return string.Format(WrapNamespace, subject.Namespace, code.Indent());
+            return code.Block(Configuration.Options, $"namespace {subject.Namespace}");
         }
     }
 }

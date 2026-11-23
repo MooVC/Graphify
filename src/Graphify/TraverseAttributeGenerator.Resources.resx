@@ -117,24 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Content" xml:space="preserve">
-    <value>namespace Graphify
-{{
-    using System;
-
-    public enum TraverseScope
-    {{
-        None,
-        All,
-        Property,
-    }}
-
-    [AttributeUsage(AttributeTargets.Property, Inherited = false, AllowMultiple = false)]
-    public sealed class TraverseAttribute
-        : Attribute
-    {{
-        public TraverseScope Scope {{ get; set; }} = TraverseScope.All;
-    }}
-}}</value>
+  <data name="Scope" xml:space="preserve">
+    <value>public enum TraverseScope
+{
+    None,
+    All,
+    Property,
+}</value>
   </data>
 </root>

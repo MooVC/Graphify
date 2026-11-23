@@ -79,7 +79,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Collections.Immutable" />
+    <PackageReference Include="System.Collections.Immutable" PrivateAssets="all" />
     <EmbeddedResource Update="GraphifyAttributeAnalyzer.Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GraphifyAttributeAnalyzer.Resources.Designer.cs</LastGenOutput>

@@ -11,7 +11,7 @@ Graphify is a .NET Roslyn source generator that turns your object models into na
 
 ## Requirements
 
-- .NET 10 or .NET 11 SDK for building projects that reference Graphify.
+- .NET 11 SDK or later for building projects that reference Graphify.
 - A C# language version that supports source generators and async streams (C# 8.0 or later).
 
 ## Installation

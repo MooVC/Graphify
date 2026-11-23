@@ -20,9 +20,9 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Environment (please complete the following information):**
-- Clonify Version: [1.0.0]
+- Graphify Version: [1.3.0]
 - .NET Version (Your Project): [NET 10]
-- IDE: [Visual Studio 2026 v18.2.0]
+- IDE: [Visual Studio 2026 v18.12.1]
 
 **Additional context**
 Add any other context about the problem here.

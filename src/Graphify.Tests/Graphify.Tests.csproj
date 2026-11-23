@@ -16,13 +16,11 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.SourceGenerators.Testing" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" VersionOverride="$(RoslynVersion)" />
     <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.Common" VersionOverride="$(RoslynVersion)" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" VersionOverride="10.0.15" GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" VersionOverride="11.0.0" GeneratePathProperty="true" />
     <PackageReference Include="MooVC.Syntax.CSharp" PrivateAssets="all" />
   </ItemGroup>
   <ItemGroup>
     <!-- Simulated compilations include frameworks older than the test host. -->
-    <None Include="$(PkgMicrosoft_Extensions_DependencyInjection_Abstractions)/lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll"
-          Link="ReferenceAssemblies/Microsoft.Extensions.DependencyInjection.Abstractions.dll"
-          CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(PkgMicrosoft_Extensions_DependencyInjection_Abstractions)/lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll" Link="ReferenceAssemblies/Microsoft.Extensions.DependencyInjection.Abstractions.dll" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>
